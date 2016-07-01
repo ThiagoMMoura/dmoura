@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
  * Description of MY_Model
  *
@@ -10,22 +12,27 @@ class MY_Model extends CI_Model{
     protected $nome_colunas_tabela;
     private $_query;
     private $_registros;
-    //private $_registro;
     private $_erros;
     private $_ultimo_sql = NULL;
     private $_id_inserida;
+    private $_registro_atual;
+    private $_iterator;
     
     public function __construct(){
         parent::__construct();
         $this->_inicializar();
     }
     
+    /**
+     * Função que inicializa os campos privados da classe.
+     */
     private function _inicializar(){
         $this->_erros = NULL;
         $this->_query = NULL;
-        $this->resultados = array();
-        $this->resultado = array();
+        $this->_registros = array();
         $this->_id_inserida = NULL;
+        $this->_registro_atual = 0;
+        $this->_iterator = FALSE;
     }
 
     private function _set_ultimo_sql($sql = NULL){
@@ -60,22 +67,67 @@ class MY_Model extends CI_Model{
         return $this->_registros;
     }
     
-    public function registro($indice = 0){
-        if(count($this->registros()>0) && array_key_exists($indice, $this->_registros)){
-            return $this->_registros[$indice];
+    public function registro($indice = NULL){
+        if($indice===NULL){
+            if($this->num_registros() > 0 && $this->_registro_atual < $this->num_registros()){
+                return $this->_registros[$this->_registro_atual];
+            }
+        }else{
+            if($this->num_registros()>0 && array_key_exists($indice, $this->_registros)){
+                return $this->_registros[$indice];
+            }
         }
         return FALSE;
     }
     
+    /**
+     * A função <code>possui_proximo()</code> retorna <code><b>TRUE</b></code> se
+     * houver um próximo registro.
+     * @return boolean
+     */
+    public function possui_proximo(){
+        if($this->_iterator){
+            if($this->_registro_atual++ < $this->num_registros()){
+                return TRUE;
+            }
+        }else{
+            if($this->num_registros() > 0){
+                $this->_iterator = TRUE;
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Busca campo do registro atual.
+     * 
+     * @param string $nome - campo do registro as ser retornado.
+     * @return mixed - Caso houver algum registro e houver um campo com o nome
+     * informado por parametro, o campo deste registro será retornado, senão,
+     * retorna <code>FALSE</code>.
+     */
+    public function campo($nome){
+        $registro = $this->registro();
+        if($registro){
+            if(array_key_exists($nome, $registro)){
+                return $registro[$nome];
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Id do ultimo registro inserido.
+     * 
+     * @return mixed - Caso não houver nenhum registro inserido na sessão atual,
+     * a função retorna <code>FALSE</code>.
+     */
     public function id_inserido(){
         if($this->_id_inserida!=NULL){
             return $this->_id_inserida;
         }
         return FALSE;
-    }
-    
-    public function obter_numero_resultados(){
-        return $this->query!=NULL?$this->query->num_rows():0;
     }
     
     /**
@@ -128,6 +180,13 @@ class MY_Model extends CI_Model{
         return FALSE;
     }
     
+    /**
+     * Função para inserir registros no banco de dados.
+     * 
+     * @param array $data - Array definido por nome dos campos e seus valores respectivos.
+     * @return boolean - Retorna <code>TRUE</code> em caso de sucesso e <code>FALSE</code> em
+     * caso de falha.
+     */
     public function inserir($data){
         $this->_inicializar();
         $valores = array();

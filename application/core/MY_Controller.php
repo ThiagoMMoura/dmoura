@@ -11,6 +11,17 @@ if (!defined('BASEPATH')) {
 class MY_Controller extends CI_Controller{
     
     private $_data_view = array();
+    /**
+     * Arvore pai - Nome da partição de configurações e funcionalidades do web app.
+     * @var string 
+     */
+    private $_pai;
+    
+    public function __construct() {
+        parent::__construct();
+        $this->_pai = strstr(uri_string(),'/'); //Descobre o nome da arvore pai.
+        $this->config->load($this->_pai); //Carrega configurações da arvore pai.
+    }
     
     protected function add_data($data,$value = ''){
         if(is_array($data)){

@@ -210,6 +210,15 @@ class MY_Model extends CI_Model{
         return $this->obter_registro_por_id($this->id_inserido());
     }
     
+    /**
+     * Realiza UPDATE dos registros passados por parametro no banco de dados.
+     * 
+     * @param array $data - Array de dados a serem inseridos.
+     * @param mixed $where - Clausula WHERE do camando UPDATE para determinar o 
+     * registro a ser alterado.
+     * @return boolean -  Retorna <code>TRUE</code> em caso de sucesso, <code>FALSE</code> em caso
+     * de falha.
+     */
     public function alterar($data,$where = ''){
         $this->_inicializar();
         $valores = array();
@@ -231,6 +240,12 @@ class MY_Model extends CI_Model{
         return FALSE;
     }
     
+    /**
+     * Deleta com a ID passada por parametro.
+     * 
+     * @param int $id - ID do registro a ser deletado.
+     * @return boolean - retorna <code>TRUE</code> se houve sucesso ou <code>FALSE</code> se caso falhou.
+     */
     public function deletar($id){
         if($id!=NULL){
             $this->db->where('id', $id);

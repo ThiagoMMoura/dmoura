@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title></title>
+        <?php echo imprime_conteudo_head();?>
     </head>
     <body>
         <?php

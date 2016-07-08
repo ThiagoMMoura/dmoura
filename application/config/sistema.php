@@ -5,13 +5,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author Thiago Moura
  */
-$config['template-html'] = '';
+$config['template-html'] = 'sistema/template-base';
 $config['head-itens-antes-todos'] = array(
     array(
         'meta'=>array(
-            'content'=>'UTF-8',
+            'name'=>'UTF-8',
             'type'=>'charset'
         )
     )
 );
 $config['head-itens-depois-todos'] = array();
+$config['scripts-finais'] = array();

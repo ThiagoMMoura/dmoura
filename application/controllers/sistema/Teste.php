@@ -7,6 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Teste extends MY_Controller{
     public function index(){
-        $this->view('welcome_message');
+        $this->add_data('nome','Thiago');
+        $this->view('welcome_message','teste');
     }
 }

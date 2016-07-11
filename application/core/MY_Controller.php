@@ -22,6 +22,7 @@ class MY_Controller extends CI_Controller{
         parent::__construct();
         $this->_pai = strstr(uri_string(),'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
+        $this->carregar_configuracoes_pagina();
     }
     
     /**
@@ -67,5 +68,12 @@ class MY_Controller extends CI_Controller{
     
     protected function imprimir_body(){
         return $this->_body;
+    }
+    
+    protected function carregar_configuracoes_pagina($page = ''){
+        if($page == NULL){
+            $page = uri_string();
+        }
+        return $this->config->load('configuracoes_pagina/'. $page);
     }
 }

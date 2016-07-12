@@ -20,6 +20,7 @@ class MY_Controller extends CI_Controller{
     
     public function __construct() {
         parent::__construct();
+        $this->load->helper('directory');
         $this->_pai = strstr(uri_string(),'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
         $this->carregar_configuracoes_pagina();
@@ -74,6 +75,29 @@ class MY_Controller extends CI_Controller{
         if($page == NULL){
             $page = uri_string();
         }
-        return $this->config->load('configuracoes_pagina/'. $page);
+        $segmentos = explode('/',$page);
+        $segmentos[] = 'index';
+        $pastas = directory_map('./application/config/configuracoes_pagina/');
+        $caminho = '';
+        foreach($segmentos as $segmento){
+            if($segmento!=NULL){
+                if(array_key_exists($segmento.'\\', $pastas)){
+                    $pastas = $pastas[$segmento.'\\'];
+                    $caminho .= $segmento.'/';
+                }else{
+                    if(array_search($segmento.'.php', $pastas)!==FALSE){
+                        $caminho .= $segmento.'.php';
+                        break;
+                    }else{
+                        return FALSE;
+                    }
+                }
+            }else{
+                $caminho .= 'index.php';
+                break;
+            }
+        }
+
+        return $this->config->load('configuracoes_pagina/'. $caminho,FALSE,TRUE);
     }
 }

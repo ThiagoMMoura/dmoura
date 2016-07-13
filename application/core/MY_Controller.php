@@ -17,13 +17,19 @@ class MY_Controller extends CI_Controller{
      */
     private $_pai;
     private $_body = '';
+    private $_caminho_controle;
     
-    public function __construct() {
+    /**
+     * Construtor da classe
+     * 
+     * @param string $caminho_controle - Caminho dentro da pasta controller até o 
+     * arquivo do controle atual.
+     */
+    public function __construct($caminho_controle) {
         parent::__construct();
-        $this->load->helper('directory');
-        $this->_pai = strstr(uri_string(),'/',TRUE);//Descobre o nome da arvore pai.
+        $this->_caminho_controle = $caminho_controle;
+        $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
-        $this->carregar_configuracoes_pagina();
     }
     
     /**
@@ -71,33 +77,33 @@ class MY_Controller extends CI_Controller{
         return $this->_body;
     }
     
-    protected function carregar_configuracoes_pagina($page = ''){
-        if($page == NULL){
-            $page = uri_string();
-        }
-        $segmentos = explode('/',$page);
-        $segmentos[] = 'index';
-        $pastas = directory_map('./application/config/configuracoes_pagina/');
-        $caminho = '';
-        foreach($segmentos as $segmento){
-            if($segmento!=NULL){
-                if(array_key_exists($segmento.'\\', $pastas)){
-                    $pastas = $pastas[$segmento.'\\'];
-                    $caminho .= $segmento.'/';
-                }else{
-                    if(array_search($segmento.'.php', $pastas)!==FALSE){
-                        $caminho .= $segmento.'.php';
-                        break;
-                    }else{
-                        return FALSE;
-                    }
-                }
-            }else{
-                $caminho .= 'index.php';
-                break;
-            }
-        }
-
-        return $this->config->load('configuracoes_pagina/'. $caminho,FALSE,TRUE);
-    }
+//    protected function carregar_configuracoes_pagina($page = ''){
+//        if($page == NULL){
+//            $page = uri_string();
+//        }
+//        $segmentos = explode('/',$page);
+//        $segmentos[] = 'index';
+//        $pastas = directory_map('./application/config/configuracoes_pagina/');
+//        $caminho = '';
+//        foreach($segmentos as $segmento){
+//            if($segmento!=NULL){
+//                if(array_key_exists($segmento.'\\', $pastas)){
+//                    $pastas = $pastas[$segmento.'\\'];
+//                    $caminho .= $segmento.'/';
+//                }else{
+//                    if(array_search($segmento.'.php', $pastas)!==FALSE){
+//                        $caminho .= $segmento.'.php';
+//                        break;
+//                    }else{
+//                        return FALSE;
+//                    }
+//                }
+//            }else{
+//                $caminho .= 'index.php';
+//                break;
+//            }
+//        }
+//
+//        return $this->config->load('configuracoes_pagina/'. $caminho,FALSE,TRUE);
+//    }
 }

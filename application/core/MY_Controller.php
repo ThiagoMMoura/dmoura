@@ -77,6 +77,9 @@ class MY_Controller extends CI_Controller{
         return $this->_body;
     }
     
+    protected function obter_caminho_controle(){
+        return $this->_caminho_controle;
+    }
 //    protected function carregar_configuracoes_pagina($page = ''){
 //        if($page == NULL){
 //            $page = uri_string();

@@ -19,6 +19,9 @@ class MY_Controller extends CI_Controller{
     private $_body = '';
     private $_caminho_controle;
     
+    const RELATIVO_SISTEMA = 0;
+    const RELATIVO_PAI = 1;
+    const RELATIVO_CONTROLE = 2;
     /**
      * Construtor da classe
      * 
@@ -58,16 +61,22 @@ class MY_Controller extends CI_Controller{
         unset($this->_data_view[$key]);
     }
     
-    protected function add_body($arquivo,$considera_pai = TRUE){
+    protected function add_body($arquivo,$relativo = self::RELATIVO_PAI){
         if($arquivo!=NULL && !empty($arquivo)){
             if(!is_array($arquivo)){
                 $arquivo = array($arquivo);
             }
             foreach($arquivo as $arq){
-                if($considera_pai){
-                    $this->_body .= $this->load->view($this->_pai . '/' . $arq,$this->_data_view,TRUE);
-                }else{
-                    $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
+                switch($relativo){
+                    case self::RELATIVO_CONTROLE:{
+                        $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
+                        break;
+                    }case self::RELATIVO_SISTEMA:{
+                        $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
+                        break;
+                    }default:{
+                        $this->_body .= $this->load->view($this->_pai . '/' .$arq,$this->_data_view,TRUE);
+                    }
                 }
             }
         }

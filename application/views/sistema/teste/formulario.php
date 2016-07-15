@@ -1,80 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$campos = array(
+$data['action'] = 'sistema/teste/formulario';
+$data['campos'] = array(
     array(
         'tag'=>'input',
-        'atributos'=>array(),
+        'atributos'=>array('value'=>'Thiago','name'=>'nome'),
         'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
         'linha'=>array('class'=>'','numero'=>1),
-        'botao'=>array(
-            'tipo'=>'pesquisa',
-            'tag'=>'a',
-            'atributos'=>array()
-            )
+        'label'=>'Nome'
+    ),
+    array(
+        'tag'=>'input',
+        'atributos'=>array('value'=>24,'name'=>'idade'),
+        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+        'linha'=>array('class'=>'','numero'=>2),
+        'label'=>'Idade'
+    ),
+    array(
+        'tag'=>'input',
+        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino'),
+        'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+        'linha'=>array('class'=>'','numero'=>3),
+        'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
+    ),
+    array(
+        'tag'=>'input',
+        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino'),
+        'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>'end'),
+        'linha'=>array('class'=>'','numero'=>3),
+        'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
     )
 );
-echo form_open($action,$form_atributos,$hidden);
-    $lin_anterior = 0;
-    $lin_atual = 0;
-    foreach($campos as $campo){
-        $class_linha = 'row';
-        $lin_anterior = $lin_atual;
-        if(array_key_exists('linha', $campo)){
-            if($campo['linha']['class']!=NULL){
-                $class_linha .= ' ' . $campo['linha']['class'];
-            }
-            if(array_key_exists('numero',$campo['linha'])){
-                $lin_atual = $campo['linha']['numero'];
-            }else{
-                $lin_atual++;
-            }
-        }else{
-            $lin_atual++;
-        }
-        $class_coluna = 'small-12';
-        if(array_key_exists('colunas', $campo)){
-            if($campo['colunas']['tamanho-m']!=NULL){
-                $class_coluna .= ' medium-' . $campo['colunas']['tamanho-m'];
-            }
-            if($campo['colunas']['tamanho-l']!=NULL){
-                $class_coluna .= ' large-' . $campo['colunas']['tamanho-l'];
-            }
-            if($campo['colunas']['class']!=NULL){
-                $class_coluna .= ' columns ' . $campo['colunas']['class'];
-            }
-        }else{
-            $class_coluna .= ' columns';
-        }
-        if($lin_anterior!=$lin_atual){
-            echo '</div>';
-            echo '<div class="' . $class_linha . '">';
-        } ?>
-            <div class="<?php echo $class_coluna; ?>">
-                <?php
-                switch($campo['tag']){
-                    case 'select':{
-                        $campo['tag'] = 'dropdown';
-                    }
-                    case 'input':case 'textarea':case 'dropdown':case 'multiselect':case 'button':{
-                        $data = array($campo['tag']=>$campo['atributos']);
-                        $data['label'] = $campo['label'];
-                        $data['extra'] = $campo['extra'];
-                        $data['datalist'] = $campo['datalist'];
-                        $data['options'] = $campo['options'];
-                        $data['selected'] = $campo['selected'];
-                        echo campo_formulario_sistema($data);
-                    }
-                }
-                if(array_key_exists('botao', $campo)){
-                    switch($campo['botao']['tag']){
-                        
-                    }
-                }
-                ?>
-            </div>
-    <?php } 
-    if($lin_atual>0){
-        echo '</div>';
-    }
-echo form_close();
+$this->load->view('sistema/gerador_formulario',$data);
+

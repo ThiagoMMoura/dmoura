@@ -17,6 +17,7 @@ class Teste extends MY_Controller{
     }
     
     public function formulario(){
-        
+        $this->add_body('formulario',parent::RELATIVO_CONTROLE);
+        $this->view('Formulario');
     }
 }

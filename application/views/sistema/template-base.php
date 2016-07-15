@@ -10,7 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
         <p>Página renderizada em <small>{elapsed_time}</small> segundos.</p>
         <?php
+        //Corpo da página
         echo $imprimir_body;
+        //Scripts finais da página
+        echo imprime_body_scripts();
         ?>
     </body>
 </html>

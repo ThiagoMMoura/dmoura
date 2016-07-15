@@ -13,4 +13,4 @@ $config['head-itens-antes-todos'] = array(
     array('link'=>array('rel'=>'stylesheet','href'=>'assets/css/sistema.css'))
 );
 $config['head-itens-depois-todos'] = array();
-$config['scripts-finais'] = array();
+$config['body-scripts'] = array();

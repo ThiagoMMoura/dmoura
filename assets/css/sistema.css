@@ -2,4 +2,36 @@
     Created on : 17/06/2016, 15:16:54
     Author     : Thiago Moura
 */
-
+.body{
+    background-color: #129FEA;
+}
+.cabecalho{
+    background-color: #2ba6cb;
+    height: 160px;
+}
+.menu-esquerdo{
+    position: fixed;
+    top: 0;
+    padding-top: 112px;
+    padding-bottom: 0;
+    height: 100%;
+    width: 220px;
+    background-color: transparent;
+}
+.menu-esquerdo-conteudo{
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.painel{
+    overflow: hidden;
+}
+.painel-conteudo{
+    background-color: #fff !important;
+}
+.scroll-painel{
+    position: absolute;
+    overflow-y: hidden;
+}

@@ -62,7 +62,9 @@ echo form_open($action,$form_atributos,$hidden);
             }
         }
         if($lin_anterior!=$lin_atual){
-            echo '</div>';
+            if($lin_anterior>0){
+                echo '</div>';
+            }
             echo '<div class="' . $class_linha . '">';
         } ?>
             <div class="<?php echo $class_coluna; ?>">

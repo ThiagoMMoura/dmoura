@@ -12,50 +12,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="corpo">
     <div class="menu-esquerdo">
-        <div class="menu-esquerdo-conteudo">
-            <ul class="vertical menu">
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-                <li><a href="#">Foundation</a></li>
-                <li><a href="#">Dot</a></li>
-                <li><a href="#">ZURB</a></li>
-                <li><a href="#">Com</a></li>
-                <li><a href="#">Slash</a></li>
-                <li><a href="#">Sites</a></li>
-            </ul>
+        <div class="menu-esquerdo-interior">
+            <div class="menu-esquerdo-conteudo">
+                <ul class="vertical menu">
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Dot</a></li>
+                    <li><a href="#">ZURB</a></li>
+                    <li><a href="#">Com</a></li>
+                    <li><a href="#">Slash</a></li>
+                    <li><a href="#">Sites</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="painel">
-        <div class="painel-conteudo row">
-            <p>Teste do painel de conteudo</p>
+        <div class="painel-conteudo">
+            <div class="column row">
+                <div class="small-12 column">
+                    <p>Teste do painel de conteudo</p>
+                </div>
+            </div>
         </div>
         
     </div>

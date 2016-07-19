@@ -3,33 +3,70 @@
     Author     : Thiago Moura
 */
 .body{
-    background-color: #129FEA;
+    
 }
 .cabecalho{
     background-color: #2ba6cb;
-    height: 160px;
+    height: 140px;
+}
+.corpo{
+    padding-top: 0px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .menu-esquerdo{
+    display:block;
+    padding-top: 0px;
+    width: 250px;
+    z-index: 9;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.menu-esquerdo .menu-esquerdo-interior{
     position: fixed;
     top: 0;
-    padding-top: 112px;
+    padding-top: 140px;
     padding-bottom: 0;
     height: 100%;
-    width: 220px;
-    background-color: transparent;
+    width: 250px;
+    background-color: transparent;/*#129FEA;*/
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-.menu-esquerdo-conteudo{
+.menu-esquerdo .menu-esquerdo-interior .menu-esquerdo-conteudo{
     height: 100%;
     width: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
     padding-top: 20px;
+    color: #000 !important;
+    background-color: #f1f1f1 !important;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .painel{
     overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-.painel-conteudo{
+.painel .painel-conteudo{
     background-color: #fff !important;
+}
+.main{
+    padding: 16px;
+    float: left;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: margin-left .4s;
 }
 .scroll-painel{
     position: absolute;

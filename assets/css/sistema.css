@@ -2,43 +2,39 @@
     Created on : 17/06/2016, 15:16:54
     Author     : Thiago Moura
 */
-.body{
-    
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-.cabecalho{
+.dm-cabecalho{
+    /*position: fixed;*/
+    z-index: 2;
     background-color: #2ba6cb;
+    color: #f1f1f1;
+    width: 100%;
+    padding: 0;
     height: 140px;
+    top: 0px;
 }
-.corpo{
+.dm-corpo{
     padding-top: 0px;
     width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    bottom: 0px;
 }
-.menu-esquerdo{
-    display:block;
-    padding-top: 0px;
+#dm-menu-esquerdo{
     width: 250px;
-    z-index: 9;
-    float: left;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
-.menu-esquerdo .menu-esquerdo-interior{
-    position: fixed;
+#dm-menu-esquerdo-interno{
+    /*position: fixed;*/
     top: 0;
     padding-top: 140px;
     padding-bottom: 0;
     height: 100%;
     width: 250px;
     background-color: transparent;/*#129FEA;*/
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
-.menu-esquerdo .menu-esquerdo-interior .menu-esquerdo-conteudo{
+#dm-menu-esquerdo-interno-interno{
     height: 100%;
     width: 100%;
     overflow-y: hidden;
@@ -46,29 +42,22 @@
     padding-top: 20px;
     color: #000 !important;
     background-color: #f1f1f1 !important;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
-.painel{
-    overflow: hidden;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.dm-painel{
+    width: auto;
+/*    overflow: hidden;*/
 }
-.painel .painel-conteudo{
-    background-color: #fff !important;
-}
-.main{
+
+#dm-main{
     padding: 16px;
-    float: left;
-    width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     transition: margin-left .4s;
 }
-.scroll-painel{
-    position: absolute;
-    overflow-y: hidden;
+.dm-coluna{
+    float: left;
+    width: 100%;
+}
+.dm-linha:after{
+    content:"";
+    display:table;
+    clear:both
 }

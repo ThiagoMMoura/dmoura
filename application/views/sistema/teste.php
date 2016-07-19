@@ -2,18 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div class="cabecalho expanded row">
+<header class="dm-cabecalho expanded row">
     <div class="medium-6 column">
         Teste
     </div>
     <div class="medium-6 column">
 
     </div>
-</div>
-<div class="corpo">
-    <div class="menu-esquerdo">
-        <div class="menu-esquerdo-interior">
-            <div class="menu-esquerdo-conteudo">
+</header>
+<div class="-corpo expanded row">
+    <div id="dm-menu-esquerdo" class="column">
+        <div id="menu-esquerdo-interno">
+            <div id="menu-esquerdo-interno-interno">
                 <ul class="vertical menu">
                     <li><a href="#">Foundation</a></li>
                     <li><a href="#">Dot</a></li>
@@ -55,12 +55,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
     </div>
-    <div class="painel">
-        <div class="painel-conteudo">
-            <div class="column row">
-                <div class="small-12 column">
-                    <p>Teste do painel de conteudo</p>
-                </div>
+    <div class="dm-painel column end">
+        <div class="expanded row">
+            <div id="dm-main" class="column">
+                <p>Teste do painel de conteudo</p>
             </div>
         </div>
         

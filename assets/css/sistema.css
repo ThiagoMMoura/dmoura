@@ -2,67 +2,72 @@
     Created on : 17/06/2016, 15:16:54
     Author     : Thiago Moura
 */
-*{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.dm-estrutura{
-    width: 100%;
+.top-bar-wrapper {
+  height: 100%;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-overflow-scrolling: auto; }
+
+.top-bar-wrapper-inner {
+  position: relative;
+  height: 100%;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease; }
+  .top-bar-wrapper-inner::before, .top-bar-wrapper-inner::after {
+    content: ' ';
+    display: table; }
+  .top-bar-wrapper-inner::after {
+    clear: both; }
+.top-bar-content,
+.top-bar-content {
+  height: 100%;
+  min-width: 100%;
+  background: #fefefe;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  z-index: 1;
+  padding-bottom: 0.1px;
+  box-shadow: 0 0 10px rgba(10, 10, 10, 0.5); }
+.dm-top-bar {
+  position: absolute;
+  background: #2ba6cb;
+  z-index: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-top: 0px;
+/*  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0); */}
+  [data-whatinput='mouse'] .dm-top-bar {
+    outline: 0; }
+  .dm-top-bar.position-top {
+    top: 0px;
+    height: 140px; }
+    .is-open-top {
+        padding-top: 140px;
+/*      -webkit-transform: translateY(140px);
+          -ms-transform: translateY(140px);
+              transform: translateY(140px);*/ }
+.altura-maxima{
     height: 100%;
     max-height: 100%;
 }
-.dm-cabecalho{
-    /*position: fixed;*/
-    z-index: 2;
+.fundo-azul{
     background-color: #2ba6cb;
+}
+.fonte-cinza-claro, .fonte-cinza-claro button{
     color: #f1f1f1;
-    width: 100%;
-    padding: 0;
-    height: 140px;
-    top: 0px;
 }
-.dm-corpo{
-    padding-top: 0px;
-    width: 100%;
-    bottom: 0px;
+.fundo-azul-claro{
+    background-color: rgb(240,248,255);
 }
-#dm-menu-esquerdo{
-    width: 250px;
-}
-#dm-menu-esquerdo-interno{
-    /*position: fixed;*/
-    top: 0;
-    padding-top: 140px;
-    padding-bottom: 0;
-    height: 100%;
-    width: 250px;
-    background-color: transparent;/*#129FEA;*/
-}
-#dm-menu-esquerdo-interno-interno{
-    height: 100%;
-    width: 100%;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    padding-top: 20px;
-    color: #000 !important;
-    background-color: #f1f1f1 !important;
-}
-.dm-painel{
-    width: auto;
-/*    overflow: hidden;*/
+.fundo-transparente{
+    background-color:transparent;
 }
 
-#dm-main{
-    padding: 16px;
-    transition: margin-left .4s;
-}
-.dm-coluna{
-    float: left;
-    width: 100%;
-}
-.dm-linha:after{
-    content:"";
-    display:table;
-    clear:both
-}
+

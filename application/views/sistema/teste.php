@@ -45,3 +45,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(
+            if($(window).width()<1024px){
+                $.('#offCanvas').parent('.off-canvas-wrapper-inner').attr('data-off-canvas-wrapper','');
+            }
+    );
+</script>

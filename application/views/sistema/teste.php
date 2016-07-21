@@ -14,8 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="top-bar-content fundo-azul-claro">
             <div class="off-canvas-wrapper altura-maxima">
-                <div class="off-canvas-wrapper-inner altura-maxima is-off-canvas-open is-open-left" ><?php //data-off-canvas-wrapper ?>
-                    <div class="off-canvas position-left fundo-transparente is-open" aria-hidden="false" id="offCanvas" ><?php //data-off-canvas?>
+                <div class="off-canvas-wrapper-inner altura-maxima" data-off-canvas-wrapper><?php //is-off-canvas-open is-open-left ?>
+                    <div class="off-canvas position-left fundo-transparente " data-reveal-class="reveal-for-large" data-close-on-click="false" id="offCanvas" data-off-canvas><?php //aria-hidden="false" is-open?>
 
                         <!-- Close button -->
                         <button class="close-button hide-for-large" aria-label="Close menu" type="button" data-close>
@@ -24,17 +24,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <!-- Menu -->
                         <ul class="vertical menu fonte-cinza-claro">
-                            <li><a href="#">Foundation</a></li>
-                            <li><a href="#">Dot</a></li>
-                            <li><a href="#">ZURB</a></li>
-                            <li><a href="#">Com</a></li>
-                            <li><a href="#">Slash</a></li>
-                            <li><a href="#">Sites</a></li>
+                            <?php foreach($this->config->item('menu-principal') as $k => $v){
+                                if(is_array($v)){
+                                    $_titulo = isset($v['titulo'])?$v['titulo']:$k;
+                                    $_url = isset($v['url'])?$v['url']:'#';
+                                    ?>
+                                    <li><a href="<?php echo $_url;?>"><?php echo $_titulo;?></a></li>
+                                <?php }
+                            }?>
                         </ul>
-
                     </div>
 
-                    <div class="off-canvas-content"><?php //data-off-canvas-content?>
+                    <div class="off-canvas-content" data-off-canvas-content>
 
                         <div class="row expanded">
                             Corpo
@@ -46,9 +47,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(
-            if($(window).width()<1024px){
-                $.('#offCanvas').parent('.off-canvas-wrapper-inner').attr('data-off-canvas-wrapper','');
-            }
-    );
+    $(document).ready(function(){
+        if(Foundation.MediaQuery.atLeast('large')){
+            $('#offCanvas').foundation('open');
+        }else{
+            $('#offCanvas').foundation('close');
+        }
+    });
+    $(window).on('resize',function(event){
+        if(Foundation.MediaQuery.atLeast('large')){
+            $('#offCanvas').foundation('open');
+        }else{
+            $('#offCanvas').foundation('close');
+        }
+    });
 </script>

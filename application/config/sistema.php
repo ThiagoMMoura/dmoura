@@ -19,3 +19,8 @@ $config['body-scripts'] = array(
     array('src'=>'assets/framework/js/vendor/foundation.min.js'),
     array('codigo'=>'$(document).foundation();')
 );
+$config['menu-principal'] = array(
+    'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
+    'cadastro-cliente' => array('titulo'=>'Cadastro de Clientes','url'=>'#'),
+    'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
+);

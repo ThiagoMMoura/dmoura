@@ -23,16 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </button>
 
                         <!-- Menu -->
-                        <ul class="vertical menu fonte-cinza-claro">
-                            <?php foreach($this->config->item('menu-principal') as $k => $v){
-                                if(is_array($v)){
-                                    $_titulo = isset($v['titulo'])?$v['titulo']:$k;
-                                    $_url = isset($v['url'])?$v['url']:'#';
-                                    ?>
-                                    <li><a href="<?php echo $_url;?>"><?php echo $_titulo;?></a></li>
-                                <?php }
-                            }?>
-                        </ul>
+                        <?php echo criar_menu($this->config->item('menu-principal'),'vertical menu fonte-cinza-claro','drilldown');?>
                     </div>
 
                     <div class="off-canvas-content" data-off-canvas-content>

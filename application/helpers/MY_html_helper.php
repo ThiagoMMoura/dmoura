@@ -63,3 +63,24 @@ function script_tag($src = '', $codigo = '', $type = 'text/javascript', $index_p
 	return $script.">".$codigo."</script>\n";
 }
 
+function criar_menu($lista_menu,$class = '',$tipo = ''){
+    $menu = '<ul' . ($class!=NULL?' class="' . $class . '" ':'') . '>';
+    foreach($lista_menu as $k => $v){
+        if(is_array($v)){
+            $menu .= '<li' . (isset($v['li-class'])?' class="' . $v['li-class'] . '" ':'') . '>';
+            $titulo = isset($v['titulo'])?$v['titulo']:'';
+            if(isset($v['url'])){
+                $menu .= '<a href="' . $v['url'] . '">' . $titulo . '</a>';
+            }else{
+                $menu .= $titulo;
+            }
+            if(isset($v['submenu'])){
+                $menu .= criar_menu($v['submenu'],(isset($v['submenu-class'])?$v['submenu-class']:''),$tipo);
+            }
+        }else{
+            $menu .= '<li>' . $v;
+        }
+        $menu .= '</li>';
+    }
+    return $menu . '</ul>';
+}

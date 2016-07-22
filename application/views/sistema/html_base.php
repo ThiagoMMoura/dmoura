@@ -8,14 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php echo imprime_conteudo_head();?>
     </head>
     <body>
-        <?php /*$this->load->view('sistema/cabecalho_body');
-        ?>
-        <p>Página renderizada em <small>{elapsed_time}</small> segundos.</p>
-        <?php*/
+        <?php 
         //Corpo da página
-        echo $imprimir_body;
+        $this->load->view('sistema/body_base');
         //Scripts finais da página
-        ?>
-        <?php echo imprime_body_scripts(); ?>
+        echo imprime_body_scripts(); ?>
+        <div style="position:absolute;float: right;right: 0px;bottom: 20px; padding: 20px; background-color: #ddb;">
+            Página renderizada em <small>{elapsed_time}</small> segundos.
+        </div>
     </body>
 </html>

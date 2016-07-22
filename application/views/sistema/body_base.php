@@ -14,22 +14,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="top-bar-content fundo-azul-claro">
             <div class="off-canvas-wrapper altura-maxima">
-                <div class="off-canvas-wrapper-inner altura-maxima" data-off-canvas-wrapper><?php //is-off-canvas-open is-open-left ?>
-                    <div class="off-canvas position-left fundo-transparente " data-reveal-class="reveal-for-large" data-close-on-click="false" id="offCanvas" data-off-canvas><?php //aria-hidden="false" is-open?>
+                <div class="off-canvas-wrapper-inner altura-maxima" data-off-canvas-wrapper>
+                    <div class="off-canvas position-left fundo-transparente " data-reveal-class="reveal-for-large" data-close-on-click="false" id="offCanvas" data-off-canvas>
 
                         <!-- Close button -->
-                        <button class="close-button hide-for-large" aria-label="Close menu" type="button" data-close>
+                        <button class="close-button hide-for-large" aria-label="Fechar menu" type="button" data-close>
                             <span aria-hidden="true">&times;</span>
                         </button>
 
                         <!-- Menu -->
-                        <?php echo criar_menu($this->config->item('menu-principal'),'vertical menu fonte-cinza-claro','drilldown');?>
+                        <div style="padding: 0.7em 1em; background-color: rgba(0,0,0,0.05);"><?php echo $titulo;?></div>
+                        <?php echo imprimir_menu($this->config->item('menu-principal'),'drilldown');?>
                     </div>
 
-                    <div class="off-canvas-content" data-off-canvas-content>
+                    <div class="off-canvas-content" style="box-shadow: none;" data-off-canvas-content>
 
                         <div class="row expanded">
-                            Corpo
+                            <?php echo $imprimir_body;?>
                         </div>
                     </div>
                 </div>

@@ -8,16 +8,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Teste extends MY_Controller{
     
     public function __construct() {
-        parent::__construct('sistema/teste');
+        parent::__construct('sistema/teste',TRUE);
     }
     
     public function index(){
-        $this->add_data('nome','Thiago');
-        $this->view('welcome_message','teste');
+        $this->_add_data('nome','Thiago');
+        $this->_view("D'Moura",'formulario',parent::RELATIVO_CONTROLE);
     }
     
     public function formulario(){
-        $this->add_body('formulario',parent::RELATIVO_CONTROLE);
-        $this->view('Formulario');
+        $this->_add_body('formulario',parent::RELATIVO_CONTROLE);
+        $this->_view('Formulario');
     }
 }

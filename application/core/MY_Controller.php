@@ -28,11 +28,14 @@ class MY_Controller extends CI_Controller{
      * @param string $caminho_controle - Caminho dentro da pasta controller até o 
      * arquivo do controle atual.
      */
-    public function __construct($caminho_controle) {
+    public function __construct($caminho_controle,$login_obrigatorio = FALSE) {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
+        if($login_obrigatorio){
+            $this->area_restrita();
+        }
     }
     
     /**
@@ -40,16 +43,17 @@ class MY_Controller extends CI_Controller{
      * 
      * @param string $titulo
      */
-    public function view($titulo = '',$body = ''){
+    protected function _view($titulo = '',$body = '',$relativo = self::RELATIVO_PAI){
         if($titulo!=NULL){
             add_head_title($titulo);
         }
-        $this->add_body($body);
-        $this->add_data('imprimir_body',$this->_body);
+        $this->_add_data('titulo',$titulo);
+        $this->_add_body($body,$relativo);
+        $this->_add_data('imprimir_body',$this->_body);
         $this->load->view($this->config->item('template-html'),$this->_data_view); //Carrega o template base do web app
     }
     
-    protected function add_data($data,$value = ''){
+    protected function _add_data($data,$value = ''){
         if(is_array($data)){
             $this->_data_view = array_merge($this->_data_view,$data);
         }else{
@@ -57,11 +61,11 @@ class MY_Controller extends CI_Controller{
         }
     }
     
-    protected function remove_data($key){
+    protected function _remove_data($key){
         unset($this->_data_view[$key]);
     }
     
-    protected function add_body($arquivo,$relativo = self::RELATIVO_PAI){
+    protected function _add_body($arquivo,$relativo = self::RELATIVO_PAI){
         if($arquivo!=NULL && !empty($arquivo)){
             if(!is_array($arquivo)){
                 $arquivo = array($arquivo);
@@ -82,40 +86,28 @@ class MY_Controller extends CI_Controller{
         }
     }
     
-    protected function imprimir_body(){
+    protected function _imprimir_body(){
         return $this->_body;
     }
     
-    protected function obter_caminho_controle(){
+    protected function _obter_caminho_controle(){
         return $this->_caminho_controle;
     }
-//    protected function carregar_configuracoes_pagina($page = ''){
-//        if($page == NULL){
-//            $page = uri_string();
-//        }
-//        $segmentos = explode('/',$page);
-//        $segmentos[] = 'index';
-//        $pastas = directory_map('./application/config/configuracoes_pagina/');
-//        $caminho = '';
-//        foreach($segmentos as $segmento){
-//            if($segmento!=NULL){
-//                if(array_key_exists($segmento.'\\', $pastas)){
-//                    $pastas = $pastas[$segmento.'\\'];
-//                    $caminho .= $segmento.'/';
-//                }else{
-//                    if(array_search($segmento.'.php', $pastas)!==FALSE){
-//                        $caminho .= $segmento.'.php';
-//                        break;
-//                    }else{
-//                        return FALSE;
-//                    }
-//                }
-//            }else{
-//                $caminho .= 'index.php';
-//                break;
-//            }
-//        }
-//
-//        return $this->config->load('configuracoes_pagina/'. $caminho,FALSE,TRUE);
-//    }
+    
+    /**
+     * Retorna <b>TRUE</b> se o usuário estiver logado, <b>FALSE</b> caso contrário.
+     * 
+     * @return boolean
+     */
+    protected function _logado() {
+        return ($this->session->has_userdata('logado') && $this->session->logado);
+    }
+    
+    protected function _tem_permissao(){
+        return $this->logado();
+    }
+    
+    public function area_restrita(){
+        $this->_view('Área Restrita', 'area_restrita');
+    }
 }

@@ -63,24 +63,77 @@ function script_tag($src = '', $codigo = '', $type = 'text/javascript', $index_p
 	return $script.">".$codigo."</script>\n";
 }
 
-function criar_menu($lista_menu,$class = '',$tipo = ''){
-    $menu = '<ul' . ($class!=NULL?' class="' . $class . '" ':'') . '>';
-    foreach($lista_menu as $k => $v){
+/**
+ * Imprime menu com estilo pré configurado.
+ * 
+ * @param array $lista_menu
+ * @param string $estilo
+ * @param bool $submenu
+ * @return string
+ */
+function imprimir_menu($lista_menu,$estilo = 'padrao',$submenu = FALSE){
+    $CI =& get_instance();
+    $estilos = $submenu?$CI->config->item('estilos_submenu'):$CI->config->item('estilos_menu');
+    if(isset($estilos[$estilo])){
+        $estilos = $estilos[$estilo];
+    }
+    $menu = '<ul';
+    if(isset($estilos['ul-class'])){
+        $menu .= imprimir_atributos('class',$estilos['ul-class']);
+    }
+    if(isset($estilos['ul-atributos'])){
+        $menu .= imprimir_atributos($estilos['ul-atributos']);
+    }
+    $menu .= '>';
+    foreach($lista_menu as $v){
+        $class = '';
+        if(isset($estilos['li-class'])){
+            $class .= $estilos['li-class'];
+        }
+        $menu .= '<li';
+        if(isset($estilos['li-atributos'])){
+            $menu .= imprimir_atributos($estilos['li-atributos']);
+        }
         if(is_array($v)){
-            $menu .= '<li' . (isset($v['li-class'])?' class="' . $v['li-class'] . '" ':'') . '>';
+            if(isset($v['li-class'])){
+                $class .= ' ' . $v['li-class'];
+            }
+            $menu .= ($class!=NULL?' class="' . $class . '">':'>');
             $titulo = isset($v['titulo'])?$v['titulo']:'';
+            if(isset($v['icone'])){
+                $titulo = '<i class="' . $v['icone'] . '"></i> <span>' . $titulo . '</span>';
+            }
             if(isset($v['url'])){
                 $menu .= '<a href="' . $v['url'] . '">' . $titulo . '</a>';
             }else{
                 $menu .= $titulo;
             }
             if(isset($v['submenu'])){
-                $menu .= criar_menu($v['submenu'],(isset($v['submenu-class'])?$v['submenu-class']:''),$tipo);
+                $menu .= imprimir_menu($v['submenu'],$estilo,TRUE);
             }
         }else{
-            $menu .= '<li>' . $v;
+            $menu .= ($class!=NULL?' class="' . $class . '">':'>') . $v;
         }
         $menu .= '</li>';
     }
     return $menu . '</ul>';
+}
+
+/**
+ * Imprime atributos de tags html.
+ * 
+ * @param mixed $atributo
+ * @param string $valor
+ * @return string
+ */
+function imprimir_atributos($atributo,$valor = ''){
+    $imprime = '';
+    if(is_array($atributo)){
+        foreach($atributo as $attr => $v){
+            $imprime .= ' ' . $attr . '="' . $v . '"';
+        }
+    }else{
+        $imprime = ' ' . $atributo . '="' . $valor . '"';
+    }
+    return $imprime;
 }

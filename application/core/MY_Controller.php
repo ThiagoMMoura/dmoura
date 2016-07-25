@@ -35,6 +35,8 @@ class MY_Controller extends CI_Controller{
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
         if($login_obrigatorio){
             $this->area_restrita();
+            $this->output->_display();
+            exit;
         }
     }
     

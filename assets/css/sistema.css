@@ -57,6 +57,11 @@
     #offCanvas{
         padding-top: 0px;
     }
+@media screen and (min-width: 40em) {
+    .top-bar-content > .off-canvas-wrapper .is-off-canvas-open{
+        padding-right: 250px;
+    }
+}
 .altura-maxima{
     height: 100%;
     max-height: 100%;
@@ -73,5 +78,19 @@
 .fundo-transparente{
     background-color:transparent;
 }
-
-
+#dmoura-conteudo{
+    box-shadow: none;
+    overflow: auto;
+    transition: -webkit-transform 0.5s ease;
+    transition: transform 0.5s ease;
+}
+.dm-logotipo{
+    padding: 20px;
+}
+.dm-logotipo img{
+    height: 100px;
+}
+.dm-usuario .dm-usuario-foto img{
+    height: 70px;
+    border-radius: 50%;
+}

@@ -31,11 +31,28 @@ $config['menu-principal'] = array(
             'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),
-    'cadastro-produto' => array('titulo'=>'Cadastro de produtos','url'=>'#')
+    'cadastro-produto' => array('titulo'=>'Cadastro de produtos','url'=>'#'),
+    'busca-produto' => array('titulo'=>'Busca de produtos','url'=>'#'),
+    'busca-cliente' => array('titulo'=>'Busca de Clientes','url'=>'#'),
+    'busca-funcionario' => array('titulo'=>'Busca de funcionário','url'=>'#'),
+    'busca-fornecedor' => array('titulo'=>'Busca de Fornecedor','url'=>'#'),
+    'busca-saida' => array('titulo'=>'Busca de saída','url'=>'#'),
+    'cadastro-produto1' => array('titulo'=>'Cadastro de produtos','url'=>'#'),
+    'busca-produto1' => array('titulo'=>'Busca de produtos','url'=>'#'),
+    'busca-cliente1' => array('titulo'=>'Busca de Clientes','url'=>'#'),
+    'busca-funcionario1' => array('titulo'=>'Busca de funcionário','url'=>'#'),
+    'busca-fornecedor1' => array('titulo'=>'Busca de Fornecedor','url'=>'#'),
+    'busca-saida1' => array('titulo'=>'Busca de saída','url'=>'#'),
+    'cadastro-produto2' => array('titulo'=>'Cadastro de produtos','url'=>'#'),
+    'busca-produto2' => array('titulo'=>'Busca de produtos','url'=>'#'),
+    'busca-cliente2' => array('titulo'=>'Busca de Clientes','url'=>'#'),
+    'busca-funcionario2' => array('titulo'=>'Busca de funcionário','url'=>'#'),
+    'busca-fornecedor2' => array('titulo'=>'Busca de Fornecedor','url'=>'#'),
+    'busca-saida2' => array('titulo'=>'Busca de saída','url'=>'#')
 );
 $config['estilos_menu'] = array(
     'padrao' => array(),//ul-class,ul-atributos,li-class,li-atributos
-    'drilldown' => array('ul-class'=>'vertical menu','ul-atributos'=>'data-drilldown')
+    'drilldown' => array('ul-class'=>'vertical menu','ul-atributos'=>array('data-back-button'=>"<li class='js-drilldown-back'><a>Voltar</a></li>",'data-drilldown'=>''))
 );
 $config['estilos_submenu'] = array(
     'padrao' => array(),

@@ -3,12 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="top-bar-wrapper">
     <div class="top-bar-wrapper-inner is-open-top">
-        <div class="dm-top-bar position-top fundo-azul fonte-cinza-claro">
+        <div id="barra-dmoura" class="dm-top-bar position-top fundo-azul fonte-cinza-claro">
             <div class="medium-6 column">
-                Coluna 1
+                <div class="dm-logotipo">
+                    <?php echo img('assets/imagens/DMOURA.png');?>
+                </div>
             </div>
             <div class="medium-6 column">
-                Coluna 2
+                <div class="dm-usuario">
+                    <div class="dm-usuario-foto">
+                        <?php echo img('assets/imagens/user.png');?>
+                    </div>
+                    <div class="dm-usuario-descricao">
+                        <div class="dm-usuario-nome">
+                            Marlene Mariano de Moura
+                        </div>
+                        <div class="dm-usuario-cargo">
+                            Gerente Administrativo
+                        </div>
+                    </div>
+                    <div class="dm-usuario-menu">
+                        
+                    </div>
+                </div>
             </div>
             <button type="button" class="button hide-for-large" data-toggle="offCanvas">Menu</button>
         </div>
@@ -27,9 +44,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php echo imprimir_menu($this->config->item('menu-principal'),'drilldown');?>
                     </div>
 
-                    <div class="off-canvas-content" style="box-shadow: none;" data-off-canvas-content>
+                    <div id="dmoura-conteudo" class="off-canvas-content" data-off-canvas-content>
 
-                        <div class="row expanded">
+                        <div  class="row expanded">
                             <?php echo $imprimir_body;?>
                         </div>
                     </div>
@@ -45,6 +62,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }else{
             $('#offCanvas').foundation('close');
         }
+        var h = $(window).height();
+        var b = $('#barra-dmoura').height();
+        $('#dmoura-conteudo').css('max-height',h-b).css('height',h-b);
     });
     $(window).on('resize',function(event){
         if(Foundation.MediaQuery.atLeast('large')){
@@ -52,5 +72,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }else{
             $('#offCanvas').foundation('close');
         }
+        var h = $(window).height();
+        var b = $('#barra-dmoura').height();
+        $('#dmoura-conteudo').css('max-height',h-b).css('height',h-b);
     });
 </script>

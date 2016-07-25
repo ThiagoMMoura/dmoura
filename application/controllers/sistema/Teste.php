@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Teste extends MY_Controller{
     
     public function __construct() {
-        parent::__construct('sistema/teste',TRUE);
+        parent::__construct('sistema/teste',FALSE);
     }
     
     public function index(){

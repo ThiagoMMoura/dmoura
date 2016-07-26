@@ -27,6 +27,7 @@ if(!isset($hidden)){
 //    )
 //);
 echo form_open($action,$form_atributos,$hidden);
+    $this->load->view('sistema/gerador_barra_ferramentas');
     $lin_anterior = 0;
     $lin_atual = 0;
     foreach($campos as $campo){

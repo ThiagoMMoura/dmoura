@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="top-bar-wrapper">
     <div class="top-bar-wrapper-inner is-open-top">
-        <div id="barra-dmoura" class="dm-top-bar position-top fundo-azul fonte-branco">
+        <div id="barra-dmoura" class="dm-top-bar position-top fonte-branco">
             <div class="barra-principal">
                 <div class="small-6 column">
                     <div class="dm-logotipo">
@@ -29,10 +29,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
-            <div class="barra-ferramentas fundo-azul-8">
+            <div class="barra-ferramentas">
                 <div class="busca-menu">
-                    <button type="button" class="button hide-for-large fundo-azul-4" data-toggle="offCanvas"><i class="fi-list"></i></button>
-                    <input type="search" class="fundo-azul-4 show-for-large" name="in-busca-menu" placeholder="Pesquisa menus">
+                    <button type="button" class="button hide-for-large" data-toggle="offCanvas"><i class="fi-list"></i></button>
+                    <input type="search" class="show-for-large" name="in-busca-menu" placeholder="Pesquisar Menu">
                     <i class="fi-magnifying-glass show-for-large"></i>
                 </div>
                 <div class="barra-ferramentas-interna">
@@ -50,10 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             
         </div>
-        <div class="top-bar-content fundo-azul-1">
+        <div class="top-bar-content">
             <div class="off-canvas-wrapper altura-maxima">
                 <div class="off-canvas-wrapper-inner altura-maxima" data-off-canvas-wrapper>
-                    <div class="off-canvas position-left fundo-transparente " data-reveal-class="reveal-for-large" data-close-on-click="false" id="offCanvas" data-off-canvas>
+                    <div class="off-canvas position-left" data-reveal-class="reveal-for-large" data-close-on-click="false" id="offCanvas" data-off-canvas>
 
                         <!-- Close button 
                         <button class="close-button hide-for-large" aria-label="Fechar menu" type="button" data-close>

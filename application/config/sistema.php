@@ -53,9 +53,9 @@ $config['menu-principal'] = array(
 );
 $config['estilos_menu'] = array(
     'padrao' => array(),//ul-class,ul-atributos,li-class,li-atributos
-    'drilldown' => array('ul-class'=>'vertical menu fundo-azul-9','ul-atributos'=>array('data-back-button'=>"<li class='js-drilldown-back'><a>Voltar</a></li>",'data-drilldown'=>''))
+    'drilldown' => array('ul-class'=>'vertical menu','ul-atributos'=>array('data-back-button'=>"<li class='js-drilldown-back'><a>Voltar</a></li>",'data-drilldown'=>''))
 );
 $config['estilos_submenu'] = array(
     'padrao' => array(),
-    'drilldown' => array('ul-class'=>'vertical menu fundo-azul-8')
+    'drilldown' => array('ul-class'=>'vertical menu')
 );

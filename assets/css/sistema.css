@@ -2,6 +2,9 @@
     Created on : 17/06/2016, 15:16:54
     Author     : Thiago Moura
 */
+i{
+    font-size: 1.5rem;
+}
 .top-bar-wrapper {
   height: 100%;
   overflow-x: hidden;
@@ -45,17 +48,17 @@
     outline: 0; }
   .dm-top-bar.position-top {
     top: 0px;
-    height: 140px; }
+    height: 7.75rem; }
     .is-open-top {
-        padding-top: 140px;
+        padding-top: 7.75rem;
 /*      -webkit-transform: translateY(140px);
           -ms-transform: translateY(140px);
               transform: translateY(140px);*/ }
     .barra-principal{
-        height: 5.85em;
-        max-height: 5.85em;
+        height: 4.85rem;
+        max-height: 4.85rem;
     }
-    #offCanvas{
+    #offCanvas .off-canvas-menu{
         padding-top: 1.5em;
     }
     #offCanvas a{
@@ -65,37 +68,6 @@
     }
     #offCanvas a:hover{
         background-color: #EAEAEA;
-    }
-    .busca-menu{
-        position: absolute;
-        height: 2.9em;
-        width: 3.4em;
-        padding: 0px;
-    }
-    .busca-menu, #offCanvas{
-        border-right: 1px solid #e5e3e3;
-    }
-    .busca-menu input,.busca-menu button{
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-        border: none;
-        padding: 1em;
-        box-shadow: none;
-    }
-    .busca-menu input::-moz-placeholder{
-        color: black;
-        opacity: unset;
-    }
-    .busca-menu input:focus::-moz-placeholder{
-        opacity: 0;
-    }
-    .busca-menu i{
-        position: absolute;
-        font-size: 1.5rem;
-        top: 0px;
-        padding: 0.45em 0.8em;
-        right: 0px;
     }
     .off-canvas{
         overflow: hidden;
@@ -109,15 +81,59 @@
     #barra-dmoura{
         background-color: #5DB2FF;
     }
-    .busca-menu i{
+    .barra-ferramentas .menu li button,
+    .barra-ferramentas .menu li label{
+        display: block;
+        padding: .7rem 1rem;
+        border: none;
+        box-shadow: none;
+    }
+    .busca-menu{
+        position: absolute;
+        width: 2.9em;
+    }
+    .busca-menu, .off-canvas-busca{
+        height: 2.9em;
+        padding: 0px;
+    }
+    .busca-menu, #offCanvas{
+        border-right: 1px solid #e5e3e3;
+    }
+    .busca-menu input, .off-canvas-busca input{
+        padding: 1em;
+    }
+    .busca-menu input, .busca-menu button, .off-canvas-busca input, .barra-ferramentas label{
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        border: none;
+        box-shadow: none;
+    }
+    .busca-menu input::-moz-placeholder, .off-canvas-busca input::-moz-placeholder{
+        color: black;
+        opacity: unset;
+    }
+    .busca-menu input:focus::-moz-placeholder, .off-canvas-busca input:focus::-moz-placeholder{
+        opacity: 0;
+    }
+    .busca-menu > i, .off-canvas-busca > i{
+        position: absolute;
+        top: 0px;
+        padding: 0.45em 0.8em;
+        right: 0px;
+    }
+    .busca-menu i, .off-canvas-busca i{
         color: #75BDFF;
     }
-    .busca-menu, .busca-menu input, .busca-menu button{
+    .busca-menu, .busca-menu input, .busca-menu button,
+    .off-canvas-busca, .off-canvas-busca input{
         background-color: #DFF0FF;
     }
-    .busca-menu input:focus, .busca-menu input:hover,
-    .busca-menu button:focus, .busca-menu button:hover,
-    .barra-ferramentas-interna li a:hover{
+    .barra-ferramentas input:focus, .barra-ferramentas input:hover,
+    .busca-menu button:focus, .barra-ferramentas button:hover,
+    .barra-ferramentas-interna li a:hover,
+    .barra-ferramentas li label:hover,
+    .off-canvas-busca input:focus, .off-canvas-busca input:hover{
         background-color: #C6E4FF;
         border: none;
         box-shadow: none;
@@ -125,25 +141,31 @@
     .barra-ferramentas{
         position: absolute;
         width: 100%;
-        height: 2.9em;
-        float:bottom;
+        height: 2.9em; /* 46.4px */
         bottom: 0px;
     }
-    .barra-ferramentas, .barra-ferramentas li a{
+    .barra-ferramentas, .barra-ferramentas li a,
+    .barra-ferramentas li button, .barra-ferramentas li label{
         background-color: #EEF7FF;
     }
     .barra-ferramentas-interna{
-        position: absolute;
         width: 100%;
         height: 100%;
-        float: right;
-        margin-left: 50px;
+        padding-left: 2.9em; /* 46.4px */
+    }
+    .barra-ferramentas-interna-conteudo{
+        width: 100%;
+        height: 100%;
         padding-left: 1rem;
     }
-    .barra-ferramentas-interna li a{
+    .barra-ferramentas-interna-conteudo li a,
+    .barra-ferramentas-interna-conteudo li button,
+    .barra-ferramentas-interna-conteudo li label{
         color: black;
     }
-    .barra-ferramentas .menu li a{
+    .barra-ferramentas .menu li a,
+    .barra-ferramentas .menu li button,
+    .barra-ferramentas .menu li label{
         line-height: 1.5;
     }
     .barra-ferramentas-esquerda{
@@ -155,50 +177,56 @@
 /* Medium and up */
 @media screen and (min-width: 40em) {
     .top-bar-content > .off-canvas-wrapper .is-off-canvas-open{
-        padding-right: 250px;
+        padding-right: 15.625rem; /*250px*/
     }
 }
 /* Large and up */
 @media screen and (min-width: 64em) {
     .busca-menu{
-        width: 250px;
+        width: 15.625rem; /*250px*/
     }
-     .barra-ferramentas-interna{
-        margin-left: 250px;
-     }
+    .barra-ferramentas-interna{
+       padding-left: 15.625rem; /*250px*/
+    }
+    #dmoura-conteudo{
+        padding-left: 1em;
+    }
 }
 #dmoura-conteudo{
     box-shadow: none;
     overflow: auto;
     padding-top: 1.7em;
-    padding-left: 1em;
 }
 .dm-logotipo{
     padding: 1em;
 }
 .dm-logotipo img{
-    height: 3.85em;
+    height: 2.85em;
 }
 .dm-usuario{
-    float: right;
     padding: 1em;
     display: inline-table;
+    cursor: pointer;
 }
-.dm-usuario .dm-usuario-foto{
-    float: left;
+.dm-usuario:hover{
+    background-color: #2A80FB;
 }
 .dm-usuario .dm-usuario-foto img{
-    height: 3.85em;
+    height: 2.85em;
     border-radius: 50%;
 }
 .dm-usuario .dm-usuario-descricao{
-    float: right;
     padding-left: 1em;
+    vertical-align: middle;
+    display: table-cell;
+}
+#dm-usuario-menu{
+    padding: 0px;
 }
 .top-bar-title strong {
-    margin-top: 7px;
+    margin-top: 0.4375em; /*7px*/
     display: inline-block;
-    margin-left: 8px;
+    margin-left: 0.5em; /*8px*/
 }
 .altura-maxima{
     height: 100%;

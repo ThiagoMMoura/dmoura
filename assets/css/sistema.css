@@ -3,7 +3,7 @@
     Author     : Thiago Moura
 */
 i{
-    font-size: 1.5rem;
+    font-size: 1.125rem;
 }
 .top-bar-wrapper {
   height: 100%;
@@ -59,10 +59,10 @@ i{
         max-height: 4.85rem;
     }
     #offCanvas .off-canvas-menu{
-        padding-top: 1.5em;
+        padding-top: 1.5rem;
     }
     #offCanvas a{
-        font-size: 0.875em;
+        font-size: 0.875rem;
         color: black;
         padding-left: 1rem;
     }
@@ -81,52 +81,78 @@ i{
     #barra-dmoura{
         background-color: #5DB2FF;
     }
+    .busca-menu .icone-input i,
+    .off-canvas-busca .icone-input i{
+        padding-right: 1rem;
+    }
+    .barra-ferramentas .menu li label,
     .barra-ferramentas .menu li button,
-    .barra-ferramentas .menu li label{
-        display: block;
-        padding: .7rem 1rem;
+    .barra-ferramentas .menu li a,
+    .barra-ferramentas .menu .menu-text{
+        display: table-cell;
+        padding: 0px 1rem;
         border: none;
         box-shadow: none;
     }
+    .busca-menu button i,
+    .busca-menu .icone-input i,
+    .off-canvas-busca .icone-input i,
+    .barra-ferramentas .menu li,
+    .barra-ferramentas .menu li label span,
+    .barra-ferramentas .menu li label i,
+    .barra-ferramentas .menu li button,
+    .barra-ferramentas .menu li a{
+        line-height: 2.9rem;
+        vertical-align: middle;
+    }
+    .barra-ferramentas .menu li label span{
+        padding-left: 0.375rem; /* 5px */
+    }
     .busca-menu{
         position: absolute;
-        width: 2.9em;
+        width: 2.9rem;
     }
     .busca-menu, .off-canvas-busca{
-        height: 2.9em;
         padding: 0px;
     }
     .busca-menu, #offCanvas{
         border-right: 1px solid #e5e3e3;
     }
-    .busca-menu input, .off-canvas-busca input{
-        padding: 1em;
+    .busca-menu input,
+    .off-canvas-busca input{
+        padding: 0px 1rem;
     }
-    .busca-menu input, .busca-menu button, .off-canvas-busca input, .barra-ferramentas label{
-        height: 100%;
+    .busca-menu input,
+    .busca-menu button,
+    .off-canvas-busca input,
+    .barra-ferramentas label{
         width: 100%;
         margin: 0px;
         border: none;
         box-shadow: none;
     }
-    .busca-menu input::-moz-placeholder, .off-canvas-busca input::-moz-placeholder{
+    .busca-menu input::-moz-placeholder,
+    .off-canvas-busca input::-moz-placeholder{
         color: black;
         opacity: unset;
     }
-    .busca-menu input:focus::-moz-placeholder, .off-canvas-busca input:focus::-moz-placeholder{
+    .busca-menu input:focus::-moz-placeholder,
+    .off-canvas-busca input:focus::-moz-placeholder{
         opacity: 0;
     }
-    .busca-menu > i, .off-canvas-busca > i{
+    .busca-menu .icone-input,
+    .off-canvas-busca .icone-input{
         position: absolute;
         top: 0px;
-        padding: 0.45em 0.8em;
         right: 0px;
     }
-    .busca-menu i, .off-canvas-busca i{
+    .barra-ferramentas i, .off-canvas-busca i{
         color: #75BDFF;
     }
-    .busca-menu, .busca-menu input, .busca-menu button,
-    .off-canvas-busca, .off-canvas-busca input{
+    .busca-menu, .busca-menu input,
+    .busca-menu button,
+    .off-canvas-busca,
+    .off-canvas-busca input{
         background-color: #DFF0FF;
     }
     .barra-ferramentas input:focus, .barra-ferramentas input:hover,
@@ -138,11 +164,23 @@ i{
         border: none;
         box-shadow: none;
     }
+    .barra-ferramentas,
+    .barra-ferramentas-interna,
+    .barra-ferramentas-interna-conteudo,
+    .busca-menu,
+    .busca-menu input,
+    .busca-menu button,
+    .busca-menu .icone-input,
+    .off-canvas-busca .icone-input,
+    .off-canvas-busca input,
+    .off-canvas-busca{
+        height: 2.9rem; /* 46.4px */
+    }
     .barra-ferramentas{
         position: absolute;
         width: 100%;
-        height: 2.9em; /* 46.4px */
         bottom: 0px;
+        /*font-size: .875rem;*/
     }
     .barra-ferramentas, .barra-ferramentas li a,
     .barra-ferramentas li button, .barra-ferramentas li label{
@@ -150,23 +188,19 @@ i{
     }
     .barra-ferramentas-interna{
         width: 100%;
-        height: 100%;
         padding-left: 2.9em; /* 46.4px */
     }
     .barra-ferramentas-interna-conteudo{
         width: 100%;
-        height: 100%;
         padding-left: 1rem;
     }
+    .barra-ferramentas input,
+    .off-canvas-busca input,
     .barra-ferramentas-interna-conteudo li a,
     .barra-ferramentas-interna-conteudo li button,
     .barra-ferramentas-interna-conteudo li label{
         color: black;
-    }
-    .barra-ferramentas .menu li a,
-    .barra-ferramentas .menu li button,
-    .barra-ferramentas .menu li label{
-        line-height: 1.5;
+        font-size: .875rem;
     }
     .barra-ferramentas-esquerda{
         float: left;

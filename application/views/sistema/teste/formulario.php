@@ -52,6 +52,12 @@ $data['campos'] = array(
         'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
         'linha'=>array('class'=>'','numero'=>6),
         'label'=>'Descrição'
+    ),
+    array(
+        'tag'=>'input',
+        'atributos'=>array('type'=>'reset','name'=>'limpar','hidden'=>'','id'=>'limpar'),
+        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+        'linha'=>array('class'=>'','numero'=>7),
     )
 );
 $this->load->view('sistema/gerador_formulario',$data);

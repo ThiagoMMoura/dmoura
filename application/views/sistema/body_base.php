@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="busca-menu">
                     <button type="button" class="button hide-for-large" data-toggle="offCanvas"><i class="fi-list"></i></button>
                     <input type="search" class="show-for-large" name="bf-busca-menu" placeholder="Pesquisar Menu">
-                    <i class="fi-magnifying-glass show-for-large"></i>
+                    <div class="icone-input"><i class="fi-magnifying-glass show-for-large"></i></div>
                 </div>
                 <div class="barra-ferramentas-interna">
                     <div class="barra-ferramentas-interna-conteudo">
@@ -48,6 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="barra-ferramentas-direita">
                             <ul class="menu ">
+                                <li><label for="limpar"><i class="fi-page-delete"></i><span>Limpar</span></label></li>
+                                <li><label for="excluir"><i class="fi-trash"></i><span>Excluir</span></label></li>
                                 <li><label for="salvar"><i class="fi-save"></i><span>Salvar</span></label></li>
                             </ul>
                         </div>
@@ -62,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Busca -->
                         <div class="off-canvas-busca hide-for-large">
                             <input type="search" name="of-busca-menu" placeholder="Pesquisar Menu">
-                            <i class="fi-magnifying-glass"></i>
+                            <div class="icone-input"><i class="fi-magnifying-glass"></i></div>
                         </div>
                         <!-- Menu -->
                         <div class="off-canvas-menu">

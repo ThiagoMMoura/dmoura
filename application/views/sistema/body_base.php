@@ -41,16 +41,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="barra-ferramentas-interna-conteudo">
                         <div class="barra-ferramentas-esquerda">
                             <ul class="menu ">
-                                <li class="menu-text">Titulo</li>
-                                <li><a href="#">Buscar</a></li>
-                                <li><a href="#">Salvar</a></li>
+                                <li class="menu-text"><?php echo $titulo;?></li>
                             </ul>
                         </div>
-                        <div class="barra-ferramentas-direita">
+                        <div class="barra-ferramentas-fixa">
                             <ul class="menu ">
                                 <li><label for="limpar"><i class="fi-page-delete"></i><span>Limpar</span></label></li>
                                 <li><label for="excluir"><i class="fi-trash"></i><span>Excluir</span></label></li>
                                 <li><label for="salvar"><i class="fi-save"></i><span>Salvar</span></label></li>
+                                <li>
+                                    <button type="button" class="button hide-for-large"><i class="fi-list"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="barra-ferramentas-direita show-for-large">
+                            <ul class="menu">
+                                <li><a href="#">Show</a></li>
                             </ul>
                         </div>
                     </div>

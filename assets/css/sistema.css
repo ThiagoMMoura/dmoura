@@ -98,12 +98,17 @@ i{
     .busca-menu .icone-input i,
     .off-canvas-busca .icone-input i,
     .barra-ferramentas .menu li,
-    .barra-ferramentas .menu li label span,
+    .barra-ferramentas .menu li label,
     .barra-ferramentas .menu li label i,
     .barra-ferramentas .menu li button,
     .barra-ferramentas .menu li a{
         line-height: 2.9rem;
         vertical-align: middle;
+        cursor: pointer;
+    }
+    .barra-ferramentas .menu li{
+        border: none;
+        box-shadow: none;
     }
     .barra-ferramentas .menu li label span{
         padding-left: 0.375rem; /* 5px */
@@ -167,9 +172,10 @@ i{
     .barra-ferramentas,
     .barra-ferramentas-interna,
     .barra-ferramentas-interna-conteudo,
+    .barra-ferramentas .menu li label,
     .busca-menu,
     .busca-menu input,
-    .busca-menu button,
+    .barra-ferramentas button,
     .busca-menu .icone-input,
     .off-canvas-busca .icone-input,
     .off-canvas-busca input,
@@ -188,7 +194,7 @@ i{
     }
     .barra-ferramentas-interna{
         width: 100%;
-        padding-left: 2.9em; /* 46.4px */
+        padding-left: 2.9rem; /* 46.4px */
     }
     .barra-ferramentas-interna-conteudo{
         width: 100%;
@@ -205,9 +211,22 @@ i{
     .barra-ferramentas-esquerda{
         float: left;
     }
+    .barra-ferramentas-fixa{
+        float: right;
+    }
     .barra-ferramentas-direita{
         float: right;
     }
+/* Small only */
+@media screen and (max-width: 39.9375em) {
+    .barra-ferramentas .menu li label span{
+        display: none;
+    }
+    
+    .barra-ferramentas .menu li{
+        /*border-left: 1px solid #e5e3e3;*/
+    }
+}
 /* Medium and up */
 @media screen and (min-width: 40em) {
     .top-bar-content > .off-canvas-wrapper .is-off-canvas-open{
@@ -224,6 +243,9 @@ i{
     }
     #dmoura-conteudo{
         padding-left: 1em;
+    }
+    .barra-ferramentas-fixa{
+        float: left;
     }
 }
 #dmoura-conteudo{

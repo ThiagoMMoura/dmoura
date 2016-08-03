@@ -106,6 +106,7 @@ class MY_Controller extends CI_Controller{
     }
     
     protected function _tem_permissao(){
+        $this->config->item('permissoes');
         return $this->logado();
     }
     

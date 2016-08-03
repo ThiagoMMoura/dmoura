@@ -13,7 +13,7 @@ class Teste extends MY_Controller{
     
     public function index(){
         $this->_add_data('nome','Thiago');
-        $this->_view("D'Moura",'formulario',parent::RELATIVO_CONTROLE);
+        $this->_view("Formulário",'formulario',parent::RELATIVO_CONTROLE);
     }
     
     public function formulario(){

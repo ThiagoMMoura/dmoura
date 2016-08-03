@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </ul>
                         </div>
                         <div class="barra-ferramentas-direita show-for-large">
-                            <ul class="menu">
+                            <ul class="menu hide">
                                 <li><a href="#">Show</a></li>
                             </ul>
                         </div>

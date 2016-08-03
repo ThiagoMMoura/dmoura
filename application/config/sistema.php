@@ -59,3 +59,8 @@ $config['estilos_submenu'] = array(
     'padrao' => array(),
     'drilldown' => array('ul-class'=>'vertical menu')
 );
+$config['permissoes'] = array(
+    'sistema/teste' => array(
+        'index' => array()
+    )
+);

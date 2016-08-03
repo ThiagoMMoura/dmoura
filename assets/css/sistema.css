@@ -224,7 +224,7 @@ i{
         display: none;
     }
     
-    .barra-ferramentas .menu li{
+    .barra-ferramentas .menu li{/* Separação de botões em mobile*/
         /*border-left: 1px solid #e5e3e3;*/
     }
 }

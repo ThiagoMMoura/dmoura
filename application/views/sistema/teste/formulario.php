@@ -55,13 +55,13 @@ $data['campos'] = array(
     ),
     array(
         'tag'=>'input',
-        'atributos'=>array('type'=>'reset','name'=>'limpar','hidden'=>'','id'=>'limpar'),
-        'linha'=>array('class'=>'hidden','numero'=>7),
+        'atributos'=>array('type'=>'reset','value'=>'Limpar','name'=>'limpar','id'=>'limpar','data-icone'=>'fi-trash','class'=>'is-button-bar-menu button','data-bar-menu-hide'=>'true'),
+        'linha'=>array('class'=>'','numero'=>7),
     ),
     array(
         'tag'=>'input',
-        'atributos'=>array('type'=>'submit','name'=>'salvar','hidden'=>'','id'=>'salvar'),
-        'linha'=>array('class'=>'hide','numero'=>7),
+        'atributos'=>array('type'=>'submit','value'=>'Salvar','name'=>'salvar','id'=>'salvar','data-icone'=>'fi-save','class'=>'is-button-bar-menu button'),
+        'linha'=>array('class'=>'','numero'=>7),
     )
 );
 $this->load->view('sistema/gerador_formulario',$data);

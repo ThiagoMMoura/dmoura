@@ -46,9 +46,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="barra-ferramentas-fixa">
                             <ul class="menu ">
-                                <li><label for="limpar"><i class="fi-page-delete"></i><span>Limpar</span></label></li>
-                                <li><label for="excluir"><i class="fi-trash"></i><span>Excluir</span></label></li>
-                                <li><label for="salvar"><i class="fi-save"></i><span>Salvar</span></label></li>
+                                <!--li><label id="lb-bar-limpar" for="limpar"><i class="fi-page-delete"></i><span>Limpar</span></label></li>
+                                <li><label id="lb-bar-excluir" for="excluir"><i class="fi-trash"></i><span>Excluir</span></label></li>
+                                <li><label id="lb-bar-salvar" for="salvar"><i class="fi-save"></i><span>Salvar</span></label></li-->
                                 <li>
                                     <button type="button" class="button hide-for-large"><i class="fi-list"></i></button>
                                 </li>
@@ -98,6 +98,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var h = $(window).height();
         var b = $('#barra-dmoura').height();
         $('#dmoura-conteudo').css('max-height',h-b).css('height',h-b);
+        
+        $('.is-button-bar-menu').each(function(){
+            criar_bar_menu($(this));
+        });
     });
     $(window).on('resize',function(event){
         if(Foundation.MediaQuery.atLeast('large')){
@@ -109,4 +113,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var b = $('#barra-dmoura').height();
         $('#dmoura-conteudo').css('max-height',h-b).css('height',h-b);
     });
+    function criar_bar_menu(botao){
+        if($(botao).is('input')){
+            var icone = '';
+            if($(botao).attr('data-icone') !== undefined){
+                icone = '<i class="' + $(botao).attr('data-icone') + '"></i>';
+            }
+            var menu = '<label for="' + $(botao).attr('id') + '">' + icone + '<span>' + $(botao).attr('value') + '</span></label>';
+            $('.barra-ferramentas .barra-ferramentas-fixa ul').prepend('<li>' + menu + '</li>');
+            if($(botao).attr('data-bar-menu-hide')!=='false'){
+                $(botao).hide();
+            }
+        }
+    }
 </script>

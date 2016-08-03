@@ -85,10 +85,10 @@ i{
     .off-canvas-busca .icone-input i{
         padding-right: 1rem;
     }
-    .barra-ferramentas .menu li label,
-    .barra-ferramentas .menu li button,
-    .barra-ferramentas .menu li a,
-    .barra-ferramentas .menu .menu-text{
+    .barra-ferramentas ul li label,
+    .barra-ferramentas ul li button,
+    .barra-ferramentas ul li a,
+    .barra-ferramentas ul .menu-text{
         display: table-cell;
         padding: 0px 1rem;
         border: none;
@@ -97,11 +97,12 @@ i{
     .busca-menu button i,
     .busca-menu .icone-input i,
     .off-canvas-busca .icone-input i,
-    .barra-ferramentas .menu li,
-    .barra-ferramentas .menu li label,
-    .barra-ferramentas .menu li label i,
-    .barra-ferramentas .menu li button,
-    .barra-ferramentas .menu li a{
+    .barra-ferramentas ul li label,
+    .barra-ferramentas .menu li label span,
+    .barra-ferramentas ul .menu-text,
+    .barra-ferramentas ul li label i,
+    .barra-ferramentas ul li button,
+    .barra-ferramentas ul li a{
         line-height: 2.9rem;
         vertical-align: middle;
         cursor: pointer;

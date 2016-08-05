@@ -37,6 +37,9 @@ class MY_Controller extends CI_Controller{
             $this->area_restrita();
             $this->output->_display();
             exit;
+            if($this->_logado()){
+                $this->config->load('permissoes');
+            }
         }
     }
     
@@ -106,7 +109,7 @@ class MY_Controller extends CI_Controller{
     }
     
     protected function _tem_permissao(){
-        $this->config->item('permissoes');
+        $this->load->library('controle_acesso');
         return $this->logado();
     }
     

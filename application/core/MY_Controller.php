@@ -28,19 +28,21 @@ class MY_Controller extends CI_Controller{
      * @param string $caminho_controle - Caminho dentro da pasta controller até o 
      * arquivo do controle atual.
      */
-    public function __construct($caminho_controle,$login_obrigatorio = FALSE) {
+    public function __construct($caminho_controle,$area_restrita = FALSE) {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
-        if($login_obrigatorio){
+        
+        $atributos['controle'] = $this->_caminho_controle;
+        $atributos['area_restrita'] = $area_restrita;
+        $this->config->load('controle_acesso',$atributos);
+        if(!$this->controle_acesso->tem_permissao_acesso_controle()){
             $this->area_restrita();
             $this->output->_display();
             exit;
-            if($this->_logado()){
-                $this->config->load('permissoes');
-            }
         }
+        
     }
     
     /**
@@ -78,10 +80,14 @@ class MY_Controller extends CI_Controller{
             foreach($arquivo as $arq){
                 switch($relativo){
                     case self::RELATIVO_CONTROLE:{
-                        $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
+                        if($this->controle_acesso->tem_permissao_acesso_pagina($arq)){
+                            $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
+                        }
                         break;
                     }case self::RELATIVO_SISTEMA:{
-                        $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
+                        if($this->controle_acesso->tem_permissao_acesso_pagina($arq,FALSE)){
+                            $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
+                        }
                         break;
                     }default:{
                         $this->_body .= $this->load->view($this->_pai . '/' .$arq,$this->_data_view,TRUE);
@@ -99,21 +105,30 @@ class MY_Controller extends CI_Controller{
         return $this->_caminho_controle;
     }
     
-    /**
-     * Retorna <b>TRUE</b> se o usuário estiver logado, <b>FALSE</b> caso contrário.
-     * 
-     * @return boolean
-     */
-    protected function _logado() {
-        return ($this->session->has_userdata('logado') && $this->session->logado);
-    }
-    
-    protected function _tem_permissao(){
-        $this->load->library('controle_acesso');
-        return $this->logado();
-    }
-    
     public function area_restrita(){
         $this->_view('Área Restrita', 'area_restrita');
+    }
+    
+    /**
+     * Retorna o nome do método chamado pela requisição HTTP.
+     * 
+     * @return string Se o método existir ele retorna o nome do método, senão, 
+     * retorna uma <code>string</code> vazia.
+     */
+    private function _obter_nome_metodo(){
+        $remove_url_control = substr(uri_string(), strlen($this->control_url)+1);
+        $method_name = stristr($remove_url_control, '/',TRUE);
+        if($method_name===FALSE){
+            $method_name = stristr($remove_url_control, '.',TRUE);
+            if($method_name===FALSE){
+                $method_name = $remove_url_control;
+            }
+        }
+        if(method_exists(get_class($this), $method_name)){
+            return $method_name;
+        }else{
+            return '';
+        }
+
     }
 }

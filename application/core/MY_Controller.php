@@ -34,10 +34,15 @@ class MY_Controller extends CI_Controller{
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
         
+        $atributos['pai'] = $this->_pai;
         $atributos['controle'] = $this->_caminho_controle;
+        $atributos['metodo'] = $this->_obter_nome_metodo();
         $atributos['area_restrita'] = $area_restrita;
-        $this->config->load('controle_acesso',$atributos);
-        if(!$this->controle_acesso->tem_permissao_acesso_controle()){
+        $this->load->library('controle_acesso',$atributos);
+        if(!$this->controle_acesso->pai()){
+            redirect($this->_pai . '/login');
+        }
+        if(!$this->controle_acesso->controle() || !$this->controle_acesso->metodo()){
             $this->area_restrita();
             $this->output->_display();
             exit;
@@ -80,14 +85,10 @@ class MY_Controller extends CI_Controller{
             foreach($arquivo as $arq){
                 switch($relativo){
                     case self::RELATIVO_CONTROLE:{
-                        if($this->controle_acesso->tem_permissao_acesso_pagina($arq)){
-                            $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
-                        }
+                        $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
                         break;
                     }case self::RELATIVO_SISTEMA:{
-                        if($this->controle_acesso->tem_permissao_acesso_pagina($arq,FALSE)){
-                            $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
-                        }
+                        $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
                         break;
                     }default:{
                         $this->_body .= $this->load->view($this->_pai . '/' .$arq,$this->_data_view,TRUE);
@@ -116,13 +117,16 @@ class MY_Controller extends CI_Controller{
      * retorna uma <code>string</code> vazia.
      */
     private function _obter_nome_metodo(){
-        $remove_url_control = substr(uri_string(), strlen($this->control_url)+1);
+        $remove_url_control = substr(uri_string(), strlen($this->_caminho_controle)+1);
         $method_name = stristr($remove_url_control, '/',TRUE);
         if($method_name===FALSE){
             $method_name = stristr($remove_url_control, '.',TRUE);
             if($method_name===FALSE){
                 $method_name = $remove_url_control;
             }
+        }
+        if($method_name==NULL){
+            $method_name = 'index';
         }
         if(method_exists(get_class($this), $method_name)){
             return $method_name;

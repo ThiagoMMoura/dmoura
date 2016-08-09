@@ -18,8 +18,10 @@ class MY_Model extends CI_Model{
     private $_registro_atual;
     private $_iterator;
     
-    public function __construct(){
+    public function __construct($tabela,$colunas = array()){
         parent::__construct();
+        $this->nome_tabela = $tabela;
+        $this->nome_colunas_tabela = $colunas;
         $this->_inicializar();
     }
     
@@ -163,9 +165,9 @@ class MY_Model extends CI_Model{
             if(array_key_exists('having', $mixed)){
                 $this->db->having($mixed['having']);
             }
-            return $this->setQuery($this->db->get($this->nome_tabela));
+            return $this->set_query($this->db->get($this->nome_tabela));
         }else{
-            return $this->setQuery($this->db->query($mixed));
+            return $this->set_query($this->db->query($mixed));
         }
     }
     

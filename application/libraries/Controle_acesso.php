@@ -9,20 +9,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Controle_acesso {
     
+    private $CI;
     private $_area_restrita = FALSE;
     private $_permissoes = array();
+    private $_pai = '';
     private $_controle = '';
-    private $_pagina = '';
+    private $_metodo = '';
     
     public function __construct($data) {
+        $this->CI =& get_instance();
         if(array_key_exists('area_restrita', $data)){
             $this->_area_restrita = $data['area_restrita'];
         }
-        $this->config->load('areas_acesso');
+        $this->CI->config->load('areas_acesso');
+        $this->_pai = $data['pai'];
         $this->_controle = $data['controle'];
+        $this->_metodo = $data['metodo'];
         
         if($this->_area_restrita && $this->logado()){
-            //carrega permissões do usuário no banco
+            $this->CI->load->model('permissao');
+            $select['select'] = 'area, liberado';
+            $select['where'] = 'nivel = ' . $this->CI->session->nivel;
+            $select['order_by'] = 'area';
+            $this->CI->permissao_model->selecionar($select);
+            $this->_permissoes = $this->CI->permissao_model->registros();
         }
     }
     
@@ -32,11 +42,11 @@ class Controle_acesso {
      * @return boolean
      */
     public function logado() {
-        return ($this->session->has_userdata('logado') && $this->session->logado);
+        return ($this->CI->session->has_userdata('logado') && $this->CI->session->logado);
     }
     
-    public function obter_id_area($url){
-        foreach($this->config->item('areas_acesso') as $k => $area){
+    public function obter_id_url($url){
+        foreach($this->CI->config->item('areas_acesso')['url'] as $k => $area){
             if($area['url']===$url){
                 return $k;
             }
@@ -44,62 +54,83 @@ class Controle_acesso {
         return FALSE;
     }
     
-    public function obter_area($id){
-        if(array_key_exists($id, $this->config->item('areas_acesso'))){
-            return $this->config->item('areas_acesso')[$id];
+    public function obter_id_objeto($idt){
+        foreach($this->CI->config->item('areas_acesso')['objeto'] as $k => $objeto){
+            if($objeto['idt']===$idt){
+                return $k;
+            }
         }
         return FALSE;
     }
     
-    public function tem_permissao_vizualizar($tag = '', $add_url = TRUE){
-        if($tag==NULL){
-            return TRUE;
-        }else if($add_url){
-            $tag = $this->_controle . '/' . $this->_pagina . '#' . $tag;
+    public function obter_url_id($id){
+        if(array_key_exists($id, $this->CI->config->item('areas_acesso')['url'])){
+            return $this->CI->config->item('areas_acesso')['url'][$id];
         }
-        
-        return $this->tem_permissao_acesso($this->obter_id_area($tag));
+        return FALSE;
     }
     
-    public function tem_permissao_acesso_funcao($funcao = '',$add_controle = TRUE){
-        if($funcao==NULL){
-            return TRUE;
-        }else if($add_controle){
-            $funcao = $this->_controle . '/' . $funcao;
+    public function obter_objeto_id($id){
+        if(array_key_exists($id, $this->CI->config->item('areas_acesso')['objeto'])){
+            return $this->CI->config->item('areas_acesso')['objeto'][$id];
         }
-        
-        return $this->tem_permissao_acesso($this->obter_id_area($funcao));
+        return FALSE;
     }
     
-    public function tem_permissao_acesso_pagina($pagina = '',$add_controle = TRUE){
-        if($pagina==NULL){
-            $pagina = $this->_controle . '/' . $this->_pagina;
-        }else if($add_controle){
-            $pagina = $this->_controle . '/' . $pagina;
+    private function _liberado($id){
+        foreach($this->_permissoes as $permissao){
+            if($permissao['area']===$id){
+                return $permissao['liberado'];
+            }
         }
-        
-        return $this->tem_permissao_acesso($this->obter_id_area($pagina));
     }
     
-    public function tem_permissao_acesso_controle($controle = ''){
-        if($controle==NULL){
-            $controle = $this->_controle;
-        }
-        return $this->tem_permissao_acesso($this->obter_id_area($controle));
-    }
-    
-    public function tem_permissao_acesso($id){
+    public function acesso_permitido($id){
         if($this->_area_restrita && $id!=NULL){
             if($this->logado()){
-                foreach($this->_permissoes as $permissao){
-                    if($permissao['id_area']===$id){
-                        return $permissao['liberado'];
-                    }
-                }
+                return $this->_liberado($id);
             }
             return FALSE;
         }
         return TRUE;
     }
     
+    public function pai($pai = ''){
+        if($pai==NULL){
+            $pai = $this->_pai;
+        }
+        
+        return $this->acesso_permitido($this->obter_id_url($pai));
+    }
+    
+    public function controle($controle = ''){
+        if($controle==NULL){
+            $controle = $this->_controle;
+        }
+        return $this->acesso_permitido($this->obter_id_url($controle));
+    }
+    
+    public function metodo($url = '',$add_controle = TRUE){
+        if($url==NULL){
+            $url = $this->_controle . '/' . $this->_metodo;
+        }else if($add_controle){
+            $url = $this->_controle . '/' . $url;
+        }
+        
+        return $this->acesso_permitido($this->obter_id_url($url));
+    }
+    
+    public function objeto_permitido($id){
+        if($id!=NULL){
+            if($this->logado()){
+                return $this->_liberado($id);
+            }
+            return FALSE;
+        }
+        return TRUE;
+    }
+    
+    public function exibe_objeto($idt){
+        return $this->objeto_permitido($this->obter_id_objeto($idt));
+    }
 }

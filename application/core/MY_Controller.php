@@ -31,6 +31,7 @@ class MY_Controller extends CI_Controller{
     public function __construct($caminho_controle,$area_restrita = FALSE) {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
+        
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
         

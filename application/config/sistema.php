@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author Thiago Moura
  */
+$config['home'] = 'sistema/teste';
 $config['template-html'] = 'sistema/html_base';
 $config['head-itens-antes-todos'] = array(
     array('meta'=>array('name'=>'x-ua-compatible','type'=>'http-equiv','content'=>'ie=edge')),

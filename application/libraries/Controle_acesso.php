@@ -29,7 +29,7 @@ class Controle_acesso {
         if($this->_area_restrita && $this->logado()){
             $this->CI->load->model('permissao');
             $select['select'] = 'area, liberado';
-            $select['where'] = 'nivel = ' . $this->CI->session->nivel;
+            $select['where'] = 'grupo = ' . $this->CI->session->nivel;
             $select['order_by'] = 'area';
             $this->CI->permissao_model->selecionar($select);
             $this->_permissoes = $this->CI->permissao_model->registros();

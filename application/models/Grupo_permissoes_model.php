@@ -5,14 +5,12 @@ if (!defined('BASEPATH')) {
 /**
  * Description of permissao
  *
- * - Colunas: id, nivel, area, liberado
+ * - Colunas: id, nome, descricao, pai
  * @author Thiago Moura
  */
-class Permissao_model extends MY_Model{
+class Grupo_permissoes_model extends MY_Model{
     
     public function __construct(){
-        parent::__construct('permissao',array('id','grupo','area','liberado'));
+        parent::__construct('grupo_permissoes',array('id','nome','descricao','pai'));
     }
-    
-    
 }

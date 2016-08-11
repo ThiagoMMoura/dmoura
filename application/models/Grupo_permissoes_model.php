@@ -11,6 +11,6 @@ if (!defined('BASEPATH')) {
 class Grupo_permissoes_model extends MY_Model{
     
     public function __construct(){
-        parent::__construct('grupo_permissoes',array('id','nome','descricao','pai'));
+        parent::__construct('grupo_permissoes',array('id','nome','descricao','fixo'));
     }
 }

@@ -1,0 +1,23 @@
+/* 
+    Created on : 11/08/2016, 11:19:51
+    Author     : Thiago Moura
+*/
+body{
+    background-color: #EEF7FF;
+}
+h1, h2, h3{
+    background-color: #5DB2FF;
+    color: white;
+    padding: .6rem;
+}
+div.login {
+    height: 17.625rem;
+}
+.button:hover{
+    background-color: #C6E4FF;
+    color: black;
+}
+.button{
+    background-color: #DFF0FF;
+    color: black;
+}

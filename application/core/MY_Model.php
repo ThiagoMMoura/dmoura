@@ -45,6 +45,10 @@ class MY_Model extends CI_Model{
         }
     }
     
+    /**
+     * 
+     * @return CI_DB_result
+     */
     public function get_query() {
         return $this->_query;
     }
@@ -61,14 +65,33 @@ class MY_Model extends CI_Model{
         return TRUE;
     }
     
+    /**
+     * Retorna o número de registros resultados do SELECT.
+     * 
+     * @return int Retorna <b>0</b> caso nenhum select efetuado ou nenhum
+     * registro retornado.
+     */
     public function num_registros(){
-        return $this->query!=NULL?$this->query->num_rows():0;
+        return $this->_query!=NULL?$this->_query->num_rows():0;
     }
     
+    /**
+     * Retorna um array com todos os registros resultados do SELECT.
+     * 
+     * @return array
+     */
     public function registros(){
         return $this->_registros;
     }
     
+    /**
+     * Retorna um registro pelo <code>indice</code> indicado ou o registro atual
+     * da <code>iteração</code> caso ainda existam registros.
+     * 
+     * @param int $indice
+     * @return mixed Retorna um array indexado pelas colunas do registro, ou 
+     * retorna <code>FALSE</code> caso não haja nenhum registro.
+     */
     public function registro($indice = NULL){
         if($indice===NULL){
             if($this->num_registros() > 0 && $this->_registro_atual < $this->num_registros()){
@@ -104,8 +127,8 @@ class MY_Model extends CI_Model{
     /**
      * Busca campo do registro atual.
      * 
-     * @param string $nome - campo do registro as ser retornado.
-     * @return mixed - Caso houver algum registro e houver um campo com o nome
+     * @param string $nome campo do registro as ser retornado.
+     * @return mixed Caso houver algum registro e houver um campo com o nome
      * informado por parametro, o campo deste registro será retornado, senão,
      * retorna <code>FALSE</code>.
      */
@@ -122,7 +145,7 @@ class MY_Model extends CI_Model{
     /**
      * Id do ultimo registro inserido.
      * 
-     * @return mixed - Caso não houver nenhum registro inserido na sessão atual,
+     * @return mixed Caso não houver nenhum registro inserido na sessão atual,
      * a função retorna <code>FALSE</code>.
      */
     public function id_inserido(){
@@ -135,7 +158,7 @@ class MY_Model extends CI_Model{
     /**
      * Método que efetua select no banco string SQL ou array de comandos.
      * 
-     * @param mixed $mixed - Array com comandos SQL para formar o SQL de consulta,
+     * @param mixed $mixed Array com comandos SQL para formar o SQL de consulta,
      * ou string SQL para executar. Comandos disponíveis: 
      *  <code>select</code> - Colunas da tabela para o select;
      *  <code>where</code> - Condições de seleção de dados;
@@ -185,8 +208,8 @@ class MY_Model extends CI_Model{
     /**
      * Função para inserir registros no banco de dados.
      * 
-     * @param array $data - Array definido por nome dos campos e seus valores respectivos.
-     * @return boolean - Retorna <code>TRUE</code> em caso de sucesso e <code>FALSE</code> em
+     * @param array $data Array definido por nome dos campos e seus valores respectivos.
+     * @return boolean Retorna <code>TRUE</code> em caso de sucesso e <code>FALSE</code> em
      * caso de falha.
      */
     public function inserir($data){
@@ -215,10 +238,10 @@ class MY_Model extends CI_Model{
     /**
      * Realiza UPDATE dos registros passados por parametro no banco de dados.
      * 
-     * @param array $data - Array de dados a serem inseridos.
-     * @param mixed $where - Clausula WHERE do camando UPDATE para determinar o 
+     * @param array $data Array de dados a serem inseridos.
+     * @param mixed $where Clausula WHERE do camando UPDATE para determinar o 
      * registro a ser alterado.
-     * @return boolean -  Retorna <code>TRUE</code> em caso de sucesso, <code>FALSE</code> em caso
+     * @return boolean Retorna <code>TRUE</code> em caso de sucesso, <code>FALSE</code> em caso
      * de falha.
      */
     public function alterar($data,$where = ''){
@@ -245,13 +268,13 @@ class MY_Model extends CI_Model{
     /**
      * Deleta com a ID passada por parametro.
      * 
-     * @param int $id - ID do registro a ser deletado.
-     * @return boolean - retorna <code>TRUE</code> se houve sucesso ou <code>FALSE</code> se caso falhou.
+     * @param int $id ID do registro a ser deletado.
+     * @return boolean retorna <code>TRUE</code> se houve sucesso ou <code>FALSE</code> se caso falhou.
      */
     public function deletar($id){
         if($id!=NULL){
             $this->db->where('id', $id);
-            return $this->db->delete($this->dbtable);
+            return $this->db->delete($this->nome_tabela);
         }
         return FALSE;
     }

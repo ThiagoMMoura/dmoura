@@ -27,7 +27,7 @@ class Controle_acesso {
         $this->_metodo = $data['metodo'];
         
         if($this->_area_restrita && $this->logado()){
-            $this->CI->load->model('permissao');
+            $this->CI->load->model('permissao_model');
             $select['select'] = 'area, liberado';
             $select['where'] = 'grupo = ' . $this->CI->session->nivel;
             $select['order_by'] = 'area';

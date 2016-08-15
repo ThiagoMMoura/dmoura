@@ -24,12 +24,12 @@ $config['body-scripts'] = array(
 $config['prefixo-id-menu'] = 'mn-';
 $config['menu-principal'] = array(
     //'titulo-menu' => array('titulo'=>'MENU','li-class'=>'menu-text text-center'),
-    'cadastro-pessoas' => array(
-        'titulo' => 'Cadastro de Pessoas',
-        'url' => '#cadastro-pessoas',
+    'pessoa' => array(
+        'titulo' => 'Pessoas',
+        'url' => '#pessoa',
         'submenu' => array(
             'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
-            'cadastro-cliente' => array('titulo'=>'Cadastro de Clientes','url'=>'#'),
+            'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'pessoa/fisica/cadastro'),
             'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),

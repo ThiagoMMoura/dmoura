@@ -5,11 +5,11 @@ if (!defined('BASEPATH')) {
 /**
  * Description of Funcionario
  *
- * - Colunas: id, cargo, pessoa_fisica, ativo, ferias
+ * - Colunas: id, rg, cargo, salario, pessoa_fisica, ferias
  * @author Thiago Moura
  */
 class Funcionario extends MY_Model{
     public function __construct(){
-        parent::__construct('funcionario',array('id','cargo','pessoa_fisica','ativo','ferias'));
+        parent::__construct('funcionario',array('id','rg','cargo','salario','pessoa_fisica','ferias'));
     }
 }

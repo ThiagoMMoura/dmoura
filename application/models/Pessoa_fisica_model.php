@@ -5,11 +5,11 @@ if (!defined('BASEPATH')) {
 /**
  * Description of Pessoa_fisica_model
  * 
- * - Colunas: id, cpf, rg, nascimento, sexo, nacionalidade, naturalidade, estado_civil, pessoa
+ * - Colunas: id, cpf, nascimento, sexo, nacionalidade, naturalidade, estado_civil, pessoa
  * @author Thiago Moura
  */
 class Pessoa_fisica_model extends MY_Model{
     public function __construct(){
-        parent::__construct('pessoa_fisica',array('id','cpf','rg','nascimento','sexo','nacionalidade','naturalidade','estado_civil','pessoa'));
+        parent::__construct('pessoa_fisica',array('id','cpf','nascimento','sexo','nacionalidade','naturalidade','estado_civil','pessoa'));
     }
 }

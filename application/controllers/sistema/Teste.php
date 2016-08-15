@@ -25,4 +25,10 @@ class Teste extends MY_Controller{
         $this->_add_data('nome','João');
         $this->_view("Teste outro",'teste',parent::RELATIVO_CONTROLE);
     }
+    
+    public function senha($senha){
+        $senha = md5(trim($senha));
+        $this->_add_data('nome', $senha);
+        $this->_view("Teste outro",'teste',parent::RELATIVO_CONTROLE);
+    }
 }

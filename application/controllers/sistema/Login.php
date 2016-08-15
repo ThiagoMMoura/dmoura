@@ -55,7 +55,7 @@ class Login extends CI_Controller{
                 redirect($this->config->item('home'));
             }else{
                 //$this->session->set_flashdata('alerta', 'error_login_incorreto');
-                $this->index();
+                $this->index('error_login_incorreto');
             }
         }
     }

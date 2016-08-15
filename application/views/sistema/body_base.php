@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="dropdown-pane bottom" id="dm-usuario-menu" data-dropdown data-auto-focus="true" data-close-on-click="true">
                         <ul class="menu">
-                            <li><a href="#">Sair</a></li>
+                            <li><a href="<?php echo base_url($_pai . '/autenticacao/sair');?>">Sair</a></li>
                         </ul>
                     </div>
                 </div>
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="barra-ferramentas-interna-conteudo">
                         <div class="barra-ferramentas-esquerda">
                             <ul class="menu ">
-                                <li class="menu-text"><?php echo $titulo;?></li>
+                                <li class="menu-text"><?php echo $_titulo;?></li>
                             </ul>
                         </div>
                         <div class="barra-ferramentas-fixa">
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <div id="dmoura-conteudo" class="off-canvas-content" data-off-canvas-content>
                         <div  class="row expanded">
-                            <?php echo $imprimir_body;?>
+                            <?php echo $_imprimir_body;?>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ h1, h2, h3{
     padding: .6rem;
 }
 div.login {
-    height: 17.625rem;
+    *height: 17.625rem;
 }
 .button:hover{
     background-color: #C6E4FF;
@@ -20,4 +20,10 @@ div.login {
 .button{
     background-color: #DFF0FF;
     color: black;
+}
+.alertas{
+    *position: absolute;
+    *left: 1rem;
+    *right: 1rem;
+    *top: 20%;
 }

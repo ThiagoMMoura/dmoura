@@ -10,6 +10,10 @@ class Fisica extends MY_Controller{
         parent::__construct('sistema/pessoa/fisica',TRUE);
     }
     
+    public function index(){
+        $this->cadastro();
+    }
+    
     public function cadastro(){
         $this->_view("Cadastro Pessoa Física",'cadastro',parent::RELATIVO_CONTROLE);
     }

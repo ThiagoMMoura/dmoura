@@ -137,3 +137,26 @@ function imprimir_atributos($atributo,$valor = ''){
     }
     return $imprime;
 }
+
+function alertas($titulo = '',$mensagem = '',$tipo = ALERTA_INFO,$fechavel = TRUE){
+    $CI =& get_instance();
+    $cf = $CI->config->item('alerta');
+    $alert = '<div class="';
+    $alert .= $cf['classes'];
+    $alert .= ' ' . $cf['tipo'][$tipo] . '"';
+    if($fechavel){
+        $alert .= ' ' . $cf['fechavel']['atributo'];
+    }
+    $alert .= '>';
+    if($titulo!=NULL){
+        $alert .= $cf['titulo']['abre'] . $titulo . $cf['titulo']['fecha'];
+    }
+    if($mensagem!=NULL){
+        $alert .= $cf['mensagem']['abre'] . $mensagem . $cf['mensagem']['fecha'];
+    }
+    if($fechavel){
+        $alert .= $cf['fechavel']['botao'];
+    }
+    $alert .= '</div>';
+    return $alert;
+}

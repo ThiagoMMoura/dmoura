@@ -60,3 +60,22 @@ $config['estilos_submenu'] = array(
     'padrao' => array(),
     'drilldown' => array('ul-class'=>'vertical menu')
 );
+$config['alerta'] = array(
+    'classes' => 'callout',
+    'tipo' => array(
+        ALERTA_SECUNDARIO => 'secondary',
+        ALERTA_INFO => 'primary',
+        ALERTA_SUCESSO => 'success',
+        ALERTA_RISCO => 'warning',
+        ALERTA_ERRO => 'alert',
+        ALERTA_SISTEMA => 'primary'
+    ),
+    'fechavel' => array(
+        'atributo' => 'data-closable',
+        'botao' => '<button class="close-button" aria-label="Fechar alerta" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>'
+    ),
+    'titulo' => array('abre'=>'<h5>','fecha'=>'</h5>'),
+    'mensagem' => array('abre'=>'<p>','fecha'=>'</p>')
+);

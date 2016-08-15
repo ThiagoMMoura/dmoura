@@ -16,6 +16,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
         <div class="row">  
           <div class="small-12 medium-centered medium-6 columns login">
+            <?php if(isset($alerta)){?>
+                <div class="alertas">
+                    <?php echo alertas($alerta['titulo'], $alerta['mensagem'], $alerta['tipo'],$alerta['fechavel']);?>
+                </div>
+            <?php } ?>
                 <?php echo validation_errors(); ?>
             <?php echo form_open('sistema/login/entrar');?>
             <div class="row">

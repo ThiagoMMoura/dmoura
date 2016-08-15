@@ -41,7 +41,7 @@ class MY_Controller extends CI_Controller{
         $atributos['area_restrita'] = $area_restrita;
         $this->load->library('controle_acesso',$atributos);
         if(!$this->controle_acesso->pai()){
-            redirect($this->_pai . '/login');
+            redirect($this->_pai . '/autenticacao/login/error_permissao/' . ALERTA_ERRO);
         }
         if(!$this->controle_acesso->controle() || !$this->controle_acesso->metodo()){
             $this->area_restrita();
@@ -60,9 +60,10 @@ class MY_Controller extends CI_Controller{
         if($titulo!=NULL){
             add_head_title($titulo);
         }
-        $this->_add_data('titulo',$titulo);
+        $this->_add_data('_titulo',$titulo);
+        $this->_add_data('_pai',$this->_pai);
         $this->_add_body($body,$relativo);
-        $this->_add_data('imprimir_body',$this->_body);
+        $this->_add_data('_imprimir_body',$this->_body);
         $this->load->view($this->config->item('template-html'),$this->_data_view); //Carrega o template base do web app
     }
     
@@ -134,6 +135,5 @@ class MY_Controller extends CI_Controller{
         }else{
             return '';
         }
-
     }
 }

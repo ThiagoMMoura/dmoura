@@ -45,6 +45,14 @@ class MY_Model extends CI_Model{
         }
     }
     
+    public function obter_nome_colunas(){
+        return $this->nome_colunas_tabela;
+    }
+    
+    public function obter_nome_tabela(){
+        return $this->nome_tabela;
+    }
+    
     /**
      * 
      * @return CI_DB_result

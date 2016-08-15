@@ -5,7 +5,7 @@ if (!defined('BASEPATH')) {
 /**
  * Description of permissao
  *
- * - Colunas: id, nome, descricao, pai
+ * - Colunas: id, nome, descricao, fixo
  * @author Thiago Moura
  */
 class Grupo_permissoes_model extends MY_Model{

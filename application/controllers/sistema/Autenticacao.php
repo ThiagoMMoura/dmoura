@@ -10,9 +10,6 @@ class Autenticacao extends CI_Controller{
     public function __construct() {
         parent::__construct();
         $this->config->load('sistema');
-        if($this->_logado()){
-            redirect($this->config->item('home'));
-        }
         $this->load->library('form_validation');
     }
     
@@ -30,6 +27,12 @@ class Autenticacao extends CI_Controller{
     }
     
     public function login($alerta = '',$tipo = ALERTA_INFO){
+        if($alerta == 'error_permissao'){
+            $this->_logoff();
+        }
+        if($this->_logado()){
+            redirect($this->config->item('home'));
+        }
         $data = array();
         if($alerta != NULL){
             $data['alerta']['tipo'] = $tipo;
@@ -70,12 +73,19 @@ class Autenticacao extends CI_Controller{
     }
     
     public function sair(){
-        $userdata = $this->pessoa_model->obter_nome_colunas();
-        
-        $this->session->set_userdata('logado', FALSE);
-        $this->session->unset_userdata('logado');
-        
-        $this->session->unset_userdata($userdata);
-        redirect('autenticacao/login');
+        $this->_logoff();
+        redirect('sistema/autenticacao/login');
+    }
+    
+    private function _logoff(){
+        if($this->_logado()){
+            $this->load->model('pessoa_model');
+            $userdata = $this->pessoa_model->obter_nome_colunas();
+
+            $this->session->set_userdata('logado', FALSE);
+            $this->session->unset_userdata('logado');
+
+            $this->session->unset_userdata($userdata);
+        }
     }
 }

@@ -62,6 +62,11 @@ class MY_Controller extends CI_Controller{
         }
         $this->_add_data('_titulo',$titulo);
         $this->_add_data('_pai',$this->_pai);
+        if($this->controle_acesso->logado()){
+            $usuario['nome'] = $this->session->nome;
+            $usuario['cargo'] = '';
+            $this->_add_data('_usuario',$usuario);
+        }
         $this->_add_body($body,$relativo);
         $this->_add_data('_imprimir_body',$this->_body);
         $this->load->view($this->config->item('template-html'),$this->_data_view); //Carrega o template base do web app

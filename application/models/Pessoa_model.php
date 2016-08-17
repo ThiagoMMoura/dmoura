@@ -23,6 +23,7 @@ class Pessoa_model extends MY_Model{
             $select['where']['email'] = $dados['email'];
         }
         $select['where']['senha'] = $dados['senha'];
+        $select['where']['ativo'] = TRUE;
         $this->selecionar($select);
         
         return $this->num_registros()==1;

@@ -8,11 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Teste extends MY_Controller{
     
     public function __construct() {
-        parent::__construct('sistema/teste',FALSE);
+        parent::__construct('sistema/teste',TRUE);
     }
     
     public function index(){
-        $this->_add_data('nome','Thiago');
+        $this->_add_data('nome',$this->controle_acesso->controle('sistema'));
         $this->_view("Teste index",'teste',parent::RELATIVO_CONTROLE);
     }
     

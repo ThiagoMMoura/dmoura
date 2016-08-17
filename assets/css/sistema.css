@@ -254,6 +254,9 @@ i{
     overflow: auto;
     padding-top: 1.7em;
 }
+#dmoura-conteudo form{
+    max-width: 64em; /* 1024px */
+}
 .dm-logotipo{
     padding: 1em;
 }

@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php echo img('assets/imagens/DMOURA.png');?>
                     </div>
                 </div>
+                <?php if(isset($_usuario)){?>
                 <div class="small-5 medium-8 column">
                     <div class="dm-usuario float-right" data-toggle="dm-usuario-menu">
                         <div class="dm-usuario-foto">
@@ -17,10 +18,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="dm-usuario-descricao hide-for-small-only">
                             <div class="dm-usuario-nome">
-                                Marlene Mariano de Moura
+                                <?php echo $_usuario['nome'];?>
                             </div>
                             <div class="dm-usuario-cargo fonte-cinza-claro">
-                                <small>Gerente Administrativo</small>
+                                <small><?php echo $_usuario['cargo'];?></small>
                             </div>
                         </div>
                     </div>
@@ -30,6 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                     </div>
                 </div>
+                <?php } ?>
             </div>
             <div class="barra-ferramentas">
                 <div class="busca-menu">

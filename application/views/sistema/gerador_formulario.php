@@ -66,31 +66,36 @@ echo form_open($action,$form_atributos,$hidden);
                 echo '</div>';
             }
             echo '<div class="' . $class_linha . '">';
-        } ?>
-            <div class="<?php echo $class_coluna; ?>">
-                <?php
-                switch($campo['tag']){
-                    case 'select':{
-                        $campo['tag'] = 'dropdown';
-                    }
-                    case 'input':case 'textarea':case 'dropdown':case 'multiselect':case 'button':{
-                        $data = array($campo['tag']=>$campo['atributos']);
-                        $data['label'] = array_key_exists('label', $campo)?$campo['label']:'';
-                        $data['extra'] = array_key_exists('extra', $campo)?$campo['extra']:'';
-                        $data['datalist'] = array_key_exists('datalist', $campo)?$campo['datalist']:'';
-                        $data['options'] = array_key_exists('options', $campo)?$campo['options']:'';
-                        $data['selected'] = array_key_exists('selected', $campo)?$campo['selected']:'';
-                        echo campo_formulario_sistema($data);
-                    }
-                }
-                if(array_key_exists('botao', $campo)){
-                    switch($campo['botao']['tag']){
-                        
-                    }
-                }
-                ?>
-            </div>
-    <?php } 
+        }
+        $fecha = 'div';
+        switch($campo['tag']){
+            case 'select':{
+                $campo['tag'] = 'dropdown';
+            }
+            case 'input':case 'textarea':case 'dropdown':case 'multiselect':case 'button':{
+                $data = array($campo['tag']=>$campo['atributos']);
+                $data['label'] = array_key_exists('label', $campo)?$campo['label']:'';
+                $data['extra'] = array_key_exists('extra', $campo)?$campo['extra']:'';
+                $data['datalist'] = array_key_exists('datalist', $campo)?$campo['datalist']:'';
+                $data['options'] = array_key_exists('options', $campo)?$campo['options']:'';
+                $data['selected'] = array_key_exists('selected', $campo)?$campo['selected']:'';
+                echo '<div class="' . $class_coluna . '">';
+                echo campo_formulario_sistema($data);
+                break;
+            }
+            case 'fieldset':{
+                echo '<fieldset class="' . $class_coluna . '">';
+                $fecha = 'fieldset';
+                echo $this->load->view('sistema/gerador_formulario',$campo['campo']);
+            }
+        }
+        if(array_key_exists('botao', $campo)){
+            switch($campo['botao']['tag']){
+
+            }
+        }
+        echo "</{$fecha}>";
+    } 
     if($lin_atual>0){
         echo '</div>';
     }

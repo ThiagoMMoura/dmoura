@@ -18,10 +18,11 @@ $config['nivel-max']['url'] = array(
     'metodo' => 999
 );
 $config['areas_acesso']['url'] = array(
-    1000000=>array('descricao'=>'Sistema','nivel'=>'pai','url'=>'sistema'),
-    1001000=>array('descricao'=>'Pessoa Fisica','nivel'=>'controle','url'=>'sistema/pessoa/fisica'),
-    1999000=>array('descricao'=>'Teste','nivel'=>'controle','url'=>'sistema/teste'),
-    1999001=>array('descricao'=>'Index','nivel'=>'metodo','url'=>'sistema/teste/index'),
+    //1000000=>array('descricao'=>'Sistema','nivel'=>'pai','url'=>'sistema'),
+    //1001000=>array('descricao'=>'Pessoa Fisica','nivel'=>'controle','url'=>'sistema/pessoa/fisica'),
+    //1001001=>array('descricao'=>'Cadastro Pessoa Fisica','nivel'=>'metodo','url'=>'sistema/pessoa/fisica/cadastro'),
+    //1999000=>array('descricao'=>'Teste','nivel'=>'controle','url'=>'sistema/teste'),
+    //1999001=>array('descricao'=>'Index','nivel'=>'metodo','url'=>'sistema/teste/index'),
     1999002=>array('descricao'=>'Formulário','nivel'=>'metodo','url'=>'sistema/teste/formulario'),
     1999003=>array('descricao'=>'Excluir','nivel'=>'metodo','url'=>'sistema/teste/excluir'),
     1999004=>array('descricao'=>'Salvar','nivel'=>'metodo','url'=>'sistema/teste/salvar'),

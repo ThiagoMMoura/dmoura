@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             <?php } ?>
                 <?php echo validation_errors(); ?>
-            <?php echo form_open('sistema/login/entrar');?>
+            <?php echo form_open('sistema/autenticacao/entrar');?>
             <div class="row">
               <div class="large-12 columns text-center">
                 <?php echo heading("D'Moura",2);?>

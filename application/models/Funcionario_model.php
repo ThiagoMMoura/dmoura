@@ -8,7 +8,7 @@ if (!defined('BASEPATH')) {
  * - Colunas: id, rg, cargo, salario, pessoa_fisica, ferias
  * @author Thiago Moura
  */
-class Funcionario extends MY_Model{
+class Funcionario_model extends MY_Model{
     public function __construct(){
         parent::__construct('funcionario',array('id','rg','cargo','salario','pessoa_fisica','ferias'));
     }

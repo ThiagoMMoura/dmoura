@@ -29,7 +29,7 @@ $config['menu-principal'] = array(
         'url' => '#pessoa',
         'submenu' => array(
             'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
-            'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'pessoa/fisica/cadastro'),
+            'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro'),
             'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),

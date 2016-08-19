@@ -7,14 +7,14 @@ if (!defined('BASEPATH')) {
  *
  * @author Thiago Moura
  */
-class Cidade_model extends MY_Model{
+class Municipio_model extends MY_Model{
     public function __construct(){
-        parent::__construct('cidade',array('id','estado','nome'));
+        parent::__construct('municio',array('id','uf','nome'));
     }
     
-    public function cidades_do_estado($id){
+    public function municio_da_uf($uf){
         $select['select'] = 'id, nome';
-        $select['where']['estado'] = $id;
+        $select['where']['uf'] = $uf;
         $select['order_by'] = 'nome';
         $this->selecionar($select);
         $lista = array();

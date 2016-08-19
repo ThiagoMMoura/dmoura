@@ -104,7 +104,7 @@ function imprimir_menu($lista_menu,$estilo = 'padrao',$submenu = FALSE){
                 $titulo = '<i class="' . $v['icone'] . '"></i> <span>' . $titulo . '</span>';
             }
             if(isset($v['url'])){
-                $menu .= '<a href="' . $v['url'] . '">' . $titulo . '</a>';
+                $menu .= '<a href="' . base_url($v['url']) . '">' . $titulo . '</a>';
             }else{
                 $menu .= $titulo;
             }

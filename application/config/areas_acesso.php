@@ -23,7 +23,7 @@ $config['areas_acesso']['url'] = array(
     //1001001=>array('descricao'=>'Cadastro Pessoa Fisica','nivel'=>'metodo','url'=>'sistema/pessoa/fisica/cadastro'),
     //1999000=>array('descricao'=>'Teste','nivel'=>'controle','url'=>'sistema/teste'),
     //1999001=>array('descricao'=>'Index','nivel'=>'metodo','url'=>'sistema/teste/index'),
-    1999002=>array('descricao'=>'Formulário','nivel'=>'metodo','url'=>'sistema/teste/formulario'),
+    //1999002=>array('descricao'=>'Formulário','nivel'=>'metodo','url'=>'sistema/teste/formulario'),
     1999003=>array('descricao'=>'Excluir','nivel'=>'metodo','url'=>'sistema/teste/excluir'),
     1999004=>array('descricao'=>'Salvar','nivel'=>'metodo','url'=>'sistema/teste/salvar'),
     2000000=>array('descricao'=>'Site','nivel'=>'pai','url'=>'site')

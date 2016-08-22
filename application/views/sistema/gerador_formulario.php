@@ -26,20 +26,32 @@ if(!isset($hidden)){
 //        )
 //    )
 //);
-echo form_open($action,$form_atributos . ' data-abide',$hidden);
+echo '<div class="row"><div class="column small-12">';
+
+echo '</div></div>';
+echo form_open($action,$form_atributos . ' data-abide novalidate',$hidden);
     ?>
     <div class="row">
-        <div data-abide-error class="alert callout" style="display: none;">
-            <p><i class="fi-alert"></i> Existem alguns erros no seu formulário.</p>
+        <div class="small-12 column">
+            <?php echo validation_errors('<div class="alert callout">','</div>');?>
+            <div data-abide-error class="alert callout" style="display: none;">
+                <p><i class="fi-alert"></i> Existem alguns erros no seu formulário.</p>
+            </div>
         </div>
     </div>
     <?php
+    gerar_campo($campos);
+echo form_close();
+
+function gerar_campo($campos,$c_linha=TRUE,$c_coluna=TRUE){
     $lin_anterior = 0;
     $lin_atual = 0;
     foreach($campos as $campo){
-        $class_linha = 'row';
-        $lin_anterior = $lin_atual;
-        if(array_key_exists('linha', $campo)){
+        
+        if($c_linha && array_key_exists('linha', $campo)){
+            $class_linha = 'row';
+            $lin_anterior = $lin_atual;
+
             if($campo['linha']['class']!=NULL){
                 $class_linha .= ' ' . $campo['linha']['class'];
             }
@@ -48,11 +60,17 @@ echo form_open($action,$form_atributos . ' data-abide',$hidden);
             }else{
                 $lin_atual++;
             }
+            if($lin_anterior!=$lin_atual){
+                if($lin_anterior>0){
+                    echo '</div>';
+                }
+                echo '<div class="' . $class_linha . '">';
+            }
         }else{
-            $lin_atual++;
+            $c_linha = FALSE;
         }
-        $class_coluna = 'column';
-        if(array_key_exists('colunas', $campo)){
+        if($c_coluna && array_key_exists('colunas', $campo)){
+            $class_coluna = 'column';
             if(array_key_exists('tamanho-s', $campo['colunas']) && $campo['colunas']['tamanho-s']!=NULL){
                 $class_coluna .= ' small-' . $campo['colunas']['tamanho-s'];
             }else{
@@ -67,14 +85,10 @@ echo form_open($action,$form_atributos . ' data-abide',$hidden);
             if(array_key_exists('class', $campo['colunas']) && $campo['colunas']['class']!=NULL){
                 $class_coluna .= ' ' . $campo['colunas']['class'];
             }
+            echo '<div class="' . $class_coluna . '">';
+        }else{
+            $c_coluna = FALSE;
         }
-        if($lin_anterior!=$lin_atual){
-            if($lin_anterior>0){
-                echo '</div>';
-            }
-            echo '<div class="' . $class_linha . '">';
-        }
-        $fecha = 'div';
         switch($campo['tag']){
             case 'select':{
                 $campo['tag'] = 'dropdown';
@@ -87,14 +101,25 @@ echo form_open($action,$form_atributos . ' data-abide',$hidden);
                 $data['options'] = array_key_exists('options', $campo)?$campo['options']:'';
                 $data['selected'] = array_key_exists('selected', $campo)?$campo['selected']:'';
                 $data['erro'] = array_key_exists('erro', $campo)?$campo['erro']:'';
-                echo '<div class="' . $class_coluna . '">';
+                
                 echo campo_formulario_sistema($data);
                 break;
             }
             case 'fieldset':{
-                echo '<fieldset class="' . $class_coluna . '">';
-                $fecha = 'fieldset';
-                echo $this->load->view('sistema/gerador_formulario',$campo['campo']);
+                $atributos = '';
+                if(array_key_exists('atributos', $campo)){
+                    if(is_array($campo['atributos'])){
+                        foreach($campo['atributos'] as $attr => $val){
+                            $atributos .= ' ' . $attr . '="' . $val . '"';
+                        }
+                    }
+                }
+                echo "<fieldset{$atributos}>";
+                if(array_key_exists('legend', $campo)){
+                    echo "<legend>{$campo['legend']}</legend>";
+                }
+                echo gerar_campo($campo['campos']);
+                echo '</fieldset>';
             }
         }
         if(array_key_exists('botao', $campo)){
@@ -102,9 +127,11 @@ echo form_open($action,$form_atributos . ' data-abide',$hidden);
 
             }
         }
-        echo "</{$fecha}>";
+        if($c_coluna){
+            echo "</div>";
+        }
     } 
-    if($lin_atual>0){
+    if($c_linha && $lin_atual>0){
         echo '</div>';
     }
-echo form_close();
+}

@@ -22,11 +22,18 @@ class Fisica extends MY_Controller{
     
     public function salvar(){
         $this->load->library('form_validation');
+        $this->load->model('pessoa_fisica_model');
         
-        $this->form_validation->set_rules('cpf', 'CPF', 'trim|required|exact_length[11]|numeric');
+        $this->form_validation->set_rules('cpf', 'CPF',array(
+                'trim','required','numeric','exact_length[11]','is_unique[pessoa_fisica.cpf]',
+                array($this->pessoa_fisica_model,'cpf_valido')
+            ),
+            array('cpf_valido' => 'Esté não é um CPF válido.')
+        );
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|alpha|min_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('sexo', 'Sexo', 'required|in_list[Masculino,Feminino]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
+        $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[Masculino,Feminino]');
+        $this->form_validation->set_rules('cep', 'CEP', 'trim|required|in_list[Masculino,Feminino]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->cadastro();

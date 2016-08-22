@@ -5,92 +5,116 @@ $this->load->helper('form');
 $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'number','placeholder' => '000.000.000-00','maxlength'=>'11'),
-        'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
-        'linha'=>array('class'=>'','numero'=>1),
-        'erro'=>form_error('cpf'),
-        'label'=>'CPF'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('nome'),'name'=>'nome','placeholder' => 'Nome completo'),
-        'colunas'=>array('tamanho-m'=>8,'tamanho-l'=>8,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>1),
-        'erro'=>form_error('nome'),
-        'label'=>'Nome'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'email@provedor.com','type'=>'email'),
-        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>3),
-        'erro'=>form_error('email'),
-        'label'=>'Email'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino'),
-        'colunas'=>array('tamanho-s'=>6,'tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>4),
-        'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino'),
-        'colunas'=>array('tamanho-s'=>6,'tamanho-m'=>6,'tamanho-l'=>3,'class'=>'end'),
-        'linha'=>array('class'=>'','numero'=>4),
-        'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => '00000-000','type' => 'number','maxlength'=>'8','value'=>set_value('cep')),
-        'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>''),
+        'tag'=>'fieldset',
+        'atributos'=>array('class' => 'fieldset'),
+        'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
         'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'CEP'
+        'campos'=>array(
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'number','placeholder' => '000.000.000-00','maxlength'=>'11','required'=>''),
+                'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>1),
+                'erro'=>'O CPF é obrigatório e deve conter somente números.',
+                'label'=>'CPF'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('nome'),'name'=>'nome','placeholder' => 'Nome completo','pattern'=>'alpha'),
+                'colunas'=>array('tamanho-m'=>8,'tamanho-l'=>8,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>1),
+                'erro'=>'O Nome Completo é obrigatório e deve conter somente letras.',
+                'label'=>'Nome'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'email@provedor.com','type'=>'email'),
+                'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>3),
+                'erro'=>'Digite um email válido.',
+                'label'=>'Email'
+            ),
+            array(
+                'tag'=>'fieldset',
+                'atributos'=>array('class' => ''),
+                'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>6,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>4),
+                'campos'=>array(
+                    array(
+                        'tag'=>'input',
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino'),
+                        'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
+                    ),
+                    array(
+                        'tag'=>'input',
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino'),
+                        'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
+                    )
+                ),
+                'legend' => 'Sexo'
+            )
+        ),
+        'legend' => 'Dados Pessoais'
     ),
     array(
-        'tag'=>'dropdown',
-        'atributos'=>array('name' => 'estado','id'=>'uf', 'placeholder' => 'Selecione uma opção...','value'=>set_value('uf')),
-        'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>4,'class'=>'end'),
+        'tag'=>'fieldset',
+        'atributos'=>array('class' => 'fieldset'),
+        'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
         'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'Estado',
-        'options' => array_merge(array(0=>''),$estados)
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('cidade'),'id'=>'cidade','name'=>'cidade','placeholder' => 'Cidade'),
-        'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>5,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'Cidade'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('bairro'),'id'=>'bairro','name'=>'bairro','placeholder' => 'Bairro'),
-        'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'Bairro'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>set_value('logradouro'),'id'=>'rua','name'=>'logradouro','placeholder' => 'Rua/Av'),
-        'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>9,'class'=>'end'),
-        'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'Logradouro'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('name' => 'numero', 'placeholder' => '000','type' => 'number','maxlength'=>'5','value'=>set_value('numero')),
-        'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>'end'),
-        'linha'=>array('class'=>'','numero'=>5),
-        'label'=>'Número'
-    ),
-    array(
-        'tag'=>'input',
-        'atributos'=>array('value'=>'','name'=>'complemento','placeholder' => 'Complemento','value'=>set_value('complemento')),
-        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>6),
-        'label'=>'Complemento'
+        'campos'=>array(
+            array(
+                'tag'=>'input',
+                'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => '00000-000','type' => 'text','maxlength'=>'8','value'=>set_value('cep'),'pattern'=>'number'),
+                'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>5),
+                'erro'=>'O CEP deve ser válido e conter somente números.',
+                'label'=>'CEP'
+            ),
+            array(
+                'tag'=>'dropdown',
+                'atributos'=>array('name' => 'estado','id'=>'uf', 'placeholder' => 'Selecione uma opção...','value'=>set_value('uf')),
+                'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>4,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>5),
+                'label'=>'Estado',
+                'options' => array_merge(array(0=>''),$estados)
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('cidade'),'id'=>'cidade','name'=>'cidade','placeholder' => 'Cidade'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>5,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>5),
+                'label'=>'Cidade'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('bairro'),'id'=>'bairro','name'=>'bairro','placeholder' => 'Bairro'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>12,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>5),
+                'label'=>'Bairro'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('logradouro'),'id'=>'rua','name'=>'logradouro','placeholder' => 'Rua/Av'),
+                'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>9,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>5),
+                'label'=>'Logradouro'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('name' => 'numero', 'placeholder' => '000','type' => 'text','pattern'=>'number','maxlength'=>'5','value'=>set_value('numero')),
+                'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>5),
+                'label'=>'Número'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>'','name'=>'complemento','placeholder' => 'Complemento','value'=>set_value('complemento')),
+                'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>6),
+                'label'=>'Complemento'
+            )
+        ),
+        'legend' => 'Endereço'
     ),
     /*array(
         'tag'=>'dropdown',

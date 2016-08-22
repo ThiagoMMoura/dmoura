@@ -6,9 +6,10 @@ $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
         'tag'=>'input',
-        'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'number','placeholder' => '000.000.000-00','maxlength'=>'11'),
+        'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'number','placeholder' => '000.000.000-00','maxlength'=>'11'),
         'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
         'linha'=>array('class'=>'','numero'=>1),
+        'erro'=>form_error('cpf'),
         'label'=>'CPF'
     ),
     array(
@@ -16,6 +17,7 @@ $data['campos'] = array(
         'atributos'=>array('value'=>set_value('nome'),'name'=>'nome','placeholder' => 'Nome completo'),
         'colunas'=>array('tamanho-m'=>8,'tamanho-l'=>8,'class'=>''),
         'linha'=>array('class'=>'','numero'=>1),
+        'erro'=>form_error('nome'),
         'label'=>'Nome'
     ),
     array(
@@ -23,6 +25,7 @@ $data['campos'] = array(
         'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'email@provedor.com','type'=>'email'),
         'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
         'linha'=>array('class'=>'','numero'=>3),
+        'erro'=>form_error('email'),
         'label'=>'Email'
     ),
     array(

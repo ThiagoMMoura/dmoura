@@ -26,7 +26,14 @@ if(!isset($hidden)){
 //        )
 //    )
 //);
-echo form_open($action,$form_atributos,$hidden);
+echo form_open($action,$form_atributos . ' data-abide',$hidden);
+    ?>
+    <div class="row">
+        <div data-abide-error class="alert callout" style="display: none;">
+            <p><i class="fi-alert"></i> Existem alguns erros no seu formulário.</p>
+        </div>
+    </div>
+    <?php
     $lin_anterior = 0;
     $lin_atual = 0;
     foreach($campos as $campo){
@@ -79,6 +86,7 @@ echo form_open($action,$form_atributos,$hidden);
                 $data['datalist'] = array_key_exists('datalist', $campo)?$campo['datalist']:'';
                 $data['options'] = array_key_exists('options', $campo)?$campo['options']:'';
                 $data['selected'] = array_key_exists('selected', $campo)?$campo['selected']:'';
+                $data['erro'] = array_key_exists('erro', $campo)?$campo['erro']:'';
                 echo '<div class="' . $class_coluna . '">';
                 echo campo_formulario_sistema($data);
                 break;

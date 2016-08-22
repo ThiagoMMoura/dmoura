@@ -100,9 +100,10 @@ function form_datalist($data = '', $options = array(),$selected = '',$extra = ''
  * @param mixed $datalist
  * @param mixed $options
  * @param mixed $selected
+ * @param string $erro
  * @return string
  */
-function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist = '',$options = [],$selected = ''){
+function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist = '',$options = [],$selected = '', $erro = ''){
     $field = array();
     $error = '';
     if(is_array($data)){
@@ -127,6 +128,10 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
             $selected = $data['selected'];
             unset($data['selected']);
         }
+        if(isset($data['erro'])){
+            $erro = $data['erro'];
+            unset($data['erro']);
+        }
         if(isset($data['textarea'])){
             $field = array('textarea'=>$data['textarea']);
         }elseif(isset($data['dropdown'])){
@@ -146,24 +151,26 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
     
     if(isset($field['textarea'])){
         $field['html'] = form_textarea($field['textarea'],'',$extra);
-        $error = form_error(is_array($field['textarea'])?$field['textarea']['name']:$field['textarea']);
+        //$error = form_error(is_array($field['textarea'])?$field['textarea']['name']:$field['textarea']);
     }elseif(isset($field['dropdown'])){
         $field['html'] = form_dropdown($field['dropdown'],$options,$selected,$extra);
-        $error = form_error(is_array($field['dropdown'])?$field['dropdown']['name']:$field['dropdown']);
+        //$error = form_error(is_array($field['dropdown'])?$field['dropdown']['name']:$field['dropdown']);
     }elseif(isset($field['multiselect'])){
         $field['html'] = form_multiselect($field['multiselect'],$options,$selected,$extra);
-        $error = form_error(is_array($field['multiselect'])?$field['multiselect']['name']:$field['multiselect']);
+        //$error = form_error(is_array($field['multiselect'])?$field['multiselect']['name']:$field['multiselect']);
     }elseif(isset($field['button'])){
         $field['html'] = form_button($field['button'],'',$extra);
     }else{
         $field['html'] = form_input($field['input'],'',$extra);
-        $error = form_error(is_array($field['input'])?$field['input']['name']:$field['input']);
+        //$error = form_error(is_array($field['input'])?$field['input']['name']:$field['input']);
     }
     
     if($error!=NULL){
-        $field['html'] = _add_class_to('error', $field['html']);
+        //$field['html'] = _add_class_to('error', $field['html']);
     }
-    
+    if($erro!=NULL){
+        $field['html'] .= '<span class="form-error">' . $erro . '</span>';
+    }
     if($label!=NULL){
         if(is_array($label)){
             $text = isset($label['text'])?$label['text']:'';
@@ -183,7 +190,7 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
             $field['html'] = form_label($label.$field['html']);
         }
         if($error!=NULL){
-            $field['html'] = _add_class_to('error', $field['html']);
+            //$field['html'] = _add_class_to('error', $field['html']);
         }
     }
     
@@ -191,7 +198,7 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
         $field['html'] .= form_datalist($datalist,$options,$selected,$extra);
     }
     
-    return $field['html'] . $error;
+    return $field['html'] ;//. $error;
 }
 
 function _add_class_to($class,$html){

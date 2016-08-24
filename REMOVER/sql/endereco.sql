@@ -23,21 +23,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pessoa`
+-- Estrutura para tabela `endereco`
 --
 
-DROP TABLE IF EXISTS `pessoa`;
-CREATE TABLE `pessoa` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `cep` varchar(8) DEFAULT NULL,
-  `numero` int(5) NOT NULL DEFAULT '0',
-  `complemento` varchar(100) DEFAULT NULL,
-  `senha` varchar(150) NOT NULL,
-  `grupo` int(11) NOT NULL,
-  `tipo` tinyint(4) NOT NULL DEFAULT '1',
-  `ativo` tinyint(1) NOT NULL DEFAULT '1'
+DROP TABLE IF EXISTS `endereco`;
+CREATE TABLE `endereco` (
+  `cep` int(8) NOT NULL,
+  `uf` varchar(2) NOT NULL,
+  `municipio` int(11) DEFAULT NULL,
+  `bairro` int(11) DEFAULT NULL,
+  `logradouro` int(11) DEFAULT NULL,
+  `num_ini` int(11) DEFAULT '0',
+  `num_fim` int(11) DEFAULT '0',
+  `lado` tinyint(1) DEFAULT NULL,
+  `complemento` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,21 +44,11 @@ CREATE TABLE `pessoa` (
 --
 
 --
--- Índices de tabela `pessoa`
+-- Índices de tabela `endereco`
 --
-ALTER TABLE `pessoa`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_email` (`email`);
+ALTER TABLE `endereco`
+  ADD PRIMARY KEY (`cep`);
 
---
--- AUTO_INCREMENT de tabelas apagadas
---
-
---
--- AUTO_INCREMENT de tabela `pessoa`
---
-ALTER TABLE `pessoa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

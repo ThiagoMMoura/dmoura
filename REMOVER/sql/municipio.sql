@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24/08/2016 às 20:04
+-- Tempo de geração: 24/08/2016 às 20:03
 -- Versão do servidor: 10.1.9-MariaDB
 -- Versão do PHP: 5.6.15
 
@@ -23,21 +23,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pessoa`
+-- Estrutura para tabela `municipio`
 --
 
-DROP TABLE IF EXISTS `pessoa`;
-CREATE TABLE `pessoa` (
+DROP TABLE IF EXISTS `municipio`;
+CREATE TABLE `municipio` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `cep` varchar(8) DEFAULT NULL,
-  `numero` int(5) NOT NULL DEFAULT '0',
-  `complemento` varchar(100) DEFAULT NULL,
-  `senha` varchar(150) NOT NULL,
-  `grupo` int(11) NOT NULL,
-  `tipo` tinyint(4) NOT NULL DEFAULT '1',
-  `ativo` tinyint(1) NOT NULL DEFAULT '1'
+  `uf` varchar(2) NOT NULL,
+  `nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,20 +38,19 @@ CREATE TABLE `pessoa` (
 --
 
 --
--- Índices de tabela `pessoa`
+-- Índices de tabela `municipio`
 --
-ALTER TABLE `pessoa`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_email` (`email`);
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT de tabela `pessoa`
+-- AUTO_INCREMENT de tabela `municipio`
 --
-ALTER TABLE `pessoa`
+ALTER TABLE `municipio`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

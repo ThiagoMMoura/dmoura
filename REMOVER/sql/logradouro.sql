@@ -23,21 +23,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pessoa`
+-- Estrutura para tabela `logradouro`
 --
 
-DROP TABLE IF EXISTS `pessoa`;
-CREATE TABLE `pessoa` (
+DROP TABLE IF EXISTS `logradouro`;
+CREATE TABLE `logradouro` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `cep` varchar(8) DEFAULT NULL,
-  `numero` int(5) NOT NULL DEFAULT '0',
-  `complemento` varchar(100) DEFAULT NULL,
-  `senha` varchar(150) NOT NULL,
-  `grupo` int(11) NOT NULL,
-  `tipo` tinyint(4) NOT NULL DEFAULT '1',
-  `ativo` tinyint(1) NOT NULL DEFAULT '1'
+  `uf` varchar(2) NOT NULL,
+  `municipio` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,20 +39,19 @@ CREATE TABLE `pessoa` (
 --
 
 --
--- Índices de tabela `pessoa`
+-- Índices de tabela `logradouro`
 --
-ALTER TABLE `pessoa`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_email` (`email`);
+ALTER TABLE `logradouro`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT de tabela `pessoa`
+-- AUTO_INCREMENT de tabela `logradouro`
 --
-ALTER TABLE `pessoa`
+ALTER TABLE `logradouro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

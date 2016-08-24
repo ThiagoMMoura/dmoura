@@ -2,17 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 add_body_script('assets/js/viacep.js');
 $this->load->helper('form');
+if(isset($_callout)){
+    echo '<div class="column">' . alertas($_callout['titulo'], $_callout['mensagem'], $_callout['tipo'], $_callout['fechavel']) . '</div>';
+}
 $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
         'tag'=>'fieldset',
         'atributos'=>array('class' => 'fieldset'),
         'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>5),
+        'linha'=>array('class'=>'','numero'=>1),
         'campos'=>array(
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'number','placeholder' => '000.000.000-00','maxlength'=>'11','required'=>''),
+                'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>''),
                 'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>1),
                 'erro'=>'O CPF é obrigatório e deve conter somente números.',
@@ -20,7 +23,7 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('nome'),'name'=>'nome','placeholder' => 'Nome completo','pattern'=>'alpha'),
+                'atributos'=>array('value'=>set_value('nome'),'name'=>'nome','placeholder' => 'Nome completo'),
                 'colunas'=>array('tamanho-m'=>8,'tamanho-l'=>8,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>1),
                 'erro'=>'O Nome Completo é obrigatório e deve conter somente letras.',
@@ -28,11 +31,53 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'email@provedor.com','type'=>'email'),
+                'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'Exemplo: email@provedor.com','type'=>'email'),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>3),
                 'erro'=>'Digite um email válido.',
                 'label'=>'Email'
+            )
+            
+        ),
+        'legend' => 'Identificação'
+    ),
+    array(
+        'tag'=>'fieldset',
+        'atributos'=>array('class' => 'fieldset'),
+        'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+        'linha'=>array('class'=>'','numero'=>2),
+        'campos'=>array(
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('nascimento'),'name'=>'nascimento','placeholder' => '00/00/0000','type'=>'date','pattern'=>'\d{2}/\d{2}/\d{4}'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>2),
+                'erro'=>'Digite uma data válida.',
+                'label'=>'Data Nascimento'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('nacionalidade'),'name'=>'nacionalidade','placeholder' => 'País de origem','type'=>'text'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>2),
+                'erro'=>'Somente letras.',
+                'label'=>'Nacionalidade'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('naturalidade'),'name'=>'naturalidade','placeholder' => 'Natural de...','type'=>'text'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>2),
+                'erro'=>'Somente letras.',
+                'label'=>'Naturalidade'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('value'=>set_value('estado_civil'),'name'=>'estado_civil','placeholder' => 'Solteiro, Casado...','type'=>'text'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>2),
+                'erro'=>'Somente letras.',
+                'label'=>'Estado Civil'
             ),
             array(
                 'tag'=>'fieldset',
@@ -42,12 +87,12 @@ $data['campos'] = array(
                 'campos'=>array(
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino'),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino',set_checkbox('sexo', 'Feminino')=>''),
                         'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
                     ),
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino'),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino',set_checkbox('sexo', 'Masculino')=>''),
                         'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
                     )
                 ),
@@ -60,11 +105,11 @@ $data['campos'] = array(
         'tag'=>'fieldset',
         'atributos'=>array('class' => 'fieldset'),
         'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>5),
+        'linha'=>array('class'=>'','numero'=>3),
         'campos'=>array(
             array(
                 'tag'=>'input',
-                'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => '00000-000','type' => 'text','maxlength'=>'8','value'=>set_value('cep'),'pattern'=>'number'),
+                'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => 'Somente números','type' => 'text','maxlength'=>'8','value'=>set_value('cep'),'pattern'=>'number'),
                 'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>5),
                 'erro'=>'O CEP deve ser válido e conter somente números.',
@@ -142,4 +187,5 @@ $data['campos'] = array(
         'linha'=>array('class'=>'','numero'=>10),
     )
 );
+$data['hidden'] = array('complemento2'=>set_value('complemento2'));
 $this->load->view('sistema/gerador_formulario',$data);

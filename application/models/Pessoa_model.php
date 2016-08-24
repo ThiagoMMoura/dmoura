@@ -11,6 +11,13 @@ if (!defined('BASEPATH')) {
  */
 class Pessoa_model extends MY_Model{
     
+    const WEBMASTER = 0;
+    const ADMINISTRADOR = 1;
+    const FUNCIONARIO = 2;
+    const FORNECEDOR = 3;
+    const CLIENTE = 4;
+    const CLIENTE_JURIDICO= 5;
+    
     public function __construct(){
         parent::__construct('pessoa',array('id','nome','email','cep','numero','complemento','senha','grupo','tipo','resenha', 'ativo'));
     }

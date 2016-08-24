@@ -9,7 +9,7 @@ if (!defined('BASEPATH')) {
  */
 class Municipio_model extends MY_Model{
     public function __construct(){
-        parent::__construct('municio',array('id','uf','nome'));
+        parent::__construct('municipio',array('id','uf','nome'));
     }
     
     public function municio_da_uf($uf){

@@ -2,9 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 add_body_script('assets/js/viacep.js');
 $this->load->helper('form');
-if(isset($_callout)){
-    echo '<div class="column">' . alertas($_callout['titulo'], $_callout['mensagem'], $_callout['tipo'], $_callout['fechavel']) . '</div>';
-}
+
 $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
@@ -48,17 +46,54 @@ $data['campos'] = array(
         'linha'=>array('class'=>'','numero'=>2),
         'campos'=>array(
             array(
-                'tag'=>'input',
-                'atributos'=>array('value'=>set_value('nascimento'),'name'=>'nascimento','placeholder' => '00/00/0000','type'=>'date','pattern'=>'\d{2}/\d{2}/\d{4}'),
-                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'tag'=>'fieldset',
+                'atributos'=>array('class' => 'form-data'),
+                'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>6,'tamanho-l'=>4,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>2),
-                'erro'=>'Digite uma data válida.',
-                'label'=>'Data Nascimento'
+                'campos'=>array(
+                    array(
+                        'tag'=>'dropdown',
+                        'atributos'=>array('name'=>'nascimento[dia]','placeholder' => '00','class'=>'dia'),
+                        //'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>''),
+                        //'linha'=>array('class'=>'','numero'=>1),
+                        //'erro'=>'Digite uma data válida.',
+                        'label'=>array('text' => '/','for'=>'dia','posicao'=>'depois','attributes'=>array('class'=>'text-center middle')),
+                        'options' => array('01'=>'01','02'=>'02','03'=>'03','04'=>'04','05'=>'05','06'=>'06','07'=>'07','08'=>'08','09'=>'09','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20','21'=>'21','22'=>'22','23'=>'23','24'=>'24','25'=>'25','26'=>'26','27'=>'27','28'=>'28','29'=>'29','30'=>'30','31'=>'31'),
+                        'selected' => set_value('nascimento[dia]')
+                    ),
+                    array(
+                        'tag'=>'dropdown',
+                        'atributos'=>array('name'=>'nascimento[mes]','placeholder' => '00','class'=>'mes'),
+                        //'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>''),
+                        //'linha'=>array('class'=>'','numero'=>1),
+                        //'erro'=>'Digite uma data válida.',
+                        'label'=>array('text' => '/','for'=>'mes','posicao'=>'depois','attributes'=>array('class'=>'text-center middle')),
+                        'options' => array('01'=>'01','02'=>'02','03'=>'03','04'=>'04','05'=>'05','06'=>'06','07'=>'07','08'=>'08','09'=>'09','10'=>'10','11'=>'11','12'=>'12'),
+                        'selected' => set_value('nascimento[mes]')
+                    ),
+                    array(
+                        'tag'=>'input',
+                        'atributos'=>array('value'=>set_value('nascimento[ano]',(date('Y')-18)),'name'=>'nascimento[ano]','type'=>'number','class'=>'ano','min'=>'1900','max'=>(date('Y')-14)),
+                        //'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>''),
+                        //'linha'=>array('class'=>'','numero'=>1),
+                        //'erro'=>'Digite uma data válida.',
+                        //'label'=>'Data Nascimento'
+                    )
+                ),
+                'legend' => 'Data Nascimento'
             ),
+//            array(
+//                'tag'=>'input',
+//                'atributos'=>array('value'=>set_value('nascimento'),'name'=>'nascimento','placeholder' => '00/00/0000','type'=>'date','pattern'=>'\d{2}/\d{2}/\d{4}'),
+//                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+//                'linha'=>array('class'=>'','numero'=>2),
+//                'erro'=>'Digite uma data válida.',
+//                'label'=>'Data Nascimento'
+//            ),
             array(
                 'tag'=>'input',
                 'atributos'=>array('value'=>set_value('nacionalidade'),'name'=>'nacionalidade','placeholder' => 'País de origem','type'=>'text'),
-                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>4,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>2),
                 'erro'=>'Somente letras.',
                 'label'=>'Nacionalidade'
@@ -66,7 +101,7 @@ $data['campos'] = array(
             array(
                 'tag'=>'input',
                 'atributos'=>array('value'=>set_value('naturalidade'),'name'=>'naturalidade','placeholder' => 'Natural de...','type'=>'text'),
-                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>''),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>4,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>2),
                 'erro'=>'Somente letras.',
                 'label'=>'Naturalidade'
@@ -74,7 +109,7 @@ $data['campos'] = array(
             array(
                 'tag'=>'input',
                 'atributos'=>array('value'=>set_value('estado_civil'),'name'=>'estado_civil','placeholder' => 'Solteiro, Casado...','type'=>'text'),
-                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>3,'class'=>'end'),
+                'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>4,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>2),
                 'erro'=>'Somente letras.',
                 'label'=>'Estado Civil'
@@ -82,17 +117,17 @@ $data['campos'] = array(
             array(
                 'tag'=>'fieldset',
                 'atributos'=>array('class' => ''),
-                'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>6,'class'=>''),
-                'linha'=>array('class'=>'','numero'=>4),
+                'colunas'=>array('tamanho-s'=>12,'tamanho-m'=>12,'tamanho-l'=>6,'class'=>'end'),
+                'linha'=>array('class'=>'','numero'=>2),
                 'campos'=>array(
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino',set_checkbox('sexo', 'Feminino')=>''),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino',set_checkbox('sexo', 'Feminino')=>'','id'=>'feminino'),
                         'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
                     ),
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino',set_checkbox('sexo', 'Masculino')=>''),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino',set_checkbox('sexo', 'Masculino')=>'','id'=>'masculino'),
                         'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
                     )
                 ),
@@ -109,7 +144,7 @@ $data['campos'] = array(
         'campos'=>array(
             array(
                 'tag'=>'input',
-                'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => 'Somente números','type' => 'text','maxlength'=>'8','value'=>set_value('cep'),'pattern'=>'number'),
+                'atributos'=>array('name' => 'cep','id'=>'cep', 'placeholder' => 'Somente números','type' => 'text','maxlength'=>'8','value'=>set_value('cep'),'pattern'=>'[0-9]{8}'),
                 'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>5),
                 'erro'=>'O CEP deve ser válido e conter somente números.',
@@ -117,18 +152,19 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'dropdown',
-                'atributos'=>array('name' => 'estado','id'=>'uf', 'placeholder' => 'Selecione uma opção...','value'=>set_value('uf')),
+                'atributos'=>array('name' => 'uf','id'=>'uf', 'placeholder' => 'Selecione uma opção...'),
                 'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>4,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>5),
                 'label'=>'Estado',
-                'options' => array_merge(array(0=>''),$estados)
+                'options' => array_merge(array(0=>''),$estados),
+                'selected' => set_value('uf')
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('cidade'),'id'=>'cidade','name'=>'cidade','placeholder' => 'Cidade'),
+                'atributos'=>array('value'=>set_value('municipio'),'id'=>'cidade','name'=>'municipio','placeholder' => 'Municipio'),
                 'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>5,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>5),
-                'label'=>'Cidade'
+                'label'=>'Municipio'
             ),
             array(
                 'tag'=>'input',
@@ -146,7 +182,7 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('name' => 'numero', 'placeholder' => '000','type' => 'text','pattern'=>'number','maxlength'=>'5','value'=>set_value('numero')),
+                'atributos'=>array('name' => 'numero', 'placeholder' => '000','type' => 'text','pattern'=>'[0-9]{0,5}','maxlength'=>'5','value'=>set_value('numero')),
                 'colunas'=>array('tamanho-m'=>3,'tamanho-l'=>3,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>5),
                 'label'=>'Número'

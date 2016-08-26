@@ -13,6 +13,13 @@ if(!isset($form_atributos)){
 if(!isset($hidden)){
     $hidden = '';
 }
+
+if(is_array($form_atributos)){
+    $form_atributos['data-abide'] = '';
+    //$form_atributos['novalidate'] = '';
+}else{
+    $form_atributos .= ' data-abide';
+}
 //$campos = array(
 //    array(
 //        'tag'=>'input',
@@ -26,10 +33,13 @@ if(!isset($hidden)){
 //        )
 //    )
 //);
-echo '<div class="row"><div class="column small-12">';
+if(isset($_callout)){
+    echo '<div class="row form-page"><div class="column small-12">';
+    echo alertas($_callout['titulo'], $_callout['mensagem'], $_callout['tipo'], $_callout['fechavel']);
+    echo '</div></div>';
+}
 
-echo '</div></div>';
-echo form_open($action,$form_atributos . ' data-abide novalidate',$hidden);
+echo form_open($action,$form_atributos,$hidden);
     ?>
     <div class="row">
         <div class="small-12 column">

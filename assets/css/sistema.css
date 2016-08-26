@@ -58,6 +58,9 @@ i{
         height: 4.85rem;
         max-height: 4.85rem;
     }
+    #offCanvas{
+        height: 100%;
+    }
     #offCanvas .off-canvas-menu{
         padding-top: 1.5rem;
     }
@@ -254,8 +257,10 @@ i{
     overflow: auto;
     padding-top: 1.7em;
 }
-#dmoura-conteudo form{
+#dmoura-conteudo form, #dmoura-conteudo .form-page{
     max-width: 64em; /* 1024px */
+    margin-left: auto;
+    margin-right: auto;
 }
 .dm-logotipo{
     padding: 1em;
@@ -345,4 +350,21 @@ i{
 }
 .fundo-transparente{
     background-color:transparent;
+}
+.form-data legend{
+    font-size: .875rem;
+}
+.form-data .dia, .form-data .mes, .form-data .ano, .form-data label{
+    float: left;
+}
+.form-data label{
+    width: 5%;
+    font-size: 1rem;
+    line-height: normal;
+}
+.form-data .dia, .form-data .mes{
+    width: 25%;
+}
+.form-data .ano{
+    width: 40%;
 }

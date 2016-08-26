@@ -231,7 +231,7 @@ class MY_Model extends CI_Model{
             }
             if($this->db->insert($this->nome_tabela,$valores)){
                 $this->_id_inserida = $this->db->insert_id();
-                $this->_ultimo_sql();
+                $this->_ultimo_sql = $this->db->last_query();
                 return TRUE;
             }
             $this->_erros = $this->db->error();
@@ -265,7 +265,7 @@ class MY_Model extends CI_Model{
                 }
             }
             if($this->db->update($this->nome_tabela,$valores,$where)){
-                $this->_ultimo_sql();
+                $this->_ultimo_sql = $this->db->last_query();
                 return TRUE;
             }
             $this->_erros = $this->db->error();

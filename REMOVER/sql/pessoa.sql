@@ -37,6 +37,7 @@ CREATE TABLE `pessoa` (
   `senha` varchar(150) NOT NULL,
   `grupo` int(11) NOT NULL,
   `tipo` tinyint(4) NOT NULL DEFAULT '1',
+  `resenha` tinyint(1) NOT NULL DEFAULT '1',
   `ativo` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

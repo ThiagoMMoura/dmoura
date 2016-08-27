@@ -73,8 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $server = filter_input(INPUT_SERVER, 'SERVER_ADDR');
 if($server != NULL && $server != '127.0.0.1'){
-    $server_addr = $server;
-    log_message('info', 'Active Group: '.$server_addr.' (server).');
+    $active_group = $server;
+    log_message('info', 'Active Group: '.$active_group.' (server).');
 }
 $query_builder = TRUE;
 

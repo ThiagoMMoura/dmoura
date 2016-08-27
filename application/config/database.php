@@ -99,7 +99,7 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-$db['hostinger'] = array(
+$db['31.220.16.205'] = array(
     'dsn'	=> '',
     'hostname' => 'mysql.hostinger.com.br',
     'username' => 'u531429788_dm',

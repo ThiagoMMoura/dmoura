@@ -57,7 +57,7 @@ class Teste extends MY_Controller{
         $this->email->to('ago10_mariano@yahoo.com.br');
 
         $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.' . $senha);
+        $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>'Thiago Moura'),TRUE));
 
         $this->email->send();
         $this->_view("Teste outro",'teste',parent::RELATIVO_CONTROLE);

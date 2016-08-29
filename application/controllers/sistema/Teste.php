@@ -52,6 +52,8 @@ class Teste extends MY_Controller{
         $this->_add_data('nome',$senha);
         
         $this->load->library('email');
+        $config['mailtype'] = 'html';
+        $this->email->initialize($config);
 
         $this->email->from('dmouracontato@bol.com.br', "D'Moura");
         $this->email->to('ago10_mariano@yahoo.com.br');

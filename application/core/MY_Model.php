@@ -196,6 +196,9 @@ class MY_Model extends CI_Model{
             if(array_key_exists('having', $mixed)){
                 $this->db->having($mixed['having']);
             }
+            if(array_key_exists('join', $mixed)){
+                $this->db->join($mixed['join'][0],$mixed['join'][1],$mixed['join'][2]);
+            }
             return $this->set_query($this->db->get($this->nome_tabela));
         }else{
             return $this->set_query($this->db->query($mixed));

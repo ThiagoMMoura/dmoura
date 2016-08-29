@@ -52,6 +52,10 @@ class Teste extends MY_Controller{
         $this->_add_data('nome',$senha);
         
         $this->load->library('email');
+        $config['smtp_host'] = 'mx1.hostinger.com.br';
+        $config['smtp_user'] = 'html';
+        $config['smtp_pass'] = 'html';
+        //$config['smtp_port'] = 'html';
         $config['mailtype'] = 'html';
         $this->email->initialize($config);
 

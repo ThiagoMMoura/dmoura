@@ -214,6 +214,13 @@ $data['campos'] = array(
     ),*/
     array(
         'tag'=>'input',
+        'atributos'=>array('name' => 'enviar_email', 'type' => 'checkbox',set_checkbox('enviar_email', FALSE)=>'','id'=>'enviar_email'),
+        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+        'linha'=>array('class'=>'','numero'=>7),
+        'label'=>array('text' => 'Enviar email com senha.','for'=>'enviar_email','posicao'=>'depois')
+    ),
+    array(
+        'tag'=>'input',
         'atributos'=>array('type'=>'reset','value'=>'Limpar','name'=>'limpar','id'=>'limpar','data-icone'=>'fi-trash','class'=>'is-button-bar-menu button','data-bar-menu-hide'=>'true'),
         'linha'=>array('class'=>'','numero'=>10),
     ),

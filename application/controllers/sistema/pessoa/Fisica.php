@@ -80,7 +80,7 @@ class Fisica extends MY_Controller{
                     $json['estatus'] = 'sucesso';
                     $call['tipo'] = ALERTA_SUCESSO;
                     $call['mensagem'] = 'Cadastro efetuado com sucesso!';
-                    if($pessoa_dados['email']!=NULL){
+                    if($pessoa_dados['email']!=NULL && $this->input->post('enviar_email')){
                         $this->load->library('email');
 
                         $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
@@ -103,5 +103,16 @@ class Fisica extends MY_Controller{
                 $this->cadastro();
             }
         }
+    }
+    
+    public function busca(){
+        $this->load->model('pessoa_model');
+        $this->load->model('pessoa_fisica_model');
+        
+        $selecionar['join'] = array('pessoa p','p.id = pessoa_fisica.pessoa');
+        if($this->pessoa_fisica_model->selecionar($selecionar)){
+            $this->_add_data('lista_pessoas',$this->pessoa_fisica_model->registros());
+        }
+        $this->_view("Busca Pessoa Física",'busca',parent::RELATIVO_CONTROLE);
     }
 }

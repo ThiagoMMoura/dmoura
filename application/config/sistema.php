@@ -28,12 +28,13 @@ $config['menu-principal'] = array(
         'titulo' => 'Pessoas',
         'url' => '#pessoa',
         'submenu' => array(
-            'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
+            //'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
             'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro'),
-            'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
+            'fisica-busca' => array('titulo'=>'Busca Pessoa Fisica','url'=>'sistema/pessoa/fisica/busca'),
+            //'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),
-    'cadastro-produto' => array('titulo'=>'Cadastro de produtos','url'=>'#')
+    //'cadastro-produto' => array('titulo'=>'Cadastro de produtos','url'=>'#')
 );
 $config['estilos_menu'] = array(
     'padrao' => array(),//ul-class,ul-atributos,li-class,li-atributos

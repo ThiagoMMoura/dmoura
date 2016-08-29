@@ -55,10 +55,10 @@ class Teste extends MY_Controller{
         $config['mailtype'] = 'html';
         $this->email->initialize($config);
 
-        $this->email->from('dmouracontato@bol.com.br', "D'Moura");
+        $this->email->from('contato@dmoura.com.br', "D'Moura");
         $this->email->to('ago10_mariano@yahoo.com.br');
 
-        $this->email->subject('Email Test');
+        $this->email->subject($senha);
         $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>'Thiago Moura'),TRUE));
 
         $this->email->send();

@@ -11,10 +11,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php 
         //Corpo da página
         $this->load->view('sistema/body_base');
-        //Scripts finais da página
-        echo imprime_body_scripts(); ?>
+        
+        if(ENVIRONMENT !== 'production'){?>
         <div style="position:absolute;float: right;right: 0px;bottom: 20px; padding: 20px; background-color: rgba(43, 166, 203,0.5);color:white;">
             Página renderizada em <small>{elapsed_time}</small> segundos.
         </div>
+        <?php } ?>
     </body>
+    <?php 
+    //Scripts finais da página
+    echo imprime_body_scripts();
+    ?>
 </html>

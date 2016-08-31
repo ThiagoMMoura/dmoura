@@ -3,6 +3,7 @@ $(document).ready(function() {
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.
                 $("#rua").val("");
+                $("#complemento").val("");
                 $("#bairro").val("");
                 $("#cidade").val("");
                 $("#uf").val("");
@@ -16,7 +17,7 @@ $(document).ready(function() {
                 var cep = $(this).val().replace(/\D/g, '');
 
                 //Verifica se campo cep possui valor informado.
-                if (cep != "") {
+                if (cep !== "") {
 
                     //Expressão regular para validar o CEP.
                     var validacep = /^[0-9]{8}$/;
@@ -25,11 +26,12 @@ $(document).ready(function() {
                     if(validacep.test(cep)) {
 
                         //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#rua").val("...")
-                        $("#bairro").val("...")
-                        $("#cidade").val("...")
-                        $("#uf").val("...")
-                        $("#ibge").val("...")
+                        $("#rua").val("...");
+                        $("#complemento").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#ibge").val("...");
 
                         //Consulta o webservice viacep.com.br/
                         $.getJSON("//viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
@@ -37,6 +39,7 @@ $(document).ready(function() {
                             if (!("erro" in dados)) {
                                 //Atualiza os campos com os valores da consulta.
                                 $("#rua").val(dados.logradouro);
+                                $("#complemento").val(dados.complemento);
                                 $("#bairro").val(dados.bairro);
                                 $("#cidade").val(dados.localidade);
                                 $("#uf").val(dados.uf);

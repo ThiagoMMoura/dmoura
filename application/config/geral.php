@@ -16,3 +16,6 @@ $config['email_contato'] = 'contato@dmoura.com.br';
 $config['email_vendas'] = 'vendas@dmoura.com.br';
 $config['email_admin'] = 'administrador@dmoura.com.br';
 
+$config['email_smtp'] = array(
+    'email_contato' => array('smtp_host'=>'host','smtp_user' => 'root','smtp_pass' => 'root','smtp_port' => '25')
+);

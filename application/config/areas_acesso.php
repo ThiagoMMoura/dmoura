@@ -19,8 +19,10 @@ $config['nivel-max']['url'] = array(
 );
 $config['areas_acesso']['url'] = array(
     //1000000=>array('descricao'=>'Sistema','nivel'=>'pai','url'=>'sistema'),
-    //1001000=>array('descricao'=>'Pessoa Fisica','nivel'=>'controle','url'=>'sistema/pessoa/fisica'),
-    //1001001=>array('descricao'=>'Cadastro Pessoa Fisica','nivel'=>'metodo','url'=>'sistema/pessoa/fisica/cadastro'),
+    //1001000=>array('descricao'=>'Operadora Telefônica','nivel'=>'metodo','url'=>'sistema/basico/telefone/operadora'),
+    //1001001=>array('descricao'=>'Cadastro Operadora Telefônica','nivel'=>'metodo','url'=>'sistema/basico/telefone/operadora/cadastro'),
+    //1002000=>array('descricao'=>'Pessoa Fisica','nivel'=>'controle','url'=>'sistema/pessoa/fisica'),
+    //1002001=>array('descricao'=>'Cadastro Pessoa Fisica','nivel'=>'metodo','url'=>'sistema/pessoa/fisica/cadastro'),
     //1999000=>array('descricao'=>'Teste','nivel'=>'controle','url'=>'sistema/teste'),
     //1999001=>array('descricao'=>'Index','nivel'=>'metodo','url'=>'sistema/teste/index'),
     //1999002=>array('descricao'=>'Formulário','nivel'=>'metodo','url'=>'sistema/teste/formulario'),

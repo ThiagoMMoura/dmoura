@@ -24,6 +24,19 @@ $config['body-scripts'] = array(
 $config['prefixo-id-menu'] = 'mn-';
 $config['menu-principal'] = array(
     //'titulo-menu' => array('titulo'=>'MENU','li-class'=>'menu-text text-center'),
+    'basico' => array(
+        'titulo' => 'Básicos',
+        'url' => '#basico',
+        'submenu' => array(
+            'telefone' => array(
+                'titulo' => 'Telefones',
+                'url' => '#telefone',
+                'submenu' => array(
+                    'operadora-telefone' => array('titulo'=>'Cadastro Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro')
+                )
+            )
+        )
+    ),
     'pessoa' => array(
         'titulo' => 'Pessoas',
         'url' => '#pessoa',

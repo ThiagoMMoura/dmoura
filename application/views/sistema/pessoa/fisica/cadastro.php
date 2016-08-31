@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 add_body_script('assets/js/viacep.js');
 $this->load->helper('form');
 
+$data['form_atributos'] = array('id'=>'form_pessoa_fisica');
 $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
@@ -31,11 +32,17 @@ $data['campos'] = array(
                 'tag'=>'input',
                 'atributos'=>array('value'=>set_value('email'),'name'=>'email','placeholder' => 'Exemplo: email@provedor.com','type'=>'email'),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-                'linha'=>array('class'=>'','numero'=>3),
+                'linha'=>array('class'=>'','numero'=>2),
                 'erro'=>'Digite um email válido.',
                 'label'=>'Email'
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('name' => 'enviar_email', 'type' => 'checkbox',set_checkbox('enviar_email', FALSE)=>'','id'=>'enviar_email'),
+                'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
+                'linha'=>array('class'=>'','numero'=>3),
+                'label'=>array('text' => 'Enviar email com senha.','for'=>'enviar_email','posicao'=>'depois')
             )
-            
         ),
         'legend' => 'Identificação'
     ),
@@ -189,7 +196,7 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>'','name'=>'complemento','placeholder' => 'Complemento','value'=>set_value('complemento')),
+                'atributos'=>array('value'=>'','name'=>'complemento','id'=>'complemento','placeholder' => 'Complemento','value'=>set_value('complemento')),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>6),
                 'label'=>'Complemento'
@@ -214,13 +221,6 @@ $data['campos'] = array(
     ),*/
     array(
         'tag'=>'input',
-        'atributos'=>array('name' => 'enviar_email', 'type' => 'checkbox',set_checkbox('enviar_email', FALSE)=>'','id'=>'enviar_email'),
-        'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>''),
-        'linha'=>array('class'=>'','numero'=>7),
-        'label'=>array('text' => 'Enviar email com senha.','for'=>'enviar_email','posicao'=>'depois')
-    ),
-    array(
-        'tag'=>'input',
         'atributos'=>array('type'=>'reset','value'=>'Limpar','name'=>'limpar','id'=>'limpar','data-icone'=>'fi-trash','class'=>'is-button-bar-menu button','data-bar-menu-hide'=>'true'),
         'linha'=>array('class'=>'','numero'=>10),
     ),
@@ -231,4 +231,9 @@ $data['campos'] = array(
     )
 );
 $data['hidden'] = array('complemento2'=>set_value('complemento2'));
+
+$data2['id_form'] = $data['form_atributos']['id'];
+$data['conteudo'] = $this->load->view('sistema/ferramenta/telefone',$data2,TRUE);
+
 $this->load->view('sistema/gerador_formulario',$data);
+

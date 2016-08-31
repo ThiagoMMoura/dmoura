@@ -51,6 +51,9 @@ echo form_open($action,$form_atributos,$hidden);
     </div>
     <?php
     gerar_campo($campos);
+    if(isset($conteudo)){
+        echo $conteudo;
+    }
 echo form_close();
 
 function gerar_campo($campos,$c_linha=TRUE,$c_coluna=TRUE){

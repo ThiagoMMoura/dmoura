@@ -11,12 +11,16 @@ class Fisica extends MY_Controller{
     }
     
     public function index(){
-        $this->cadastro();
+        $this->busca();
     }
     
     public function cadastro(){
         $this->load->model('estado_model');
+        $this->load->model('tipo_telefone_model');
+        $this->load->model('operadora_telefone_model');
         $this->_add_data('estados',$this->estado_model->obter_uf_estado());
+        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
+        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
         $this->_view("Cadastro Pessoa Física",'cadastro',parent::RELATIVO_CONTROLE);
     }
     
@@ -82,7 +86,10 @@ class Fisica extends MY_Controller{
                     $call['mensagem'] = 'Cadastro efetuado com sucesso!';
                     if($pessoa_dados['email']!=NULL && $this->input->post('enviar_email')){
                         $this->load->library('email');
-
+                        if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
+                            $config =  $this->config->item('email_smtp')['email_suporte'];
+                            $this->email->initialize($config);
+                        }
                         $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
                         $this->email->to($pessoa_dados['email']);
 
@@ -92,7 +99,7 @@ class Fisica extends MY_Controller{
                         $this->email->send();
                     }
                 }else{
-                    
+                    $this->pessoa_model->deletar($fisica_dados['pessoa']);
                 }
             }
             if($this->input->is_ajax_request()){
@@ -106,9 +113,10 @@ class Fisica extends MY_Controller{
     }
     
     public function busca(){
-        $this->load->model('pessoa_model');
+        //$this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
         
+        $selecionar['select'] = array('pessoa_fisica.id','cpf','nome','email','nascimento','cep');
         $selecionar['join'] = array('pessoa p','p.id = pessoa_fisica.pessoa');
         if($this->pessoa_fisica_model->selecionar($selecionar)){
             $this->_add_data('lista_pessoas',$this->pessoa_fisica_model->registros());

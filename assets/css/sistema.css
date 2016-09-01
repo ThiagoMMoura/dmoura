@@ -374,3 +374,11 @@ i{
 th [type="checkbox"], th [type="file"], th [type="radio"]{
     margin: 0px;
 }
+input.only-value{
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    height: auto;
+}

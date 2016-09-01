@@ -18,18 +18,18 @@ add_body_script('assets/js/plus_telefone.js');
 ?>
 <div class="row">
     <div class="column small-12">
-        <table id="lista-telefones" data-table-telefone>
+        <table id="lista-telefones" data-lista-telefone>
             <thead>
                 <tr>
                     <th>DDD</th>
                     <th>Número</th>
-                    <th>Operadora</th>
                     <th>Tipo</th>
-                    <th></th>
+                    <th>Operadora</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>
-
+                <tr><td>Nenhum telefone adicionado.</td></tr>
             </tbody>
         </table>
         <input type="button" id="plus-telefone" name="plus-telefone" class="button is-button-bar-menu" data-open="telefone_modal" value="Telefone" data-icone="fi-plus">
@@ -42,20 +42,21 @@ add_body_script('assets/js/plus_telefone.js');
             <div class="column medium-2">
                 <label>
                     DDD
-                    <input type="text" form="<?php echo $id_form;?>" pattern="[0-9]{2}" name="ddd" id="ddd">
+                    <input type="text" form="<?php echo $id_form;?>" pattern="\d{0,2}" name="ddd" id="ddd">
                 </label>
             </div>
             <div class="column medium-3">
                 <label>
                     Número
-                    <input type="text" form="<?php echo $id_form;?>" pattern="[0-9]{11}" name="telefone" id="numero">
+                    <input type="text" form="<?php echo $id_form;?>" pattern="\d{8,11}" name="telefone" id="numero">
+                    <span class="form-error">Preenchimento obrigatório</span>
                 </label>
-            </div>
-            <div class="column medium-3">
-                <?php echo campo_formulario_sistema($campo['operadora']);?>
             </div>
             <div class="column medium-4">
                 <?php echo campo_formulario_sistema($campo['tipo']);?>
+            </div>
+            <div class="column medium-3">
+                <?php echo campo_formulario_sistema($campo['operadora']);?>
             </div>
         </div>
         <div class="row">

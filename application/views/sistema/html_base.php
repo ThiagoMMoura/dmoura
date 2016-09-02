@@ -12,11 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         //Corpo da página
         $this->load->view('sistema/body_base');
         
-        if(ENVIRONMENT !== 'production'){?>
-        <div style="position:absolute;float: right;right: 0px;bottom: 20px; padding: 20px; background-color: rgba(43, 166, 203,0.5);color:white;">
-            Página renderizada em <small>{elapsed_time}</small> segundos.
-        </div>
-        <?php } ?>
+        if(ENVIRONMENT !== 'production'){
+            $this->load->view('sistema/debug_info_sistema');
+        } ?>
     </body>
     <?php 
     //Scripts finais da página

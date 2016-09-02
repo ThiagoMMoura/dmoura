@@ -21,6 +21,12 @@ if(!isset($selecionar)){
 if(!isset($selecionavel)){
     $selecionavel = TRUE;
 }
+$_sel_id = $selecionar['id'];
+$_sel_name = $selecionar['name'];
+$_sel_value = $selecionar['value'];
+if(!isset($table_scroll)){
+    $table_scroll = TRUE;
+}
 ?>
 <div class="row">
     <div class="column">
@@ -28,10 +34,9 @@ if(!isset($selecionavel)){
     </div>
 </div>
 <div class="row">
-    <div class="column">
+    <div class="column <?php echo $table_scroll?'table-scroll':'small-12';?>">
         <?php 
         if(count($_lista)>0){?>
-            <div class="table-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -47,12 +52,16 @@ if(!isset($selecionavel)){
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <?php foreach($_lista as $item){
                             echo '<tr>';
                             if($selecionavel){
-                                $selecionar['id'] .= $item['id'];
-                                $selecionar['value'] = $item[$selecionar['value']];
-                                $selecionar['name'] = $selecionar['name'] . '[]';
+                                $selecionar['id'] = $_sel_id . $item['id'];
+                                $selecionar['value'] = $item[$_sel_value];
+                                $selecionar['name'] = $_sel_name;
+                                if($selecionar['type']!=='radio'){
+                                    $selecionar['name'] .= '[' . $item['id'] . ']';
+                                }
                                 echo '<td>' . campo_formulario_sistema($selecionar) . '</td>';
                             }
                             foreach($item as $k => $v){
@@ -64,7 +73,6 @@ if(!isset($selecionavel)){
                         }?>
                     </tbody>
                 </table>
-            </div>
         <?php }else{
             echo alertas('', 'Nenhum resultado encontrado', ALERTA_RISCO);
         }

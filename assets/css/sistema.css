@@ -371,7 +371,7 @@ i{
 .form-data .ano{
     width: 40%;
 }
-th [type="checkbox"], th [type="file"], th [type="radio"]{
+td [type="checkbox"], td [type="file"], td [type="radio"]{
     margin: 0px;
 }
 input.only-value{

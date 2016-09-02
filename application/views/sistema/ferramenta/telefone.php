@@ -3,13 +3,13 @@ if(!isset($id_form)){
     $id_form = 'form_telefone';
 }
 $campo['operadora'] = array(
-    'dropdown'=>array('form'=>$id_form,'name'=>'operadora','id'=>'operadora'),
+    'dropdown'=>array('form'=>$id_form,'name'=>'plus_operadora','id'=>'operadora'),
     'label'=>'Operadora',
     'options' => array_merge(array(0=>''),$operadoras_telefone),
     'selected' => ''
 );
 $campo['tipo'] = array(
-    'dropdown'=>array('form'=>$id_form,'name'=>'tipo_telefone','id'=>'tipo'),
+    'dropdown'=>array('form'=>$id_form,'name'=>'plus_tipo_telefone','id'=>'tipo_telefone'),
     'label'=>'Tipo',
     'options' => $tipos_telefone,
     'selected' => ''
@@ -29,27 +29,26 @@ add_body_script('assets/js/plus_telefone.js');
                 </tr>
             </thead>
             <tbody>
-                <tr><td>Nenhum telefone adicionado.</td></tr>
+                <tr data-telefones-add="0"><td colspan="5">Nenhum telefone adicionado.</td></tr>
             </tbody>
         </table>
         <input type="button" id="plus-telefone" name="plus-telefone" class="button is-button-bar-menu" data-open="telefone_modal" value="Telefone" data-icone="fi-plus">
     </div>
 </div>
-<div class="reveal" id="telefone_modal" data-reveal>
-    <fieldset class="fieldset" data-telefone-campo="input" data-telefone-lista="table" data-plus-telefone>
+<div class="reveal" id="telefone_modal" data-reveal data-reset-on-close="false">
+    <fieldset class="fieldset" data-telefone-campo="input" data-telefone-lista="table" data-plus-telefone data-telefone-modal="telefone_modal">
         <legend>Telefone</legend>
         <div class="row">
             <div class="column medium-2">
                 <label>
                     DDD
-                    <input type="text" form="<?php echo $id_form;?>" pattern="\d{0,2}" name="ddd" id="ddd">
+                    <input type="text" form="<?php echo $id_form;?>" name="plus_ddd" id="ddd">
                 </label>
             </div>
             <div class="column medium-3">
                 <label>
                     Número
-                    <input type="text" form="<?php echo $id_form;?>" pattern="\d{8,11}" name="telefone" id="numero">
-                    <span class="form-error">Preenchimento obrigatório</span>
+                    <input type="text" form="<?php echo $id_form;?>" name="plus_numero_telefone" id="numero">
                 </label>
             </div>
             <div class="column medium-4">

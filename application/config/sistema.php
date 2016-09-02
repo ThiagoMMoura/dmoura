@@ -32,7 +32,8 @@ $config['menu-principal'] = array(
                 'titulo' => 'Telefones',
                 'url' => '#telefone',
                 'submenu' => array(
-                    'operadora-telefone' => array('titulo'=>'Cadastro Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro')
+                    'operadora-telefone' => array('titulo'=>'Cadastro Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro'),
+                    'tipo-telefone' => array('titulo'=>'Cadastro Tipo Telefone','url'=>'sistema/basico/telefone/tipo/cadastro')
                 )
             )
         )

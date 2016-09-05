@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 add_body_script('assets/js/viacep.js');
 $this->load->helper('form');
 
-$data['form_atributos'] = array('id'=>'form_pessoa_fisica');
+$data['form_atributos'] = array('id'=>'form_pessoa_fisica','data-live-validate'=>'true');
 $data['action'] = 'sistema/pessoa/fisica/salvar';
 $data['campos'] = array(
     array(
@@ -14,7 +14,7 @@ $data['campos'] = array(
         'campos'=>array(
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>''),
+                'atributos'=>array('value'=>set_value('cpf'),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>'','autofocus'=>''),
                 'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>1),
                 'erro'=>'O CPF é obrigatório e deve conter somente números.',
@@ -233,7 +233,9 @@ $data['campos'] = array(
 $data['hidden'] = array('complemento2'=>set_value('complemento2'));
 
 $data2['id_form'] = $data['form_atributos']['id'];
-$data['conteudo'] = $this->load->view('sistema/ferramenta/telefone',$data2,TRUE);
+//$data['conteudo'] = $this->load->view('sistema/ferramenta/telefone',$data2,TRUE);
 
 $this->load->view('sistema/gerador_formulario',$data);
-
+echo '<form>';
+$this->load->view('sistema/ferramenta/telefone',$data2);
+echo '</form>';

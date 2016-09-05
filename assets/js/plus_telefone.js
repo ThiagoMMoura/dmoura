@@ -1,9 +1,12 @@
 $(document).ready(function(){
-    var campo = $('[data-plus-telefone]').attr('data-telefone-campo');
-    var lista = $('[data-plus-telefone]').attr('data-telefone-lista');
-    var modal = $('[data-plus-telefone]').attr('data-telefone-modal');
-    $('[data-plus-telefone] [data-add-telefone]').click(function(){
-        plus_telefone(campo, lista, modal);
+//    var campo = $('[data-plus-telefone]').attr('data-telefone-campo');
+//    var lista = $('[data-plus-telefone]').attr('data-telefone-lista');
+//    var modal = $('[data-plus-telefone]').attr('data-telefone-modal');
+//    $('[data-plus-telefone] [data-add-telefone]').click(function(){
+//        plus_telefone(campo, lista, modal);
+//    });
+    $('[data-plus-telefone]').click(function(){
+        add_telefone();
     });
 });
 function valida_plus_telefone(){
@@ -75,8 +78,34 @@ function plus_telefone(campo, lista, modal){
 }
 
 function excluir_telefone(id){
-    $('#plus-tel-linha-'+id).remove();
-    var vazio = $('[data-telefones-add]').attr('data-telefones-add');
-    $('[data-telefones-add]').attr('data-telefones-add',vazio--);
-    $('[data-telefones-add="0"]').show();
+    //$('#plus-tel-linha-'+id).remove();
+    //var vazio = $('[data-telefones-add]').attr('data-telefones-add');
+    //$('[data-telefones-add]').attr('data-telefones-add',vazio--);
+    //$('[data-telefones-add="0"]').show();
+    alert(id);
+    $('[data-plus-tel-lista] [data-plus-tel-item="' + id + '"]').remove();
+    var count = $('[data-plus-tel-lista]').attr('data-tel-count');
+    $('[data-plus-tel-lista]').attr('data-tel-count',count--);
+}
+
+function add_telefone(){
+    var form = $('[data-plus-tel-form]').html();
+    var last = $('[data-plus-tel-form] [data-plus-tel-item]').attr('data-plus-tel-item');
+    var count = $('[data-plus-tel-lista]').attr('data-tel-count');
+    
+    if(last===null){
+        last = 0;
+    }
+    if(count===undefined){
+        count = 0;
+    }
+
+    $('[data-plus-tel-lista]').append(form);
+    $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [data-excluir-tel]').click(function(){
+        excluir_telefone($('[data-plus-tel-item="' + last + '"]').attr('data-plus-tel-item'));//
+    });
+    count++;
+    $('[data-plus-tel-lista]').attr('data-tel-count',count);
+    last++;
+    $('[data-plus-tel-form] [data-plus-tel-item]').attr('data-plus-tel-item', last);
 }

@@ -112,6 +112,12 @@ i{
     }
     .button span, .button i{
         vertical-align: middle;
+        line-height: 2.4375rem;
+    }
+    .button{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        height: 2.4375rem;
     }
     .barra-ferramentas .menu li{
         border: none;

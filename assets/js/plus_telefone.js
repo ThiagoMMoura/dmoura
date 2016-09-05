@@ -5,6 +5,7 @@ $(document).ready(function(){
 //    $('[data-plus-telefone] [data-add-telefone]').click(function(){
 //        plus_telefone(campo, lista, modal);
 //    });
+    $('[data-plus-tel-form]').appendTo('body');
     $('[data-plus-telefone]').click(function(){
         add_telefone();
     });
@@ -77,15 +78,16 @@ function plus_telefone(campo, lista, modal){
     $('[data-telefones-add]').hide();
 }
 
-function excluir_telefone(id){
+function excluir_telefone(form){
     //$('#plus-tel-linha-'+id).remove();
     //var vazio = $('[data-telefones-add]').attr('data-telefones-add');
     //$('[data-telefones-add]').attr('data-telefones-add',vazio--);
     //$('[data-telefones-add="0"]').show();
-    alert(id);
+    var id = $(form).attr('data-excluir-tel');
     $('[data-plus-tel-lista] [data-plus-tel-item="' + id + '"]').remove();
     var count = $('[data-plus-tel-lista]').attr('data-tel-count');
-    $('[data-plus-tel-lista]').attr('data-tel-count',count--);
+    count--;
+    $('[data-plus-tel-lista]').attr('data-tel-count',count);
 }
 
 function add_telefone(){
@@ -99,13 +101,24 @@ function add_telefone(){
     if(count===undefined){
         count = 0;
     }
-
+    
     $('[data-plus-tel-lista]').append(form);
+    $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [data-excluir-tel]').attr('data-excluir-tel',last);
     $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [data-excluir-tel]').click(function(){
-        excluir_telefone($('[data-plus-tel-item="' + last + '"]').attr('data-plus-tel-item'));//
+        excluir_telefone(this);//
+    });
+    $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [name]').each(function(){
+        var name = $(this).attr('name');
+        if(name==='id_tel'){
+            $(this).val(last);
+        }
+        $(this).attr('form',$('[data-plus-tel-form]').attr('data-tel-id-form'));
+        $(this).attr('name',name + '[' + last + ']');
     });
     count++;
     $('[data-plus-tel-lista]').attr('data-tel-count',count);
+    var input_id = last;
     last++;
     $('[data-plus-tel-form] [data-plus-tel-item]').attr('data-plus-tel-item', last);
+    $('[name="ddd['+input_id+']"]').focus();
 }

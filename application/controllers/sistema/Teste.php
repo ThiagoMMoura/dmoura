@@ -68,4 +68,8 @@ class Teste extends MY_Controller{
         $this->email->send();
         $this->_view("Teste outro",'teste',parent::RELATIVO_CONTROLE);
     }
+    
+    public function post_print(){
+        echo print_r($this->input->post(),TRUE);
+    }
 }

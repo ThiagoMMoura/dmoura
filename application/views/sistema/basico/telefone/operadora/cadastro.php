@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('form');
 
-$data['form_atributos'] = array('id'=>'form_operadora_telefone');
+$data['form_atributos'] = array('id'=>'form_operadora_telefone','data-live-validate'=>'true');
 $data['action'] = 'sistema/basico/telefone/operadora/salvar';
 $data['campos'] = array(
     array(

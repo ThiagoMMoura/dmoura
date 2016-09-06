@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24/08/2016 às 20:04
+-- Tempo de geração: 06/09/2016 às 14:49
 -- Versão do servidor: 10.1.9-MariaDB
 -- Versão do PHP: 5.6.15
 
@@ -37,6 +37,7 @@ CREATE TABLE `pessoa` (
   `senha` varchar(150) NOT NULL,
   `grupo` int(11) NOT NULL,
   `tipo` tinyint(4) NOT NULL DEFAULT '1',
+  `tel_principal` int(11) DEFAULT '0',
   `resenha` tinyint(1) NOT NULL DEFAULT '1',
   `ativo` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

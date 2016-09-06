@@ -25,15 +25,18 @@ class Fisica extends MY_Controller{
     }
     
     public function salvar(){
+        if($this->input->post('salvar')===NULL){
+            redirect('sistema/pessoa/fisica/cadastro');
+        }
         $this->load->library('form_validation');
         $this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
         
         $this->form_validation->set_rules('cpf', 'CPF',array(
                 'trim','required','is_natural','exact_length[11]','is_unique[pessoa_fisica.cpf]',
-                array($this->pessoa_fisica_model,'cpf_valido')
+                array('is_valid_cpf',array($this->pessoa_fisica_model,'cpf_valido'))
             ),
-            array('cpf_valido' => 'Esté não é um CPF válido.')
+            array('is_valid_cpf' => 'O CPF digitado não é válido.')
         );
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
         $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[pessoa.email]');
@@ -51,6 +54,11 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('numero', 'Número', 'trim|is_natural');
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim');
         $this->form_validation->set_rules('complemento2', 'Complemento2', 'trim');
+        $this->form_validation->set_rules('id_tel[]', 'Id Telefone', 'trim');
+        $this->form_validation->set_rules('ddd[]', 'DDD', 'trim');
+        $this->form_validation->set_rules('numero_telefone[]', 'Número Telefone', 'trim');
+        $this->form_validation->set_rules('operadora[]', 'Operadora', 'trim');
+        $this->form_validation->set_rules('tipo_telefone[]', 'Tipo Telefone', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
             $this->cadastro();
@@ -63,13 +71,16 @@ class Fisica extends MY_Controller{
                 $cep_dados['complemento'] = $this->input->post('complemento2');
                 $this->endereco_model->salva_cep($cep_dados);
             }
+            
+            //Declara variavéis para alerta, com valores padrões em caso de erro
             $call['tipo'] = ALERTA_ERRO;
             $call['titulo'] = '';
             $call['mensagem'] = 'Falha ao salvar dados!';
             $call['fechavel'] = TRUE;
             $json['estatus'] = 'falha';
             
-            $senha = random_string();
+            //Prepara dados para gravação na tabela pessoa
+            $senha = random_string();//Gera uma senha aleatória
             $pessoa_dados = $this->input->post();
             $pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
             $pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
@@ -77,13 +88,35 @@ class Fisica extends MY_Controller{
             $pessoa_dados['resenha'] = 1;
             $pessoa_dados['ativo'] = 1;
             if($this->pessoa_model->inserir($pessoa_dados)){
+                
+                //Prepara dados para gravação na tabela pessoa_fisica
                 $fisica_dados = $this->input->post();
                 $fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
                 $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
                 if($this->pessoa_fisica_model->inserir($fisica_dados)){
+                    
+                    //Cadastra números de telefone para a pessoa
+                    $this->load->model('telefone_model');
+                    $telefones = array();
+                    //Converte os dados dos telefones em um array legivel pela função salvar_telefones
+                    foreach($this->input->post('id_tel') as $id_tel){
+                        $telefones[$id_tel]['ddd'] = $this->input->post('ddd')[$id_tel];
+                        $telefones[$id_tel]['telefone'] = $this->input->post('numero_telefone')[$id_tel];
+                        $telefones[$id_tel]['operadora'] = $this->input->post('operadora')[$id_tel];
+                        $telefones[$id_tel]['tipo'] = $this->input->post('tipo_telefone')[$id_tel];
+                    }
+                    //Salva telefones e altera o telefone principal na tabela pessoa
+                    $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
+                    if($tel_principal!==0){
+                        $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal),'id = ' + $fisica_dados['pessoa']);
+                    }
+                    
+                    //Altera variavéis do alerta para mensagem de sucesso
                     $json['estatus'] = 'sucesso';
                     $call['tipo'] = ALERTA_SUCESSO;
                     $call['mensagem'] = 'Cadastro efetuado com sucesso!';
+                    
+                    //Envia email com a senha caso tenha algum email cadastrado
                     if($pessoa_dados['email']!=NULL && $this->input->post('enviar_email')){
                         $this->load->library('email');
                         if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
@@ -99,6 +132,7 @@ class Fisica extends MY_Controller{
                         $this->email->send();
                     }
                 }else{
+                    //Deleta o registro na tabela pessoa caso falhe o insert na tabela pessoa_fisica
                     $this->pessoa_model->deletar($fisica_dados['pessoa']);
                 }
             }
@@ -113,7 +147,6 @@ class Fisica extends MY_Controller{
     }
     
     public function busca(){
-        //$this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
         
         $selecionar['select'] = array('pessoa_fisica.id','cpf','nome','email','nascimento','cep');

@@ -1,14 +1,20 @@
 $(document).ready(function(){
-//    var campo = $('[data-plus-telefone]').attr('data-telefone-campo');
-//    var lista = $('[data-plus-telefone]').attr('data-telefone-lista');
-//    var modal = $('[data-plus-telefone]').attr('data-telefone-modal');
-//    $('[data-plus-telefone] [data-add-telefone]').click(function(){
-//        plus_telefone(campo, lista, modal);
-//    });
     $('[data-plus-tel-form]').appendTo('body');
+    var hide = $('[data-plus-tel-lista]').attr('data-hide-on-empty');
+    if(hide==='true'){
+        $('[data-plus-tel-lista]').hide();
+    }
     $('[data-plus-telefone]').click(function(){
         add_telefone();
     });
+    var pre_values = JSON.parse($('[data-plus-tel-lista]').attr('data-pre-values'));
+    if(pre_values.length > 0){
+        var value = '';
+        for(value in pre_values){
+            add_telefone(pre_values[value]);
+        }
+    }
+    $('[data-plus-tel-lista]').attr('data-pre-values','');
 });
 function valida_plus_telefone(){
     var ddd = $('[data-plus-telefone] #ddd').val();
@@ -33,64 +39,21 @@ function valida_plus_telefone(){
     return true;
 }
 
-function plus_telefone(campo, lista, modal){
-    var html = '';
-    if(!valida_plus_telefone()){
-        return false;
-    }
-    var ddd = $('[data-plus-telefone] #ddd').val();
-    var numero = $('[data-plus-telefone] #numero').val();
-    var operadora = $('[data-plus-telefone] #operadora').val();
-    var tipo = $('[data-plus-telefone] #tipo_telefone').val();
-    var count = $('[data-lista-telefone]').attr('data-telefone-count');
-    if(count===undefined){
-        count = 1;
-    }else{
-        count++;
-    }
-    
-    if(campo==='input'){
-       ddd = '<input type="text" name="ddd[' + count + ']" value="' + ddd + '" class="only-value" pattern="\\d{0,2}" disabled>';
-       numero = '<input type="text" name="numero_telefone['+count+']" value="' + numero + '" class="only-value" pattern="\\d{8,11}" required readonly><span class="form-error">Preenchimento obrigatório</span>';
-       operadora = '<input type="text" name="operadora['+count+']" value="' + operadora + '" class="hide">'+ $('[data-plus-telefone] #operadora option:selected').text();
-       tipo = '<input type="text" name="tipo['+count+']" value="' + tipo + '" class="hide">'+ $('[data-plus-telefone] #tipo_telefone option:selected').text();
-    }
-    if(lista==='table'){
-        html = '<tr id="plus-tel-linha-' + count + '">';
-        html += '<td>' + ddd + '</td>';
-        html += '<td>' + numero + '</td>';
-        html += '<td>' + tipo + '</td>';
-        html += '<td>' + operadora + '</td>';
-        html += '<td><a data-excluir-telefone="'+count+'"><i class="fi-x"></i></a></td>';
-        html += '</tr>';
-        $('table[data-lista-telefone] tbody').append(html);
-    }
-    if(modal!==undefined){
-        $('#'+modal).foundation('close');
-    }
-    $('[data-excluir-telefone="' + count + '"]').click(function(){
-        excluir_telefone(count);
-    });
-    $('[data-lista-telefone]').attr('data-telefone-count',count);
-    
-    var vazio = $('[data-telefones-add]').attr('data-telefones-add');
-    $('[data-telefones-add]').attr('data-telefones-add',(vazio++));
-    $('[data-telefones-add]').hide();
-}
-
 function excluir_telefone(form){
-    //$('#plus-tel-linha-'+id).remove();
-    //var vazio = $('[data-telefones-add]').attr('data-telefones-add');
-    //$('[data-telefones-add]').attr('data-telefones-add',vazio--);
-    //$('[data-telefones-add="0"]').show();
     var id = $(form).attr('data-excluir-tel');
     $('[data-plus-tel-lista] [data-plus-tel-item="' + id + '"]').remove();
     var count = $('[data-plus-tel-lista]').attr('data-tel-count');
     count--;
+    if(count===0){
+        var hide = $('[data-plus-tel-lista]').attr('data-hide-on-empty');
+        if(hide==='true'){
+            $('[data-plus-tel-lista]').hide();
+        }
+    }
     $('[data-plus-tel-lista]').attr('data-tel-count',count);
 }
 
-function add_telefone(){
+function add_telefone(dados){
     var form = $('[data-plus-tel-form]').html();
     var last = $('[data-plus-tel-form] [data-plus-tel-item]').attr('data-plus-tel-item');
     var count = $('[data-plus-tel-lista]').attr('data-tel-count');
@@ -102,6 +65,7 @@ function add_telefone(){
         count = 0;
     }
     
+    $('[data-plus-tel-lista]').show();
     $('[data-plus-tel-lista]').append(form);
     $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [data-excluir-tel]').attr('data-excluir-tel',last);
     $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [data-excluir-tel]').click(function(){
@@ -111,6 +75,13 @@ function add_telefone(){
         var name = $(this).attr('name');
         if(name==='id_tel'){
             $(this).val(last);
+        }
+        if(dados!==undefined && dados!==null){
+            if(dados[name]==='true' || dados[name]==='false' || dados[name]===true || dados[name]===false){
+                $(this).attr('checked',dados[name]);
+            }else{
+                $(this).val(dados[name]);
+            }
         }
         $(this).attr('form',$('[data-plus-tel-form]').attr('data-tel-id-form'));
         $(this).attr('name',name + '[' + last + ']');

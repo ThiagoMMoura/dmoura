@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
  * Description of Pessoa_model
  *
  * - Colunas: id, nome, email, cep, numero, complemento, senha, grupo, tipo,
- * resenha, ativo
+ * tel_principal, resenha, ativo
  * @author Thiago Moura
  */
 class Pessoa_model extends MY_Model{
@@ -19,7 +19,7 @@ class Pessoa_model extends MY_Model{
     const CLIENTE_JURIDICO= 5;
     
     public function __construct(){
-        parent::__construct('pessoa',array('id','nome','email','cep','numero','complemento','senha','grupo','tipo','resenha', 'ativo'));
+        parent::__construct('pessoa',array('id','nome','email','cep','numero','complemento','senha','grupo','tipo','tel_principal','resenha', 'ativo'));
     }
     
     public function valida_usuario($dados){

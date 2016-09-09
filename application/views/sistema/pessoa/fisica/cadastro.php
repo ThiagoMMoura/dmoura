@@ -231,11 +231,10 @@ $data['campos'] = array(
     )
 );
 $data['hidden'] = array('complemento2'=>set_value('complemento2'));
+$this->load->view('sistema/gerador_formulario',$data);
 
 $data2['id_form'] = $data['form_atributos']['id'];
-//$data['conteudo'] = $this->load->view('sistema/ferramenta/telefone',$data2,TRUE);
-
-$this->load->view('sistema/gerador_formulario',$data);
-echo '<form>';
+$data2['form_atributos'] = array('id'=>'form_telefone','data-live-validate'=>'true');
+$data2['action'] = '';
+$data2['campos'] = '';
 $this->load->view('sistema/ferramenta/telefone',$data2);
-echo '</form>';

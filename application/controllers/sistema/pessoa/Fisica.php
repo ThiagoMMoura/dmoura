@@ -99,16 +99,18 @@ class Fisica extends MY_Controller{
                     $this->load->model('telefone_model');
                     $telefones = array();
                     //Converte os dados dos telefones em um array legivel pela função salvar_telefones
-                    foreach($this->input->post('id_tel') as $id_tel){
-                        $telefones[$id_tel]['ddd'] = $this->input->post('ddd')[$id_tel];
-                        $telefones[$id_tel]['telefone'] = $this->input->post('numero_telefone')[$id_tel];
-                        $telefones[$id_tel]['operadora'] = $this->input->post('operadora')[$id_tel];
-                        $telefones[$id_tel]['tipo'] = $this->input->post('tipo_telefone')[$id_tel];
+                    foreach($this->input->post('id_tel') as $k => $id_tel){
+                        $telefones[] = array(
+                            'ddd' => $this->input->post('ddd')[$k],
+                            'telefone' => $this->input->post('numero_telefone')[$k],
+                            'operadora' => $this->input->post('operadora')[$k],
+                            'tipo' =>$this->input->post('tipo_telefone')[$k]
+                        );
                     }
                     //Salva telefones e altera o telefone principal na tabela pessoa
                     $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
-                    if($tel_principal!==0){
-                        $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal),'id = ' + $fisica_dados['pessoa']);
+                    if(!empty($tel_principal)){
+                        $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal[0]),'id = ' . $fisica_dados['pessoa']);
                     }
                     
                     //Altera variavéis do alerta para mensagem de sucesso
@@ -149,8 +151,8 @@ class Fisica extends MY_Controller{
     public function busca(){
         $this->load->model('pessoa_fisica_model');
         
-        $selecionar['select'] = array('pessoa_fisica.id','cpf','nome','email','nascimento','cep');
-        $selecionar['join'] = array('pessoa p','p.id = pessoa_fisica.pessoa');
+        $selecionar['select'] = array('pessoa_fisica.id','cpf','nome','email','DATE_FORMAT(nascimento,"%d/%m/%Y") AS nascimento','cep','CONCAT("(",`t`.`ddd`,") ",`t`.`telefone`) AS telefone');
+        $selecionar['join'] = array(array('pessoa p','p.id = pessoa_fisica.pessoa'),array('telefone t','p.tel_principal = t.id'));
         if($this->pessoa_fisica_model->selecionar($selecionar)){
             $this->_add_data('lista_pessoas',$this->pessoa_fisica_model->registros());
         }

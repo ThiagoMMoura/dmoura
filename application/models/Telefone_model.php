@@ -13,7 +13,7 @@ class Telefone_model extends MY_Model{
     }
     
     public function salvar_telefones($dados,$pessoa = FALSE){
-        $id_primeiro = 0;
+        $id_primeiro = array();
         foreach ($dados as $tel){
             $add = array('ddd'=>'','telefone'=>'','tipo'=>'','operadora'=>'0','pessoa'=>$pessoa);
             if(array_key_exists('ddd', $tel)){
@@ -34,8 +34,8 @@ class Telefone_model extends MY_Model{
             log_message('DEBUG', "TEL: " . print_r($tel,TRUE));
             if($add['telefone']>9999999 && $add['telefone']<100000000000 && $add['tipo']!=NULL && $add['pessoa']!=NULL){
                 log_message('DEBUG', "ADD: " . print_r($add,TRUE));
-                if($this->inserir($add) && $id_primeiro === 0){
-                    $id_primeiro = $this->id_inserido();
+                if($this->inserir($add)){
+                    $id_primeiro[] = $this->id_inserido();
                 }
             }
         }

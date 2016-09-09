@@ -73,15 +73,15 @@ function add_telefone(dados){
     });
     $('[data-plus-tel-lista] [data-plus-tel-item="' + last + '"] [name]').each(function(){
         var name = $(this).attr('name');
-        if(name==='id_tel'){
-            $(this).val(last);
-        }
         if(dados!==undefined && dados!==null){
             if(dados[name]==='true' || dados[name]==='false' || dados[name]===true || dados[name]===false){
                 $(this).attr('checked',dados[name]);
             }else{
                 $(this).val(dados[name]);
             }
+        }
+        if(name==='id_tel'){
+            $(this).val(last);
         }
         $(this).attr('form',$('[data-plus-tel-form]').attr('data-tel-id-form'));
         $(this).attr('name',name + '[' + last + ']');

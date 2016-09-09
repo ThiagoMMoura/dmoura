@@ -2,6 +2,28 @@
 if(!isset($id_form)){
     $id_form = 'form_telefone';
 }
+if(!isset($action)){
+    $action = 'sistema';
+}
+if(!isset($form_atributos)){
+    $form_atributos = '';
+}
+if(!isset($hidden)){
+    $hidden = '';
+}
+
+if(is_array($form_atributos)){
+    $form_atributos['data-abide'] = '';
+    if(!array_key_exists('id', $form_atributos)){
+        $form_atributos['id'] = $id_form;
+    }
+}else{
+    $form_atributos .= ' data-abide';
+    if(strstr($form_atributos,' id="')===FALSE &&
+            (strstr($form_atributos,'id="')!==FALSE && strlen(strstr($form_atributos,'id="',TRUE))>0)){
+        $form_atributos .= ' id="' . $id_form . '"';
+    }
+}
 $campo['operadora'] = array(
     'dropdown'=>array('name'=>'operadora'),
     'label'=>array('text'=>'Operadora','posicao'=>'antes','attributes'=>array('class'=>'show-for-small-only')),
@@ -27,8 +49,8 @@ if($telefones!=NULL){
         );
     }
 }
+echo form_open($action,$form_atributos,$hidden);
 ?>
-
 <div class="row">
     <div class="column small-12">
         <fieldset class="fieldset">
@@ -87,3 +109,4 @@ if($telefones!=NULL){
         <hr class="show-for-small-only">
     </div>
 </div>
+<?php echo form_close();

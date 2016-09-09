@@ -1,12 +1,14 @@
 <?php
 $this->load->helper('form');
 $this->load->helper('inflector');
-
+if(!isset($index_registro)){
+    $index_registro = 'id';
+}
 if(!isset($selecionar)){
-    $selecionar = array('type'=>'checkbox','id'=>'item','name'=>'item','value'=>'id');
+    $selecionar = array('type'=>'checkbox','id'=>'item','name'=>'item','value'=>$index_registro);
 }else{
     if(!array_key_exists('value', $selecionar)){
-        $selecionar['value'] = 'id';
+        $selecionar['value'] = $index_registro;
     }
     if(!array_key_exists('name', $selecionar)){
         $selecionar['name'] = 'item';
@@ -56,11 +58,11 @@ if(!isset($table_scroll)){
                         <?php foreach($_lista as $item){
                             echo '<tr>';
                             if($selecionavel){
-                                $selecionar['id'] = $_sel_id . $item['id'];
+                                $selecionar['id'] = $_sel_id . $item[$index_registro];
                                 $selecionar['value'] = $item[$_sel_value];
                                 $selecionar['name'] = $_sel_name;
                                 if($selecionar['type']!=='radio'){
-                                    $selecionar['name'] .= '[' . $item['id'] . ']';
+                                    $selecionar['name'] .= '[' . $item[$index_registro] . ']';
                                 }
                                 echo '<td>' . campo_formulario_sistema($selecionar) . '</td>';
                             }

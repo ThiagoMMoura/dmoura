@@ -72,4 +72,45 @@ class Teste extends MY_Controller{
     public function post_print(){
         echo print_r($this->input->post(),TRUE);
     }
+    
+    public function cadastro_telefones(){
+        $this->load->model('tipo_telefone_model');
+        $this->load->model('operadora_telefone_model');
+        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
+        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
+        $this->_view("Cadastro Telefone - Teste",'telefone',parent::RELATIVO_CONTROLE);
+    }
+    
+    public function salvar_telefone(){
+        //Declara variavéis para alerta, com valores padrões em caso de erro
+        $call['tipo'] = ALERTA_ERRO;
+        $call['titulo'] = '';
+        $call['mensagem'] = 'Falha ao salvar dados!';
+        $call['fechavel'] = TRUE;
+        //$json['estatus'] = 'falha';
+
+        $this->load->model('telefone_model');
+        $this->load->model('pessoa_model');
+        $telefones = array();
+        //Converte os dados dos telefones em um array legivel pela função salvar_telefones
+        foreach($this->input->post('id_tel') as $id_tel){
+            $telefones[] = array(
+                'ddd' => $this->input->post('ddd')[$id_tel],
+                'telefone' => $this->input->post('numero_telefone')[$id_tel],
+                'operadora' => $this->input->post('operadora')[$id_tel],
+                'tipo' =>$this->input->post('tipo_telefone')[$id_tel]
+            );
+        }
+        //Salva telefones e altera o telefone principal na tabela pessoa
+        $tel_principal = $this->telefone_model->salvar_telefones($telefones,$this->input->post('pessoa'));
+        if($tel_principal!==0){
+            $call['tipo'] = ALERTA_INFO;
+            $call['mensagem'] = 'Telefone principal: ' . $tel_principal . '. Id Pessoa: ' . $this->input->post('pessoa');
+            if($this->pessoa_model->alterar(array('tel_principal'=>$tel_principal),'id = ' . $this->input->post('pessoa'))){
+                $call['titulo'] = 'Sucesso';
+            }
+        }
+        $this->_add_data('_callout',$call);
+        $this->cadastro_telefones();
+    }
 }

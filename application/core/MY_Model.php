@@ -197,10 +197,15 @@ class MY_Model extends CI_Model{
                 $this->db->having($mixed['having']);
             }
             if(array_key_exists('join', $mixed)){
-                if(count($mixed['join'])==3){
-                    $this->db->join($mixed['join'][0],$mixed['join'][1],$mixed['join'][2]);
-                }else{
-                    $this->db->join($mixed['join'][0],$mixed['join'][1]);
+                if(!is_array($mixed['join'][0])){
+                    $mixed['join'] = array($mixed['join']);
+                }
+                foreach($mixed['join'] as $join){
+                    if(count($mixed['join'])==3){
+                        $this->db->join($join[0],$join[1],$join[2]);
+                    }else{
+                        $this->db->join($join[0],$join[1]);
+                    }
                 }
             }
             return $this->set_query($this->db->get($this->nome_tabela));

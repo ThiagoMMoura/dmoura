@@ -37,7 +37,7 @@ class MY_Controller extends CI_Controller{
         
         $atributos['pai'] = $this->_pai;
         $atributos['controle'] = $this->_caminho_controle;
-        $atributos['metodo'] = $this->_obter_nome_metodo();
+        $atributos['metodo'] = $this->input->method();
         $atributos['area_restrita'] = $area_restrita;
         $this->load->library('controle_acesso',$atributos);
         if(!$this->controle_acesso->pai()){

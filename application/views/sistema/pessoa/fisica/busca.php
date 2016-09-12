@@ -2,7 +2,7 @@
 foreach($lista_pessoas as $k => $row){
     foreach($row as $i => $col){
         if($i==='cep'){
-            $lista_pessoas[$k]['cep'] = anchor('sistema/endereco/cep/consulta/' . $col,$col);
+            $lista_pessoas[$k]['cep'] = anchor('sistema/endereco/cep/consulta/' . $col,$col,'target="_blank"');
         }
     }
 }

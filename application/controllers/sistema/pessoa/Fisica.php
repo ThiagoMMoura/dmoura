@@ -158,4 +158,19 @@ class Fisica extends MY_Controller{
         }
         $this->_view("Busca Pessoa Física",'busca',parent::RELATIVO_CONTROLE);
     }
+    
+    public function editar($cpf){
+        $selecionar['select'] = array('cpf','p.nome AS nome','email','cep','e.nome AS uf','m.nome AS municipio',
+            'b.nome AS bairro','l.nome AS logradouro','numero','complemento');
+        $selecionar['join'] = array(
+            array('pessoa p','pessoa_fisica.id = p.id'),
+            array('endereco en','en.cep = p.cep'),
+            array('estado e','e.uf = en.uf'),
+            array('municipio m','m.id = en.municipio'),
+            array('bairro b','b.id = en.bairro'),
+            array('logradouro l','l.id = en.logradouro')
+        );
+        $selecionar['where']['cpf'] = $cpf;
+        $selecionar['where']['p.ativo'] = 1;
+    }
 }

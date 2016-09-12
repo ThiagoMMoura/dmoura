@@ -120,7 +120,8 @@ class MY_Model extends CI_Model{
      */
     public function possui_proximo(){
         if($this->_iterator){
-            if($this->_registro_atual++ < $this->num_registros()){
+            $this->_registro_atual++;
+            if($this->_registro_atual < $this->num_registros()){
                 return TRUE;
             }
         }else{

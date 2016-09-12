@@ -160,17 +160,60 @@ class Fisica extends MY_Controller{
     }
     
     public function editar($cpf){
-        $selecionar['select'] = array('cpf','p.nome AS nome','email','cep','e.nome AS uf','m.nome AS municipio',
-            'b.nome AS bairro','l.nome AS logradouro','numero','complemento');
+        $this->load->model('pessoa_fisica_model');
+        
+        $selecionar['select'] = array('p.id AS id_pessoa','cpf','p.nome AS nome',
+            'email','nascimento','nacionalidade','naturalidade','estado_civil',
+            'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
+            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento');
         $selecionar['join'] = array(
-            array('pessoa p','pessoa_fisica.id = p.id'),
+            array('pessoa p','pessoa_fisica.pessoa = p.id'),
             array('endereco en','en.cep = p.cep'),
-            array('estado e','e.uf = en.uf'),
+            //array('estado e','e.uf = en.uf'),
             array('municipio m','m.id = en.municipio'),
             array('bairro b','b.id = en.bairro'),
             array('logradouro l','l.id = en.logradouro')
         );
         $selecionar['where']['cpf'] = $cpf;
         $selecionar['where']['p.ativo'] = 1;
+        if($this->pessoa_fisica_model->selecionar($selecionar) && $this->pessoa_fisica_model->num_registros()===1){
+            $this->_add_data($this->pessoa_fisica_model->registro());
+            $nascimento = explode('-',$this->pessoa_fisica_model->campo('nascimento'));
+            $this->_add_data('nascimento',array('ano'=>$nascimento[0],'mes'=>$nascimento[1],'dia'=>$nascimento[2]));
+            
+            $this->load->model('estado_model');
+            $this->load->model('tipo_telefone_model');
+            $this->load->model('operadora_telefone_model');
+            $this->_add_data('estados',$this->estado_model->obter_uf_estado());
+            $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
+            $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
+            
+            $this->load->model('telefone_model');
+            $tel_sel = array();
+            $tel_sel['where']['pessoa'] = $this->pessoa_fisica_model->campo('id_pessoa');
+            if($this->telefone_model->selecionar($tel_sel)){
+                $telefones['id_tel'] = array();
+                $telefones['ddd'] = array();
+                $telefones['numero_telefone'] = array();
+                $telefones['tipo_telefone'] = array();
+                $telefones['operadora'] = array();
+                while($this->telefone_model->possui_proximo()){
+                    $telefones['id_tel'][] = $this->telefone_model->campo('id');
+                    $telefones['ddd'][] = $this->telefone_model->campo('ddd');
+                    $telefones['numero_telefone'][] = $this->telefone_model->campo('telefone');
+                    $telefones['tipo_telefone'][] = $this->telefone_model->campo('tipo');
+                    $telefones['operadora'][] = $this->telefone_model->campo('operadora');
+                }
+                $this->_add_data($telefones);
+            }
+            $this->_view("Editar Pessoa Física",'editar',parent::RELATIVO_CONTROLE);            
+        }else{
+            $call['tipo'] = ALERTA_ERRO;
+            $call['titulo'] = '';
+            $call['mensagem'] = 'O CPF ' . $cpf . ' não foi encontrado.';
+            $call['fechavel'] = FALSE;
+            $this->_add_data('_callout',$call);
+            $this->_view("Editar Pessoa Física",'callout',parent::RELATIVO_PAI);
+        }
     }
 }

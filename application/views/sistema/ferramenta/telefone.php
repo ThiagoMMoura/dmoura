@@ -37,15 +37,19 @@ $campo['tipo'] = array(
     'selected' => ''
 );
 add_body_script('assets/js/plus_telefone.js');
-$telefones = set_value('id_tel');
+$telefones = set_value('id_tel',isset($id_tel)?$id_tel:array());
+$ddds = set_value('ddd',isset($ddd)?$ddd:array());
+$numeros = set_value('numero_telefone',isset($numero_telefone)?$numero_telefone:array());
+$operadoras = set_value('operadora',isset($operadora)?$operadora:array());
+$tipo_telefones = set_value('tipo_telefone',isset($tipo_telefone)?$tipo_telefone:array());
 $lista = array();
 if($telefones!=NULL){
-    foreach($telefones as $tel){
+    foreach($telefones as $k => $tel){
         $lista[] = array('id_tel' => $tel,
-            'ddd' => set_value('ddd[]'),
-            'numero_telefone' => set_value('numero_telefone[]'),
-            'operadora' => set_value('operadora[]'),
-            'tipo_telefone' => set_value('tipo_telefone[]')
+            'ddd' => $ddds[$k],
+            'numero_telefone' => $numeros[$k],
+            'operadora' => $operadoras[$k],
+            'tipo_telefone' => $tipo_telefones[$k]
         );
     }
 }

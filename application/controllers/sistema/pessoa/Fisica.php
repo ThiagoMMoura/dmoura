@@ -84,7 +84,7 @@ class Fisica extends MY_Controller{
             $pessoa_dados = $this->input->post();
             $pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
             $pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
-            $pessoa_dados['senha'] = md5(random_string());
+            $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),random_string());
             $pessoa_dados['resenha'] = 1;
             $pessoa_dados['ativo'] = 1;
             if($this->pessoa_model->inserir($pessoa_dados)){

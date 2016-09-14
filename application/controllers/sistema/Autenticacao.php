@@ -52,7 +52,7 @@ class Autenticacao extends CI_Controller{
             $this->form_validation->set_rules('usuario', 'Usuário', 'trim|required|valid_email');
             $dados['email'] = $this->input->post('usuario');
         }
-        $this->form_validation->set_rules('senha', 'Senha', 'trim|required|md5');
+        $this->form_validation->set_rules('senha', 'Senha', 'trim|required|' . $this->config->item('hash-senha'));
 
         if ($this->form_validation->run() == FALSE) {
             $this->login('error_login',ALERTA_ERRO);

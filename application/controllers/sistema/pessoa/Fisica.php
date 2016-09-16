@@ -165,7 +165,7 @@ class Fisica extends MY_Controller{
         $selecionar['select'] = array('p.id AS id_pessoa','cpf','p.nome AS nome',
             'email','nascimento','nacionalidade','naturalidade','estado_civil',
             'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
-            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento');
+            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','ativo');
         $selecionar['join'] = array(
             array('pessoa p','pessoa_fisica.pessoa = p.id'),
             array('endereco en','en.cep = p.cep'),

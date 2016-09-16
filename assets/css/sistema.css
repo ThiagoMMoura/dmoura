@@ -5,6 +5,20 @@
 i{
     font-size: 1.125rem;
 }
+.switch-inactive{
+    right: 8%;
+}
+.switch-row div[class="switch-inline-*"]:nth-child(odd),
+.switch-row .switch-inline:nth-child(even){
+    background-color: #EEF7FF;
+}
+.switch-inline > p{
+    display: inline;
+}
+.switch-inline > .switch{
+    display: inline;
+    padding-left: 1rem;
+}
 .top-bar-wrapper {
   height: 100%;
   overflow-x: hidden;
@@ -239,6 +253,21 @@ i{
     .barra-ferramentas .menu li{/* Separação de botões em mobile*/
         /*border-left: 1px solid #e5e3e3;*/
     }
+    .switch-inline-small > p{
+        float: left;
+    }
+    .switch-inline-small > .switch{
+        float: right;
+    }
+}
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 64.9375em) {
+    .switch-inline-medium > p{
+        float: left;
+    }
+    .switch-inline-medium > .switch{
+        float: right;
+    }
 }
 /* Medium and up */
 @media screen and (min-width: 40em) {
@@ -259,6 +288,12 @@ i{
     }
     .barra-ferramentas-fixa{
         float: left;
+    }
+    .switch-inline-large > p{
+        float: left;
+    }
+    .switch-inline-large > .switch{
+        float: right;
     }
 }
 #dmoura-conteudo{

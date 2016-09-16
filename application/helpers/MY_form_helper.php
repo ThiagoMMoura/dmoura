@@ -161,7 +161,7 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
     }elseif(isset($field['button'])){
         $field['html'] = form_button($field['button'],'',$extra);
     }else{
-        $field['html'] = form_input($field['input'],'',$extra);
+        $field['html'] = form_input($field['input'],NULL,$extra);
         //$error = form_error(is_array($field['input'])?$field['input']['name']:$field['input']);
     }
     
@@ -175,9 +175,28 @@ function campo_formulario_sistema($data = '',$label = '',$extra = '',$datalist =
         if(is_array($label)){
             $text = isset($label['text'])?$label['text']:'';
             $for = isset($label['for'])?$label['for']:'';
-            $attributes = isset($label['attributes'])?$label['attributes']:'';
+            $attributes = isset($label['attributes'])?$label['attributes']:array();
+            $switch = isset($label['switch'])?$label['switch']:array();
             
-            if(isset($label['posicao'])){
+            if(isset($label['switch'])){
+                if(is_array($attributes)){
+                    if(array_key_exists('class', $attributes)){
+                        $attributes['class'] .= ' switch-paddle';
+                    }else{
+                        $attributes['class'] = 'switch-paddle';
+                    }
+                }
+                $switch['class'] = array_key_exists('class', $switch)?$switch['class']:'';
+                $field['html'] = '<p>' . $text . '</p><div class="switch ' . $switch['class'] . '">'  . $field['html'];
+                $content = '<span class="show-for-sr">' . $text . '</span>';
+                if(array_key_exists('ativo', $switch)){
+                    $content .= '<span class="switch-active" aria-hidden="true">' . $switch['ativo'] . '</span>';
+                }
+                if(array_key_exists('inativo', $switch)){
+                    $content .= '<span class="switch-inactive" aria-hidden="true">' . $switch['inativo'] . '</span>';
+                }
+                $field['html'] .= form_label($content,$for,$attributes) . '</div>';
+            }else if(isset($label['posicao'])){
                 if($label['posicao']==='depois'){
                     $field['html'] .= form_label($text,$for,$attributes);
                 }else{

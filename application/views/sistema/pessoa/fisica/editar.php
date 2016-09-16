@@ -43,6 +43,22 @@ $data['campos'] = array(
 //                'linha'=>array('class'=>'','numero'=>3),
 //                'label'=>array('text' => 'Enviar email com senha.','for'=>'enviar_email','posicao'=>'depois')
 //            )
+            array(
+                'tag'=>'input',
+                'atributos'=>array('name' => 'resenha', 'type' => 'checkbox','id'=>'resenha','class'=>'switch-input'),
+                'extra'=>set_checkbox('resenha', $resenha, $resenha==1),
+                'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
+                'linha'=>array('class'=>'switch-row','numero'=>3),
+                'label'=>array('text' => 'Solicitar no próximo login para o usuário criar uma nova senha?','for'=>'resenha','posicao'=>'depois','switch' => array('ativo'=>'Sim','inativo'=>'Não','class'=>''))
+            ),
+            array(
+                'tag'=>'input',
+                'atributos'=>array('name' => 'ativo', 'type' => 'checkbox','id'=>'ativo','class'=>'switch-input'),
+                'extra'=>set_checkbox('ativo',$ativo , $ativo==1),
+                'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
+                'linha'=>array('class'=>'','numero'=>4),
+                'label'=>array('text' => 'Cadastro da pessoa está ativo?','for'=>'ativo','posicao'=>'depois','switch' => array('ativo'=>'Sim','inativo'=>'Não','class'=>''))
+            )
         ),
         'legend' => 'Identificação'
     ),
@@ -111,12 +127,14 @@ $data['campos'] = array(
                 'campos'=>array(
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino',set_checkbox('sexo', 'Feminino',$sexo==='Feminino')=>'','id'=>'feminino'),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Feminino','id'=>'feminino'),
+                        'extra'=>set_radio('sexo', 'Feminino',$sexo==='Feminino'),
                         'label'=>array('text' => 'Feminino','for'=>'feminino','posicao'=>'depois')
                     ),
                     array(
                         'tag'=>'input',
-                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino',set_checkbox('sexo', 'Masculino',$sexo==='Masculino')=>'','id'=>'masculino'),
+                        'atributos'=>array('name' => 'sexo', 'type' => 'radio', 'value' => 'Masculino','id'=>'masculino'),
+                        'extra'=>set_radio('sexo', 'Masculino',$sexo==='Masculino'),
                         'label'=>array('text' => 'Masculino','for'=>'masculino','posicao'=>'depois')
                     )
                 ),

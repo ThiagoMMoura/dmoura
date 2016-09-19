@@ -14,10 +14,12 @@ i{
 }
 .switch-inline > p{
     display: inline;
+    padding-top: 1rem;
 }
 .switch-inline > .switch{
     display: inline;
-    padding-left: 1rem;
+    padding-right: 1rem;
+    float: left;
 }
 .top-bar-wrapper {
   height: 100%;
@@ -422,4 +424,8 @@ input.only-value{
     background: transparent;
     box-shadow: none;
     height: auto;
+}
+.top-border{
+    border-top: 1px solid #cacaca;
+    padding-top: 1rem;
 }

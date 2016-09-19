@@ -84,7 +84,7 @@ class Fisica extends MY_Controller{
             $pessoa_dados = $this->input->post();
             $pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
             $pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
-            $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),random_string());
+            $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
             $pessoa_dados['resenha'] = 1;
             $pessoa_dados['ativo'] = 1;
             if($this->pessoa_model->inserir($pessoa_dados)){
@@ -165,7 +165,7 @@ class Fisica extends MY_Controller{
         $selecionar['select'] = array('p.id AS id_pessoa','cpf','p.nome AS nome',
             'email','nascimento','nacionalidade','naturalidade','estado_civil',
             'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
-            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','ativo');
+            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','ativo','en.complemento AS complemento2');
         $selecionar['join'] = array(
             array('pessoa p','pessoa_fisica.pessoa = p.id'),
             array('endereco en','en.cep = p.cep'),
@@ -232,7 +232,7 @@ class Fisica extends MY_Controller{
             array('is_valid_cpf' => 'O CPF digitado não é válido.')
         );
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[pessoa.email]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
         $this->form_validation->set_rules('nascimento[dia]', 'Dia Nascimento', 'trim|required|exact_length[2]');
         $this->form_validation->set_rules('nascimento[mes]', 'Mes Nascimento', 'trim|required|exact_length[2]');
         $this->form_validation->set_rules('nascimento[ano]', 'Ano Nascimento', 'trim|required|exact_length[4]');
@@ -275,11 +275,11 @@ class Fisica extends MY_Controller{
             //Prepara dados para gravação na tabela pessoa
             $senha = random_string();//Gera uma senha aleatória
             $pessoa_dados = $this->input->post();
-            $pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
-            $pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
-            $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),random_string());
-            $pessoa_dados['resenha'] = 1;
-            $pessoa_dados['ativo'] = 1;
+            //$pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
+            //$pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
+            if($pessoa_dados['resenha']==1){
+                $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
+            }
             if($this->pessoa_model->alterar($pessoa_dados)){
                 
                 //Prepara dados para gravação na tabela pessoa_fisica
@@ -312,7 +312,7 @@ class Fisica extends MY_Controller{
                     $call['mensagem'] = 'Cadastro efetuado com sucesso!';
                     
                     //Envia email com a senha caso tenha algum email cadastrado
-                    if($pessoa_dados['email']!=NULL && $this->input->post('enviar_email')){
+                    if($pessoa_dados['email']!=NULL && $pessoa_dados['resenha']==1){
                         $this->load->library('email');
                         if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
                             $config =  $this->config->item('email_smtp')['email_suporte'];

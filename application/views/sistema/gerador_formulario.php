@@ -133,6 +133,10 @@ function gerar_campo($campos,$c_linha=TRUE,$c_coluna=TRUE){
                 }
                 echo gerar_campo($campo['campos']);
                 echo '</fieldset>';
+                break;
+            }
+            case 'hr':{
+                echo '<hr></hr>';
             }
         }
         if(array_key_exists('botao', $campo)){

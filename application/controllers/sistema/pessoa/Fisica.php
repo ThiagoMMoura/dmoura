@@ -143,7 +143,11 @@ class Fisica extends MY_Controller{
                 echo json_encode($json);
             }else{
                 $this->_add_data('_callout',$call);
-                $this->cadastro();
+                if($call['tipo'] === ALERTA_SUCESSO){
+                    $this->editar();
+                }else{
+                    $this->cadastro();
+                }
             }
         }
     }
@@ -159,61 +163,88 @@ class Fisica extends MY_Controller{
         $this->_view("Busca Pessoa Física",'busca',parent::RELATIVO_CONTROLE);
     }
     
-    public function editar($cpf){
+    public function editar($valor = '',$is_cpf = TRUE){
         $this->load->model('pessoa_fisica_model');
-        
-        $selecionar['select'] = array('p.id AS id_pessoa','cpf','p.nome AS nome',
-            'email','nascimento','nacionalidade','naturalidade','estado_civil',
-            'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
-            'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','ativo','en.complemento AS complemento2');
-        $selecionar['join'] = array(
-            array('pessoa p','pessoa_fisica.pessoa = p.id'),
-            array('endereco en','en.cep = p.cep'),
-            //array('estado e','e.uf = en.uf'),
-            array('municipio m','m.id = en.municipio'),
-            array('bairro b','b.id = en.bairro'),
-            array('logradouro l','l.id = en.logradouro')
-        );
-        $selecionar['where']['cpf'] = $cpf;
-        $selecionar['where']['p.ativo'] = 1;
-        if($this->pessoa_fisica_model->selecionar($selecionar) && $this->pessoa_fisica_model->num_registros()===1){
-            $this->_add_data($this->pessoa_fisica_model->registro());
-            $nascimento = explode('-',$this->pessoa_fisica_model->campo('nascimento'));
-            $this->_add_data('nascimento',array('ano'=>$nascimento[0],'mes'=>$nascimento[1],'dia'=>$nascimento[2]));
-            
-            $this->load->model('estado_model');
-            $this->load->model('tipo_telefone_model');
-            $this->load->model('operadora_telefone_model');
-            $this->_add_data('estados',$this->estado_model->obter_uf_estado());
-            $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
-            $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
-            
-            $this->load->model('telefone_model');
-            $tel_sel = array();
-            $tel_sel['where']['pessoa'] = $this->pessoa_fisica_model->campo('id_pessoa');
-            if($this->telefone_model->selecionar($tel_sel)){
-                $telefones['id_tel'] = array();
-                $telefones['ddd'] = array();
-                $telefones['numero_telefone'] = array();
-                $telefones['tipo_telefone'] = array();
-                $telefones['operadora'] = array();
-                while($this->telefone_model->possui_proximo()){
-                    $telefones['id_tel'][] = $this->telefone_model->campo('id');
-                    $telefones['ddd'][] = $this->telefone_model->campo('ddd');
-                    $telefones['numero_telefone'][] = $this->telefone_model->campo('telefone');
-                    $telefones['tipo_telefone'][] = $this->telefone_model->campo('tipo');
-                    $telefones['operadora'][] = $this->telefone_model->campo('operadora');
-                }
-                $this->_add_data($telefones);
+        $this->load->model('estado_model');
+        $this->load->model('tipo_telefone_model');
+        $this->load->model('operadora_telefone_model');
+        $this->_add_data('estados',$this->estado_model->obter_uf_estado());
+        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
+        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
+        if($valor==NULL){
+            if($this->input->post('cpf')!=NULL){
+                $valor = $this->input->post('cpf');
+            }else{
+                $valor = $this->input->post('id');
+                $is_cpf = FALSE;
             }
-            $this->_view("Editar Pessoa Física",'editar',parent::RELATIVO_CONTROLE);            
+        }
+        if($valor!=NULL){
+            $selecionar['select'] = array('p.id AS id_pessoa','cpf','p.nome AS nome',
+                'email','nascimento','nacionalidade','naturalidade','estado_civil',
+                'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
+                'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','p.ativo','en.complemento AS complemento2');
+            $selecionar['join'] = array(
+                array('pessoa p','pessoa_fisica.pessoa = p.id'),
+                array('endereco en','en.cep = p.cep'),
+                //array('estado e','e.uf = en.uf'),
+                array('municipio m','m.id = en.municipio'),
+                array('bairro b','b.id = en.bairro'),
+                array('logradouro l','l.id = en.logradouro')
+            );
+
+            if($is_cpf){
+                $selecionar['where']['cpf'] = $valor;
+            }else{
+                $selecionar['where']['pessoa_fisica.id'] = $valor;
+            }
+            $selecionar['where']['p.ativo'] = 1;
+            if($this->pessoa_fisica_model->selecionar($selecionar) && $this->pessoa_fisica_model->num_registros()===1){
+                $this->_add_data($this->pessoa_fisica_model->registro());
+                if($this->input->method()==='post'){
+                    $_POST = array_merge_recursive($_POST,$this->pessoa_fisica_model->registro());
+                }
+                $nascimento = explode('-',$this->pessoa_fisica_model->campo('nascimento'));
+                $this->_add_data('nascimento',array('ano'=>$nascimento[0],'mes'=>$nascimento[1],'dia'=>$nascimento[2]));
+
+                $this->load->model('telefone_model');
+                $tel_sel = array();
+                $tel_sel['where']['pessoa'] = $this->pessoa_fisica_model->campo('id_pessoa');
+                if($this->telefone_model->selecionar($tel_sel)){
+                    $telefones['id_tel'] = array();
+                    $telefones['ddd'] = array();
+                    $telefones['numero_telefone'] = array();
+                    $telefones['tipo_telefone'] = array();
+                    $telefones['operadora'] = array();
+                    while($this->telefone_model->possui_proximo()){
+                        $telefones['id_tel'][] = $this->telefone_model->campo('id');
+                        $telefones['ddd'][] = $this->telefone_model->campo('ddd');
+                        $telefones['numero_telefone'][] = $this->telefone_model->campo('telefone');
+                        $telefones['tipo_telefone'][] = $this->telefone_model->campo('tipo');
+                        $telefones['operadora'][] = $this->telefone_model->campo('operadora');
+                    }
+                    $this->_add_data($telefones);
+                }
+                $this->_view("Editar Pessoa Física",'editar',parent::RELATIVO_CONTROLE);            
+            }else{
+                $call['tipo'] = ALERTA_ERRO;
+                $call['titulo'] = '';
+                $call['mensagem'] = 'Nenhum registro encontrado';
+                if($is_cpf){
+                    $call['mensagem'] = 'O CPF ' . $valor . ' não foi encontrado.';
+                }
+                $call['fechavel'] = FALSE;
+                $this->_add_data('_callout',$call);
+                $this->_view("Editar Pessoa Física",'callout',parent::RELATIVO_PAI);
+            }
         }else{
-            $call['tipo'] = ALERTA_ERRO;
-            $call['titulo'] = '';
-            $call['mensagem'] = 'O CPF ' . $cpf . ' não foi encontrado.';
-            $call['fechavel'] = FALSE;
-            $this->_add_data('_callout',$call);
-            $this->_view("Editar Pessoa Física",'callout',parent::RELATIVO_PAI);
+            $data = array('id_pessoa'=>'0','cpf'=>'','nome'=>'','email'=>'',
+                'nascimento'=>array('ano'=>'1999','mes'=>'01','dia'=>'01'),'nacionalidade'=>'',
+                'naturalidade'=>'','estado_civil'=>'','sexo'=>'','cep'=>'',
+                'uf'=>'','municipio'=>'','bairro'=>'','logradouro'=>'','numero'=>'',
+                'complemento'=>'','resenha'=>'','ativo'=>'','complemento2'=>'');
+            $this->_add_data($data);
+            $this->_view("Editar Pessoa Física",'editar',parent::RELATIVO_CONTROLE);
         }
     }
     
@@ -225,6 +256,7 @@ class Fisica extends MY_Controller{
         $this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
         
+        $this->form_validation->set_rules('id_pessoa', 'Id Pessoa', 'trim');
         $this->form_validation->set_rules('cpf', 'CPF',array(
                 'trim','required','is_natural','exact_length[11]',
                 array('is_valid_cpf',array($this->pessoa_fisica_model,'cpf_valido'))
@@ -233,6 +265,8 @@ class Fisica extends MY_Controller{
         );
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
         $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
+        $this->form_validation->set_rules('resenha', 'Resenha', 'trim');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim');
         $this->form_validation->set_rules('nascimento[dia]', 'Dia Nascimento', 'trim|required|exact_length[2]');
         $this->form_validation->set_rules('nascimento[mes]', 'Mes Nascimento', 'trim|required|exact_length[2]');
         $this->form_validation->set_rules('nascimento[ano]', 'Ano Nascimento', 'trim|required|exact_length[4]');
@@ -272,71 +306,85 @@ class Fisica extends MY_Controller{
             $call['fechavel'] = TRUE;
             $json['estatus'] = 'falha';
             
-            //Prepara dados para gravação na tabela pessoa
-            $senha = random_string();//Gera uma senha aleatória
-            $pessoa_dados = $this->input->post();
-            //$pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
-            //$pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
-            if($pessoa_dados['resenha']==1){
-                $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
-            }
-            if($this->pessoa_model->alterar($pessoa_dados)){
-                
-                //Prepara dados para gravação na tabela pessoa_fisica
-                $fisica_dados = $this->input->post();
-                $fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
-                $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
-                if($this->pessoa_fisica_model->inserir($fisica_dados)){
-                    
-                    //Cadastra números de telefone para a pessoa
-                    $this->load->model('telefone_model');
-                    $telefones = array();
-                    //Converte os dados dos telefones em um array legivel pela função salvar_telefones
-                    foreach($this->input->post('id_tel') as $k => $id_tel){
-                        $telefones[] = array(
-                            'ddd' => $this->input->post('ddd')[$k],
-                            'telefone' => $this->input->post('numero_telefone')[$k],
-                            'operadora' => $this->input->post('operadora')[$k],
-                            'tipo' =>$this->input->post('tipo_telefone')[$k]
-                        );
-                    }
-                    //Salva telefones e altera o telefone principal na tabela pessoa
-                    $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
-                    if(!empty($tel_principal)){
-                        $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal[0]),'id = ' . $fisica_dados['pessoa']);
-                    }
-                    
-                    //Altera variavéis do alerta para mensagem de sucesso
-                    $json['estatus'] = 'sucesso';
-                    $call['tipo'] = ALERTA_SUCESSO;
-                    $call['mensagem'] = 'Cadastro efetuado com sucesso!';
-                    
-                    //Envia email com a senha caso tenha algum email cadastrado
-                    if($pessoa_dados['email']!=NULL && $pessoa_dados['resenha']==1){
-                        $this->load->library('email');
-                        if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
-                            $config =  $this->config->item('email_smtp')['email_suporte'];
-                            $this->email->initialize($config);
-                        }
-                        $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
-                        $this->email->to($pessoa_dados['email']);
-
-                        $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
-                        $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
-
-                        $this->email->send();
-                    }
-                }else{
-                    //Deleta o registro na tabela pessoa caso falhe o insert na tabela pessoa_fisica
-                    $this->pessoa_model->deletar($fisica_dados['pessoa']);
+            $id_pessoa = 0;
+            $selecionar['select'] = array('id','pessoa');
+            $selecionar['join'] = array(array('pessoa p','p.id = pessoa_fisica.pessoa'));
+            $selecionar['where'] = 'cpf = ' . $this->input->post('cpf');
+            if($this->pessoa_fisica_model->selecionar($selecionar)){
+                if($this->pessoa_fisica_model->num_registros() === 1){
+                    $id_pessoa = $this->pessoa_fisica_model->campo('pessoa');
                 }
             }
+            if($id_pessoa > 0){
+                //Prepara dados para gravação na tabela pessoa_fisica
+                $fisica_dados = $this->input->post(array('nascimento','sexo','nacionalidade','naturalidade','estado_civil'));
+                $fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
+                $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
+                //Altera os dados na tabela Pessoa Fisica
+                $this->pessoa_fisica_model->alterar($fisica_dados,array('cpf'=>$this->input->post('cpf')));
+
+                //Cadastra números de telefone para a pessoa
+                $this->load->model('telefone_model');
+                $telefones = array();
+                //Converte os dados dos telefones em um array legivel pela função salvar_telefones
+                foreach($this->input->post('id_tel') as $k => $id_tel){
+                    if($id_tel>0){
+
+                    }
+                    $telefones[] = array(
+                        'ddd' => $this->input->post('ddd')[$k],
+                        'telefone' => $this->input->post('numero_telefone')[$k],
+                        'operadora' => $this->input->post('operadora')[$k],
+                        'tipo' =>$this->input->post('tipo_telefone')[$k]
+                    );
+                }
+                //Salva telefones
+                //$tel_principal = $this->telefone_model->salvar_telefones($telefones,$id_pessoa);
+
+                //Prepara dados para gravação na tabela pessoa
+                $senha = random_string();//Gera uma senha aleatória
+                $pessoa_dados = $this->input->post(array('nome','email','cep','numero','complemento','resenha'));
+                //$pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
+                //$pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
+                if($pessoa_dados['resenha']==1){
+                    $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
+                }
+                //Alterar o telefone principal na tabela pessoa
+//                if(!empty($tel_principal)){
+//                    $pessoa_dados['tel_principal'] = $tel_principal[0];
+//                }
+                
+                //Altera os dados na tabela Pessoa e
+                //Envia email com a senha caso tenha algum email cadastrado
+                if($this->pessoa_model->alterar($pessoa_dados,array('id'=>$id_pessoa)) && 
+                        $pessoa_dados['email']!=NULL && $pessoa_dados['resenha']==1){
+                    $this->load->library('email');
+                    if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
+                        $config =  $this->config->item('email_smtp')['email_suporte'];
+                        $this->email->initialize($config);
+                    }
+                    $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
+                    $this->email->to($pessoa_dados['email']);
+
+                    $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
+                    $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
+
+                    $this->email->send();
+                }
+                
+                //Altera variavéis do alerta para mensagem de sucesso
+                $json['estatus'] = 'sucesso';
+                $call['tipo'] = ALERTA_SUCESSO;
+                $call['mensagem'] = 'Dados alterados com sucesso!';
+            }
+
+            //RETORNO PARA CLIENTE
             if($this->input->is_ajax_request()){
                 $json['callout'] = $call;
                 echo json_encode($json);
             }else{
                 $this->_add_data('_callout',$call);
-                $this->cadastro();
+                $this->editar();
             }
         }
     }

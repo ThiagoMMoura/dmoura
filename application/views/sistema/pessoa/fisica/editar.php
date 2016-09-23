@@ -4,7 +4,7 @@ add_body_script('assets/js/viacep.js');
 $this->load->helper('form');
 
 $data['form_atributos'] = array('id'=>'form_pessoa_fisica','data-live-validate'=>'true');
-$data['action'] = 'sistema/pessoa/fisica/salvar';
+$data['action'] = 'sistema/pessoa/fisica/atualizar';
 $data['campos'] = array(
     array(
         'tag'=>'fieldset',
@@ -14,7 +14,8 @@ $data['campos'] = array(
         'campos'=>array(
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('cpf',$cpf),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>'','disabled'=>set_value('cpf',$cpf)!=''),
+                'atributos'=>array('value'=>set_value('cpf',$cpf),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>''),
+                'extra' => set_value('cpf',$cpf)!=''?'disabled':'',
                 'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>1),
                 'erro'=>'O CPF é obrigatório e deve conter somente números.',
@@ -46,7 +47,7 @@ $data['campos'] = array(
             array(
                 'tag'=>'input',
                 'atributos'=>array('name' => 'resenha', 'type' => 'checkbox','id'=>'resenha','class'=>'switch-input'),
-                'extra'=>set_checkbox('resenha', $resenha, $resenha==1),
+                'extra'=>set_checkbox('resenha', '1', $resenha==1),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
                 'linha'=>array('class'=>'switch-row','numero'=>4),
                 'label'=>array('text' => 'Solicitar no próximo login para o usuário criar uma nova senha?','for'=>'resenha','posicao'=>'depois','switch' => array('ativo'=>'Sim','inativo'=>'Não','class'=>''))
@@ -54,7 +55,7 @@ $data['campos'] = array(
             array(
                 'tag'=>'input',
                 'atributos'=>array('name' => 'ativo', 'type' => 'checkbox','id'=>'ativo','class'=>'switch-input'),
-                'extra'=>set_checkbox('ativo',$ativo , $ativo==1),
+                'extra'=>set_checkbox('ativo','1', $ativo==1),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
                 'linha'=>array('class'=>'switch-row top-border','numero'=>5),
                 'label'=>array('text' => 'Ativar usuário desta pessoa física?','for'=>'ativo','posicao'=>'depois','switch' => array('ativo'=>'Sim','inativo'=>'Não','class'=>''))
@@ -211,7 +212,7 @@ $data['campos'] = array(
     ),
     array(
         'tag'=>'input',
-        'atributos'=>array('type'=>'submit','value'=>'Salvar','name'=>'salvar','id'=>'salvar','data-icone'=>'fi-save','class'=>'is-button-bar-menu button'),
+        'atributos'=>array('type'=>'submit','value'=>'Salvar','name'=>'atualizar','id'=>'atualizar','data-icone'=>'fi-save','class'=>'is-button-bar-menu button'),
         'linha'=>array('class'=>'','numero'=>10),
     )
 );

@@ -9,9 +9,10 @@ foreach($lista_pessoas as $k => $row){
 }
 $data['_lista'] = $lista_pessoas;
 $data['ocultar_campo'] = array('senha','id');
+$data['selecionar'] = array('type'=>'radio');
 ?>
 <form action="<?php echo base_url('sistema/pessoa/fisica/editar');?>" method="post">
     <input type="hidden" value="0" name="id" id="id-pessoa">
     <?php $this->load->view('sistema/gerador_tabela',$data); ?>
-    <input type="submit" class="button is-button-bar-menu" value="Editar" name="editar" id="editar" data-icone="fi-pen">
+    <input type="submit" class="button is-button-bar-menu" value="Editar" name="editar" id="editar" data-icone="fi-pencil">
 </form>

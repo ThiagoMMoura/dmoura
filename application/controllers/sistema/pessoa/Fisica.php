@@ -48,6 +48,7 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
         $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[Masculino,Feminino]');
         $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
+        $this->form_validation->set_rules('uf', 'Estado', 'trim');
         $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
         $this->form_validation->set_rules('logradouro', 'Logradouro', 'trim');
@@ -275,6 +276,7 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
         $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[Masculino,Feminino]');
         $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
+        $this->form_validation->set_rules('uf', 'Unidade Federal', 'trim');
         $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
         $this->form_validation->set_rules('logradouro', 'Logradouro', 'trim');
@@ -307,7 +309,7 @@ class Fisica extends MY_Controller{
             $json['estatus'] = 'falha';
             
             $id_pessoa = 0;
-            $selecionar['select'] = array('id','pessoa');
+            $selecionar['select'] = array('pessoa');
             $selecionar['join'] = array(array('pessoa p','p.id = pessoa_fisica.pessoa'));
             $selecionar['where'] = 'cpf = ' . $this->input->post('cpf');
             if($this->pessoa_fisica_model->selecionar($selecionar)){
@@ -319,27 +321,32 @@ class Fisica extends MY_Controller{
                 //Prepara dados para gravação na tabela pessoa_fisica
                 $fisica_dados = $this->input->post(array('nascimento','sexo','nacionalidade','naturalidade','estado_civil'));
                 $fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
-                $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
+                //$fisica_dados['pessoa'] = $this->input->post('id_pessoa');
                 //Altera os dados na tabela Pessoa Fisica
                 $this->pessoa_fisica_model->alterar($fisica_dados,array('cpf'=>$this->input->post('cpf')));
 
                 //Cadastra números de telefone para a pessoa
                 $this->load->model('telefone_model');
-                $telefones = array();
+                $telefones_old = array();
+                $telefones_new = array();
                 //Converte os dados dos telefones em um array legivel pela função salvar_telefones
                 foreach($this->input->post('id_tel') as $k => $id_tel){
-                    if($id_tel>0){
-
-                    }
-                    $telefones[] = array(
+                    $telefone = array(
                         'ddd' => $this->input->post('ddd')[$k],
                         'telefone' => $this->input->post('numero_telefone')[$k],
                         'operadora' => $this->input->post('operadora')[$k],
                         'tipo' =>$this->input->post('tipo_telefone')[$k]
                     );
+                    if($id_tel>0){
+                        $telefone['id'] = $id_tel;
+                        $telefones_old[] = $telefone;
+                    }else{
+                        $telefones_new[] = $telefone;
+                    }
                 }
                 //Salva telefones
-                //$tel_principal = $this->telefone_model->salvar_telefones($telefones,$id_pessoa);
+                $this->telefone_model->salvar_telefones($telefones_new,$id_pessoa);
+                $this->telefone_model->alterar_telefones($telefones_old,$id_pessoa);
 
                 //Prepara dados para gravação na tabela pessoa
                 $senha = random_string();//Gera uma senha aleatória

@@ -41,4 +41,34 @@ class Telefone_model extends MY_Model{
         }
         return $id_primeiro;
     }
+    
+    public function alterar_telefones($dados,$pessoa = FALSE){
+        $id_primeiro = array();
+        foreach ($dados as $tel){
+            $add = array('ddd'=>'','telefone'=>'','tipo'=>'','operadora'=>'0','pessoa'=>$pessoa);
+            if(array_key_exists('ddd', $tel)){
+                $add['ddd'] = $tel['ddd'];
+            }
+            if(array_key_exists('telefone', $tel)){
+                $add['telefone'] = $tel['telefone'];
+            }
+            if(array_key_exists('tipo', $tel)){
+                $add['tipo'] = $tel['tipo'];
+            }
+            if(array_key_exists('operadora', $tel)){
+                $add['operadora'] = $tel['operadora'];
+            }
+            if($pessoa===FALSE && array_key_exists('pessoa', $tel)){
+                $add['pessoa'] = $tel['pessoa'];
+            }
+            log_message('DEBUG', "UPD TEL: " . print_r($tel,TRUE));
+            if($tel['id']>0 && $add['telefone']>9999999 && $add['telefone']<100000000000 && $add['tipo']!=NULL && $add['pessoa']!=NULL){
+                log_message('DEBUG', "UPD: " . print_r($add,TRUE));
+                if($this->alterar($add,array('id'=>$tel['id']))){
+                    $id_primeiro[] = $this->id_inserido();
+                }
+            }
+        }
+        return $id_primeiro;
+    }
 }

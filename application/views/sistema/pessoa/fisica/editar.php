@@ -15,7 +15,7 @@ $data['campos'] = array(
             array(
                 'tag'=>'input',
                 'atributos'=>array('value'=>set_value('cpf',$cpf),'name'=>'cpf','type'=>'text','pattern'=>'\d{11}','placeholder' => 'Somente números','maxlength'=>'11','required'=>''),
-                'extra' => set_value('cpf',$cpf)!=''?'disabled':'',
+                'extra' => set_value('cpf',$cpf)!=''?'readonly':'',
                 'colunas'=>array('tamanho-m'=>4,'tamanho-l'=>4,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>1),
                 'erro'=>'O CPF é obrigatório e deve conter somente números.',
@@ -46,7 +46,7 @@ $data['campos'] = array(
 //            )
             array(
                 'tag'=>'input',
-                'atributos'=>array('name' => 'resenha', 'type' => 'checkbox','id'=>'resenha','class'=>'switch-input'),
+                'atributos'=>array('name' => 'resenha', 'type' => 'checkbox','id'=>'resenha','class'=>'switch-input','value'=>'1'),
                 'extra'=>set_checkbox('resenha', '1', $resenha==1),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
                 'linha'=>array('class'=>'switch-row','numero'=>4),
@@ -54,7 +54,7 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('name' => 'ativo', 'type' => 'checkbox','id'=>'ativo','class'=>'switch-input'),
+                'atributos'=>array('name' => 'ativo', 'type' => 'checkbox','id'=>'ativo','class'=>'switch-input','value'=>'1'),
                 'extra'=>set_checkbox('ativo','1', $ativo==1),
                 'colunas'=>array('tamanho-m'=>12,'tamanho-l'=>12,'class'=>'switch-inline'),
                 'linha'=>array('class'=>'switch-row top-border','numero'=>5),
@@ -169,21 +169,21 @@ $data['campos'] = array(
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('municipio',$municipio),'id'=>'cidade','name'=>'municipio','placeholder' => 'Municipio','disabled'=>set_value('municipio',$municipio)!=''),
+                'atributos'=>array('value'=>set_value('municipio',$municipio),'id'=>'cidade','name'=>'municipio','placeholder' => 'Municipio','readonly'=>set_value('municipio',$municipio)!=''),
                 'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>5,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>5),
                 'label'=>'Municipio'
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('bairro',$bairro),'id'=>'bairro','name'=>'bairro','placeholder' => 'Bairro','disabled'=>set_value('bairro',$bairro)!=''),
+                'atributos'=>array('value'=>set_value('bairro',$bairro),'id'=>'bairro','name'=>'bairro','placeholder' => 'Bairro','readonly'=>set_value('bairro',$bairro)!=''),
                 'colunas'=>array('tamanho-m'=>6,'tamanho-l'=>12,'class'=>''),
                 'linha'=>array('class'=>'','numero'=>5),
                 'label'=>'Bairro'
             ),
             array(
                 'tag'=>'input',
-                'atributos'=>array('value'=>set_value('logradouro',$logradouro),'id'=>'rua','name'=>'logradouro','placeholder' => 'Rua/Av','disabled'=>set_value('logradouro',$logradouro)!=''),
+                'atributos'=>array('value'=>set_value('logradouro',$logradouro),'id'=>'rua','name'=>'logradouro','placeholder' => 'Rua/Av','readonly'=>set_value('logradouro',$logradouro)!=''),
                 'colunas'=>array('tamanho-m'=>9,'tamanho-l'=>9,'class'=>'end'),
                 'linha'=>array('class'=>'','numero'=>5),
                 'label'=>'Logradouro'
@@ -216,7 +216,11 @@ $data['campos'] = array(
         'linha'=>array('class'=>'','numero'=>10),
     )
 );
-$data['hidden'] = array('complemento2'=>set_value('complemento2'));
+$data['hidden'] = array(
+    'complemento2'=>set_value('complemento2'),
+    'uf'=>set_value('uf',$uf),
+    'id_pessoa'=>set_value('id_pessoa',$id_pessoa)
+);
 $this->load->view('sistema/gerador_formulario',$data);
 
 $data2['id_form'] = $data['form_atributos']['id'];

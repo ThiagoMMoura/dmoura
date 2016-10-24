@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author Thiago Moura
  */
-$config['home'] = 'sistema/teste';
+$config['home'] = 'sistema/dashboard';
 $config['template-html'] = 'sistema/html_base';
 $config['hash-senha'] = 'sha1';
 $config['head-itens-antes-todos'] = array(

@@ -99,7 +99,9 @@ class Controle_acesso {
         if($pai==NULL){
             $pai = $this->_pai;
         }
-        
+        if($this->_area_restrita && !$this->logado()){
+			return FALSE;
+		}
         return $this->acesso_permitido($this->obter_id_url($pai));
     }
     

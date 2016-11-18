@@ -7,6 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['home'] = 'sistema/dashboard';
 $config['template-html'] = 'sistema/html_base';
+$config['pular-resenha'] = TRUE;
 $config['hash-senha'] = 'sha1';
 $config['head-itens-antes-todos'] = array(
     array('meta'=>array('name'=>'x-ua-compatible','type'=>'http-equiv','content'=>'ie=edge')),

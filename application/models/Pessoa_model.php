@@ -35,4 +35,23 @@ class Pessoa_model extends MY_Model{
         
         return $this->num_registros()==1;
     }
+	
+	public function alterar_senha($dados, $id = '', $email = '', $nova_senha = ''){
+		$senha_atual = $dados;
+		if(is_array($dados)){
+			$senha_atual = $dados['senha_atual'];
+			$email = $dados['email'];
+			$id = $dados['id'];
+			$nova_senha = $dados['nova_senha'];
+		}
+		$por = 'id';
+		if($id == NULL){
+			$por = 'email';
+			$id = $email;
+		}
+		if($this->valida_usuario(array($por=>$id,'senha'=>$senha_atual))){
+			return $this->alterar(array('senha'=>$nova_senha), array($por=>$id));
+		}
+		return FALSE;
+	}
 }

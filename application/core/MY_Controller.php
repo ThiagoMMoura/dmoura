@@ -28,7 +28,7 @@ class MY_Controller extends CI_Controller{
      * @param string $caminho_controle - Caminho dentro da pasta controller até o 
      * arquivo do controle atual.
      */
-    public function __construct($caminho_controle,$area_restrita = FALSE) {
+    public function __construct($caminho_controle,$area_restrita = FALSE,$resenha = TRUE) {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
         
@@ -39,6 +39,7 @@ class MY_Controller extends CI_Controller{
         $atributos['controle'] = $this->_caminho_controle;
         $atributos['metodo'] = $this->input->method();
         $atributos['area_restrita'] = $area_restrita;
+		$atributos['resenha'] = $resenha;
         $this->load->library('controle_acesso',$atributos);
         if(!$this->controle_acesso->pai()){
             redirect($this->_pai . '/autenticacao/login/error_permissao/' . ALERTA_ERRO);

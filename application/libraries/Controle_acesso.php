@@ -27,6 +27,9 @@ class Controle_acesso {
         $this->_metodo = $data['metodo'];
         
         if($this->_area_restrita && $this->logado()){
+			if($data['resenha'] && $this->CI->session->resenha){
+				redirect($this->CI->config->item('pagina-resenha'));
+			}
             $this->CI->load->model('permissao_model');
             $select['select'] = 'area, liberado';
             $select['where'] = 'grupo = ' . $this->CI->session->nivel;

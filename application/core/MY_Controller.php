@@ -49,6 +49,9 @@ class MY_Controller extends CI_Controller{
             $this->output->_display();
             exit;
         }
+		if($this->controle_acesso->logado()){
+			$this->twig->addGlobal('app',['session'=>$this->session]);
+		}
         
     }
     

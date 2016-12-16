@@ -45,7 +45,7 @@ $config['menu-principal'] = array(
         'titulo' => 'Pessoas',
         'url' => '#pessoa',
         'submenu' => array(
-            //'cadastro-funcionario' => array('titulo'=>'Cadastro de Funcionários','url'=>'#'),
+            'funcionario-cadastro' => array('titulo'=>'Cadastro de Funcionários','url'=>'sistema/pessoa/funcionario/cadastro'),
             'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro'),
             'fisica-busca' => array('titulo'=>'Busca Pessoa Fisica','url'=>'sistema/pessoa/fisica/busca'),
             //'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')

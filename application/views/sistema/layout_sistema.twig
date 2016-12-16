@@ -1,13 +1,41 @@
 {% extends 'sistema/esqueleto_html.twig' %}
 {% block head %}
-    <link rel="stylesheet" href="{{ base_url('assets/css/sistema.css') }}" />
+    <link rel="stylesheet" href="{{ base_url('assets/css/sistema2.css') }}" />
     {% block styles %}{% endblock %}
 {% endblock %}
 {% block titulo_pagina %}
-    D'Moura {{ titulo }}
+    D'Moura | {{ titulo }}
 {% endblock %}
 {% block body %}
-    <div class="top-bar-wrapper">
+    <div class="layout-pagina altura-maxima">
+        <div class="off-canvas-wrapper altura-maxima">
+            <div class="off-canvas-wrapper-inner altura-maxima" data-off-canvas-wrapper>
+                <div class="off-canvas position-left reveal-for-large altura-maxima" id="offCanvasLeft" data-off-canvas>
+                    <button class="close-button" aria-label="Close menu" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="off-canvas-menu">
+                        {% include 'sistema/menu_canvas_esquerdo.twig' %}
+                    </div>
+                </div>
+            
+                <div class="off-canvas-content bloco-conteudo" data-off-canvas-content>
+                    <div class="top-bar">
+                        <div class="top-bar-title">
+                            <button type="button" class="menu-icon" data-toggle="offCanvasLeft"></button>
+                            <strong>{{ titulo }}</strong>
+                        </div>
+                        <div>
+                            <div class="top-bar-left"></div>
+                            <div class="top-bar-right"></div>
+                        </div>
+                    </div>
+                    {% block conteudo %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top-bar-wrapper hide">
     <div class="top-bar-wrapper-inner is-open-top">
         <div id="barra-dmoura" class="dm-top-bar position-top">
             <div class="barra-principal fonte-branco">
@@ -82,13 +110,13 @@
                         </div>
                         <!-- Menu -->
                         <div class="off-canvas-menu">
-                            {{ this.imprimir_menu(this.config.item('menu-principal'),'drilldown') }}
+                            {% include 'sistema/menu_canvas_esquerdo.twig' %}
                         </div>
                     </div>
 
                     <div id="dmoura-conteudo" class="off-canvas-content" data-off-canvas-content>
                         <div  class="row expanded">
-                            {% block conteudo %}{% endblock %}
+                            
                         </div>
                     </div>
                 </div>

@@ -50,7 +50,7 @@ class MY_Controller extends CI_Controller{
             exit;
         }
 		if($this->controle_acesso->logado()){
-			$this->twig->addGlobal('app',['session'=>$this->session]);
+			$this->twig->addGlobal('app',$this);
 		}
         
     }

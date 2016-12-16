@@ -1,0 +1,28 @@
+{% if submenu is defined %}
+    {% set menu = submenu %}
+    <ul class="vertical menu">
+{% else %}
+    {% set menu = app.config.item('menu-principal') %}
+    <ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" data-drilldown>
+{% endif %}
+    {% for item in menu %}
+        <li>
+            {% if item.url is defined %}
+                <a href="{{ base_url(item.url) }}">
+            {% endif %}
+                {% if item.icone is defined %}
+                    <i class="{{ item.icone }}"></i> <span>
+                {% endif %}
+                {{ item.titulo }}
+                {% if item.icone is defined %}
+                    </span>
+                {% endif %}
+            {% if item.url is defined %}
+                </a>
+            {% endif %}
+            {% if item.submenu is defined %}
+                {% include 'sistema/menu_canvas_esquerdo.twig' with {'submenu': item.submenu} %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

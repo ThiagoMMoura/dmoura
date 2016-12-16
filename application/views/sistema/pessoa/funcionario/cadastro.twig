@@ -2,7 +2,15 @@
 {% block styles %}
 {% endblock %}
 {% block conteudo %}
-    <h1>Olá Mundo!</h1>
+    <div class="row expanded">
+        <div class="small-6 medium-12 large-6 column">
+            <h1>Olá Mundo!</h1>
+        </div>
+        <div class="small-6 medium-12 large-6 column">
+            <p>Teste teste teste teste</p>
+        </div>
+    </div>
+    
 {% endblock %}
 {% block scripts %}
     <script src="{{ base_url('assets/js/viacep.js') }}"></script>

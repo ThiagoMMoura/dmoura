@@ -1,6 +1,7 @@
 {% extends 'sistema/esqueleto_html.twig' %}
 {% block head %}
-    <link rel="stylesheet" href="{{ base_url('assets/css/sistema2.css') }}" />
+	<link rel="stylesheet" href="{{ base_url('assets/font/sofiapro_light/stylesheet.css') }}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{{ base_url('assets/css/sistema2.css') }}" type="text/css" charset="utf-8" />
     {% block styles %}{% endblock %}
 {% endblock %}
 {% block titulo_pagina %}
@@ -14,28 +15,56 @@
                     <button class="close-button" aria-label="Close menu" type="button" data-close>
                         <span aria-hidden="true">&times;</span>
                     </button>
+					<div class="canvas-logo">
+						<h4>D'MOURA</h4>
+						{#<img src="{{ base_url('assets/imagens/DMOURA.png') }}">#}
+					</div>
+					<div class="canvas-user" data-toggle="dm-usuario-menu">
+                        <div class="canvas-user-foto">
+                            <img src="{{ base_url('assets/imagens/user.png') }}">
+                        </div>
+                        <div class="canvas-user-dados">
+                            <div class="canvas-user-title">
+                                {{ app.session.nome }}
+                            </div>
+                            <div class="canvas-user-subtitle fonte-cinza-claro">
+                                Cargo {{ app.session.cargo }}
+                            </div>
+                        </div>
+						<div class="canvas-user-menu menu-centered">
+							<ul class="menu">
+								<li><a href="{{ base_url(_pai ~ '/autenticacao/sair') }}"><i class="fi-eject"></i><span>Sair</span></a></li>
+							</ul>
+						</div>
+                    </div>
+					<hr />
                     <div class="off-canvas-menu">
-                        {% include 'sistema/menu_canvas_esquerdo.twig' %}
+                        {% include 'sistema/menu_canvas_esquerdo.twig' with {'type':'accordion'} %}
                     </div>
                 </div>
             
                 <div class="off-canvas-content bloco-conteudo" data-off-canvas-content>
                     <div class="top-bar">
-                        <div class="top-bar-title">
+                        <div class="top-bar-title hide-for-large">
                             <button type="button" class="menu-icon" data-toggle="offCanvasLeft"></button>
                             <strong>{{ titulo }}</strong>
                         </div>
                         <div>
                             <div class="top-bar-left"></div>
-                            <div class="top-bar-right"></div>
+                            <div class="top-bar-right">
+								<ul class="menu">
+									<li><a href="#"><i class="fi-search"></i></a></li>
+								</ul>
+							</div>
                         </div>
                     </div>
+					<h3 class="title-page show-for-large">{{ titulo }}</h3>
                     {% block conteudo %}{% endblock %}
                 </div>
             </div>
         </div>
     </div>
-    <div class="top-bar-wrapper hide">
+    {#<div class="top-bar-wrapper hide">
     <div class="top-bar-wrapper-inner is-open-top">
         <div id="barra-dmoura" class="dm-top-bar position-top">
             <div class="barra-principal fonte-branco">
@@ -123,10 +152,10 @@
             </div>
         </div>
     </div>
-</div>
+</div>#}
 {% endblock %}
 {% block scripts_base %}
-    <script type="text/javascript">
+    {#<script type="text/javascript">
         $(document).ready(function(){
             if(Foundation.MediaQuery.atLeast('large')){
                 $('#offCanvas').foundation('open');
@@ -164,6 +193,6 @@
                 }
             }
         }
-    </script>
+    </script>#}
     {% block scripts %}{% endblock %}
 {% endblock %}

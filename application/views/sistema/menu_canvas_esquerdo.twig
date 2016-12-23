@@ -1,9 +1,18 @@
+{% set _tipo = 'drilldown' %}
+{% if type is defined %}
+	{% set _tipo = type %}
+{% endif %}
 {% if submenu is defined %}
     {% set menu = submenu %}
-    <ul class="vertical menu">
+    <ul class="vertical menu{{ _tipo == 'accordion'?' nested':'' }}">
 {% else %}
     {% set menu = app.config.item('menu-principal') %}
-    <ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" data-drilldown>
+	{% if _tipo == 'accordion' %}
+		<ul class="vertical menu" data-accordion-menu>
+	{% elseif _tipo == 'drilldown' %}
+		<ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" data-drilldown>
+	{% endif %}
+    
 {% endif %}
     {% for item in menu %}
         <li>

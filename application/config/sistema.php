@@ -44,6 +44,7 @@ $config['menu-principal'] = array(
     'pessoa' => array(
         'titulo' => 'Pessoas',
         'url' => '#pessoa',
+		'icone' => 'fi-list',
         'submenu' => array(
             'funcionario-cadastro' => array('titulo'=>'Cadastro de Funcionários','url'=>'sistema/pessoa/funcionario/cadastro'),
             'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro'),

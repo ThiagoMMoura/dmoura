@@ -1,9 +1,80 @@
 /* 
     Created on : 16/12/2016, 13:39:38
     Author     : Thiago Moura
+    Paleta de cores:
+        - Cinza: rgb(204,204,204)
+        - Preto: rgb(51,51,51)
+        - Azul Escuro: rgb(158,185,195)
+        - Azul: rgb(187,220,232)
+        - Branco: rgb(255,255,255)
 */
-
+*, h1, h2, h3, h4, h5, h6{
+    font-family: 'sofia_prolight';
+    font-weight: normal;
+    color: rgb(51,51,51);
+}
 .altura-maxima{
     height: 100%;
     max-height: 100%;
+}
+.off-canvas, .top-bar, .top-bar ul{
+    background-color: rgb(51,51,51);//rgb(028,028,028);//grey11 //(054, 054, 054);grey21
+}
+.canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
+    color: rgb(204,204,204); //rgb(130 ,130 ,130 );//grey51
+}
+.off-canvas{
+    font-size: 80%;
+}
+.off-canvas a, .off-canvas a *, .top-bar a, .top-bar a *{
+    color: rgb(204,204,204); //rgb(099,184,255);
+    
+}
+.off-canvas hr{
+    border-color: rgb(204,204,204);
+}
+.off-canvas-menu .is-accordion-submenu-parent > a::after{
+    border-top-color: rgb(204,204,204);
+}
+.canvas-logo{
+    padding-left: .9375rem;
+    padding-right: .9375rem;
+}
+.canvas-user-foto, .canvas-user-dados{
+    float: left;
+}
+.canvas-user, .title-page{
+    padding-right: .9375rem;
+}
+.canvas-user, .title-page, .canvas-user-dados{
+    padding-left: .9375rem;
+}
+.canvas-user-foto, .canvas-user-dados, .title-page{
+    padding-top: .9375rem;
+}
+.canvas-user-foto{
+    width: 18%;
+}
+.canvas-user-dados{
+    width: 82%;
+}
+.canvas-user-foto img{
+    max-height: 3.75em;
+    border-radius: 50%;
+}
+.canvas-user-subtitle{
+    font-size: 75%;
+}
+.off-canvas-menu .menu > li > a i,
+.off-canvas-menu .menu > li > a img,
+.off-canvas-menu .menu > li > a svg{
+    margin-right: .9375rem;
+}
+
+/* Small only */
+@media screen and (max-width: 39.9375em) {
+}
+/* Large and up */
+@media screen and (min-width: 64em) {
+
 }

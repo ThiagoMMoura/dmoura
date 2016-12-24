@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 --
 
 INSERT INTO `pessoa` (`id`, `nome`, `email`, `cep`, `numero`, `complemento`, `senha`, `grupo`, `tipo`, `tel_principal`, `resenha`, `ativo`) VALUES
-(1, 'WebMaster', 'webmaster@dmoura.com.br', NULL, 0, NULL, '1c9e899ab77610223649760332ddfee6ec0a9ab1', 1, 1, NULL, 0, 1);
+(1, 'Web Master', 'webmaster@dmoura.com.br', NULL, 0, NULL, '1c9e899ab77610223649760332ddfee6ec0a9ab1', 1, 1, NULL, 0, 1);
 
 -- --------------------------------------------------------
 

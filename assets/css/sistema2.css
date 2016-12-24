@@ -18,16 +18,16 @@
     max-height: 100%;
 }
 .off-canvas, .top-bar, .top-bar ul{
-    background-color: rgb(51,51,51);//rgb(028,028,028);//grey11 //(054, 054, 054);grey21
+    background-color: rgb(51,51,51);/*rgb(028,028,028);//grey11 //(054, 054, 054);grey21*/
 }
 .canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
-    color: rgb(204,204,204); //rgb(130 ,130 ,130 );//grey51
+    color: rgb(204,204,204); /*rgb(130 ,130 ,130 );//grey51*/
 }
 .off-canvas{
     font-size: 80%;
 }
 .off-canvas a, .off-canvas a *, .top-bar a, .top-bar a *{
-    color: rgb(204,204,204); //rgb(099,184,255);
+    color: rgb(204,204,204); /*rgb(099,184,255);*/
     
 }
 .off-canvas hr{

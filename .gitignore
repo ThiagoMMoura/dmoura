@@ -26,3 +26,11 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-workspace
 *.sublime-project
 /composer.lock
+/flyway/jre/
+/flyway/jars/
+/flyway/lib/
+/flyway/drivers/
+/flyway/LICENSES-THIRD-PARTY.txt
+/flyway/LICENSE.txt
+/flyway/flyway.cmd
+/flyway/flyway

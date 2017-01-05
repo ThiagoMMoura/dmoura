@@ -1,52 +1,29 @@
 /* 
     Created on : 16/12/2016, 13:39:38
     Author     : Thiago Moura
-    Paleta de cores:
-        - Cinza: rgb(204,204,204)
-        - Preto: rgb(51,51,51)
-        - Azul Escuro: rgb(158,185,195)
-        - Azul: rgb(187,220,232)
-        - Branco: rgb(255,255,255)
 */
-*, h1, h2, h3, h4, h5, h6{
+html, *, h1, h2, h3, h4, h5, h6{
     font-family: 'sofia_prolight';
     font-weight: normal;
-    color: rgb(51,51,51);
 }
 .altura-maxima{
     height: 100%;
     max-height: 100%;
 }
-.off-canvas, .top-bar, .top-bar ul{
-    background-color: rgb(51,51,51);/*rgb(028,028,028);//grey11 //(054, 054, 054);grey21*/
-}
-.canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
-    color: rgb(204,204,204); /*rgb(130 ,130 ,130 );//grey51*/
-}
 .off-canvas{
     font-size: 80%;
 }
-.off-canvas a, .off-canvas a *, .top-bar a, .top-bar a *{
-    color: rgb(204,204,204); /*rgb(099,184,255);*/
-    
+.canvas-logo *{
+    font-family: Arial;
+    font-weight: bold;
 }
-.off-canvas hr{
-    border-color: rgb(204,204,204);
-}
-.off-canvas-menu .is-accordion-submenu-parent > a::after{
-    border-top-color: rgb(204,204,204);
-}
-.canvas-logo{
-    padding-left: .9375rem;
-    padding-right: .9375rem;
-}
-.canvas-user-foto, .canvas-user-dados{
+.canvas-logo, .canvas-user, .canvas-user-foto, .canvas-user-dados, .canvas-user-menu, .off-canvas-menu{
     float: left;
 }
-.canvas-user, .title-page{
+.canvas-user, .title-page, .canvas-logo{
     padding-right: .9375rem;
 }
-.canvas-user, .title-page, .canvas-user-dados{
+.canvas-user, .title-page, .canvas-user-dados, .canvas-logo{
     padding-left: .9375rem;
 }
 .canvas-user-foto, .canvas-user-dados, .title-page{
@@ -57,6 +34,16 @@
 }
 .canvas-user-dados{
     width: 82%;
+}
+.canvas-logo, .canvas-user, .canvas-user-menu, .title-expanse, .off-canvas-menu{
+    width: 100%;
+}
+.canvas-logo{
+    padding: .5rem;
+}
+.canvas-logo-title{
+    line-height: 1.5em;
+    font-size: 1rem;
 }
 .canvas-user-foto img{
     max-height: 3.75em;
@@ -70,11 +57,55 @@
 .off-canvas-menu .menu > li > a svg{
     margin-right: .9375rem;
 }
-
+.fa-sm{
+    font-size: 60%;
+    width: 2.3em;
+}
+.off-canvas-menu .fa-lg{
+    font-size: 110%;
+}
+.canvas-user-menu a{
+    border-bottom: 1px solid transparent;
+}
+.is-accordion-submenu-parent > a::after{
+    content: "\f107";
+    border: none;
+    font: normal normal normal 14px/1 FontAwesome;
+    width: auto;
+    vertical-align: middle;
+    top: 25%;
+    margin-top: 0px;
+    line-height: 1.5em;
+}
+.is-accordion-submenu-parent[aria-expanded="true"] > a::after {
+    -webkit-transform-origin: 0%;
+    transform-origin: 0%;
+    -webkit-transform: none;
+    transform: none;
+    content: "\f106";
+}
+.off-canvas-content{
+    box-shadow: none;
+}
+.top-bar, .top-bar-title{
+    padding: 0px;
+}
+.top-bar .menu > li > a, .top-bar .menu > li > a i, .top-bar button{
+    line-height: 1.5rem;
+    font-size: 1rem;
+}
+.top-bar .menu > li > a, .top-bar button{
+    padding: .5rem;
+    min-width: 2.5rem;
+}
+.top-bar .menu > li > a i, .top-bar .menu > li > a span{
+    margin: 0px .25rem;
+}
 /* Small only */
 @media screen and (max-width: 39.9375em) {
 }
 /* Large and up */
 @media screen and (min-width: 64em) {
-
+    
+    
 }

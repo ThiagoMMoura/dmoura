@@ -1,0 +1,69 @@
+/* 
+    Created on : 23/12/2016, 22:44:26
+    Author     : Thiago Moura
+    URL:
+        - Tom Médio: https://coolors.co/f9dc5c-5bba6f-30bced-ea526f-262626
+        - Tom Alto: https://coolors.co/72642a-2a5533-16566c-6b2633-121212
+        - Tom Baixo: https://coolors.co/fcefb4-b4dfbd-a0e0f6-f5b0bd-9c9c9c
+    Cores: 
+        - Preto (Tom Médio): rgba(38, 38, 38, 1);
+        - Preto (Tom Escuro): rgba(18, 18, 18, 1);
+        - Preto (Tom Claro): rgba(156, 156, 156, 1);
+        - Azul (Tom Médio): rgba(48, 188, 237, 1);
+        - Azul (Tom Escuro): rgba(22, 86, 108, 1);
+        - Azul Escuro Médio: rgba(35, 137, 173, 1);
+        - Azul (Tom Claro): rgba(160, 224, 246, 1);
+*/
+*, h1, h2, h3, h4, h5, h6{
+    color: rgba(38, 38, 38, 1);
+}
+.off-canvas-menu{
+    background-color: rgba(38, 38, 38, 1);
+}
+.top-bar, .top-bar ul{
+    background-color: rgba(35, 137, 173, 1);
+}
+.canvas-logo, .top-bar .menu > li > a:hover, .top-bar button:hover{
+    background-color: rgba(22, 86, 108, 1);
+}
+.top-bar-title, .top-bar-title *,
+.top-bar a, .top-bar a *{
+    color: white;
+}
+.canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
+    color: rgba(156, 156, 156, 1);
+}
+.canvas-user-menu a,
+.canvas-user-menu a *,
+.off-canvas-menu a,
+.off-canvas-menu a *,
+.off-canvas .close-button span{
+    color: rgba(156, 156, 156, 1);
+}
+.off-canvas a:hover, .off-canvas a:hover *, .off-canvas .close-button:hover span, .off-canvas-menu a.is-active *{
+    color: white;
+}
+.off-canvas a:hover{
+    border-bottom-color: rgba(22, 86, 108, 1);
+}
+.off-canvas-menu a:hover{
+    background-color: rgba(22, 86, 108, 1);
+}
+.off-canvas-menu a.is-active{
+    background-color: rgba(35, 137, 173, 1);
+}
+.off-canvas{
+    background-color: rgba(18, 18, 18, 1);
+}
+.off-canvas-menu .is-accordion-submenu-parent > a::after{
+    border-top-color: rgba(156, 156, 156, 1);
+}
+.off-canvas-menu .is-accordion-submenu-parent > a:hover::after{
+    border-top-color: white;
+}
+.canvas-logo .canvas-logo-title{
+    color: white;
+}
+.js-off-canvas-exit, .js-off-canvas-overlay{
+    background: hsla(0,0%,0%,.7);
+}

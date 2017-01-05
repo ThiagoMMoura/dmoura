@@ -34,9 +34,10 @@ $config['menu-principal'] = array(
             'telefone' => array(
                 'titulo' => 'Telefones',
                 'url' => '#telefone',
+                'icone' => 'fa-phone',
                 'submenu' => array(
-                    'operadora-telefone' => array('titulo'=>'Cadastro Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro'),
-                    'tipo-telefone' => array('titulo'=>'Cadastro Tipo Telefone','url'=>'sistema/basico/telefone/tipo/cadastro')
+                    'operadora-telefone' => array('titulo'=>'Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro','icone' => 'fa-plus'),
+                    'tipo-telefone' => array('titulo'=>'Tipo Telefone','url'=>'sistema/basico/telefone/tipo/cadastro','icone' => 'fa-plus')
                 )
             )
         )
@@ -44,11 +45,11 @@ $config['menu-principal'] = array(
     'pessoa' => array(
         'titulo' => 'Pessoas',
         'url' => '#pessoa',
-		'icone' => 'fi-list',
+	'icone' => 'fa-users',
         'submenu' => array(
-            'funcionario-cadastro' => array('titulo'=>'Cadastro de Funcionários','url'=>'sistema/pessoa/funcionario/cadastro'),
-            'fisica-cadastro' => array('titulo'=>'Cadastro Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro'),
-            'fisica-busca' => array('titulo'=>'Busca Pessoa Fisica','url'=>'sistema/pessoa/fisica/busca'),
+            'funcionario-cadastro' => array('nome' => 'Cadastro de Funcionário', 'titulo'=>'Funcionários','url'=>'sistema/pessoa/funcionario/cadastro','icone' => 'fa-plus'),
+            'fisica-cadastro' => array('titulo'=>'Pessoa Fisica','url'=>'sistema/pessoa/fisica/cadastro','icone' => 'fa-user-plus'),
+            'fisica-busca' => array('titulo'=>'Pessoa Fisica','url'=>'sistema/pessoa/fisica/busca','icone' => 'fa-search'),
             //'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),

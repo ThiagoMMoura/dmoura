@@ -17,15 +17,9 @@
     {% for item in menu %}
         <li>
             {% if item.url is defined %}
-                <a href="{{ base_url(item.url) }}">
+                <a href="{{ base_url(item.url) }}" alt="{{ item.nome }}" class="{{ item.url == _url_pagina?'is-active':'' }}">
             {% endif %}
-                {% if item.icone is defined %}
-                    <i class="{{ item.icone }}"></i> <span>
-                {% endif %}
-                {{ item.titulo }}
-                {% if item.icone is defined %}
-                    </span>
-                {% endif %}
+                <i class="fa {{ item.icone is defined ? item.icone ~ ' fa-lg fa-fw': 'fa fa-circle fa-sm fa-fw' }}"></i> <span>{{ item.titulo }}</span>
             {% if item.url is defined %}
                 </a>
             {% endif %}

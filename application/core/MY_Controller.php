@@ -37,9 +37,9 @@ class MY_Controller extends CI_Controller{
         
         $atributos['pai'] = $this->_pai;
         $atributos['controle'] = $this->_caminho_controle;
-        $atributos['metodo'] = $this->input->method();
+        $atributos['metodo'] = $this->_obter_nome_metodo();
         $atributos['area_restrita'] = $area_restrita;
-		$atributos['resenha'] = $resenha;
+	$atributos['resenha'] = $resenha;
         $this->load->library('controle_acesso',$atributos);
         if(!$this->controle_acesso->pai()){
             redirect($this->_pai . '/autenticacao/login/error_permissao/' . ALERTA_ERRO);
@@ -49,9 +49,11 @@ class MY_Controller extends CI_Controller{
             $this->output->_display();
             exit;
         }
-		if($this->controle_acesso->logado()){
-			$this->twig->addGlobal('app',$this);
-		}
+        if($this->controle_acesso->logado()){
+            $this->twig->addGlobal('app',$this);
+            $this->twig->addGlobal('_pai',$this->_pai);
+            $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $atributos['metodo']);
+        }
         
     }
     

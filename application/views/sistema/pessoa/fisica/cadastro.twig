@@ -1,0 +1,46 @@
+{% extends 'sistema/layout_sistema.twig' %}
+{% block styles %}
+{% endblock %}
+{% block conteudo %}
+    <form id="form_pessoa_fisica" action="{{ base_url('sistema/pessoa/fisica/salvar') }}" method="post" data-live-validate="true">
+        <div class="row expanded">
+            <ul class="tabs" data-tabs id="formulario">
+                <li class="tabs-title"><a href="#painel1">Identificação</a></li>
+                <li class="tabs-title"><a href="#painel2"></a></li>
+                <li class="tabs-title"><a href="#painel2"></a></li>
+                <li class="tabs-title"><a href="#painel2"></a></li>
+            </ul>
+            <div class="tabs-content" data-tabs-content="formulario">
+                <div class="tabs-panel is-active" id="painel1">
+                    <div class="row expanded">
+                        <div class="small-12 column">
+                            <input type="text" name="cpf" pattern="\d{11}" placeholder="Somente números" maxlength="11" required autofocus>
+                        </div>
+                        <div class="small-12 column">
+                            <input type="text" name="nome" placeholder="Nome Completo">
+                        </div>
+                        <div class="small-12 column">
+                            <input type="text" name="nome" placeholder="Nome Completo">
+                        </div>
+                    </div>
+                    <div class="row expanded">
+                        <div class="small-4 column">
+                            <input type="text" name="dia" />
+                        </div>
+                        <div class="small-4 column">
+                            <input type="text" name="mes" />
+                        </div>
+                        <div class="small-4 column">
+                            <input type="text" name="ano" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-panel" id="painel2">
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ base_url('assets/js/viacep.js') }}"></script>
+{% endblock %}

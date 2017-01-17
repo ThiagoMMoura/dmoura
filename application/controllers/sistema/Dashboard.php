@@ -11,6 +11,9 @@ class Dashboard extends MY_Controller{
     }
     
     public function index(){
-        $this->_view("Painel de Instrumentos",'atalhos',parent::RELATIVO_CONTROLE);
+        $data = [
+            'titulo' => 'Painel de Instrumentos'
+        ];
+        $this->twig->display('sistema/dashboard/atalhos', $data);
     }
 }

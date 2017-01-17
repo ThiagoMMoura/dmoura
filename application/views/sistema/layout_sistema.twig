@@ -18,7 +18,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="canvas-logo">
-                        <div class="canvas-logo-title">D'Moura</div>
+                        <div class="canvas-logo-title"><a href="{{ base_url('sistema/dashboard') }}">D'Moura</a></div>
                         {#<img src="{{ base_url('assets/imagens/DMOURA.png') }}">#}
                     </div>
                     <div class="canvas-user" data-toggle="dm-usuario-menu">
@@ -44,35 +44,44 @@
                     </div>
                 </div>
             
-                <div class="off-canvas-content bloco-conteudo" data-off-canvas-content>
-                    <div class="top-bar">
-                        <div class="top-bar-title hide-for-large title-expanse">
-                            <div class="title-bar-left">
-                                <button type="button" class="fa fa-navicon" data-toggle="offCanvasLeft"></button>
-                                {{ titulo }}
+                <div class="off-canvas-content" data-off-canvas-content>
+                    <div class="screen-fixed-content-top">
+                        <div class="top-bar">
+                            <div class="top-bar-title hide-for-large title-expanse">
+                                <div class="title-bar-left">
+                                    <button type="button" class="fa fa-navicon" data-toggle="offCanvasLeft"></button>
+                                    {{ titulo }}
+                                </div>
+                                <div class="title-bar-right">
+                                    <span data-responsive-toggle="responsive-menu" data-hide-for="large">
+                                        <button class="fa fa-ellipsis-v " type="button" data-toggle></button>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="title-bar-right">
-                                <span data-responsive-toggle="responsive-menu" data-hide-for="large">
-                                    <button class="fa fa-ellipsis-v " type="button" data-toggle></button>
-                                </span>
+                            <div id="responsive-menu">
+                                <div class="top-bar-left"></div>
+                                <div class="top-bar-right">
+                                    <ul class="menu">
+                                        <li><a href="#"><i class="fa fa-search"></i></a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div id="responsive-menu">
-                            <div class="top-bar-left"></div>
-                            <div class="top-bar-right">
-                                <ul class="menu">
-                                    <li><a href="#"><i class="fa fa-search"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <div class="divisao-bar-content"></div>
                     </div>
-                    <h3 class="title-page show-for-large">{{ titulo }}</h3>
-                    {% block conteudo %}{% endblock %}
+                    <div class="content-block">
+                        {# <div class="top-fade"></div> #}
+                        <h3 class="title-page show-for-large">{{ titulo }}</h3>
+                        {% block conteudo %}{% endblock %}
+                    </div>
+                    <div class="screen-fixed-content-bottom">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block scripts_base %}
+    <script src="{{ base_url('assets/js/sistema.js') }}"></script>
     {% block scripts %}{% endblock %}
 {% endblock %}

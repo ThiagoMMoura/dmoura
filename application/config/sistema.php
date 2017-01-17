@@ -53,6 +53,21 @@ $config['menu-principal'] = array(
             //'cadastro-empresa' => array('titulo'=>'Cadastro de Empresas','url'=>'#')
         )
     ),
+    'ferramenta' => array(
+        'titulo' => 'Ferramentas',
+        'url' => '#ferramentas',
+        'icone' => 'fa-wrench',
+        'submenu' => array(
+            'ferramentas-xml' => array(
+                'titulo' => 'XML',
+                'url' => '#xml',
+                'icone' => 'fa-file-code-o',
+                'submenu' => array(
+                    'extracao-ncm' => array('nome'=>'Extração de código NCM em Notas Fiscais Eletrônicas','titulo'=>'Extrair NCM de NF-e','url'=>'sistema/ferramenta/xml/extracao_ncm','icone'=>'fa-code')
+                )
+            )
+        )
+    )
     //'cadastro-produto' => array('titulo'=>'Cadastro de produtos','url'=>'#')
 );
 $config['estilos_menu'] = array(

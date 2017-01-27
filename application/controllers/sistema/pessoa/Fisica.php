@@ -18,10 +18,17 @@ class Fisica extends MY_Controller{
         $this->load->model('estado_model');
         $this->load->model('tipo_telefone_model');
         $this->load->model('operadora_telefone_model');
-        $this->_add_data('estados',$this->estado_model->obter_uf_estado());
-        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
-        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
-        $this->_view("Cadastro Pessoa Física",'cadastro',parent::RELATIVO_CONTROLE);
+//        $this->_add_data('estados',$this->estado_model->obter_uf_estado());
+//        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
+//        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
+//        $this->_view("Cadastro Pessoa Física",'cadastro',parent::RELATIVO_CONTROLE);
+		$data = [
+			'titulo' => 'Cadastro Pessoa Física',
+			'estados' => $this->estado_model->obter_uf_estado(),
+			'tipos_telefone' => $this->tipo_telefone_model->obter_id_tipo(),
+			'operadoras_telefone' => $this->operadora_telefone_model->obter_id_operadora()
+		];
+		$this->twig->display('sistema/pessoa/fisica/cadastro', $data);
     }
     
     public function salvar(){

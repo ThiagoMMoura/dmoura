@@ -14,6 +14,7 @@
         - Azul Escuro Médio: rgba(35, 137, 173, 1);
         - Azul (Tom Claro): rgba(160, 224, 246, 1);
         - Verde Médio: rgba(91, 186, 111, 1);
+        - Vermelho Médio: rgba(234, 82, 111, 1);
 */
 *, h1, h2, h3, h4, h5, h6{
     color: rgba(38, 38, 38, 1);
@@ -79,17 +80,124 @@ a:hover{
     color: white;
 }
 .button{
-    background-color: rgba(35, 137, 173, 1);
+    background-color: rgba(48, 188, 237, 1);
 }
-.button:hover{
+.button:focus, .button:hover{
     background-color: rgba(22, 86, 108, 1);
+    color: white;
 }
 .fa-spin, .fa-pulse{
     color: rgba(48, 188, 237, 1);
+}
+/* Formulário Modernos */
+.modern-input-group.on-focus > .input-group-field::-moz-placeholder,
+.modern-input-group.placeholder-visible > .input-group-field::-moz-placeholder, 
+.modern-input-group > .input-group-label,
+.modern-radio input[type=radio] + label,
+.modern-checkbox input[type=checkbox] + label{
+    color: rgba(48, 188, 237, 1);
+}
+.modern-input-group.on-focus > .input-group-field::-webkit-input-placeholder,
+.modern-input-group.placeholder-visible > .input-group-field::-webkit-input-placeholder,
+.modern-input-group > .input-group-label,
+.modern-radio input[type=radio] + label,
+.modern-checkbox input[type=checkbox] + label{
+    color: rgba(48, 188, 237, 1);
+}
+.modern-input-group.modern-selector > .input-group-label{
+    color: rgba(18, 18, 18, 1);
+}
+.modern-input-group > .input-group-label, .modern-input-group > .input-group-field,
+.modern-radio label:before, .modern-checkbox label:before{
+    border-color: rgba(48, 188, 237, 1);
+}
+.modern-input-group > .input-group-field{
+    color: rgba(35, 137, 173, 1);
+}
+.modern-input-group.on-focus .input-group-field, .modern-input-group.on-focus .input-group-label{
+    border-color: rgba(18, 18, 18, 1);
+}
+.modern-radio input[type=radio]:checked + label:before{
+    background-color: rgba(35, 137, 173, 1);
+    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0),
+        0px 0px 0px 0px rgba(160, 224, 246, .3),
+        inset 0px 0px 0px .2rem white;
+}
+.modern-radio input[type=radio] + label:before,
+.modern-checkbox input[type=checkbox] + label:before{
+    color: rgba(35, 137, 173, 1);
+    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0),
+        0px 0px 0px 0px rgba(160, 224, 246, .3),
+        inset 0px 0px 0px .2rem white;
+}
+.modern-radio input[type=radio] + label:hover:before,
+.modern-radio input[type=radio] + label:focus:before,
+.modern-checkbox input[type=checkbox] + label:hover:before,
+.modern-checkbox input[type=checkbox] + label:focus:before{
+    border-color: rgba(35, 137, 173, 1);
+    color: rgba(35, 137, 173, 1);
+    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+        0px 0px 0px 0px rgba(160, 224, 246, .3),
+        inset 0px 0px 0px .2rem white;
+}
+.modern-radio input[type=radio] + label:hover,
+.modern-checkbox input[type=checkbox] + label:hover,
+.modern-radio input[type=radio]+ label:focus,
+.modern-checkbox input[type=checkbox]+ label:focus{
+    color: rgba(35, 137, 173, 1);
+}
+.modern-radio input[type=radio]:not(:checked) + label:focus:before,
+.modern-checkbox input[type=checkbox]:not(:checked) + label:focus:before{
+    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+        0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+        inset 0px 0px 0px .2rem white;
+}
+.modern-radio input[type=radio]:checked + label:active:before,
+.modern-radio input[type=radio]:checked + label:focus:before{
+    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+        0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+        inset 0px 0px 0px .2rem white;
+    background: rgba(35, 137, 173, 1);
+}
+
+
+.modern-form-list-add .modern-list-group .modern-form-list-button,
+.modern-form-list-add .modern-list-title .modern-form-list-button{
+    border-style: solid;
+    border-color: rgba(156, 156, 156, 1);
+}
+.modern-form-list-add .modern-form-list-button:hover, .modern-form-list-add .modern-form-list-button:focus{
+    border-color: rgba(48, 188, 237, 1);
+}
+/* Badge e textos coloridos*/
+.badge, .badge *{
+    color: white;
+}
+.badge.success, .badge.success *{
+    background-color: rgba(91, 186, 111, 1);
+}
+.badge.alert, .badge.alert *{
+    background-color: rgba(234, 82, 111, 1);
 }
 .success-text{
     color: rgba(91, 186, 111, 1);
 }
 .alert-text{
     color: rgba(234, 82, 111, 1);
+}
+.animate-button:active, .animate-button:focus{
+    -webkit-animation: clickroundedbuttons .65s ease-in-out;
+    animation: clickroundedbuttons .65s ease-in-out;
+}
+@-webkit-keyframes clickroundedbuttons{
+    0% {box-shadow: 0px 0px 0px 0px rgba(160, 224, 246, .3);}
+    40% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3);}
+    50% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3);}
+    100% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0);}
+}
+@keyframes clickroundedbuttons{
+    0% {box-shadow: inherit, 0px 0px 0px 0px rgba(160, 224, 246, .3), inherit;}
+    40% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, .3), inherit;}
+    50% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, .3), inherit;}
+    100% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, 0), inherit;}
 }

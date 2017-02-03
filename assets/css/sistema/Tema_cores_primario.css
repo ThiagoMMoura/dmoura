@@ -15,6 +15,8 @@
         - Azul (Tom Claro): rgba(160, 224, 246, 1);
         - Verde Médio: rgba(91, 186, 111, 1);
         - Vermelho Médio: rgba(234, 82, 111, 1);
+        - Vermelho Médio Claro: rgba(245, 176, 189, 1);
+        - Vermelho Claro: rgba(245, 176, 189, 1);
 */
 *, h1, h2, h3, h4, h5, h6{
     color: rgba(38, 38, 38, 1);
@@ -104,6 +106,20 @@ a:hover{
 .modern-checkbox input[type=checkbox] + label{
     color: rgba(48, 188, 237, 1);
 }
+.modern-input-group.on-focus.is-invalid > .input-group-field::-moz-placeholder,
+.modern-input-group.placeholder-visible.is-invalid > .input-group-field::-moz-placeholder, 
+.modern-input-group.is-invalid > .input-group-label,
+.modern-radio.is-invalid input[type=radio] + label,
+.modern-checkbox.is-invalid input[type=checkbox] + label{/*is-invalid*/
+    color: rgba(245, 176, 189, 1);
+}
+.modern-input-group.on-focus.is-invalid > .input-group-field::-webkit-input-placeholder,
+.modern-input-group.placeholder-visible.is-invalid > .input-group-field::-webkit-input-placeholder,
+.modern-input-group.is-invalid > .input-group-label,
+.modern-radio.is-invalid input[type=radio] + label,
+.modern-checkbox.is-invalid input[type=checkbox] + label{/*is-invalid*/
+    color: rgba(245, 176, 189, 1);
+}
 .modern-input-group.modern-selector > .input-group-label{
     color: rgba(18, 18, 18, 1);
 }
@@ -113,6 +129,16 @@ a:hover{
 }
 .modern-input-group > .input-group-field{
     color: rgba(35, 137, 173, 1);
+}
+.modern-input-group > .error-msg > .error-expand{
+    background-color: white;
+}
+.modern-input-group.is-invalid .input-group-field, .modern-input-group.is-invalid .input-group-label,
+.modern-input-group.on-focus > .error-msg{/*is-invalid*/
+    border-style: solid;
+    border-color: rgba(234, 82, 111, 1);
+    background-color: white;
+    color: rgba(234, 82, 111, 1);
 }
 .modern-input-group.on-focus .input-group-field, .modern-input-group.on-focus .input-group-label{
     border-color: rgba(18, 18, 18, 1);
@@ -182,7 +208,7 @@ a:hover{
 .success-text{
     color: rgba(91, 186, 111, 1);
 }
-.alert-text{
+.alert-text, .error-msg{
     color: rgba(234, 82, 111, 1);
 }
 .animate-button:active, .animate-button:focus{

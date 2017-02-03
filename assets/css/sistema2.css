@@ -141,6 +141,7 @@ html, *, h1, h2, h3, h4, h5, h6{
     display: table;
     width: 100%;
     margin-bottom: 1rem;
+    position: relative;
 }
 .modern-input-group > .input-group-field{
     display: block;
@@ -165,6 +166,38 @@ html, *, h1, h2, h3, h4, h5, h6{
     cursor: text;
     padding: 0px 1rem 0px 0px;
 }
+.modern-input-group > .error-msg{
+    display: none;
+    position: absolute;
+    font-size: 70%;
+    left: 0px;
+    overflow: hidden;
+    height: 1rem;
+    width: 100%;
+    cursor: pointer;
+}
+.modern-input-group.is-invalid > .error-msg{
+    display: block;
+}
+.modern-input-group.on-focus > .error-msg{
+    border-width: 0px 1px 1px 1px;
+    padding: .625rem;
+    z-index: 10;
+    height: auto;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, .2), 0px 7px 15px 0px rgba(0, 0, 0, .2);
+}
+.modern-input-group > .error-msg > .error-expand,
+.modern-input-group.on-focus > .error-msg > .error-compress{
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: .15625rem;
+}
+.modern-input-group.on-focus > .error-msg > .error-expand,
+.modern-input-group > .error-msg > .error-compress{
+    display: none;
+}
 .modern-input-group > .input-group-field::-moz-placeholder{
     color: transparent;
     font-weight: 400;
@@ -188,11 +221,6 @@ html, *, h1, h2, h3, h4, h5, h6{
 }
 .modern-input-group.on-focus:not(.modern-selector) > .input-group-label{
     display: none;
-}
-.modern-error{
-    display: none;
-    font-size: 70%;
-    
 }
 .modern-radio input[type=radio], .modern-checkbox input[type=checkbox] {
     display: none;

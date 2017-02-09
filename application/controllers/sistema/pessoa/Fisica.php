@@ -32,9 +32,9 @@ class Fisica extends MY_Controller{
     }
     
     public function salvar(){
-        if($this->input->post('salvar')===NULL){
-            redirect('sistema/pessoa/fisica/cadastro');
-        }
+//        if($this->input->post('salvar')===NULL){
+//            redirect('sistema/pessoa/fisica/cadastro');
+//        }
         $this->load->library('form_validation');
         $this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
@@ -148,6 +148,7 @@ class Fisica extends MY_Controller{
             }
             if($this->input->is_ajax_request()){
                 $json['callout'] = $call;
+				$json['fieldserror'] = $this->form_validation->error_array();
                 echo json_encode($json);
             }else{
                 $this->_add_data('_callout',$call);

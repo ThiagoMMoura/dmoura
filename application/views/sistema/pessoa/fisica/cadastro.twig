@@ -14,21 +14,21 @@
                 <div class="tabs-panel is-active" id="painel-identificacao">
                     <div class="row expanded">
                         <div class="small-12 column">
-                            <div class="modern-input-group" data-modern-ajax data-input-group="cpf">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="cpf">
                                 <span class="input-group-label">CPF</span>
-                                <input type="text" name="cpf" pattern="\d{11}" placeholder="CPF" maxlength="11" required autofocus class="input-group-field" tabindex="1" data-input/>
+                                <input type="text" name="cpf" pattern="\d{11}" placeholder="CPF" maxlength="11" required autofocus class="input-group-field" tabindex="1" data-field/>
                                 <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group" data-modern-ajax data-input-group="nome">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="nome">
                                 <span class="input-group-label">Nome</span>
-                                <input type="text" name="nome" placeholder="Nome Completo" class="input-group-field" tabindex="2"/>
+                                <input type="text" name="nome" placeholder="Nome Completo" class="input-group-field" tabindex="2" data-field/>
                                 <div class="error-msg" data-error></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row expanded" data-modern-ajax data-input-group="nascimento">
+                    <div class="row expanded" data-field-group="nascimento">
                         <div class="small-12 column">
                             Nascimento
                         </div>
@@ -50,10 +50,10 @@
                     </div>
                     <div class="row expanded">
                         <div class="small-12 column">
-                            <div class="modern-input-group is-invalid" data-modern-ajax data-input-group="nacionalidade">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="nacionalidade">
                                 <span class="input-group-label">Nacionalidade</span>
-                                <input type="text" name="nacionalidade" class="input-group-field" tabindex="6" data-input/>
-                                <div class="error-msg" data-error>Mensagem!</div>
+                                <input type="text" name="nacionalidade" class="input-group-field" tabindex="6" data-field/>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                         <div class="small-12 column">
@@ -80,6 +80,7 @@
                             <label for="masculino" tabindex="10">Masculino</label>
                         </div>
                     </div>
+                    <button type="button" class="button" data-modern-ajax-submit>Salvar</button>
                 </div>
                 <div class="tabs-panel" id="painel-endereco">
                     <div class="row expanded">

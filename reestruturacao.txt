@@ -1,0 +1,8 @@
+
+Modelo de requisição:
+request 
+    -> get - Requisição padrão para retornar qualquer página (html)
+    -> list - Retorna páginas ou resultados de busca)
+    -> insert - Retorna página atual (html) ou objeto de resposta (json)
+    -> update - Retorna página atual (html) ou objeto de resposta (json)
+    -> delete - Retorna página atual (html) ou objeto de resposta (json)

@@ -7,6 +7,7 @@ if (!defined('BASEPATH')) {
  * Extensão de CI_Controller
  *
  * @author Thiago Moura
+ * @version 1.2
  */
 class MY_Controller extends CI_Controller{
     
@@ -61,6 +62,7 @@ class MY_Controller extends CI_Controller{
      * Função de carregamento de view para o browser.
      * 
      * @param string $titulo
+     * @deprecated since version 1.0
      */
     protected function _view($titulo = '',$body = '',$relativo = self::RELATIVO_PAI){
         if($titulo!=NULL){
@@ -78,6 +80,12 @@ class MY_Controller extends CI_Controller{
         $this->load->view($this->config->item('template-html'),$this->_data_view); //Carrega o template base do web app
     }
     
+    /**
+     * 
+     * @param type $data
+     * @param type $value
+     * @deprecated since version 1.0
+     */
     protected function _add_data($data,$value = ''){
         if(is_array($data)){
             $this->_data_view = array_merge($this->_data_view,$data);
@@ -86,10 +94,21 @@ class MY_Controller extends CI_Controller{
         }
     }
     
+    /**
+     * 
+     * @param type $key
+     * @deprecated since version 1.0
+     */
     protected function _remove_data($key){
         unset($this->_data_view[$key]);
     }
     
+    /**
+     * 
+     * @param type $arquivo
+     * @param type $relativo
+     * @deprecated since version 1.0
+     */
     protected function _add_body($arquivo,$relativo = self::RELATIVO_PAI){
         if($arquivo!=NULL && !empty($arquivo)){
             if(!is_array($arquivo)){
@@ -111,6 +130,11 @@ class MY_Controller extends CI_Controller{
         }
     }
     
+    /**
+     * 
+     * @return type
+     * @deprecated since version 1.0
+     */
     protected function _imprimir_body(){
         return $this->_body;
     }

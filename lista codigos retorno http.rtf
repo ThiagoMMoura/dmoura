@@ -1,0 +1,181 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil Calibri;}}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\ri-642\sa200\sl276\slmult1\f0\fs22\lang22 1xx Informativa\par
+\par
+Solicita\'e7\'e3o recebida, dando continuidade ao processo. Essa classe de c\'f3digos de status indica uma resposta provis\'f3ria, constitu\'edda apenas do Status-Line e cabe\'e7alhos opcionais, e \'e9 encerrado por uma linha vazia. Desde a vers\'e3o HTTP/1.0 n\'e3o s\'e3o definidios todos os c\'f3digos de status 1xx, os servidores n\'e3o devem enviar uma resposta 1xx para um cliente HTTP/1.0, exceto sob condi\'e7\'f5es experimentais.\par
+100 Continuar\par
+\par
+Isso significa que o servidor recebeu os cabe\'e7alhos da solicita\'e7\'e3o, e que o cliente deve proceder para enviar o corpo do pedido (no caso de haver um pedido um corpo deve ser enviado, por exemplo, um POST pedido). Se o corpo \'e9 grande o pedido, enviando-os para um servidor, quando o pedido j\'e1 foi rejeitada com base em cabe\'e7alhos inadequado \'e9 ineficiente. Para ter um cheque do servidor se o pedido pode ser aceite com base no pedido de cabe\'e7alhos sozinho, o cliente deve enviar Esperar: 100-continue como um cabe\'e7alho no seu pedido inicial e verifique se a 100 Continuar c\'f3digo de status \'e9 recebido em resposta antes de permanente (ou receber 417 Falha na expectativa e n\'e3o continuar).\par
+101 Mudando protocolos\par
+\par
+Isso significa que o solicitante pediu ao servidor para mudar os protocolos e o servidor est\'e1 reconhecendo que ir\'e1 faz\'ea-lo.\par
+102 Processamento (WebDAV) (RFC 2518)\par
+\par
+Como uma solicita\'e7\'e3o WebDAV pode conter muitos sub-pedidos que envolvam opera\'e7\'f5es de arquivo, pode demorar muito tempo para concluir o pedido. Este c\'f3digo indica que o servidor recebeu e est\'e1 processando o pedido, mas nenhuma resposta ainda n\'e3o est\'e1 dispon\'edvel. Isso impede que o cliente ultrapasse o tempo limite e assuma que a requisi\'e7\'e3o tenha sido perdida.\par
+122 Pedido-URI muito longo\par
+\par
+Este \'e9 um padr\'e3o IE7 somente c\'f3digo n\'e3o significa que o URI \'e9 mais do que um m\'e1ximo de 2083 caracteres. (Ver c\'f3digo 414).\par
+2xx Sucesso\par
+\par
+Esta classe de c\'f3digos de status indica a a\'e7\'e3o solicitada pelo cliente foi recebida, compreendida, aceita e processada com \'eaxito.\par
+200 OK\par
+\par
+Padr\'e3o de resposta para solicita\'e7\'f5es HTTP sucesso. A resposta real depender\'e1 do m\'e9todo de solicita\'e7\'e3o usado. Em uma solicita\'e7\'e3o GET, a resposta conter\'e1 uma entidade que corresponde ao recurso solicitado. Em uma solicita\'e7\'e3o POST a resposta conter\'e1 a descri\'e7\'e3o de uma entidade, ou contendo o resultado da a\'e7\'e3o.\par
+201 Criado\par
+\par
+O pedido foi cumprido e resultou em um novo recurso que est\'e1 sendo criado.\par
+202 Aceito\par
+\par
+O pedido foi aceito para processamento, mas o tratamento n\'e3o foi conclu\'eddo. O pedido poder\'e1 ou n\'e3o vir a ser posta em pr\'e1tica, pois pode ser anulado quando o processamento ocorre realmente.\par
+203 n\'e3o-autorizado (desde HTTP/1.1)\par
+\par
+O servidor processou a solicita\'e7\'e3o com sucesso, mas est\'e1 retornando informa\'e7\'f5es que podem ser de outra fonte.\par
+204 Nenhum conte\'fado\par
+\par
+O servidor processou a solicita\'e7\'e3o com sucesso, mas n\'e3o \'e9 necess\'e1rio nenhuma resposta.\par
+205 Reset\par
+\par
+O servidor processou a solicita\'e7\'e3o com sucesso, mas n\'e3o est\'e1 retornando nenhum conte\'fado. Ao contr\'e1rio da 204, esta resposta exige que o solicitante redefinir a exibi\'e7\'e3o de documento.\par
+206 Conte\'fado parcial\par
+\par
+O servidor est\'e1 entregando apenas parte do recurso devido a um cabe\'e7alho intervalo enviados pelo cliente. O cabe\'e7alho do intervalo \'e9 usado por ferramentas como wget para permitir retomada de downloads interrompidos, ou dividir um download em v\'e1rios fluxos simult\'e2neos.\par
+207-Status Multi (WebDAV) (RFC 4918)\par
+\par
+O corpo da mensagem que se segue \'e9 um XML da mensagem e pode conter um n\'famero de c\'f3digos de resposta individual, dependendo de quantas sub-pedidos foram feitos.\par
+3xx Redirecionamento\par
+\par
+O cliente deve tomar medidas adicionais para completar o pedido. Essa classe de c\'f3digo de status indica que a a\'e7\'e3o ainda precisa ser levado pelo agente do usu\'e1rio, a fim de atender \'e0 solicita\'e7\'e3o. A a\'e7\'e3o necess\'e1ria pode ser realizada pelo agente, sem intera\'e7\'e3o com o usu\'e1rio, se e somente se o m\'e9todo utilizado no segundo pedido \'e9 GET ou HEAD. Um agente do usu\'e1rio n\'e3o deve redirecionar automaticamente uma solicita\'e7\'e3o de mais de cinco vezes, uma vez que tais redirecionamentos geralmente indicam um loop infinito .\par
+300 M\'faltipla escolha\par
+\par
+Indica v\'e1rias op\'e7\'f5es para o recurso que o cliente pode acompanhar. \'c9, por exemplo, poderia ser usado para apresentar op\'e7\'f5es de formato diferente para o v\'eddeo, arquivos de lista com diferentes extens\'f5es, ou desambigua\'e7\'e3o sentido da palavra.\par
+301 Movido\par
+\par
+Esta e todas as solicita\'e7\'f5es futuras devem ser direcionadas para o URI.\par
+302 Encontrado\par
+\par
+Este \'e9 um exemplo de boas pr\'e1ticas industriais contradizendo a norma. especifica\'e7\'e3o HTTP/1.0 (RFC 1945) exigiu o cliente para executar um redirecionamento tempor\'e1rio (o que descreve frase original era "Movido Temporariamente"), mas os browsers populares executadas 302 com a funcionalidade de um 303 Consulte Outros. Por isso, acrescentou HTTP/1.1 c\'f3digos de status 303 e 307 a distinguir entre os dois comportamentos. No entanto, a maioria das aplica\'e7\'f5es Web e os quadros ainda usam o c\'f3digo de status 302 como se fosse o 303.\par
+304 N\'e3o modificado\par
+\par
+Indica que o recurso n\'e3o foi modificado desde o \'faltimo pedido. Normalmente, o cliente fornece um cabe\'e7alho HTTP como o Se-Modificado-Desde cabe\'e7alho para proporcionar um tempo contra o qual para comparar. Usando este poupa largura de banda e de reprocessamento no servidor e cliente, uma vez que apenas os dados do cabe\'e7alho devem ser enviados e recebidos em compara\'e7\'e3o com a totalidade da p\'e1gina que est\'e1 sendo reprocessados \u8203?\u8203?pelo servidor, em seguida, enviado novamente utilizando mais largura de banda do servidor e cliente .\par
+305 Use Proxy (desde HTTP/1.1)\par
+\par
+Muitos clientes HTTP (como o Mozilla e Internet Explorer) podem n\'e3o tratar corretamente as respostas com este c\'f3digo de status, principalmente por raz\'f5es de seguran\'e7a.\par
+306 Proxy Switch\par
+\par
+Mudan\'e7a de proxy. Deixou de ser usado.\par
+307 Redirecionamento tempor\'e1rio (desde HTTP/1.1)\par
+\par
+Nesta ocasi\'e3o, o pedido deve ser repetido com outro URI, mas futuras solicita\'e7\'f5es ainda pode usar a URI original. Em contraste com a 303, o m\'e9todo de pedido n\'e3o deve ser mudado quando a reedi\'e7\'e3o do pedido original. Por exemplo, uma solicita\'e7\'e3o POST deve ser repetido com outro pedido POST.\par
+4xx Erro de cliente\par
+\par
+A classe 4xx de c\'f3digo de status \'e9 destinado para os casos em que o cliente parece ter cometido um erro. Exceto quando estiver respondendo a uma solicita\'e7\'e3o HEAD, o servidor deve incluir uma entidade que cont\'e9m uma explica\'e7\'e3o sobre a situa\'e7\'e3o de erro, e se \'e9 uma condi\'e7\'e3o tempor\'e1ria ou permanente. Esses c\'f3digos de status s\'e3o aplic\'e1veis \u8203?\u8203?a qualquer m\'e9todo de solicita\'e7\'e3o. Os agentes do usu\'e1rio devem exibir qualquer entidade inclu\'edda para o usu\'e1rio. Estes s\'e3o tipicamente os c\'f3digos de erro mais comuns encontrados durante online.\par
+400 Requisi\'e7\'e3o inv\'e1lida\par
+\par
+O pedido n\'e3o pode ser entregue devido \'e0 sintaxe incorreta.\par
+401 N\'e3o autorizado\par
+\par
+Semelhante ao 403 Proibido, mais especificamente para o uso quando a autentica\'e7\'e3o \'e9 poss\'edvel, mas n\'e3o conseguiu ou ainda n\'e3o foram fornecidos. A resposta deve incluir um cabe\'e7alho do campo www-authenticate contendo um desafio aplic\'e1vel ao recurso solicitado. Veja Basic autentica\'e7\'e3o de acesso e autentica\'e7\'e3o Digest acesso .\par
+402 Pagamento necess\'e1rio\par
+\par
+Reservado para uso futuro. A inten\'e7\'e3o original era que esse c\'f3digo pudesse ser usado como parte de alguma forma de dinheiro digital ou de micro pagamento regime, mas isso n\'e3o aconteceu, e esse c\'f3digo n\'e3o \'e9 usado normalmente.\par
+403 Proibido\par
+\par
+O pedido \'e9 reconhecido pelo servidor mas este recusa-se a execut\'e1-lo. Ao contr\'e1rio resposta "401 N\'e3o Autorizaodo", autentica\'e7\'e3o n\'e3o far\'e1 diferen\'e7a e o pedido n\'e3o deve ser requisitado novamente.\par
+404 N\'e3o encontrado\par
+Ver artigo principal: HTTP 404\par
+\par
+O recurso requisitado n\'e3o foi encontrado, mas pode ser disponibilizado novamente no futuro. As solicita\'e7\'f5es subsequentes pelo cliente s\'e3o permitidas.\par
+405 M\'e9todo n\'e3o permitido\par
+\par
+Foi feita uma solicita\'e7\'e3o de um recurso usando um m\'e9todo de pedido n\'e3o \'e9 compat\'edvel com esse recurso, por exemplo, usando GET em um formul\'e1rio, que exige que os dados a serem apresentados via POST, PUT ou usar em um recurso somente de leitura.\par
+406 N\'e3o Aceit\'e1vel\par
+\par
+O recurso solicitado \'e9 apenas capaz de gerar conte\'fado n\'e3o aceit\'e1veis \u8203?\u8203?de acordo com os cabe\'e7alhos Accept enviados na solicita\'e7\'e3o.\par
+407 Autentica\'e7\'e3o de proxy necess\'e1ria\par
+408 Tempo de requisi\'e7\'e3o esgotou (Timeout)\par
+\par
+O servidor sofreu timeout ao aguardar a solicita\'e7\'e3o. De acordo com as especifica\'e7\'f5es HTTP W3: "O cliente n\'e3o apresentou um pedido dentro do tempo que o servidor estava preparado para esperar. O cliente PODE repetir o pedido sem modifica\'e7\'f5es a qualquer momento mais tarde. "\par
+409 Conflito\par
+\par
+Indica que a solicita\'e7\'e3o n\'e3o p\'f4de ser processada por causa do conflito no pedido, como um conflito de edi\'e7\'e3o .\par
+410 Gone\par
+\par
+Indica que o recurso solicitado n\'e3o est\'e1 mais dispon\'edvel e n\'e3o estar\'e1 dispon\'edvel novamente. Isto deve ser usado quando um recurso foi intencionalmente removido e os recursos devem ser removidos. Ao receber um c\'f3digo de estado 410, o cliente n\'e3o dever\'e1 solicitar o recurso novamente no futuro. Clientes como motores de busca devem remover o recurso de seus \'edndices. A maioria dos casos de uso n\'e3o necessitam de clientes e motores de busca para purgar o recurso, e um "404 Not Found" pode ser utilizado.\par
+411 comprimento necess\'e1rio\par
+\par
+O pedido n\'e3o especifica o comprimento do seu conte\'fado, o que \'e9 exigido pelo recurso solicitado.\par
+412 Pr\'e9-condi\'e7\'e3o falhou\par
+\par
+O servidor n\'e3o cumpre uma das condi\'e7\'f5es que o solicitante coloca na solicita\'e7\'e3o.\par
+413 Entidade de solicita\'e7\'e3o muito grande\par
+\par
+A solicita\'e7\'e3o \'e9 maior do que o servidor est\'e1 disposto ou capaz de processar.\par
+414 Pedido-URI Too Long\par
+\par
+O URI fornecido foi muito longo para ser processado pelo servidor.\par
+415 Tipo de m\'eddia n\'e3o suportado\par
+\par
+A entidade tem um pedido tipo de m\'eddia que o servidor ou o recurso n\'e3o tem suporte. Por exemplo, o cliente carrega uma imagem como image / svg + xml, mas o servidor requer que imagens usar um formato diferente.\par
+416 Solicitada de Faixa N\'e3o Satisfat\'f3ria\par
+\par
+O cliente solicitou uma parte do arquivo, mas o servidor n\'e3o pode fornecer essa parte. Por exemplo, se o cliente pediu uma parte do arquivo que est\'e1 para al\'e9m do final do arquivo.\par
+417 Falha na expectativa\par
+\par
+O servidor n\'e3o pode cumprir as exig\'eancias do campo de cabe\'e7alho Espere-pedido.\par
+418 Eu sou um bule de ch\'e1\par
+\par
+Este c\'f3digo foi definido em 1998 como uma das tradicionais brincadeiras de 1\'ba de abril da IETF, na RFC 2324, Hyper Text Cafeteira Control Protocol, e n\'e3o \'e9 esperado para ser implementado por servidores HTTP reais.\par
+422 Entidade improcess\'e1vel (WebDAV) (RFC 4918)\par
+\par
+O pedido foi bem formado, mas era incapaz de ser seguido devido a erros de sem\'e2ntica.\par
+423 Fechado (WebDAV) (RFC 4918)\par
+\par
+O recurso que est\'e1 sendo acessado est\'e1 bloqueado.\par
+424 Falha de Depend\'eancia (WebDAV) (RFC 4918)\par
+\par
+A solicita\'e7\'e3o falhou devido \'e0 falha de uma solicita\'e7\'e3o anterior (por exemplo, um PROPPATCH).\par
+425 cole\'e7\'e3o n\'e3o ordenada (RFC 3648)\par
+\par
+Definido em projectos de "WebDAV Avan\'e7ada Cole\'e7\'f5es Protocolo", mas n\'e3o est\'e1 presente no "Web Distributed Authoring and Versioning (WebDAV) Ordenados Cole\'e7\'f5es protocolo".\par
+426 Upgrade Obrigat\'f3rio (RFC 2817)\par
+\par
+O cliente deve mudar para um outro protocolo, como TLS/1.0 . Resposta n \'ba 444 Um Nginx extens\'e3o do servidor HTTP. O servidor retorna nenhuma informa\'e7\'e3o para o cliente e fecha a conex\'e3o (\'fatil como um impedimento para malware). Com 449 Repetir Uma extens\'e3o de Microsoft. O pedido deve ser repetida ap\'f3s a realiza\'e7\'e3o da a\'e7\'e3o apropriada.\par
+450 bloqueados pelo Controle de Pais do Windows\par
+\par
+Uma extens\'e3o de Microsoft. Este erro \'e9 dado quando Parental Controls do Windows est\'e3o ativadas e est\'e1 bloqueando o acesso a determinada p\'e1gina da web.\par
+499 cliente fechou Pedido (utilizado em ERPs/VPSA)\par
+\par
+Um Nginx extens\'e3o do servidor HTTP. Este c\'f3digo \'e9 introduzido para registrar o caso quando a conex\'e3o \'e9 fechada pelo cliente ao servidor HTTP \'e9 o processamento de seu pedido, fazendo com que servidor n\'e3o consiga enviar o cabe\'e7alho HTTP de volta.\par
+5xx outros erros\par
+500 Erro interno do servidor (Internal Server Error)\par
+\par
+Indica um erro do servidor ao processar a solicita\'e7\'e3o. Na grande maioria dos casos est\'e1 relacionada as permiss\'f5es dos arquivos ou pastas do software ou script que o usu\'e1rio tenta acessar e n\'e3o foram configuradas no momento da programa\'e7\'e3o/constru\'e7\'e3o do site ou da aplica\'e7\'e3o. Para corrigir, verifique o diret\'f3rio em que o arquivo ou recurso que houve falha de acesso est\'e1 localizado, e este arquivo (bem como todos os outros), obede\'e7am \'e0s regras seguintes:\par
+\par
+Pastas \f1\emdash  chmod 755 (n\f0\'e3o utilizar 777) Arquivos \f1\emdash  chmod 644 (n\f0\'e3o utilizar o 777, s\'f3 utilizar outro se for expressamente solicitado na instala\'e7\'e3o)\par
+\par
+OBS.: algumas aplica\'e7\'f5es e ou sistemas requerem permiss\'f5es diferenciadas, pelo qual \'e9 importante verificar com os criadores do scripts/sistema, qual seria a permiss\'e3o correta a usar. O exemplo descreve como \'e9 realizado em sistemas operacionais Unix-like. Fazer analogia como \'e9 realizado em sistemas como Windows (Windows 7, 8, XP entre outros).\par
+\par
+Este erro tamb\'e9m pode ocorrer se o arquivo .htaccess do seu site estiver modificando os par\'e2metros ou tentando fazer o PHP utilizar comandos como: php_flag ou php_value. Remova qualquer entrada com esses comandos do arquivo .htaccess. Se for fazer modifica\'e7\'f5es nos par\'e2metros do PHP, utilize o arquivo php.ini para fazer isso.\par
+501 N\'e3o implementado (Not implemented)\par
+\par
+O servidor ainda n\'e3o suporta a funcionalidade ativada\par
+502 Bad Gateway\par
+\par
+Em regra, o erro acontece quando h\'e1 uma configura\'e7\'e3o imprecisa entre os computadores de back-end, possivelmente incluindo o servidor Web no site visitado. Antes de analisar este problema, \'e9 necess\'e1rio limpar o cache do navegador, completamente.\par
+\par
+Se estiver navegando na Web e observar este problema em todos os websites visitados, ent\'e3o 1) o seu provedor de servi\'e7o de Internet tem uma falha/sobrecarga em um equipamento principal ou 2) tem algo de errado com a sua conex\'e3o interna \'e0 Internet, por exemplo, o firewall n\'e3o est\'e1 funcionando corretamente. Se for o primeiro caso, somente o seu provedor pode ajudar. Se for o segundo, voc\'ea precisa corrigir o que quer que esteja prevenindo que voc\'ea acesse a Internet.\par
+\par
+Se tiver este problema somente em alguns websites visitados, provavelmente existe um problema nos sites. Por exemplo, uma das pe\'e7as dos equipamentos est\'e3o falhando ou est\'e3o sobrecarregadas. Entre em contato com os respons\'e1veis destes sites.\par
+503 Servi\'e7o indispon\'edvel (Service Unavailable)\par
+\par
+O servidor est\'e1 em manuten\'e7\'e3o ou n\'e3o consegue dar conta dos processamentos de recursos devido \'e0 sobrecarga do sistema. Isto deve ser uma condi\'e7\'e3o tempor\'e1ria.\par
+504 Gateway Time-Out\par
+\par
+\'c9 caracterizado por erros particulares do site em quest\'e3o. Pode ser que o site esteja em manuten\'e7\'e3o ou n\'e3o exista.\par
+505 HTTP Version not supported\par
+\par
+A maioria dos browsers assumem que os servidores de rede suportam vers\'f5es 1.x do protocolo HTTP. Na pr\'e1tica, as vers\'f5es muito antigas como a 0.9 s\'e3o pouco utilizadas atualmente, n\'e3o apenas porque eles fornecem pouca seguran\'e7a e desempenho mais baixo do que as vers\'f5es mais recentes do protocolo. Ent\'e3o, se acontecer esse erro no seu navegador de rede, a \'fanica op\'e7\'e3o \'e9 fazer o upgrade do software do servidor de rede. Se a vers\'e3o da solicita\'e7\'e3o 1.x falhar, pode ser porque o servidor de rede est\'e1 suportando vers\'f5es incorretas do protocolo 1.x, em vez de n\'e3o suport\'e1-las.\par
+\par
+6xx outros erros\par
+}
+ 

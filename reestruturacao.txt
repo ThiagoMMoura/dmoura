@@ -2,7 +2,10 @@
 Modelo de requisição:
 request 
     -> get - Requisição padrão para retornar qualquer página (html)
-    -> list - Retorna páginas ou resultados de busca)
+    -> list - Retorna página (html) resultados de busca (json)
     -> insert - Retorna página atual (html) ou objeto de resposta (json)
     -> update - Retorna página atual (html) ou objeto de resposta (json)
     -> delete - Retorna página atual (html) ou objeto de resposta (json)
+Propriedades gerais das funções list, insert, update, delete:
+    -> Todas as funções são privadas para acesso externo (através de URL)
+    -> Todas as funções trabalham com array de dados que são enviados para a página html gerada ou codificado em json.

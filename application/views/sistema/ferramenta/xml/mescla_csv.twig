@@ -1,0 +1,80 @@
+{% extends 'sistema/layout_sistema.twig' %}
+{% block styles %}
+{% endblock %}
+{% block conteudo %}
+    {% if upload.success is defined %}
+        <div class="row expanded">
+            <div class="small-12 column">
+                <div class="callout success">
+                    <h5>SUCESSO</h5>
+                    <p>{{ upload.success }}</p>
+                    <p>Clique <a href="{{ upload.url }}">aqui</a> para baixar arquivo CSV</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if upload.error is defined %}
+        <div class="row expanded">
+            <div class="small-12 column">
+                <div class="callout alert">
+                    <h5>ERRO</h5>
+                    <p>{{ upload.error }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <form action="./upload_csv" enctype="multipart/form-data" method="post" id="form-upload" >
+        <div class="row expanded">
+            <div class="small-12 medium-12 large-6 column">
+                <label for="uploadcsv" class="button"><i class="fa fa-upload fa-lg fa-fw"></i> Enviar CSV</label>
+                <input type="file" class="show-for-sr" name="uploadcsv" id="uploadcsv" multiple />
+            </div>
+        </div>
+        <div class="row expanded">
+            <div class="small-12 medium-12 large-12 column">
+                <input type="submit" class="button" value="Enviar" id="enviar"/>
+            </div>
+        </div>
+    </form>
+    <div class="row expanded">
+        <div class="small-12 column">
+            <ul class="lista-upload-xml">
+                
+            </ul>
+        </div>
+    </div>
+    <div class="modelo-item-upload hide">
+        <li class="callout primary" data-closable>
+            <div class="row expanded">
+                <div class="small-12 column">
+                    <i class="fa fa-file-code-o fa-lg fa-fw"></i>
+                    <span class="titulo-js"></span>
+                </div>
+                <div class="small-12 column enviando-js">
+                    <i class="fa fa-circle-o-notch fa-pulse fa-lg fa-fw"></i>
+                    <span>Enviando arquivo...</span>
+                </div>
+                <div class="small-12 column sucesso-js hide">
+                    <i class="fa fa-check fa-lg fa-fw success-text"></i>
+                    <span>Arquivo enviado</span>
+                </div>
+                <div class="small-12 column erro-js hide">
+                    <i class="fa fa-close fa-lg fa-fw alert-text"></i>
+                    <span class="msg-js"></span>
+                </div>
+                <div class="small-12 column download-js hide">
+                    <a href="#" class="button">
+                        <i class="fa fa-download fa-lg fa-fw"></i>
+                        <span>Clique aqui para baixar o CSV.</span>
+                    </a>
+                </div>
+            </div>
+            <button class="close-button hide" aria-label="Fechar" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ base_url('/assets/js/sistema/ferramenta/xml/mescla_csv.js') }}" ></script>
+{% endblock %}

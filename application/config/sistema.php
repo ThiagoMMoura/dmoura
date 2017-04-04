@@ -63,7 +63,8 @@ $config['menu-principal'] = array(
                 'url' => '#xml',
                 'icone' => 'fa-file-code-o',
                 'submenu' => array(
-                    'extracao-ncm' => array('nome'=>'Extração de código NCM em Notas Fiscais Eletrônicas','titulo'=>'Extrair NCM de NF-e','url'=>'sistema/ferramenta/xml/extracao_ncm','icone'=>'fa-code')
+                    'extracao-ncm' => array('nome'=>'Extração de código NCM em Notas Fiscais Eletrônicas','titulo'=>'Extrair NCM de NF-e','url'=>'sistema/ferramenta/xml/extracao_ncm','icone'=>'fa-code'),
+                    'mescla-csv' => array('nome'=>'Mesclagem de CSV com dados do banco','titulo'=>'Mesclar CSV','url'=>'sistema/ferramenta/xml/mescla_csv','icone'=>'fa-code')
                 )
             )
         )

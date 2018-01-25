@@ -24,7 +24,7 @@
                 </a>
             {% endif %}
             {% if item.submenu is defined %}
-                {% include 'sistema/menu_canvas_esquerdo.twig' with {'submenu': item.submenu} %}
+                {% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'submenu': item.submenu} %}
             {% endif %}
         </li>
     {% endfor %}

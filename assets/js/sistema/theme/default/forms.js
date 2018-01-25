@@ -109,8 +109,6 @@ var valor = function(id,type,value){
             $('#'+id).prop('checked',value);
             break;
         case 'lista-boleana':
-            //$('#' + field.id).find('[value="'+value+'"]').prop('checked',true);
-            // break;
         case 'lista':
             if(value===undefined){
                 return $('#'+id).find('option:contains("'+$('#'+id).val()+'")').attr('id');
@@ -246,7 +244,7 @@ var checkSubFieldError = function(field_id,form){
     return form;
 };
 
-var initForm = function(sv_form){    
+var initForm = function(sv_form,id){    
     var esseForm = dmx.novoFormulario(sv_form.id,sv_form.action,sv_form['field-identifier'],sv_form['not-permitted'],'insert');
     esseForm.setCallback_setValue(setValue);
     esseForm.setCallback_setSubFieldValue(setSubFieldValue);
@@ -278,6 +276,10 @@ var initForm = function(sv_form){
         getList(data['list-url'],data['list-dbfield'],data.selected,this);
     });
     $('[data-subfield="0"]').hide();
-    esseForm.setAction('insert');
+    if(!isNothing(id)){
+        dmx.requestGet(sv_form.id,id);
+    }else{
+        esseForm.setAction('insert');
+    }
 };
 

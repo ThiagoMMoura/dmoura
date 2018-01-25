@@ -714,8 +714,3 @@ function arrayFields(fields){
     }
     return a;
 }
-
-
-//dmx.novoFormulario('teste2');console.log(dmx.getFormulario('teste2').callback.setValue('','','contexto'));
-//console.log(dmx.formulario.Modelo_form.prototype);
-//console.log(new dmx.formulario.Modelo_form());

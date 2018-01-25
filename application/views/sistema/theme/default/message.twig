@@ -1,0 +1,13 @@
+{% set type = ['primary','success','warning','alert'] %}
+<div class="{{ type[message.type] }} callout" data-closable>
+    <h5>{{ message.title }}</h5>
+    <p>{{ message.message }}</p>
+    {% if message.description is defined %}
+        <p>{{ message.description }}</p>
+    {% endif %}
+    {% if message.closable %}
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    {% endif %}
+</div>

@@ -19,6 +19,7 @@ class MY_Controller extends CI_Controller{
     private $_pai;
     private $_body = '';
     private $_caminho_controle;
+    protected $_page_index;
     
     const RELATIVO_SISTEMA = 0;
     const RELATIVO_PAI = 1;
@@ -56,6 +57,45 @@ class MY_Controller extends CI_Controller{
             $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $atributos['metodo']);
         }
         
+    }
+    
+    public function index(){
+        $request = $this->input->post('request');
+        if($request!=''){
+            if($request=='get'){
+                $page_request = $this->input->post('page_request');
+                if(method_exists(get_class($this), $page_request)){
+                    return $this->{$page_request}();
+                }else{
+                    if($this->input->is_ajax_request()){
+                        $this->output
+                            ->set_status_header(404)
+                            ->set_content_type('application/json')
+                            ->set_output(json_encode(['error'=>'Página não encontrada!']));
+                    }else{
+                        show_404();
+                    }
+                }
+            }else{
+                if(method_exists(get_class($this), $request)){
+                    return $this->{$request}();
+                }else{
+                    if($this->input->is_ajax_request()){
+                        $this->output
+                            ->set_status_header(400)
+                            ->set_content_type('application/json')
+                            ->set_output(json_encode(['error'=>'Requisição inválida!']));
+                    }else{
+                        show_error("A requisição enviada não existe ou não é válida!", 400, "Requisição Inválida");
+                    }
+                }
+            }
+        }
+        if($this->_page_index!=''){
+            return $this->{$this->_page_index}();
+        }else{
+            show_error("A página solicitada ainda não foi implementada!",501,"Sem conteúdo");
+        }
     }
     
     /**

@@ -35,3 +35,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /flyway/flyway.cmd
 /flyway/flyway
 /file/upload/
+/file/

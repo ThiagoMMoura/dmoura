@@ -8,33 +8,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Fisica extends MY_Controller{
     public function __construct() {
         parent::__construct('sistema/pessoa/fisica',TRUE);
-    }
-    
-    public function index(){
-        $this->busca();
+        $this->_page_index = 'busca';
     }
     
     public function cadastro(){
         $this->load->model('estado_model');
         $this->load->model('tipo_telefone_model');
         $this->load->model('operadora_telefone_model');
-//        $this->_add_data('estados',$this->estado_model->obter_uf_estado());
-//        $this->_add_data('tipos_telefone',$this->tipo_telefone_model->obter_id_tipo());
-//        $this->_add_data('operadoras_telefone',$this->operadora_telefone_model->obter_id_operadora());
-//        $this->_view("Cadastro Pessoa Física",'cadastro',parent::RELATIVO_CONTROLE);
-		$data = [
-			'titulo' => 'Cadastro Pessoa Física',
-			'estados' => $this->estado_model->obter_uf_estado(),
-			'tipos_telefone' => $this->tipo_telefone_model->obter_id_tipo(),
-			'operadoras_telefone' => $this->operadora_telefone_model->obter_id_operadora()
-		];
-		$this->twig->display('sistema/pessoa/fisica/cadastro', $data);
+        $data = [
+                'titulo' => 'Cadastro Pessoa Física',
+                'estados' => $this->estado_model->obter_uf_estado(),
+                'tipos_telefone' => $this->tipo_telefone_model->obter_id_tipo(),
+                'operadoras_telefone' => $this->operadora_telefone_model->obter_id_operadora()
+        ];
+        $this->twig->display('sistema/pessoa/fisica/cadastro', $data);
     }
     
-    public function salvar(){
-//        if($this->input->post('salvar')===NULL){
-//            redirect('sistema/pessoa/fisica/cadastro');
-//        }
+    protected function insert(){
         $this->load->library('form_validation');
         $this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
@@ -47,16 +37,18 @@ class Fisica extends MY_Controller{
         );
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
         $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[pessoa.email]');
-        $this->form_validation->set_rules('nascimento[dia]', 'Dia Nascimento', 'trim|required|exact_length[2]');
-        $this->form_validation->set_rules('nascimento[mes]', 'Mes Nascimento', 'trim|required|exact_length[2]');
-        $this->form_validation->set_rules('nascimento[ano]', 'Ano Nascimento', 'trim|required|exact_length[4]');
+        $this->form_validation->set_rules('nascimento', 'Data Nascimento', 'trim|required|max_length[10]');
+        $this->form_validation->set_rules('enviar_email', "Enviar Email", 'trim');
+        //$this->form_validation->set_rules('nascimento[dia]', 'Dia Nascimento', 'trim|required|exact_length[2]');
+        //$this->form_validation->set_rules('nascimento[mes]', 'Mes Nascimento', 'trim|required|exact_length[2]');
+        //$this->form_validation->set_rules('nascimento[ano]', 'Ano Nascimento', 'trim|required|exact_length[4]');
         $this->form_validation->set_rules('nacionalidade', 'Nacionalidade', 'trim');
         $this->form_validation->set_rules('naturalidade', 'Naturalidade', 'trim');
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
         $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[Masculino,Feminino]');
         $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
-        $this->form_validation->set_rules('uf', 'Estado', 'trim');
-        $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
+        $this->form_validation->set_rules('uf', 'Estado', 'trim|required');
+        $this->form_validation->set_rules('municipio', 'Municipio', 'trim|required');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
         $this->form_validation->set_rules('logradouro', 'Logradouro', 'trim');
         $this->form_validation->set_rules('numero', 'Número', 'trim|is_natural');
@@ -69,7 +61,17 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('tipo_telefone[]', 'Tipo Telefone', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->cadastro();
+            if($this->input->is_ajax_request()){
+                $json['estatus'] = 'falha';
+                $json['error'] = 'Preenchimento de campos inválido.';
+                $json['fieldserror'] = (array) $this->form_validation->error_array();
+                $this->output
+                    ->set_status_header(400)
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($json));
+            }else{
+                $this->cadastro();
+            }
         } else {
             $this->load->helper('string');
             $this->load->model('endereco_model');
@@ -99,26 +101,28 @@ class Fisica extends MY_Controller{
                 
                 //Prepara dados para gravação na tabela pessoa_fisica
                 $fisica_dados = $this->input->post();
-                $fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
+                //$fisica_dados['nascimento'] = $fisica_dados['nascimento']['ano'] . '-' . $fisica_dados['nascimento']['mes'] . '-' . $fisica_dados['nascimento']['dia'];
                 $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
                 if($this->pessoa_fisica_model->inserir($fisica_dados)){
                     
                     //Cadastra números de telefone para a pessoa
-                    $this->load->model('telefone_model');
-                    $telefones = array();
-                    //Converte os dados dos telefones em um array legivel pela função salvar_telefones
-                    foreach($this->input->post('id_tel') as $k => $id_tel){
-                        $telefones[] = array(
-                            'ddd' => $this->input->post('ddd')[$k],
-                            'telefone' => $this->input->post('numero_telefone')[$k],
-                            'operadora' => $this->input->post('operadora')[$k],
-                            'tipo' =>$this->input->post('tipo_telefone')[$k]
-                        );
-                    }
-                    //Salva telefones e altera o telefone principal na tabela pessoa
-                    $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
-                    if(!empty($tel_principal)){
-                        $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal[0]),'id = ' . $fisica_dados['pessoa']);
+                    if($this->input->post('id_tel')){
+                        $this->load->model('telefone_model');
+                        $telefones = array();
+                        //Converte os dados dos telefones em um array legivel pela função salvar_telefones
+                        foreach($this->input->post('id_tel') as $k => $id_tel){
+                            $telefones[] = array(
+                                'ddd' => $this->input->post('ddd')[$k],
+                                'telefone' => $this->input->post('numero_telefone')[$k],
+                                'operadora' => $this->input->post('operadora')[$k],
+                                'tipo' =>$this->input->post('tipo_telefone')[$k]
+                            );
+                        }
+                        //Salva telefones e altera o telefone principal na tabela pessoa
+                        $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
+                        if(!empty($tel_principal)){
+                            $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal[0]),'id = ' . $fisica_dados['pessoa']);
+                        }
                     }
                     
                     //Altera variavéis do alerta para mensagem de sucesso
@@ -128,18 +132,18 @@ class Fisica extends MY_Controller{
                     
                     //Envia email com a senha caso tenha algum email cadastrado
                     if($pessoa_dados['email']!=NULL && $this->input->post('enviar_email')){
-                        $this->load->library('email');
-                        if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
-                            $config =  $this->config->item('email_smtp')['email_suporte'];
-                            $this->email->initialize($config);
-                        }
-                        $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
-                        $this->email->to($pessoa_dados['email']);
-
-                        $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
-                        $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
-
-                        $this->email->send();
+//                        $this->load->library('email');
+//                        if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
+//                            $config =  $this->config->item('email_smtp')['email_suporte'];
+//                            $this->email->initialize($config);
+//                        }
+//                        $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
+//                        $this->email->to($pessoa_dados['email']);
+//
+//                        $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
+//                        $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
+//
+//                        $this->email->send();
                     }
                 }else{
                     //Deleta o registro na tabela pessoa caso falhe o insert na tabela pessoa_fisica
@@ -148,8 +152,9 @@ class Fisica extends MY_Controller{
             }
             if($this->input->is_ajax_request()){
                 $json['callout'] = $call;
-				$json['fieldserror'] = $this->form_validation->error_array();
-                echo json_encode($json);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($json));
             }else{
                 $this->_add_data('_callout',$call);
                 if($call['tipo'] === ALERTA_SUCESSO){
@@ -257,10 +262,7 @@ class Fisica extends MY_Controller{
         }
     }
     
-    public function atualizar(){
-        if($this->input->post('atualizar')===NULL){
-            redirect('sistema/pessoa/fisica/busca');
-        }
+    protected function update(){
         $this->load->library('form_validation');
         $this->load->model('pessoa_model');
         $this->load->model('pessoa_fisica_model');
@@ -298,7 +300,16 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('tipo_telefone[]', 'Tipo Telefone', 'trim');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->cadastro();
+            if($this->input->is_ajax_request()){
+                $json['estatus'] = 'falha';
+                $json['error'] = 'Preenchimento de campos inválido.';
+                $this->output
+                    ->set_status_header(400)
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($json));
+            }else{
+                $this->cadastro();
+            }
         } else {
             $this->load->helper('string');
             $this->load->model('endereco_model');
@@ -396,7 +407,9 @@ class Fisica extends MY_Controller{
             //RETORNO PARA CLIENTE
             if($this->input->is_ajax_request()){
                 $json['callout'] = $call;
-                echo json_encode($json);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($json));
             }else{
                 $this->_add_data('_callout',$call);
                 $this->editar();

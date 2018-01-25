@@ -2,7 +2,8 @@
 {% block styles %}
 {% endblock %}
 {% block conteudo %}
-    <form id="form_pessoa_fisica" action="{{ base_url('sistema/pessoa/fisica/salvar') }}" method="post" data-live-validate="true">
+    <form id="form_pessoa_fisica" action="{{ base_url('sistema/pessoa/fisica') }}" method="post" data-live-validate="true">
+        <hidden value="" data-field-id name="id_pessoa"/>
         <div class="row expanded">
             <ul class="tabs" data-tabs id="formulario">
                 <li class="tabs-title is-active"><a href="#painel-identificacao" aria-selected="true">Identificação</a></li>
@@ -17,7 +18,7 @@
                             <div class="modern-input-group" data-modern-ajax data-field-group="cpf">
                                 <span class="input-group-label">CPF</span>
                                 <input type="text" name="cpf" pattern="\d{11}" placeholder="CPF" maxlength="11" required autofocus class="input-group-field" tabindex="1" data-field/>
-                                <div class="error-msg" data-error>Mensagem</div>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                         <div class="small-12 column">
@@ -28,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row expanded" data-field-group="nascimento">
+                    <div class="row expanded" data-modern-ajax data-field-group="nascimento">
                         <div class="small-12 column">
                             Nascimento
                         </div>
@@ -47,6 +48,10 @@
                                 <input type="text" name="nascimento[ano]" class="input-group-field text-center" placeholder="Ano" tabindex="5"/>
                             </div>
                         </div>
+                        <div class="small-12 column">
+                            <div class="error-msg" data-error></div>
+                        </div>
+                        <input type="hidden" name="nascimento" data-field />
                     </div>
                     <div class="row expanded">
                         <div class="small-12 column">
@@ -57,15 +62,17 @@
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="naturalidade">
                                 <span class="input-group-label">Naturalidade</span>
-                                <input type="text" name="naturalidade" class="input-group-field" tabindex="7"/>
+                                <input type="text" name="naturalidade" class="input-group-field" tabindex="7" data-field/>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="estado_civil">
                                 <span class="input-group-label">Estado Civil</span>
-                                <input type="text" name="estado_civil" class="input-group-field" tabindex="8"/>
+                                <input type="text" name="estado_civil" class="input-group-field" tabindex="8" data-field/>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                     </div>
@@ -73,11 +80,14 @@
                         <div class="small-12 column">
                             Sexo
                         </div>
-                        <div class="small-12 column modern-radio">
-                            <input type="radio" name="sexo" value="Feminono" id="feminino"/>
-                            <label for="feminino" tabindex="9">Feminino</label>
-                            <input type="radio" name="sexo" value="Masculino" id="masculino"/>
-                            <label for="masculino" tabindex="10">Masculino</label>
+                        <div class="small-12 column modern-radio" data-modern-ajax data-field-group="sexo" data-field-type="radio">
+                            <div name="sexo" data-field>
+                                <input type="radio" name="sexo" value="Feminino" id="feminino" data-field-type="checkbox"/>
+                                <label for="feminino" tabindex="9">Feminino</label>
+                                <input type="radio" name="sexo" value="Masculino" id="masculino" data-field-type="checkbox"/>
+                                <label for="masculino" tabindex="10">Masculino</label>
+                            </div>
+                            <div class="error-msg" data-error></div>
                         </div>
                     </div>
                     <button type="button" class="button" data-modern-ajax-submit>Salvar</button>
@@ -85,44 +95,57 @@
                 <div class="tabs-panel" id="painel-endereco">
                     <div class="row expanded">
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="cep">
                                 <span class="input-group-label">CEP</span>
-                                <input type="text" name="cep" pattern="[0-9]{8}" maxlength="8" class="input-group-field"/>
+                                <input type="text" name="cep" pattern="[0-9]{8}" maxlength="8" class="input-group-field" data-field/>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group modern-selector">
+                            <div class="modern-input-group modern-selector" data-modern-ajax data-field-group="uf">
                                 <span class="input-group-label">Estado</span>
-                                <select class="input-group-field" name="uf">
+                                <select class="input-group-field" name="uf" data-field>
                                     <option value="">
                                     {% for key, uf in estados %}
                                         <option value="{{ key }}">{{ uf }}</option>
                                     {% endfor %}
                                 </select>
+                                <div class="error-msg" data-error></div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="municipio">
                                 <span class="input-group-label">Municipio</span>
-                                <input type="text" name="municipio" class="input-group-field"/>
+                                <input type="text" name="municipio" class="input-group-field" data-field/>
+                                <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="bairro">
                                 <span class="input-group-label">Bairro</span>
-                                <input type="text" name="bairro" class="input-group-field">
+                                <input type="text" name="bairro" class="input-group-field" data-field>
+                                <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="logradouro">
                                 <span class="input-group-label">Logradouro</span>
-                                <input type="text" name="logradouro" class="input-group-field"/>
+                                <input type="text" name="logradouro" class="input-group-field" data-field/>
+                                <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="numero">
+                                <span class="input-group-label">Número</span>
+                                <input type="text" name="numero" placeholder="Número" class="input-group-field" maxlength="4" data-field/>
+                                <div class="error-msg" data-error></div>
+                            </div>
+                        </div>
+                        <div class="small-12 column">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="complemento">
                                 <span class="input-group-label">Complemento</span>
-                                <input type="text" name="complemento" class="input-group-field"/>
+                                <input type="text" name="complemento" class="input-group-field" data-field/>
+                                <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
                     </div>
@@ -130,13 +153,14 @@
                 <div class="tabs-panel" id="painel-contato">
                     <div class="row expanded">
                         <div class="small-12 column">
-                            <div class="modern-input-group">
+                            <div class="modern-input-group" data-modern-ajax data-field-group="email">
                                 <span class="input-group-label">Email</span>
-                                <input type="text" name="email" class="input-group-field"/>
+                                <input type="text" name="email" class="input-group-field" data-field/>
+                                <div class="error-msg" data-error>Mensagem</div>
                             </div>
                         </div>
-                        <div class="small-12 column modern-checkbox">
-                            <input type="checkbox" name="enviar_email" id="enviar_email"/>
+                        <div class="small-12 column modern-checkbox" data-modern-ajax data-field-group="enviar_email" data-field-type="checkbox">
+                            <input type="checkbox" name="enviar_email" id="enviar_email" data-field/>
                             <label for="enviar_email">Enviar email com senha de acesso.</label>
                         </div>
                     </div>
@@ -186,4 +210,13 @@
 {% block scripts %}
     <script src="{{ base_url('assets/js/viacep.js') }}"></script>
     <script src="{{ base_url('assets/js/ajax_modern_form_send.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            var nascimento = 0;
+            $("input[name='nascimento[dia]'], input[name='nascimento[mes]'], input[name='nascimento[ano]']").on('change',function(){
+                nascimento = $('input[name="nascimento[ano]"]').val() + "-" + $('input[name="nascimento[mes]"]').val() + "-" + $('input[name="nascimento[dia]"]').val() ;
+                $('[data-field-group="nascimento"] [data-field]').val(nascimento);
+            });
+        });
+    </script>
 {% endblock %}

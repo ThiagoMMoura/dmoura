@@ -1,0 +1,17 @@
+<div class="expanded row" id="{{ field.id }}" name="{{ field.name }}" data-subfield-count="0">
+    <div class="small-12 column clearfix no-padding-h">
+        <label class="float-left middle">{{ field.legend }}</label>
+        <button type="button" class="button float-right" id="{{ field.id }}-add" onclick="addSubField('{{ sv_form.id }}','{{ field.id }}');updateSubField(dmx.getFormulario('{{ sv_form.id }}'));">
+            <i class="fa fa-plus"></i><span class="hide-for-small-only"> Novo</span>
+        </button>
+    </div>
+    <span class="form-error"></span>
+    <div class="expanded row column no-padding-h" data-subfield="0">
+        <div class="small-10 medium-11 column no-padding-h">{% include 'sistema/theme/default/fields.twig' with {'fields':field.subfields,'subfieldtype':1,'subfieldid':field.id} %}</div>
+        <div class="small-2 medium-1 column no-padding-h">
+            <button type="button" class="button expanded" data-subfield-remove="0" onclick="removeSubField('{{ sv_form.id }}','{{ field.id }}',$(this).data('subfield-remove'));updateSubField(dmx.getFormulario('{{ sv_form.id }}'));">
+                <i class="fa fa-trash"></i><span class="hide-for-small-only"> Exclui</span>
+            </button>
+        </div>
+    </div>  
+</div>

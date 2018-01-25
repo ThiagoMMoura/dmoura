@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <form action="sistema/contato/telefone/tipo" method="POST" id="cadastro-tipo-telefone" not-permitted="update" field-identifier="id">
+        <section name="cadastro" title="Cadastro" id="cadastro">
+            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
+            </field>
+            <field type="alfanumerico" name="tipo" id="tipo" legend="Tipo" column="s:8|m:10" required="TRUE" autofocus="TRUE">
+            </field>
+        </section>
+        <buttongroup>
+            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
+            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/contato/telefone/operadora/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/pessoa/fisica/consulta"></button>
+        </buttongroup>
+    </form>
+</root>

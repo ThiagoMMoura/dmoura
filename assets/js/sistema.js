@@ -1,3 +1,6 @@
+function isNothing(value){
+    return (value===undefined || value===null || value==='');
+}
 $(document).ready(function(){
     var fixContentHeight = function(){
         var h = $(window).height();

@@ -1,0 +1,42 @@
+{% for key, field in fields %}
+    <div class="
+        {% for screen, col in field.column %}
+            {%- if screen == "s" -%}
+                small
+            {%- elseif screen == "m" -%}
+                medium
+            {%- elseif screen == "l" -%}
+                large
+            {%- endif -%}
+            -{{ col }}
+        {% endfor %}
+         column
+        {% if subfieldtype is defined and subfieldtype %}
+            no-padding-left
+        {% endif %}
+        ">
+    {% if field.type == 'alfanumerico'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'identificador'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'texto'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'numero'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'real'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'senha'%}
+        {% include 'sistema/theme/default/fields/senha.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'data'%}
+        {% include 'sistema/theme/default/fields/alfanumerico.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'boleano'%}
+        {% include 'sistema/theme/default/fields/boleano.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'lista'%}
+        {% include 'sistema/theme/default/fields/lista.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'lista-boleana'%}
+        {% include 'sistema/theme/default/fields/lista.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% elseif field.type == 'subfield'%}
+        {% include 'sistema/theme/default/fields/subfield.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+    {% endif %}
+    </div>
+{% endfor %}

@@ -222,8 +222,7 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `numero` int(5) NOT NULL DEFAULT '0',
   `complemento` varchar(100) DEFAULT NULL,
   `senha` varchar(150) NOT NULL,
-  `grupo` int(11) NOT NULL,
-  `tipo` tinyint(4) NOT NULL DEFAULT '1',
+  `nivel` int(11) NOT NULL,
   `tel_principal` int(11) DEFAULT '0',
   `resenha` tinyint(1) NOT NULL DEFAULT '1',
   `ativo` tinyint(1) NOT NULL DEFAULT '1'
@@ -233,8 +232,8 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 -- Extraindo dados da tabela `pessoa`
 --
 
-INSERT INTO `pessoa` (`id`, `nome`, `email`, `cep`, `numero`, `complemento`, `senha`, `grupo`, `tipo`, `tel_principal`, `resenha`, `ativo`) VALUES
-(1, 'Web Master', 'webmaster@dmoura.com.br', NULL, 0, NULL, '1c9e899ab77610223649760332ddfee6ec0a9ab1', 1, 1, NULL, 0, 1);
+INSERT INTO `pessoa` (`id`, `nome`, `email`, `cep`, `numero`, `complemento`, `senha`, `nivel`, `tel_principal`, `resenha`, `ativo`) VALUES
+(1, 'Web Master', 'webmaster@dmoura.com.br', NULL, 0, NULL, '1c9e899ab77610223649760332ddfee6ec0a9ab1', 1, NULL, 0, 1);
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,6 @@
+{% if subfieldtype is not defined or not subfieldtype %}
+    onchange="dmx.setValueOf('{{ sv_form.id }}','{{ field.id }}',valor('{{ field.id }}','{{ field.type }}'));"
+{% else %}
+    onchange="var index = $(this).data('subfield-index');dmx.setValueOfSub('{{ sv_form.id }}','{{ subfieldid }}','{{ field.id }}',index,valor('{{ subfieldid }} [data-subfield=\''+index+'\'] #{{ field.id }}','{{ field.type }}'));"
+    data-subfield-index="0"
+{% endif %}

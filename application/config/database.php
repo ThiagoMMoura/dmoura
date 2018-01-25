@@ -71,11 +71,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | the query builder class.
 */
 $active_group = 'default';
-$server = filter_input(INPUT_SERVER, 'SERVER_ADDR');
-if($server != NULL && $server != '127.0.0.1'){
-    $active_group = $server;
-    log_message('info', 'Active Group: '.$active_group.' (server).');
-}
 $query_builder = TRUE;
 
 $db['default'] = array(
@@ -98,25 +93,4 @@ $db['default'] = array(
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE
-);
-$db['31.220.16.205'] = array(
-    'dsn'	=> '',
-    'hostname' => 'mysql.hostinger.com.br',
-    'username' => 'u531429788_dm',
-    'password' => 'JpcYGkha0B',
-    'database' => 'u531429788_dm',
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
 );

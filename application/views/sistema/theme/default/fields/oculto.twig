@@ -1,0 +1,16 @@
+<hidden name="{{ field.name }}" 
+       {# pattern="" #} 
+       {% if field.id is defined and field.id != "" %}
+            id="{{ field.id }}" data-input="{{ field.id }}"
+       {% endif %}
+       
+       {% if field.value is defined %}
+            value="{{ field.value }}" 
+       {% endif %}
+       
+       {% if field.atributes is defined %}
+            {{ field.atributes }} 
+       {% endif %}
+       
+       {% include 'sistema/theme/default/fields/subfieldattr.twig' %}
+       />

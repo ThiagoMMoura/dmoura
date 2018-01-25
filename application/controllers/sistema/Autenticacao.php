@@ -35,10 +35,10 @@ class Autenticacao extends CI_Controller{
         }
         $data = array();
         if($alerta != NULL){
-            $data['alerta']['tipo'] = $tipo;
-            $data['alerta']['titulo'] = $this->input->post('titulo');
-            $data['alerta']['mensagem'] = $this->lang->line($alerta);
-            $data['alerta']['fechavel'] = TRUE;
+            $data['message']['type'] = $tipo;
+            $data['message']['title'] = $this->input->post('titulo');
+            $data['message']['message'] = $this->lang->line($alerta);
+            $data['message']['closable'] = TRUE;
         }
         $this->load->view("sistema/login",$data);
     }
@@ -58,6 +58,7 @@ class Autenticacao extends CI_Controller{
             $this->login('error_login',ALERTA_ERRO);
         } else {
             $this->load->model('pessoa_model');
+            $dados['nivel'] = NIVEL_OPERARIO;
             $dados['senha'] = $this->input->post('senha');
             if($this->pessoa_model->valida_usuario($dados)){//Validação de dados do usuário no banco
                 $userdata = $this->pessoa_model->registro(); //Armazena dados do usuário na sessão

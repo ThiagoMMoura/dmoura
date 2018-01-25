@@ -1,0 +1,76 @@
+{% extends 'sistema/theme/default/layout_sistema.twig' %}
+{% block styles %}
+    {% for key, link in sv_link %}
+        <link href="{{ link.href }}" type="{{ link.type }}" rel="{{ link.rel }}" charset="{{ link.charset }}">
+    {% endfor %}
+{% endblock %}
+{% block botoes %}
+    {% for k, b in sv_form.buttongroup %}
+        <li>
+            <label for="{{ b.id }}">
+                {% if b.icon is defined or b.type in ['submeter','submeterfechar','submeternovo','fechar'] %}
+                    <i class="fa fa-
+                        {%- if b.icon != "" %}
+                            {{- b.icon }}
+                        {%- elseif b.type == "submeter" -%}
+                            save
+                        {%- elseif b.type == "submeterfechar" -%}
+                            check
+                        {%- elseif b.type in ["submeternovo","novo"] -%}
+                            plus
+                        {%- elseif b.type == "fechar" -%}
+                            close
+                        {% endif %}
+                    "></i>
+                {% endif %}
+                {{ b.title }}
+            </label>
+        </li>
+    {% endfor %}
+{% endblock %}
+{% block conteudo %}
+    <form id="{{ sv_form.id }}" action="{{ base_url(sv_form.action) }}" method="{{ sv_form.method }}" data-live-validate="true">
+        <div class="row expanded">
+            <ul class="tabs
+                {% if sv_form.sections|length == 1 %}
+                    hide
+                {% endif %}
+                " data-tabs id="{{ sv_form.id }}-tabs">
+                {% for key2, sec in sv_form.sections %}
+                    {% if key2 == 0 %}
+                        <li class="tabs-title is-active"><a href="#{{ sec.id }}" aria-selected="true">{{ sec.title|upper }}</a></li>
+                    {% else %}
+                        <li class="tabs-title"><a href="#{{ sec.id }}">{{ sec.title|upper }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <div class="tabs-content" data-tabs-content="{{ sv_form.id }}-tabs">
+                {% for key2, sec in sv_form.sections %}
+                    <div class="tabs-panel {% if key2 == 0 %}is-active{% endif %}" id="{{ sec.id }}">
+                        <div class="row expanded">
+                            {% include 'sistema/theme/default/fields.twig' with {'fields':sec.fields} %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="hide row expanded">
+            {% include 'sistema/theme/default/buttongroup.twig' with {'buttons':sv_form.buttongroup} %}
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ base_url('assets/js/sistema/theme/default/forms.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            var sv_form = JSON.parse('{{ sv_form|json_encode()|raw }}');
+            initForm(sv_form);
+            if(!isNothing('{{ sv_id }}')){
+                dmx.requestGet(sv_form.id,'{{ sv_id }}');
+            }
+        });
+    </script>
+    {% for key, script in sv_script %}
+        <script src="{{ script.src }}" type="{{ script.type }}"></script>
+    {% endfor %}
+{% endblock %}

@@ -16,9 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
         <div class="row">  
           <div class="small-12 medium-centered medium-6 columns login">
-            <?php if(isset($alerta)){?>
+            <?php if(isset($message)){?>
                 <div class="alertas">
-                    <?php echo alertas($alerta['titulo'], $alerta['mensagem'], $alerta['tipo'],$alerta['fechavel']);?>
+                    <?php echo alertas($message['title'], $message['message'], $message['type'],$message['closable']);?>
                 </div>
             <?php } ?>
                 <?php echo validation_errors(); ?>

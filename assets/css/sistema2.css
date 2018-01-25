@@ -104,15 +104,15 @@ html, *, h1, h2, h3, h4, h5, h6{
 .top-bar, .top-bar-title{
     padding: 0px;
 }
-.top-bar .menu > li > a, .top-bar .menu > li > a i, .top-bar button{
+.top-bar .menu > li > a, .top-bar .menu > li > a i, .top-bar button, .top-bar .menu > li > label, .top-bar .menu > li > label i{
     line-height: 1.5rem;
     font-size: 1rem;
 }
-.top-bar .menu > li > a, .top-bar button{
+.top-bar .menu > li > a, .top-bar button, .top-bar .menu > li > label{
     padding: .5rem;
     min-width: 2.5rem;
 }
-.top-bar .menu > li > a i, .top-bar .menu > li > a span{
+.top-bar .menu > li > a i, .top-bar .menu > li > a span, .top-bar .menu > li > label i, .top-bar .menu > li > label span{
     margin: 0px .25rem;
 }
 .content-block{
@@ -131,6 +131,16 @@ html, *, h1, h2, h3, h4, h5, h6{
 .divisao-bar-content{
     height: .25rem;
     width: 100%;
+}
+.no-padding-h{
+    padding-left: 0px !important;
+    padding-right: 0px !important; 
+}
+.no-padding-left{
+    padding-left: 0px;
+}
+.no-padding-right{
+    padding-right: 0px;
 }
 /* Input Style */
 /*[type="color"], [type="date"], [type="datetime-local"], [type="datetime"], 

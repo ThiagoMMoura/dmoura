@@ -95,3 +95,15 @@ define ('ALERTA_SUCESSO',2);
 define ('ALERTA_RISCO',3);
 define ('ALERTA_ERRO',4);
 define ('ALERTA_SISTEMA',5);
+
+//Constantes de níveis de usuário
+define('NIVEL_INSTITUCIONAL',1);
+define('NIVEL_INTERMEDIARIO',2);
+define('NIVEL_OPERARIO',3);
+define('NIVEL_CLIENTE',4);
+
+//Constantes de tipos de mensagens:
+define('MSG_INFO',0);
+define('MSG_SUCCESS',1);
+define('MSG_WARNING',2);
+define('MSG_ERROR',3);

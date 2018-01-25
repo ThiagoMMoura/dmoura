@@ -7,138 +7,191 @@ if (!defined('BASEPATH')) {
  * Extensão de CI_Controller
  *
  * @author Thiago Moura
- * @version 1.2
+ * @version 0.1
  */
 class MY_Controller extends CI_Controller{
     
-    private $_data_view = array();
     /**
      * Arvore pai - Nome da partição de configurações e funcionalidades do web app.
      * @var string 
      */
     private $_pai;
-    private $_body = '';
     private $_caminho_controle;
+    protected $_page_index;
+    protected $_action;
     
-    const RELATIVO_SISTEMA = 0;
-    const RELATIVO_PAI = 1;
-    const RELATIVO_CONTROLE = 2;
     /**
      * Construtor da classe
      * 
      * @param string $caminho_controle - Caminho dentro da pasta controller até o 
      * arquivo do controle atual.
      */
-    public function __construct($caminho_controle,$area_restrita = FALSE,$resenha = TRUE) {
+    public function __construct($caminho_controle,$page_index = '') {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
-        
+        $this->_page_index = $page_index;
+        $this->_action = $this->input->post('action');
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
-        
-        $atributos['pai'] = $this->_pai;
-        $atributos['controle'] = $this->_caminho_controle;
-        $atributos['metodo'] = $this->_obter_nome_metodo();
-        $atributos['area_restrita'] = $area_restrita;
-	$atributos['resenha'] = $resenha;
-        $this->load->library('controle_acesso',$atributos);
-        if(!$this->controle_acesso->pai()){
-            redirect($this->_pai . '/autenticacao/login/error_permissao/' . ALERTA_ERRO);
-        }
-        if(!$this->controle_acesso->controle() || !$this->controle_acesso->metodo()){
-            $this->area_restrita();
-            $this->output->_display();
-            exit;
-        }
-        if($this->controle_acesso->logado()){
-            $this->twig->addGlobal('app',$this);
-            $this->twig->addGlobal('_pai',$this->_pai);
-            $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $atributos['metodo']);
-        }
+
+        $this->load->library('controle_acesso');
+
+        $this->twig->addGlobal('app',$this);
+        $this->twig->addGlobal('_pai',$this->_pai);
+        $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $this->_obter_nome_metodo());
+
         
     }
     
-    /**
-     * Função de carregamento de view para o browser.
-     * 
-     * @param string $titulo
-     * @deprecated since version 1.0
-     */
-    protected function _view($titulo = '',$body = '',$relativo = self::RELATIVO_PAI){
-        if($titulo!=NULL){
-            add_head_title($titulo);
-        }
-        $this->_add_data('_titulo',$titulo);
-        $this->_add_data('_pai',$this->_pai);
-        if($this->controle_acesso->logado()){
-            $usuario['nome'] = $this->session->nome;
-            $usuario['cargo'] = '';
-            $this->_add_data('_usuario',$usuario);
-        }
-        $this->_add_body($body,$relativo);
-        $this->_add_data('_imprimir_body',$this->_body);
-        $this->load->view($this->config->item('template-html'),$this->_data_view); //Carrega o template base do web app
-    }
-    
-    /**
-     * 
-     * @param type $data
-     * @param type $value
-     * @deprecated since version 1.0
-     */
-    protected function _add_data($data,$value = ''){
-        if(is_array($data)){
-            $this->_data_view = array_merge($this->_data_view,$data);
-        }else{
-            $this->_data_view[$data] = $value;
-        }
-    }
-    
-    /**
-     * 
-     * @param type $key
-     * @deprecated since version 1.0
-     */
-    protected function _remove_data($key){
-        unset($this->_data_view[$key]);
-    }
-    
-    /**
-     * 
-     * @param type $arquivo
-     * @param type $relativo
-     * @deprecated since version 1.0
-     */
-    protected function _add_body($arquivo,$relativo = self::RELATIVO_PAI){
-        if($arquivo!=NULL && !empty($arquivo)){
-            if(!is_array($arquivo)){
-                $arquivo = array($arquivo);
-            }
-            foreach($arquivo as $arq){
-                switch($relativo){
-                    case self::RELATIVO_CONTROLE:{
-                        $this->_body .= $this->load->view($this->_caminho_controle . '/' . $arq,$this->_data_view,TRUE);
+    public function index(){
+        
+        if($this->input->is_ajax_request()){
+            if($this->_action!=NULL){
+                switch ($this->_action) {
+                    case "insert":
+                        $this->_insert($this->input->post('form'));
                         break;
-                    }case self::RELATIVO_SISTEMA:{
-                        $this->_body .= $this->load->view($arq,$this->_data_view,TRUE);
+                    case "update":
+                        $this->_update($this->input->post('form'));
                         break;
-                    }default:{
-                        $this->_body .= $this->load->view($this->_pai . '/' .$arq,$this->_data_view,TRUE);
-                    }
+                    case "delet":
+                        $this->_delete($this->input->post('form'));
+                        break;
+                    case "list":
+                        $this->_list($this->input->post('form'));
+                        break;
+                    case "get":
+                    default:
+                        $this->_get($this->input->post('form'));
+                        break;
                 }
+            }else{
+                $json = array(
+                    'action' => $this->_action,
+                    'message' => array(
+                        'type' => MSG_ERROR,
+                        'title' => 'Solicitação inválida.',
+                        'message' => 'A requisição enviada não é válida ou não está completa.',
+                        'closable' => TRUE
+                    ),
+                    'debug' => var_dump($this->input->post())
+                );
+                $this->output
+                    ->set_status_header(400)
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($json));
+            }
+        }else{
+            if($this->_page_index!=''){
+                return $this->{$this->_page_index}();
+            }else{
+                show_error("A página solicitada ainda não foi implementada!",501,"Sem conteúdo");
             }
         }
+        
     }
     
-    /**
-     * 
-     * @return type
-     * @deprecated since version 1.0
+    /*
+     * Função de insert no banco de dados
      */
-    protected function _imprimir_body(){
-        return $this->_body;
+    protected function _insert($form){
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_WARNING,
+                'title' => 'Sem Ação',
+                'message' => 'A ação requisitada não foi implementada!',
+                'closable' => TRUE
+            )
+        );
+        $this->output
+            ->set_status_header(501)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
     
+    /*
+     * Função de update no banco de dados
+     */
+    protected function _update($form){
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_WARNING,
+                'title' => 'Sem Ação',
+                'message' => 'A ação requisitada não foi implementada!',
+                'closable' => TRUE
+            )
+        );
+        $this->output
+            ->set_status_header(501)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+    
+    /*
+     * Função para deletar item no banco de dados
+     */
+    protected function _delete($form){
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_WARNING,
+                'title' => 'Sem Ação',
+                'message' => 'A ação requisitada não foi implementada!',
+                'closable' => TRUE
+            )
+        );
+        $this->output
+            ->set_status_header(501)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+    
+    /*
+     * Função para listar itens do banco de dados
+     */
+    protected function _list($form){
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_WARNING,
+                'title' => 'Sem Ação',
+                'message' => 'A ação requisitada não foi implementada!',
+                'closable' => TRUE
+            )
+        );
+        $this->output
+            ->set_status_header(501)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+    
+    /*
+     * Função para buscar um item no banco de dados
+     */
+    protected function _get($form){
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_WARNING,
+                'title' => 'Sem Ação',
+                'message' => 'A ação requisitada não foi implementada!',
+                'closable' => TRUE
+            )
+        );
+        $this->output
+            ->set_status_header(501)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+    
+    protected function _get_formulario($path, $data = array()){
+        $this->load->library('formulario');
+        $data = array_merge($data, $this->formulario->parser($path));
+        $this->twig->display($this->config->item('theme') . 'forms',$data);
+    }
+
     protected function _obter_caminho_controle(){
         return $this->_caminho_controle;
     }

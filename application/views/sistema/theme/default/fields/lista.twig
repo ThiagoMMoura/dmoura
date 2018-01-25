@@ -1,0 +1,49 @@
+{% if subfieldtype is not defined or not subfieldtype %}
+    <label for="{{ field.id }}">{{ field.legend }}</label>
+{% endif %}
+<select name="{{ field.name }}" 
+       {% if field.id is defined and field.id != "" %}
+            id="{{ field.id }}" data-input="{{ field.id }}"
+       {% endif %}
+       
+       {% if field.required is defined and field.required%}
+            required 
+       {% endif %}
+       
+       {% if field.disabled is defined and field.disabled%}
+            disabled 
+       {% endif %}
+       
+       {% if field.autofocus is defined and field.autofocus%}
+            autofocus 
+       {% endif %}
+       
+       {% if field.class is defined and field.class != "" %}
+            class="{{ field.class }}" 
+       {% endif %}
+       
+       {% if field.tabindex is defined and field.tabindex != "" %}
+            tabindex="{{ field.tabindex }}" 
+       {% endif %}
+       
+       {% if field.atributes is defined %}
+            {{ field.atributes }} 
+       {% endif %}
+       
+       {% if field.type == 'lista' %}
+            data-getlist="{{ field.options|json_encode() }}"
+       {% else %}
+           data-listok
+       {% endif %}
+       
+       {% include 'sistema/theme/default/fields/subfieldattr.twig' %}
+    >
+        {% for key, option in field.options.options %}
+            <option id="{{ option.id }}" 
+                    {% if field.value == option.id %}
+                        selected
+                    {% endif %}
+                    >{{ option.value }}</option>
+        {% endfor %}
+</select>
+<span class="form-error"></span>

@@ -1,0 +1,33 @@
+<label class="button">
+    {% if button.icon is defined and button.icon != "" %}
+        <i class="fa fa-{{ button.icon }}"></i>
+    {% endif %}
+    {% if button.title is defined %}
+        {{ button.title }}
+    {% endif %}
+    <input type="reset" 
+       name="{{ button.name }}" 
+       {# pattern="" #} 
+       {% if button.id is defined and button.id != "" %}
+            id="{{ button.id }}" 
+       {% endif %}
+       
+       {% if button.title is defined %}
+            value="{{ button.title }}" 
+       {% endif %}
+       
+       {% if button.autofocus is defined and button.autofocus%}
+            autofocus 
+       {% endif %}
+       
+       class="hide
+        {% if button.class is defined and button.class != "" %}
+             {{ button.class }} 
+        {% endif %}
+       "
+       
+       {% if button.atributes is defined %}
+            {{ button.atributes }} 
+       {% endif %}
+       />
+</label>

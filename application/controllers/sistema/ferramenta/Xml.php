@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Xml extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/ferramenta/xml',TRUE);
+        parent::__construct('sistema/ferramenta/xml','extracao_ncm');
     }
 	
     public function extracao_ncm(){
@@ -170,6 +170,46 @@ class Xml extends MY_Controller{
                     ];
                     $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
                 }
+            }
+        }
+    }
+    
+    public function gera_csv(){
+        $this->load->model('prod_ncm_model');
+        $this->prod_ncm_model->selecionar();
+        $registros = $this->prod_ncm_model->registros();
+        $path_csv = "file/download/csv";
+        $nome_csv = "tabela_ncm.csv";
+        $novo_csv = "PRODUTO;NCM";
+        $num = 0;
+
+        foreach($registros as $reg){
+            $novo_csv .= "\r\n" . $reg['cod'] .";" . $reg['ncm'];
+        }
+        if(!file_exists("./{$path_csv}")){
+            mkdir("./{$path_csv}",777,TRUE);
+        }
+
+        while(file_exists("./{$path_csv}/{$nome_csv}")){
+            $num++;
+            $nome_csv = "tabela_ncm{$num}.csv";
+        }
+
+        if(file_put_contents("./{$path_csv}/{$nome_csv}",$novo_csv)!=FALSE){
+            $retorno = array(
+                'success' => "Arquivo gerado com sucesso!",
+                'url' => base_url("{$path_csv}/{$nome_csv}")
+            );
+            if($this->input->is_ajax_request()){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($retorno));
+            }else{
+                $data = [
+                    'titulo' => 'Gera CSV da base de dados',
+                    'upload' => $retorno
+                ];
+                $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
             }
         }
     }

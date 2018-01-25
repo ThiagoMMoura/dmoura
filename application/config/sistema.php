@@ -4,12 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Lista de configurações do sistema.
  *
  * @author Thiago Moura
+ * @version 0.1
  */
-$config['home'] = 'sistema/dashboard';
+$config['home'] = 'sistema/dashboard'; //URL da página príncipal.
+$config['sistema'] = TRUE; //Define se está pasta pertence ao sistema ou ao site.
+$config['theme'] = 'sistema/theme/default/';
+$config['login'] = 'sistema/autenticacao/login'; //URL do login.
+$config['login-required'] = 'sistema/autenticacao/login/error_login_required/' . ALERTA_ERRO;
+$config['level-required'] = 'sistema/autenticacao/login/error_level_required/' . ALERTA_ERRO;
 $config['template-html'] = 'sistema/html_base';
 $config['pular-resenha'] = FALSE;
 $config['pagina-resenha'] = 'sistema/usuario/senha/alterar';
 $config['hash-senha'] = 'sha1';
+
+
 $config['head-itens-antes-todos'] = array(
     array('meta'=>array('name'=>'x-ua-compatible','type'=>'http-equiv','content'=>'ie=edge')),
     array('meta'=>array('name'=>'viewport','type'=>'name','content'=>'width=device-width, initial-scale=1.0')),
@@ -27,17 +35,31 @@ $config['body-scripts'] = array(
 $config['prefixo-id-menu'] = 'mn-';
 $config['menu-principal'] = array(
     //'titulo-menu' => array('titulo'=>'MENU','li-class'=>'menu-text text-center'),
-    'basico' => array(
-        'titulo' => 'Básicos',
-        'url' => '#basico',
+    'contato' => array(
+        'titulo' => 'Contato',
+        'url' => '#contato',
         'submenu' => array(
             'telefone' => array(
                 'titulo' => 'Telefones',
                 'url' => '#telefone',
                 'icone' => 'fa-phone',
                 'submenu' => array(
-                    'operadora-telefone' => array('titulo'=>'Operadora Telefônica','url'=>'sistema/basico/telefone/operadora/cadastro','icone' => 'fa-plus'),
-                    'tipo-telefone' => array('titulo'=>'Tipo Telefone','url'=>'sistema/basico/telefone/tipo/cadastro','icone' => 'fa-plus')
+                    'operadora' => array(
+                        'titulo'=>'Operadora Telefônica',
+                        'url'=>'#operadora',
+                        'icone' => 'fa-plus',
+                        'submenu' => array(
+                            'cadastro-operadora' => array('titulo'=>'Cadastro Operadora','url'=>'sistema/contato/telefone/operadora/cadastro','icone' => 'fa-plus')
+                        )
+                    ),
+                    'tipo-telefone' => array(
+                        'titulo'=>'Tipo Telefone',
+                        'url'=>'#tipo',
+                        'icone' => 'fa-plus',
+                        'submenu' => array(
+                            'cadastro-tipo' => array('titulo'=>'Cadastro Tipo','url'=>'sistema/contato/telefone/tipo/cadastro','icone' => 'fa-plus')
+                        )
+                    )
                 )
             )
         )

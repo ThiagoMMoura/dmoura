@@ -27,11 +27,12 @@
 .top-bar, .top-bar ul{
     background-color: rgba(35, 137, 173, 1);
 }
-.canvas-logo, .top-bar .menu > li > a:hover, .top-bar button:hover{
+.canvas-logo, .top-bar .menu > li > a:hover, .top-bar button:hover, .top-bar .menu > li > label:hover{
     background-color: rgba(22, 86, 108, 1);
 }
 .top-bar-title, .top-bar-title *,
-.top-bar a, .top-bar a *{
+.top-bar a, .top-bar a *,
+.top-bar label, .top-bar label *{
     color: white;
 }
 .canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
@@ -91,6 +92,24 @@ a:hover{
 .fa-spin, .fa-pulse{
     color: rgba(48, 188, 237, 1);
 }
+.tabs-content{
+    border: none;
+}
+.tabs{
+    border-width: 0px 0px 1px;
+    border-color: rgba(156, 156, 156, 1);
+    background: rgba(253,253,253,1);
+}
+.tabs-title > a{
+    border-bottom: transparent solid 3px;
+    color: rgba(156, 156, 156, 1);
+}
+.tabs-title > a:focus, .tabs-title > a[aria-selected="true"]{
+    background: transparent;
+    color: rgba(35, 137, 173, 1);
+    border-bottom-color: rgba(35, 137, 173, 1);
+}
+
 /* Formulário Modernos */
 .modern-input-group.on-focus > .input-group-field::-moz-placeholder,
 .modern-input-group.placeholder-visible > .input-group-field::-moz-placeholder, 

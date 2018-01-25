@@ -1,0 +1,15 @@
+<div class="small-12 column">
+    {% for key, button in buttons %}
+        {% if button.type in ['submeter','submeterfechar','submeternovo','novo'] %}
+            {% include 'sistema/theme/default/buttons/submeter.twig' with {'button':button} %}
+        {% elseif button.type == 'fechar'%}
+            {% include 'sistema/theme/default/buttons/fechar.twig' with {'button':button} %}
+        {% elseif button.type == 'resetar'%}
+            {% include 'sistema/theme/default/buttons/resetar.twig' with {'button':button} %}
+        {% elseif button.type == 'botao'%}
+            {% include 'sistema/theme/default/buttons/botao.twig' with {'button':button} %}
+        {% elseif button.type == 'direcionar'%}
+            {% include 'sistema/theme/default/buttons/direcionar.twig' with {'button':button} %}
+        {% endif %}
+    {% endfor %}
+</div>

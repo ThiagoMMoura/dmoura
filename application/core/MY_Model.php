@@ -45,6 +45,10 @@ class MY_Model extends CI_Model{
         }
     }
     
+    public function obter_ultimo_sql(){
+        return $this->_ultimo_sql;
+    }
+    
     public function obter_nome_colunas(){
         return $this->nome_colunas_tabela;
     }

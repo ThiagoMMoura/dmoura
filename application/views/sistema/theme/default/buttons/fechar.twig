@@ -1,0 +1,38 @@
+<button type="button"
+        name="{{ button.name }}"
+        
+       {% if button.id is defined and button.id != "" %}
+            id="{{ button.id }}" 
+       {% endif %}
+       
+       {#% if button.url is defined %}
+            href="{{ button.url }}" 
+       {% endif %#}
+       
+       {% if button.autofocus is defined and button.autofocus%}
+            autofocus 
+       {% endif %}
+       
+       class="button
+        {% if button.class is defined and button.class != "" %}
+             {{ button.class }} 
+        {% endif %}
+       "
+       
+       {% if button.atributes is defined %}
+            {{ button.atributes }} 
+       {% endif %}
+       
+       onclick="dmx.buttonAction('{{ sv_form.id }}','{{ button.id }}');"
+    >
+    <i class="fa fa-
+        {%- if button.icon is defined and button.icon != "" %}
+            {{- button.icon }}
+        {%- else -%}
+            close
+        {% endif %}
+    "></i>
+    {% if button.title is defined %}
+        {{ button.title }}
+    {% endif %}
+</button>

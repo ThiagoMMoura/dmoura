@@ -1,11 +1,129 @@
 
 Modelo de requisição:
-request 
-    -> get - Requisição padrão para retornar qualquer página (html)
-    -> list - Retorna página (html) resultados de busca (json)
-    -> insert - Retorna página atual (html) ou objeto de resposta (json)
-    -> update - Retorna página atual (html) ou objeto de resposta (json)
-    -> delete - Retorna página atual (html) ou objeto de resposta (json)
-Propriedades gerais das funções list, insert, update, delete:
+action 
+    -> get - Retorna mensagem de falha ou um item do banco (json)
+    -> list - Retorna mensagem de falha ou lista de itens do banco (json)
+    -> insert - Retorna mensagem de sucesso ou falha e id do objeto criado (json)
+    -> update - Retorna mensagem de sucesso ou falha (json)
+    -> delete - Retorna mensagem de sucesso ou falha (json)
+Propriedades gerais das funções list, insert, update, delete, get:
     -> Todas as funções são privadas para acesso externo (através de URL)
-    -> Todas as funções trabalham com array de dados que são enviados para a página html gerada ou codificado em json.
+    -> Todas as funções trabalham com array de dados que são enviados para a página html gerada e codificado em json.
+
+Tipos de retornos:
+ - Tela html;
+ - json de dados para ações;
+
+Tipos de chamados:
+ - Chamado de http (html);
+    - Telas;
+ - Chamado de ajax com envio de dados (ações):
+    - Salvar dados no banco (json);
+    - Consultar dados no banco (json);
+    - Excluir dados no banco (json);
+
+Formato de chamadas:
+ - Chamadas http com controle e metodo na url (somente telas);
+ - Chamadas ajax somente com controle na url (somente ações);
+
+Formato de envio de dados:
+ - atributos:
+    - action* -> tipo de ação a ser executada:
+        - insert
+        - update
+        - delet
+        - get
+        - list
+    - form* -> guarda todos os dados do formulário;
+
+Formato de resposta json:
+ - atributos:
+    - action* -> Tipo de requisição feita, igual ao do envio;
+    - message*{
+        - type* -> error, success, warning, info;
+        - title*
+        - message*
+        - closable -> TRUE/FALSE
+    }
+    - form -> Dados da resposta em caso de GET, LIST ou INSERT;
+
+Controle de Acesso:
+ - Niveis -> 
+    - Institucional -> Administração;
+    - Intermediário
+    - Operário
+ - Area -> Areas que exigem controle de acesso, o acesso não permitido gera um redirect;
+ - Função -> Actions que exigem controle de acesso, o acesso não permitido gera uma mensagem de erro em json;
+ - Setor -> Conjunto de funções/areas de um departamento.
+ - O Usuário tem acesso a um ou mais setores.
+
+Criação de formulários com XML, regras:
+ - <root></root>:
+    - <form></form> -> bloco de formulário;
+        - @action
+        - @id
+        - @method
+        - @atributes
+        - @field-identifier
+        - @not-permitted -> lista de actions não permitidas separadas por |;
+        - <section></section>
+            - @name
+            - @title
+            - @id
+            - @class
+            - @colunm
+            - @screen-min
+            - @atributes
+            - <field></field> -> Bloco que descreve um campo
+                - @type -> Tipo de dados do campo (identificador, alfanumerico, texto, número, real, senha, data, boleano, lista, lista-boleana, oculto, subfield);
+                - @legend -> Legenda do campo;
+                - @description -> Descrição do campo;
+                - @name -> Nome do campo;
+                - @value -> Valor do campo;
+                - @class -> Classes do campo;
+                - @id -> Id do campo;
+                - @required -> TRUE/FALSE;
+                - @disabled -> TRUE/FALSE;
+                - @autofocus -> TRUE/FALSE;
+                - @maxlength 
+                - @placeholder
+                - @tabindex
+                - @checked -> TRUE/FALSE
+                - @atributes -> Outros atributos;
+                - @action -> Para subfields;
+                - <options></options>
+                    - @list-url
+                    - @list-dbfield -> campos do banco de dados separados por |;
+                    - @list-data
+                    - @selected
+                    - @multselect
+                    - <option></option> -> opções caso o campo seja do tipo lista;
+                        - @id
+                        - value
+                - @column -> Determinar número de colunas que o campo pode ocupar (1-12);
+                - subfields -> <subfield>...
+        - <buttongroup></buttongroup>
+            - <button></button> -> Bloco de botões;
+                - @type -> Tipo de ação do botão (submeter, submeternovo, submeterfechar, direcionar, botao, resetar, fechar, novo);
+                - @title -> Titulo a ser exibito no botão;
+                - @icon -> Icone a ser exibito no botão;
+                - @name -> Nome do botão;
+                - @class -> Classes do botão;
+                - @id -> Id do botão;
+                - @url -> URL para botões de direcionar e submeterfechar
+                - @atributes -> Outros atributos;
+    - <script></script>
+        - @type
+        - @src
+    - <link></link>
+        - @rel
+        - @href
+        - @type
+        - @charset
+
+Tipo de Views:
+ - Formulários [PADRONIZADO]
+ - Consultas (tabelas e formulários de busca) [PADRONIZADO]
+ - Relatórios (Gráficos,Tabelas e/ou Dados não tabelados)
+ - Príncipal
+ - Customizadas

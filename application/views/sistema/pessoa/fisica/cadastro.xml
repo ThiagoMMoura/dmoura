@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <form action="sistema/pessoa/fisica" method="POST" id="cadastro-pessoa-fisica" field-identifier="id">
+        <section name="cadastro" title="Cadastro" id="cadastro">
+            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
+            </field>
+            <field type="alfanumerico" name="cpf" id="cpf" legend="CPF" column="s:8|m:4" maxlength="11" required="TRUE" autofocus="TRUE">
+            </field>
+            <field type="alfanumerico" name="nome" id="nome" legend="Nome" column="s:12|m:6">
+            </field>
+            <field type="data" name="nascimento" id="nascimento" legend="Nascimento" column="s:6">
+            </field>
+            <field type="data" name="nacionalidade" id="nacionalidade" legend="Nacionalidade" column="s:6">
+            </field>
+            <field type="data" name="naturalidade" id="naturalidade" legend="Naturalidade" column="s:6">
+            </field>
+            <field type="data" name="estado_civil" id="estado_civil" legend="Estado Civil" column="s:6">
+            </field>
+            <field type="lista-boleana" name="sexo" id="sexo" legend="Sexo" value="Masculino">
+                <options>
+                    <option id="masculino">Masculino</option>
+                    <option id="feminino">Feminino</option>
+                </options>
+            </field>
+        </section>
+        <section name="endereco" title="Endereço" id="endereco">
+            <field type="alfanumerico" name="cep" id="cep" legend="CEP" column="s:6">
+            </field>
+            <field type="lista" name="uf" id="estado" legend="Estado" column="s:6" value="RS">
+                <options list-url="sistema/endereco/estado"></options>
+            </field>
+            <field type="alfanumerico" name="municipio" id="municipio" legend="Municipio" column="s:6">
+            </field>
+            <field type="alfanumerico" name="bairro" id="bairro" legend="Bairro" column="s:6">
+            </field>
+            <field type="alfanumerico" name="logradouro" id="logradouro" legend="Logradouro" column="s:12">
+            </field>
+            <field type="numero" name="numero" id="numero" legend="Número" column="s:6">
+            </field>
+            <field type="alfanumerico" name="complemento" id="complemento" legend="Complemento" column="s:6" disabled="TRUE">
+            </field>
+            <field type="alfanumerico" name="complemento2" id="complemento2" legend="Seu complemento" column="s:12">
+            </field>
+        </section>
+        <section name="contato" title="Contato" id="contato">
+            <field type="alfanumerico" name="email" id="email" legend="Email" column="s:12">
+            </field>
+            <field type="subfield" id="telefones" name="telefones" legend="Número de Telefone">
+                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
+                <subfield type="alfanumerico" name="telefone" id="telefone" legend="Telefone" column="s:6"></subfield>
+                <subfield type="lista" name="tipo" id="tipo" legend="Tipo" column="s:3" value="1">
+                    <options list-url="sistema/contato/telefone/tipo"></options>
+                </subfield>
+                <subfield type="lista" name="operadora" id="operadora" legend="Operadora" column="s:3" value="1">
+                    <options list-url="sistema/contato/telefone/operadora"></options>
+                </subfield>
+            </field>
+            <field type="boleano" name="resenha" id="resenha" legend="Nova senha" >
+            </field>
+            <field type="boleano" name="campo_boleano2" id="campo-boleano2" legend="Boleano true" checked="TRUE">
+            </field>
+        </section>
+        <buttongroup>
+            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
+            <button type="novo" name="novo" id="novo" title="Novo"></button>
+            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/pessoa/fisica/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/pessoa/fisica/consulta"></button>
+        </buttongroup>
+    </form>
+</root>

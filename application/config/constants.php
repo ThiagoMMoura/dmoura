@@ -89,12 +89,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Constantes do Sistema
 |--------------------------------------------------------------------------
 */
-define ('ALERTA_SECUNDARIO',0);
-define ('ALERTA_INFO',1);
-define ('ALERTA_SUCESSO',2);
-define ('ALERTA_RISCO',3);
-define ('ALERTA_ERRO',4);
-define ('ALERTA_SISTEMA',5);
 
 //Constantes de níveis de usuário
 define('NIVEL_INSTITUCIONAL',1);

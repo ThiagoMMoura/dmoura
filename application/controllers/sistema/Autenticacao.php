@@ -26,21 +26,23 @@ class Autenticacao extends CI_Controller{
         return ($this->session->has_userdata('logado') && $this->session->logado);
     }
     
-    public function login($alerta = '',$tipo = ALERTA_INFO){
+    public function login($alerta = '',$tipo = MSG_INFO){
         if($alerta == 'error_permissao'){
             $this->_logoff();
         }
         if($this->_logado()){
             redirect($this->config->item('home'));
         }
-        $data = array();
+        $data = [
+            'titulo' => "Login D'Moura"
+        ];
         if($alerta != NULL){
             $data['message']['type'] = $tipo;
             $data['message']['title'] = $this->input->post('titulo');
             $data['message']['message'] = $this->lang->line($alerta);
             $data['message']['closable'] = TRUE;
         }
-        $this->load->view("sistema/login",$data);
+        $this->twig->display($this->config->item('theme') . 'login',$data);
     }
     
     public function entrar(){
@@ -55,7 +57,7 @@ class Autenticacao extends CI_Controller{
         $this->form_validation->set_rules('senha', 'Senha', 'trim|required|' . $this->config->item('hash-senha'));
 
         if ($this->form_validation->run() == FALSE) {
-            $this->login('error_login',ALERTA_ERRO);
+            $this->login('error_login',MSG_ERROR);
         } else {
             $this->load->model('pessoa_model');
             $dados['nivel'] = NIVEL_OPERARIO;
@@ -68,7 +70,7 @@ class Autenticacao extends CI_Controller{
                 redirect($this->config->item('home'));
             }else{
                 //redirect('sistema/login/error_login_incorreto/' . ALERTA_ERRO);
-                $this->login('error_login_incorreto',ALERTA_ERRO);
+                $this->login('error_login_incorreto',MSG_ERROR);
             }
         }
     }

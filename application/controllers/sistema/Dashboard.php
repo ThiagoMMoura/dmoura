@@ -20,6 +20,6 @@ class Dashboard extends MY_Controller{
             'apppath' => APPPATH,
             'viewpath' => VIEWPATH
         ];
-        $this->twig->display('sistema/dashboard/atalhos', $data);
+        $this->twig->display($this->config->item('theme') . 'dashboard', $data);
     }
 }

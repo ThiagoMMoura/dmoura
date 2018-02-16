@@ -12,7 +12,7 @@ class Municipio_model extends MY_Model{
         parent::__construct('municipio',array('id','uf','nome'));
     }
     
-    public function municio_da_uf($uf){
+    public function municipio_da_uf($uf){
         $select['select'] = 'id, nome';
         $select['where']['uf'] = $uf;
         $select['order_by'] = 'nome';

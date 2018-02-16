@@ -52,12 +52,15 @@ Controle de Acesso:
     - Institucional -> Administração;
     - Intermediário
     - Operário
+    - Cliente
  - Area -> Areas que exigem controle de acesso, o acesso não permitido gera um redirect;
  - Função -> Actions que exigem controle de acesso, o acesso não permitido gera uma mensagem de erro em json;
  - Setor -> Conjunto de funções/areas de um departamento.
  - O Usuário tem acesso a um ou mais setores.
 
-Criação de formulários com XML, regras:
+/*******************************************
+ * Criação de formulários com XML, regras: *
+ *******************************************/
  - <root></root>:
     - <form></form> -> bloco de formulário;
         - @action
@@ -120,10 +123,80 @@ Criação de formulários com XML, regras:
         - @href
         - @type
         - @charset
-
+/*********************************
+ * Criação de consultas com XML: *
+ *********************************/
+<root>
+    <table
+        id="id-unica-para-tabela">
+        name="nome"
+        url=""
+        model=""
+        join=""
+        selector="nome-do-campo-no-banco-reposavel-pela-selecao"
+        order="TRUE|FALSE"
+        sortcol="index-da-coluna-para-ordenacao"
+    >   
+        <title></title>
+        <search>
+            <searchtext
+                id="">
+            </searchtext>
+            <searchfield 
+                id="">
+                <option id="nome-dbfield">Titulo</option>
+            </serachfield>
+        </search>
+        <head>
+            <hcol
+                id="id-tabela+id-unica-para-coluna"
+                name="nome"
+                type="identificador|alfanumerico|texto|número|real|senha|data|boleano|cpf_cnpj|cep|oculto"
+                merge="TRUE|FALSE"
+                orderby="campo-do-banco-para-ordenação"
+            >
+                <title></title>
+                <size></size>
+                <select></select>
+            </hcol>
+        </head>
+        <body>
+            <bcol
+                type="complexo|link|botao|texto"
+            >
+                <url>caminho/para/cadastro/<dbfield></dbfield></url>
+                <content><dbfield></dbfield></content>
+                <title><dbfield></dbfield></title>
+                <subtitle><dbfield></dbfield></subtitle>
+                <description><dbfield></dbfield></description>
+                <buttons>
+                    <button 
+                        id="id-para-botao"
+                        name="nome"
+                        type="link|favoritar|excluir|estatus|estatusboleano"
+                        url=""
+                    >
+                        <dbfield></dbfield>
+                    </button>
+                </buttons>
+            </bcol>
+        </body>
+        <buttongroup>
+            <button
+                type=""
+                id="novo|editar|exluir|favoritar|direcionar"
+                name=""
+            >
+                <title></title>
+                <icon></icon>
+                <url></url>
+            </button>
+        </buttongroup>
+    </table>
+</root>
 Tipo de Views:
  - Formulários [PADRONIZADO]
- - Consultas (tabelas e formulários de busca) [PADRONIZADO]
+ - Consultas/Listagens (tabelas e formulários de busca) [PADRONIZADO]
  - Relatórios (Gráficos,Tabelas e/ou Dados não tabelados)
  - Príncipal
  - Customizadas

@@ -8,18 +8,16 @@ var dmx = {
         return this.formulario.forms[id];
     },
     
+    getTabela : function(id){
+        return this.tabela.tabelas[id];
+    },
+    
     novoFormulario : function(id,url,identificador,not_permitted,action){
         return this.formulario.novoFormulario(id,url,identificador,not_permitted,action);
     },
     
-    setCallsBackToFormTemplate : function(set_value,set_subfieldvalue,set_action,update_allvalues,show_message){
-        this.formulario.Modelo_form.callback= {
-                setValue : set_value,
-                setSubFieldValue : set_subfieldvalue,
-                setAction : set_action,
-                updateAllValues : update_allvalues,
-                showMessage : show_message
-        };
+    novaTabela : function(table){
+        return this.tabela.novaTabela(table);
     },
     
     setFormularioCallBack : function(id_form,set_value,set_subfieldvalue,set_action,update_allvalues,show_message){
@@ -491,11 +489,11 @@ var dmx = {
                         case 'delete':
                             data_values.form[this.getIdentifier().name] = this.getValue(this.identifier);
                             success = function(data){
-                                this.callback.showMessage(data.message);
+                                this.callback.showMessage(data.message,this);
                             };
                             error = function(e){
                                 var data = e.responseJSON;
-                                this.callback.showMessage(data.message);
+                                this.callback.showMessage(data.message,this);
                             };;
                             break;
                         case 'get':
@@ -518,7 +516,7 @@ var dmx = {
                             };
                             error = function(e){
                                 var data = e.responseJSON;
-                                this.callback.showMessage(data.message);
+                                this.callback.showMessage(data.message,this);
                             };
                             break;
                         case 'update':
@@ -545,12 +543,12 @@ var dmx = {
                                         }
                                     }
                                     this.setAction('update');
-                                    this.callback.showMessage(data.message);
+                                    this.callback.showMessage(data.message,this);
                                 }else if(button.type==='submeterfechar'){
                                     window.location.assign(button.url);
                                 }else if(button.type==='submeternovo'){
                                     this.checkErrors();
-                                    this.callback.showMessage(data.message);
+                                    this.callback.showMessage(data.message,this);
                                 }
                             };
                             //Define a função em caso de erro.
@@ -565,7 +563,7 @@ var dmx = {
                                     }
                                 }
                                 this.checkErrors();
-                                this.callback.showMessage(data.message);
+                                this.callback.showMessage(data.message,this);
                             };
                             break; 
                     }
@@ -581,7 +579,7 @@ var dmx = {
                         'title':'Erro de permisão',
                         'message':'Está ação não é permitida!',
                         'type':3
-                    });
+                    },this);
                 }
             };
             
@@ -684,6 +682,348 @@ var dmx = {
                         .setAction('insert');
                 break;
         }
+    },
+    /**
+     * Objeto de controle de tabelas.
+     */
+    tabela : {
+        /**
+         * @type {object}
+         */
+        tabelas : {},
+        /**
+         * Cria uma nova tabela com o objeto passado por parâmetro.
+         * 
+         * @param {object} table
+         * @returns {dmx.tabela.tabelas}
+         */
+        novaTabela : function(table){
+            this.tabelas[table.id] = new this.tabela_modelo(table);
+            return this.tabelas[table.id];
+        },
+        /**
+         * Construtor de objeto Tabela.
+         * 
+         * @param {object} table
+         * @returns {dmx.tabela.tabela_modelo}
+         */
+        tabela_modelo : function(table){
+            /**
+             * @type {String}
+             */
+            this.id = table.atributos.id;
+            /**
+             * @type {String}
+             */
+            this.name = table.atributos.name;
+            /**
+             * @type {String}
+             */
+            this.identifier = table.identifier;
+            /**
+             * @type {String}
+             */
+            this.model = table.atributos.model;
+            /**
+             * @type {String}
+             */
+            this.join = table.atributos.join;
+            /**
+             * @type {String}
+             */
+            this.url = table.atributos.url;
+            /**
+             * @type {String}
+             */
+            this.selector = table.atributos.selector;
+            /**
+             * @type {String}
+             */
+            this.order = table.atributos.order || false;
+            /**
+             * @type {String}
+             */
+            this.sortcolindex = table.atributos.sortcol;
+            /**
+             * @type {String}
+             */
+            this.orderby = null;
+            /**
+             * @type {String}
+             */
+            this.like = null;
+            /**
+             * @type {String}
+             */
+            this.where = null;
+            /**
+             * @type {Tag}
+             */
+            this.search = table.tags.search ? new Tag(table.tags.search): null;
+            /**
+             * @type {Tag}
+             */
+            this.head = new Tag(table.tags.head);
+            /**
+             * @type {Tag}
+             */
+            this.body = new Tag(table.tags.body);
+            /**
+             * @type {Tag}
+             */
+            this.buttongroup = new Tag(table.tags.buttongroup);
+            /**
+             * @type {String}
+             */
+            this.title = table.tags.title;
+            
+            this.callback = {
+                showMessage : function(message,context){ return context; },
+                newRow : function(row,context){ return context; },
+                getSelectedItems : function(context){ return context; },
+                cleanTable : function(context){ return context; }
+            };
+            
+            /**
+             * Retorna array do select da Tabela.
+             * 
+             * @returns {Array}
+             */
+            this.getSelect = function(){
+                var select = [];
+                var c;
+                var i = 0;
+                for(c in this.head.tag('hcol')){
+                    var hcol = this.head.tag('hcol')[c];
+                    if(!isNothing(hcol.tag('select'))){
+                        select[i] = hcol.tag('select');
+                        i++;
+                    }
+                }
+                return select;
+            };
+            
+            /**
+             * Retorna a Tag do botão especificado por parâmetro.
+             * 
+             * @param {String} id
+             * @returns {Tag|undefined}
+             */
+            this.getButton = function(id){
+                var i;
+                for(i in this.buttongroup.tag('button')){
+                    if(this.buttongroup.tag('button')[i].attr('id') === id){
+                        return this.buttongroup.tag('button')[i];
+                    }
+                }
+                return undefined;
+            };
+            
+            /**
+             * Retorna a HCol do indice passado por parâmetro.
+             * 
+             * @param {Integer} index
+             * @returns {Tag}
+             */
+            this.getHCol = function(index){
+                return this.head.tag('hcol')[index];
+            };
+            
+            /**
+             * Retorna a HCol com a id passada por parâmetro.
+             * 
+             * @param {String} id
+             * @returns {Tag}
+             */
+            this.getHColById = function(id){
+                return this.getHCol(this.getHColIndexById(i));
+            };
+            
+            /**
+             * Retorna o indice da HCol com a id passada por parâmetro.
+             * 
+             * @param {String} id
+             * @returns {dmx.tabela.tabela_modelo@arr;head@call;tag}
+             */
+            this.getHColIndexById = function(id){
+                var i;
+                for(i in this.head.tag('hcol')){
+                    if(this.getHCol(i).attr('id') === id){
+                        return i;
+                    }
+                }
+            };
+            
+            this.requestQuery = function(){
+                var data_values = {};
+                var success;
+                var error;
+                data_values.action = 'query';
+                data_values.form = {};
+                data_values.form.model = this.model;
+                data_values.form.join = this.join;
+                data_values.form.select = this.getSelect();
+                if(isNothing(this.orderby) && !isNothing(this.sortcolindex)){
+                    this.sortCol(this.sortcolindex,'ASC');
+                }
+                data_values.form.orderby = this.orderby;
+                
+                if(!isNothing(this.like)){
+                    data_values.form.like = this.like;
+                }
+                
+                if(!isNothing(this.where)){
+                    data_values.form.like = this.where;
+                }
+                success = function(data){
+                    console.log(data);
+                    var i;
+                    this.callback.cleanTable(this);
+                    for(i in data.form){
+                        var row = data.form[i];
+                        this.callback.newRow(row,this);
+                    }
+                };
+                error = function(e){
+                    var data = e.responseJSON;
+                    this.callback.showMessage(data.message,this);
+                };
+                $.ajax({
+                    url: this.url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data_values,
+                    context: this
+                }).done(success).fail(error);
+            };
+            
+            this.request = function(id_button){
+                var button = this.getButton(id_button);
+                var data_values = {};
+                var success;
+                var error;
+                data_values.form = {};
+                data_values.form[this.selector] = this.callback.getSelectedItems(this);
+                switch(button.attr('type')){
+                    case 'excluir':
+                        data_values.action = 'delet';
+                        data_values.form.model = this.model;
+                        success = function(data){
+                            this.requestQuery();
+                            this.callback.showMessage(data.message,this);
+                        };
+                        error = function(e){
+                            var data = e.responseJSON;
+                            this.callback.showMessage(data.message,this);
+                        };
+                        break;
+                    case 'favoritar':
+                        data_values.action = 'favorite';
+                        success = function(data){
+                            this.callback.showMessage(data.message,this);
+                        };
+                        error = function(e){
+                            var data = e.responseJSON;
+                            this.callback.showMessage(data.message,this);
+                        };
+                }
+                console.log('Função request: ');
+                console.log(data_values);
+                $.ajax({
+                    url: this.url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data_values,
+                    context: this
+                }).done(success).fail(error);
+            };
+            
+            /**
+             * Altera a propriedade de ordenação da tabela.
+             * 
+             * @param {String} order
+             * @returns {dmx.tabela.tabela_modelo}
+             */
+            this.setOrderBy = function(order){
+                this.orderby = order;
+                return this;
+            };
+            
+            /**
+             * Ordenada a tabela pela id da coluna indicada por parâmetro.
+             * 
+             * @param {String} id_col
+             * @param {String} direction
+             * @returns {dmx.tabela.tabela_modelo}
+             */
+            this.sortColById = function(id_col,direction){
+                var index = this.getHColIndexById(id_col);
+                return this.sortCol(index,direction);
+            };
+            
+            /**
+             * Ordena a tabela pelo indice da coluna indicado por parâmetro.
+             * 
+             * @param {Integer} index
+             * @param {String} direction
+             * @returns {dmx.tabela.tabela_modelo}
+             */
+            this.sortCol = function(index,direction){
+                var order = this.getHCol(index).attr('orderby');
+                var opposed = {'ASC':'DESC','DESC':'ASC'};
+                order = replaceAll(order,'{$direction$}',direction);
+                order = replaceAll(order,'{$opposed$}',opposed[direction]);
+                return this.setOrderBy(order);
+            };
+            
+            this.setCallback_showMessage = function(call){
+                this.callback.showMessage = call;
+                return this;
+            };
+            
+            this.setCallback_newRow = function(call){
+                this.callback.newRow = call;
+                return this;
+            };
+            
+            this.setCallback_getSelectedItems = function(call){
+                this.callback.getSelectedItems = call;
+                return this;
+            };
+            
+            this.setCallback_cleanTable = function(call){
+                this.callback.cleanTable = call;
+                return this;
+            };
+        },
+        
+        buttonAction : function(id_table,id_button){
+            var table = this.tabelas[id_table];
+            var button = table.getButton(id_button);
+            switch(button.attr('type')){
+                case 'favoritar':
+                case 'excluir':
+                    table.request(id_button);
+                    break;
+                case 'editar':
+                case 'novo':
+                case 'direcionar':
+                    window.location.assign(button.tag('url'));
+                    break;
+            }
+        },
+        
+        /**
+         * Ordena a tabela e colunas idicas pelas IDs.
+         * 
+         * @param {String} id_table
+         * @param {String} id_col
+         * @param {String} direction
+         * @returns {dmx.tabela.tabela_modelo}
+         */
+        sort : function(id_table,id_col,direction){
+            this.tabelas[id_table].sortColById(id_col,direction).requestQuery();
+        }
     }
 };
 function Button(button){
@@ -713,4 +1053,31 @@ function arrayFields(fields){
         a[f].value = [a[f].value];
     }
     return a;
+}
+
+function Tag(tag){
+    this.atributos = tag.atributos;
+    this.tags = newsTags(tag.tags);
+    this.tagName = tag.tagName;
+    this.attr = function(name){
+        return this.atributos[name];
+    };
+    this.tag = function(name){
+        return this.tags[name];
+    };
+}
+
+function newsTags(tags){
+    var retorno = {};
+    var t;
+    for(t in tags){
+        if(tags[t].tagName !== undefined){
+            retorno[t] = new Tag(tags[t]);
+        }else if (typeof tags[t] === 'string'){
+            retorno[t] = tags[t];
+        }else{
+            retorno[t] = newsTags(tags[t]);
+        }
+    }
+    return retorno;
 }

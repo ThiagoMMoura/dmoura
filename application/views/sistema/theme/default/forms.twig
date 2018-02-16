@@ -8,7 +8,7 @@
     {% for k, b in sv_form.buttongroup %}
         <li>
             <label for="{{ b.id }}">
-                {% if b.icon is defined or b.type in ['submeter','submeterfechar','submeternovo','fechar'] %}
+                {% if b.icon is defined or b.type in ['submeter','submeterfechar','submeternovo','fechar','novo','link'] %}
                     <i class="fa fa-
                         {%- if b.icon != "" %}
                             {{- b.icon }}
@@ -20,6 +20,8 @@
                             plus
                         {%- elseif b.type == "fechar" -%}
                             close
+                        {%- elseif b.type == "link" -%}
+                            share
                         {% endif %}
                     "></i>
                 {% endif %}

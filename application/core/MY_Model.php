@@ -201,6 +201,9 @@ class MY_Model extends CI_Model{
             if(array_key_exists('having', $mixed)){
                 $this->db->having($mixed['having']);
             }
+            if(array_key_exists('like', $mixed)){
+                $this->db->like($mixed['like']);
+            }
             if(array_key_exists('join', $mixed)){
                 if(!is_array($mixed['join'][0])){
                     $mixed['join'] = array($mixed['join']);
@@ -298,7 +301,11 @@ class MY_Model extends CI_Model{
      */
     public function deletar($id){
         if($id!=NULL){
-            $this->db->where('id', $id);
+            if(is_array($id)){
+                $this->db->where_in('id',$id);
+            }else{
+                $this->db->where('id', $id);
+            }
             return $this->db->delete($this->nome_tabela);
         }
         return FALSE;

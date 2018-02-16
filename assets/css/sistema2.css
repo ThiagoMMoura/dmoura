@@ -301,6 +301,29 @@ html, *, h1, h2, h3, h4, h5, h6{
 .modern-form-row::after {
     clear: both;
 }
+/*********************
+ * Estilos Formulário
+ *********************/
+.form-error{
+    margin-top: -1.125rem;
+    margin-bottom: 0px;
+}
+/**************************
+ * Estilos tabela dinâmica
+ **************************/
+.dmx-table [type="checkbox"], .dmx-table [type="file"], .dmx-table [type="radio"]{
+    margin: 0px;
+}
+.dmx-table tr[data-row="model"]{
+    display: none;
+}
+.dmx-table th[onclick]{
+    cursor: pointer;
+}
+.dmx-table th[onclick] span{
+    font-weight: 700;
+    display: table;
+}
 /* Small only */
 @media screen and (max-width: 39.9375em) {
     .tabs-panel{

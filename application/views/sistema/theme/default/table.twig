@@ -1,0 +1,121 @@
+{% extends 'sistema/theme/default/layout_sistema.twig' %}
+{% block styles %}
+    {% for key, link in sv_link %}
+        <link href="{{ link.href }}" type="{{ link.type }}" rel="{{ link.rel }}" charset="{{ link.charset }}">
+    {% endfor %}
+{% endblock %}
+{% block botoes %}
+    {% for k, b in sv_table.tag('buttongroup').tag('button') %}
+        <li>
+            <label for="{{ b.attr('id') }}">
+                {% if b.tag('icon') is not empty or b.attr('type') in ['novo','excluir','editar','favoritar','direcionar'] %}
+                    <i class="fa fa-
+                        {%- if b.tag('icon') is not empty %}
+                            {{- b.tag('icon') }}
+                        {%- elseif b.attr('type') == "editar" -%}
+                            edit
+                        {%- elseif b.attr('type') == "excluir" -%}
+                            trash
+                        {%- elseif b.attr('type') in ["novo"] -%}
+                            plus
+                        {%- elseif b.attr('type') == "favoritar" -%}
+                            star
+                        {%- elseif b.attr('type') == "direcionar" -%}
+                            share
+                        {% endif %}
+                    "></i>
+                {% endif %}
+                {{ b.tag('title') }}
+            </label>
+        </li>
+    {% endfor %}
+{% endblock %}
+{% block conteudo %}
+    {% if sv_table.tag('search') is not empty %}
+        {% set search = sv_table.tag('search') %}
+        <div class="row expanded" id="{{ search.attr('id') }}">
+            <div class="small-8 medium-4 column">
+                <div class="input-group">
+                    <input type="text" name="search_text" id="{{ search.tag('searchtext').attr('id') }}" class="input-group-field" placeholder="Pesquisar"
+                           onchange="search('{{ sv_table.attr('id') }}');">
+                    <div class="input-group-button">
+                        <button type="button" class="button" onclick="dmx.getTabela('{{ sv_table.attr('id') }}').requestQuery();"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="small-4 medium-3 column">
+                <select name="search_field" id="{{ search.tag('searchfield').attr('id') }}" onchange="search('{{ sv_table.attr('id') }}');">
+                    {% for k, option in search.tag('searchfield').tag('option') %}
+                        <option id="{{ option.attr('id') }}" 
+                                {% if option.attr('selected') %}
+                                    selected
+                                {% endif %}
+                                >{{ option.attr('value') }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="small-2 column">
+            </div>
+        </div>
+    {% endif %}
+    <div class="row expanded hide">
+        {% include 'sistema/theme/default/table/buttongroup.twig' with {'buttongroup':sv_table.tag('buttongroup')} %}
+    </div>
+    <table id="{{ sv_table.attr('id') }}" class="dmx-table">
+        <thead>
+            <tr>
+                <th style="min-width: 1%;" data-size="exato">
+                    <input type="checkbox" onclick="$('#{{ sv_table.attr('id') }} input[name=selector]').prop('checked',$(this).prop('checked'));">
+                </th>
+                {% for k,hcol in sv_table.tag('head').tag('hcol') %}
+                    <th class="{{ hcol.attr('type') == 'oculto'?'hide' }}" id="{{ hcol.attr('id') }}" style="{{ hcol.tag('size')=='exato'?'min-width:1%':'max-width:' ~ hcol.tag('size') ~ '%' }}" data-size="{{ hcol.tag('size') }}"
+                        {% if hcol.attr('orderby') is not empty %}
+                            {% set direction = ['ASC','DESC'] %}
+                            onclick="dmx.tabela.sort('{{ sv_table.attr('id') }}','{{ hcol.attr('id') }}',$(this).attr('data-sort-direction'));sortToggle('{{ sv_table.attr('id') }}',this);"
+                            data-sort-direction="{{ direction[sv_table.attr('sortcol') == k?1:0] }}"
+                        {% endif %}  
+                        >
+                        {{ hcol.tag('title') }}
+                        {% if hcol.attr('orderby') is not empty %}
+                            <i class="fa fa-sort
+                               {%- if sv_table.attr('sortcol') == k -%}
+                                    -down
+                               {%- endif -%}
+                               "></i>
+                        {% endif %}
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-even" data-row="model">
+                <td style="min-width: 1%">
+                    <input type="checkbox" name="selector" value="{${{ sv_table.attr('selector') }}$}">
+                </td>
+                {% for k,bcol in sv_table.tag('body').tag('bcol') %}
+                    {% set hcol = sv_table.tag('head').tag('hcol')[k] %}
+                    <td class="{{ hcol.attr('type') == 'oculto'?'hide' }}" id="{{ hcol.attr('id') }}">
+                        {% if bcol.attr('type') == 'link' %}
+                            <a href="{{ bcol.tag('url') }}">{{ bcol.tag('content') }}</a>
+                        {% else %}
+                            {{ bcol.tag('content') }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ base_url('assets/js/sistema/theme/default/table.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            var sv_table = JSON.parse('{{ sv_table|json_encode()|raw }}');
+            console.log(sv_table);
+            initTable(sv_table);
+        });
+    </script>
+    {% for key, script in sv_script %}
+        <script src="{{ script.src }}" type="{{ script.type }}"></script>
+    {% endfor %}
+{% endblock %}

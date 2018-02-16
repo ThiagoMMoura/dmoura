@@ -55,10 +55,13 @@ class MY_Controller extends CI_Controller{
                         $this->_update($this->input->post('form'));
                         break;
                     case "delet":
-                        $this->_delete($this->input->post('form'));
+                        $this->_delet($this->input->post('form'));
                         break;
                     case "list":
                         $this->_list($this->input->post('form'));
+                        break;
+                    case "query":
+                        $this->_query($this->input->post('form'));
                         break;
                     case "get":
                     default:
@@ -132,18 +135,28 @@ class MY_Controller extends CI_Controller{
     /*
      * Função para deletar item no banco de dados
      */
-    protected function _delete($form){
+    protected function _delet($dataform){
+        $this->load->model($dataform['model']);
+        $form = [];
+        $message = 'Não foi possível excluir!';
+        $type = MSG_INFO;
+        if($this->{$dataform['model']}->deletar($dataform['id'])){
+            $form = $this->{$dataform['model']}->registros();
+            $message = "Exclusão realizada com sucesso!";
+            $type = MSG_SUCCESS;
+        }
         $json = array(
             'action' => $this->_action,
             'message' => array(
-                'type' => MSG_WARNING,
-                'title' => 'Sem Ação',
-                'message' => 'A ação requisitada não foi implementada!',
+                'type' => $type,
+                'title' => 'Excluir',
+                'message' => $message,
                 'closable' => TRUE
-            )
+            ),
+            'form' => $form
         );
         $this->output
-            ->set_status_header(501)
+            ->set_status_header($type==MSG_SUCCESS?200:401)
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
@@ -186,10 +199,61 @@ class MY_Controller extends CI_Controller{
             ->set_output(json_encode($json));
     }
     
+    /*
+     * Função que retorna uma query direto do banco de dados.
+     */
+    protected function _query($dataform){
+        $this->load->model($dataform['model']);
+        $form = [];
+        $message = 'Nenhum registro encontrado!';
+        $type = MSG_INFO;
+        $sql['select'] = $dataform['select'];
+        // Join
+        if(key_exists('join', $dataform)){
+            $sql['join'] = $dataform['join'];
+        }
+        // Order By
+        if(key_exists('orderby', $dataform)){
+            $sql['order_by'] = $dataform['orderby'];
+        }
+        // Like
+        if(key_exists('like', $dataform)){
+            $sql['like'] = $dataform['like'];
+        }
+        // Executa Query
+        if($this->{$dataform['model']}->selecionar($sql) && $this->{$dataform['model']}->num_registros()>0){
+            $form = $this->{$dataform['model']}->registros();
+            $message = "Consulta realizada com sucesso!";
+            $type = MSG_SUCCESS;
+        }
+        // Envia resposta.
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => $type,
+                'title' => 'Consulta',
+                'message' => $message,
+                'closable' => TRUE
+            ),
+            'form' => $form,
+            'sql' => $this->{$dataform['model']}->obter_ultimo_sql()
+        );
+        $this->output
+            ->set_status_header($type==MSG_SUCCESS?200:401)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+    
     protected function _get_formulario($path, $data = array()){
         $this->load->library('formulario');
         $data = array_merge($data, $this->formulario->parser($path));
         $this->twig->display($this->config->item('theme') . 'forms',$data);
+    }
+    
+    protected function _get_listagem($path, $data = []){
+        $this->load->library('tabela');
+        $data = array_merge($data, $this->tabela->parser($path));
+        $this->twig->display($this->config->item('theme') . 'table',$data);
     }
 
     protected function _obter_caminho_controle(){

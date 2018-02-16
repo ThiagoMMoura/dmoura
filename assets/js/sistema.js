@@ -1,6 +1,12 @@
 function isNothing(value){
     return (value===undefined || value===null || value==='');
 }
+function replaceAll(string, token, newtoken) {
+    while (string.indexOf(token) !== -1) {
+        string = string.replace(token, newtoken);
+    }
+    return string;
+}
 $(document).ready(function(){
     var fixContentHeight = function(){
         var h = $(window).height();

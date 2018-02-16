@@ -1,0 +1,39 @@
+<button type="button"
+        id="{{ button.attr('id') }}"
+        
+       {% if button.attr('name') is not empty %}
+            name="{{ button.attr('name') }}" 
+       {% endif %}
+       
+       {% if button.attr('autofocus') is not empty%}
+            autofocus 
+       {% endif %}
+       
+       class="button
+        {% if button.attr('class') is not empty %}
+             {{ button.attr('class') }} 
+        {% endif %}
+       "
+       
+       onclick="dmx.tabela.buttonAction('{{ sv_table.id }}','{{ button.attr('id') }}');"
+    >
+    <i class="fa fa-
+        {%- if button.tag('icon') is not empty %}
+            {{ button.tag('icon') }}+
+        {%- elseif button.attr('type') == "editar" -%}
+            edit
+        {%- elseif button.attr('type') == "excluir" -%}
+            trash
+        {%- elseif button.attr('type') in ["novo"] -%}
+            plus
+        {%- elseif button.attr('type') == "favoritar" -%}
+            star
+        {%- elseif button.attr('type') == "direcionar" -%}
+            share
+        {% endif %}
+    "></i>
+        
+    {% if button.tag('title') is not empty %}
+        {{ button.tag('title') }}
+    {% endif %}
+</button>

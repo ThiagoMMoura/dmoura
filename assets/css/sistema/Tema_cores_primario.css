@@ -109,6 +109,21 @@ a:hover{
     color: rgba(35, 137, 173, 1);
     border-bottom-color: rgba(35, 137, 173, 1);
 }
+/*********************
+ * Estilo Formulários
+ *********************/
+
+[type="color"], [type="date"], [type="datetime-local"], [type="datetime"],
+[type="email"], [type="month"], [type="number"], [type="password"], [type="search"],
+[type="tel"], [type="text"], [type="time"], [type="url"], [type="week"], textarea{
+    box-shadow: none;
+}
+/**************************
+ * Estilos tabela dinâmica
+ **************************/
+.dmx-table th[onclick]:hover, .dmx-table th[onclick]:hover i{
+    color: rgba(22, 86, 108, 1);
+}
 
 /* Formulário Modernos */
 .modern-input-group.on-focus > .input-group-field::-moz-placeholder,

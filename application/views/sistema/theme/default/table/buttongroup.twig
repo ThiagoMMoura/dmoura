@@ -1,0 +1,6 @@
+<div class="small-12 column">
+    {% for key, button in buttongroup.tag('button') %}
+        {% include 'sistema/theme/default/table/buttons/button.twig' with {'button':button} %}
+    {% endfor %}
+    
+</div>

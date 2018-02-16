@@ -138,7 +138,7 @@ class Formulario {
                 'class' => $dom->getAttribute('class'),
                 'placeholder' => $dom->getAttribute('placeholder'),
                 'required' => $dom->getAttribute('required')=="TRUE",
-                'disabled' => $dom->getAttribute('disabled')=="TRUE" || $type=="registro",
+                'disabled' => $dom->getAttribute('disabled')=="TRUE" || $type=="identificador",
                 'autofocus' => $dom->getAttribute('autofocus')=="TRUE",
                 'checked' => $dom->getAttribute('checked')=="TRUE",
                 'maxlength' => $dom->getAttribute('maxlength'),

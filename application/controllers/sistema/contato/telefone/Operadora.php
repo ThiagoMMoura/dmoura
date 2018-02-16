@@ -18,6 +18,13 @@ class Operadora extends MY_Controller{
         $this->_get_formulario('sistema/contato/telefone/operadora/cadastro', $data);
     }
     
+    public function consulta(){
+        $data = [
+            'titulo' => 'Consulta Operadora Telefônica'
+        ];
+        $this->_get_listagem('sistema/contato/telefone/operadora/listagem', $data);
+    }
+
     protected function _insert($data_form){
         $this->load->library('form_validation');
         $this->load->model('operadora_telefone_model');

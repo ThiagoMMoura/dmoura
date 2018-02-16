@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <table id="tabela-operadora-telefone"
+           name="operadora-telefone"
+           selector="id"
+           url="sistema/contato/telefone/operadora" 
+           model="operadora_telefone_model"
+           sortcol="0"
+    >
+        <title>Consulta Operadora Telefônica</title>
+        <head>
+            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
+                <title>Código</title>
+                <select>id</select>
+                <size>exato</size>
+            </hcol>
+            <hcol id="operadora" name="operadora" type="alfanumerico" orderby="operadora {$direction$}">
+                <title>Operadora</title>
+                <select>operadora</select>
+                <size>100</size>
+            </hcol>
+        </head>
+        <body>
+            <bcol type="link">
+                <url>sistema/contato/telefone/operadora/cadastro/{$id$}</url>
+                <content>{$id$}</content>
+            </bcol>
+            <bcol type="texto">
+                <content>{$operadora$}</content>
+            </bcol>
+        </body>
+        <buttongroup>
+            <button type="novo" id="novo">
+                <title>Novo</title>
+                <url>sistema/contato/telefone/operadora/cadastro</url>
+            </button>
+            <button type="excluir" id="excluir">
+                <title>Excluir</title>
+            </button>
+        </buttongroup>
+    </table>
+    
+</root>

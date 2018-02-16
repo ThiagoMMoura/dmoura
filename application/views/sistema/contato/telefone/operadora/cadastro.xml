@@ -11,7 +11,7 @@
             <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
             <button type="novo" name="novo" id="novo" title="Novo"></button>
             <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/contato/telefone/operadora/consulta"></button>
-            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/pessoa/fisica/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/contato/telefone/operadora/consulta"></button>
         </buttongroup>
     </form>
 </root>

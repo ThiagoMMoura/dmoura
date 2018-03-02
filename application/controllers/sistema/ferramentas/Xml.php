@@ -7,14 +7,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Xml extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/ferramenta/xml','extracao_ncm');
+        parent::__construct('sistema/ferramentas/xml','XML','extracao_ncm');
     }
 	
     public function extracao_ncm(){
         $data = [
             'titulo' => 'Extração de NCM das NF-e'
         ];
-        $this->twig->display('sistema/ferramenta/xml/extracao_ncm', $data);
+        $this->_get_custom('ferramentas/xml/extracao_ncm', $data);
     }
     
     public function upload(){
@@ -43,7 +43,7 @@ class Xml extends MY_Controller{
                     'titulo' => 'Falha no upload',
                     'upload' => $upload
                 ];
-                $this->twig->display('sistema/ferramenta/xml/extracao_ncm', $data);
+                $this->_get_custom('ferramentas/xml/extracao_ncm', $data);
             }
         }
         else
@@ -85,7 +85,7 @@ class Xml extends MY_Controller{
                     'titulo' => 'Extração de NCM das NF-e',
                     'upload' => $upload
                 ];
-                $this->twig->display('sistema/ferramenta/xml/extracao_ncm', $data);
+                $this->_get_custom('ferramentas/xml/extracao_ncm', $data);
             }
         }
     }
@@ -94,7 +94,7 @@ class Xml extends MY_Controller{
         $data = [
             'titulo' => 'Mesclar CSV com base de dados'
         ];
-        $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
+        $this->_get_custom('ferramentas/xml/mescla_csv', $data);
     }
     
     public function upload_csv(){
@@ -122,7 +122,7 @@ class Xml extends MY_Controller{
                     'titulo' => 'Falha no upload',
                     'upload' => $upload
                 ];
-                $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
+                $this->_get_custom('ferramentas/xml/mescla_csv', $data);
             }
         }else{
             $file_data = $this->upload->data();
@@ -168,7 +168,7 @@ class Xml extends MY_Controller{
                         'titulo' => 'Mesclar CSV com base de dados',
                         'upload' => $retorno
                     ];
-                    $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
+                    $this->_get_custom('ferramentas/xml/mescla_csv', $data);
                 }
             }
         }
@@ -209,7 +209,7 @@ class Xml extends MY_Controller{
                     'titulo' => 'Gera CSV da base de dados',
                     'upload' => $retorno
                 ];
-                $this->twig->display('sistema/ferramenta/xml/mescla_csv', $data);
+                $this->_get_custom('ferramentas/xml/mescla_csv', $data);
             }
         }
     }

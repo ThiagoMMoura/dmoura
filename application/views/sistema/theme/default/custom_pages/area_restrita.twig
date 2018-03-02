@@ -1,0 +1,18 @@
+{% extends 'sistema/theme/default/layout_sistema.twig' %}
+{% block styles %}
+{% endblock %}
+{% block conteudo %}
+    <div class="row expanded">
+        <div class="column">
+            <h1 class="text-alert text-center"><i class="fa fa-warning text-alert"></i></a> Acesso Restrito</h1>
+            <p class="text-alert text-center">Você não possui acesso a está página, caso necessário, entre em contato com o Administrador.</p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            desativaLoadingContent();
+        });
+    </script>
+{% endblock %}

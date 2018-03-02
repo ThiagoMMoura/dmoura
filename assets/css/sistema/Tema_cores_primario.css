@@ -109,6 +109,12 @@ a:hover{
     color: rgba(35, 137, 173, 1);
     border-bottom-color: rgba(35, 137, 173, 1);
 }
+/****************
+ * Estilo Textos
+ ****************/
+.text-alert{
+    color: rgba(234, 82, 111, 1);
+}
 /*********************
  * Estilo Formulários
  *********************/

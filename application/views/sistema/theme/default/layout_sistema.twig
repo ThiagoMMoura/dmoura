@@ -79,7 +79,9 @@
                     </div>
                     <div class="content-block">
                         {# <div class="top-fade"></div> #}
-                        <h3 class="title-page show-for-large">{{ titulo }}</h3>
+                        {% if titulo is defined or titulo is not empty %}
+                            <h3 class="title-page show-for-large">{{ titulo }}</h3>
+                        {% endif %}
                         {% block conteudo %}{% endblock %}
                     </div>
                     <div class="screen-fixed-content-bottom">

@@ -296,6 +296,14 @@ class MY_Controller extends CI_Controller{
         return $this->_caminho_controle;
     }
     
+    protected function _allowed_area($id){
+        if(!$this->controle_acesso->area($id)){
+            $this->_get_custom('area_restrita');
+            $this->output->_display();
+            exit;
+        }
+    }
+    
     public function area_restrita(){
         $this->_view('Área Restrita', 'area_restrita');
     }

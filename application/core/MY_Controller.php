@@ -304,6 +304,26 @@ class MY_Controller extends CI_Controller{
         }
     }
     
+    protected function _allowed_function($id){
+        if(!$this->controle_acesso->funcao($id)){
+            $json = array(
+                'action' => $this->_action,
+                'message' => array(
+                    'type' => MSG_WARNING,
+                    'title' => 'Função Restrita',
+                    'message' => 'Você não tem permissão para executar está função, caso necessário, entre em contato com o administrador.',
+                    'closable' => TRUE
+                )
+            );
+            $this->output
+                ->set_status_header(400)
+                ->set_content_type('application/json')
+                ->set_output(json_encode($json))
+                ->_display();
+            exit;
+        }
+    }
+    
     public function area_restrita(){
         $this->_view('Área Restrita', 'area_restrita');
     }

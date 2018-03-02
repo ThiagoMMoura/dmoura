@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Estado extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/endereco/estado','cadastro');
+        parent::__construct('sistema/endereco/estado','Estado','cadastro');
     }
     
     protected function _list($data_form){

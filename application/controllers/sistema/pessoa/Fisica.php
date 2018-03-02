@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Fisica extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/pessoa/fisica','cadastro');
+        parent::__construct('sistema/pessoa/fisica','Pessoa Física','cadastro');
     }
     
     public function cadastro($id = NULL){
@@ -17,6 +17,13 @@ class Fisica extends MY_Controller{
             'sv_id' => $id
         ];
         $this->_get_formulario('sistema/pessoa/fisica/cadastro', $data);
+    }
+    
+    public function consulta(){
+        $data = [
+            'titulo' => 'Consulta Pessoa Física'
+        ];
+        $this->_get_listagem('sistema/pessoa/fisica/listagem', $data);
     }
     
     protected function _get($data_form){

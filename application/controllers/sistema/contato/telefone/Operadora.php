@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Operadora extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/contato/telefone/operadora','cadastro');
+        parent::__construct('sistema/contato/telefone/operadora','Operadora Telefônica','cadastro');
     }
     
     public function cadastro($id = NULL){

@@ -19,6 +19,7 @@ class MY_Controller extends CI_Controller{
     private $_caminho_controle;
     protected $_page_index;
     protected $_action;
+    protected $_title;
     
     /**
      * Construtor da classe
@@ -26,21 +27,16 @@ class MY_Controller extends CI_Controller{
      * @param string $caminho_controle - Caminho dentro da pasta controller até o 
      * arquivo do controle atual.
      */
-    public function __construct($caminho_controle,$page_index = '') {
+    public function __construct($caminho_controle,$title,$page_index = '') {
         parent::__construct();
         $this->_caminho_controle = $caminho_controle;
         $this->_page_index = $page_index;
         $this->_action = $this->input->post('action');
+        $this->_title = $title;
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
 
         $this->load->library('controle_acesso');
-
-        $this->twig->addGlobal('app',$this);
-        $this->twig->addGlobal('_pai',$this->_pai);
-        $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $this->_obter_nome_metodo());
-
-        
     }
     
     public function index(){
@@ -149,7 +145,7 @@ class MY_Controller extends CI_Controller{
             'action' => $this->_action,
             'message' => array(
                 'type' => $type,
-                'title' => 'Excluir',
+                'title' => 'Excluir ' . $this->_title,
                 'message' => $message,
                 'closable' => TRUE
             ),
@@ -169,7 +165,7 @@ class MY_Controller extends CI_Controller{
             'action' => $this->_action,
             'message' => array(
                 'type' => MSG_WARNING,
-                'title' => 'Sem Ação',
+                'title' => $this->_title || 'Sem Ação',
                 'message' => 'A ação requisitada não foi implementada!',
                 'closable' => TRUE
             )
@@ -184,17 +180,43 @@ class MY_Controller extends CI_Controller{
      * Função para buscar um item no banco de dados
      */
     protected function _get($form){
+        
+        $valor = $form['id'];
+        $type = MSG_ERROR;
+        $message = 'Dados inválidos!';
+        $status_header = 404;
+        $data_form = array();
+        
+        if(key_exists('model', $form) && key_exists('get', $form)){
+            $this->load->model($form['model']);
+        
+            if($valor!=NULL){
+                $selecionar = $form['get'];
+                $selecionar['where']['id'] = $valor;
+                if($this->{$form['model']}->selecionar($selecionar) && $this->{$form['model']}->num_registros()===1){
+                    $data_form = $this->{$form['model']}->registro();
+
+                    $type = MSG_SUCCESS;
+                    $message = 'Registro encontrado com sucesso!';
+                    $status_header = 200;
+                }else{
+                    $message = 'Nenhum registro encontrado!';
+                }
+            }
+        }
+        
         $json = array(
             'action' => $this->_action,
             'message' => array(
-                'type' => MSG_WARNING,
-                'title' => 'Sem Ação',
-                'message' => 'A ação requisitada não foi implementada!',
+                'type' => $type,
+                'title' => 'Editar ' . $this->_title,
+                'message' => $message,
                 'closable' => TRUE
-            )
+            ),
+            'form' => $data_form
         );
         $this->output
-            ->set_status_header(501)
+            ->set_status_header($status_header)
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
@@ -231,7 +253,7 @@ class MY_Controller extends CI_Controller{
             'action' => $this->_action,
             'message' => array(
                 'type' => $type,
-                'title' => 'Consulta',
+                'title' => 'Consulta ' . $this->_title,
                 'message' => $message,
                 'closable' => TRUE
             ),
@@ -244,16 +266,30 @@ class MY_Controller extends CI_Controller{
             ->set_output(json_encode($json));
     }
     
+    protected function display($path,$data = [],$without_theme_path = FALSE){
+        $this->load->library('twig');
+        $this->twig->addGlobal('app',$this);
+        $this->twig->addGlobal('_pai',$this->_pai);
+        $this->twig->addGlobal('_url_pagina',$this->_caminho_controle . '/' . $this->_obter_nome_metodo());
+        $this->load->library('menu');
+        $this->twig->addGlobal('sv_main_menu',$this->menu->parser('sistema/main_menu')['sv_menu']);
+        $this->twig->display(($without_theme_path?'':$this->config->item('theme')) . $path,$data);
+    }
+    
     protected function _get_formulario($path, $data = array()){
         $this->load->library('formulario');
         $data = array_merge($data, $this->formulario->parser($path));
-        $this->twig->display($this->config->item('theme') . 'forms',$data);
+        $this->display('forms',$data);
     }
     
     protected function _get_listagem($path, $data = []){
         $this->load->library('tabela');
         $data = array_merge($data, $this->tabela->parser($path));
-        $this->twig->display($this->config->item('theme') . 'table',$data);
+        $this->display('table',$data);
+    }
+    
+    protected function _get_custom($path, $data = []){
+        $this->display('custom_pages/' . $path,$data);
     }
 
     protected function _obter_caminho_controle(){

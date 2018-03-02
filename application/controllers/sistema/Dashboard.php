@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Dashboard extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/dashboard','atalhos');
+        parent::__construct('sistema/dashboard','Painel de Instrumentos','atalhos');
     }
     
     public function atalhos(){
@@ -20,6 +20,6 @@ class Dashboard extends MY_Controller{
             'apppath' => APPPATH,
             'viewpath' => VIEWPATH
         ];
-        $this->twig->display($this->config->item('theme') . 'dashboard', $data);
+        $this->display('dashboard', $data);
     }
 }

@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Tipo extends MY_Controller{
     public function __construct() {
-        parent::__construct('sistema/basico/telefone/tipo','cadastro');
+        parent::__construct('sistema/basico/telefone/tipo','Tipo Telefone','cadastro');
     }
     
     public function cadastro($id = NULL){
@@ -18,6 +18,13 @@ class Tipo extends MY_Controller{
             'sv_id' => $id
         ];
         $this->_get_formulario('sistema/contato/telefone/tipo/cadastro', $data);
+    }
+    
+    public function consulta(){
+        $data = [
+            'titulo' => 'Consulta Tipo Telefone'
+        ];
+        $this->_get_listagem('sistema/contato/telefone/tipo/listagem', $data);
     }
     
     protected function _insert($form){

@@ -159,7 +159,7 @@ class Formulario {
 
             $option = [
                 'selected' => $field->getAttribute('value'),
-                'list-url' => base_url($opt->getAttribute('list-url')),
+                'list-url' => $opt->getAttribute('list-url')?base_url($opt->getAttribute('list-url')):NULL,
                 'list-dbfield' => explode("|",$opt->getAttribute('list-dbfield')),
                 'list-data' => json_decode($opt->getAttribute('list-data'))
             ];

@@ -35,22 +35,55 @@ class Controle_acesso {
         return ($this->CI->session->has_userdata('logado') && $this->CI->session->logado);
     }
     
-    public function area($area){
-        $this->load->model('permissao_model');
+    /**
+     * Retorna <code>TRUE</code> caso o usuário possua permissão para a <code>id</code>
+     * e <code>tipo</code> informados por parâmetro.
+     * 
+     * @param string $id
+     * @param string $tipo
+     * @return boolean
+     */
+    public function permissao($id,$tipo){
+        $this->CI->load->model('permissao_model');
         $select = [
-            'where' => ['idpermissao' => $area,'a.iduser' => $this->session->userdata('id')],
+            'where' => ['idpermissao' => $id,'a.iduser' => $this->CI->session->userdata('id'),'acesso'=>TRUE,'tipo'=>$tipo],
             'join' => ['alocado a','a.idsetor = permissao.idsetor']
         ];
-        if($this->permissao_model->selecionar($select)){
-            log_message('DEBUG', var_dump($this->permissao_model->registros()));
+        if($this->CI->permissao_model->selecionar($select)){
+            return $this->CI->permissao_model->num_registros() > 0;
         }
-        return TRUE;
+        return FALSE;
     }
     
-    public function funcao($area){
-        return $this->area($area);
+    /**
+     * Retorna <code>TRUE</code> caso o usuário possua permissão para a Área com
+     * a <code>id</code> informada por parâmetro.
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function area($id){
+        return $this->permissao($id,'zone');
     }
     
+    /**
+     * Retorna <code>TRUE</code> caso o usuário possua permissão para a Função com
+     * a <code>id</code> informada por parâmetro.
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function funcao($id){
+        return $this->permissao($id,'func');
+    }
+    
+    /**
+     * Retorna <code>TRUE</code> caso o usuário possua nível igual ou superior ao
+     * informado por parâmetro.
+     * 
+     * @param type $nivel
+     * @return type
+     */
     public function nivel($nivel){
         return $this->CI->session->nivel<=$nivel;
     }

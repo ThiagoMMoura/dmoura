@@ -259,6 +259,35 @@ class MY_Model extends CI_Model{
         return FALSE;
     }
     
+    /**
+     * Função para inserir um lote de registros no banco de dados.
+     * 
+     * @param array $data Array definido por array com nome dos campos e seus valores respectivos.
+     * @return boolean Retorna <code>TRUE</code> em caso de sucesso e <code>FALSE</code> em
+     * caso de falha.
+     */
+    public function inserir_lote($data){
+        $this->_inicializar();
+        $valores = [];
+        if(is_array($data)){
+            foreach($data as $k => $d){
+                $valores[$k] = [];
+                foreach($this->nome_colunas_tabela as $key){
+                    if(array_key_exists($key, $d)){
+                        $valores[$k][$key] = $d[$key];
+                    }
+                }
+            }
+            if($this->db->insert_batch($this->nome_tabela,$valores)){
+                $this->_id_inserida = $this->db->insert_id();
+                $this->_ultimo_sql = $this->db->last_query();
+                return TRUE;
+            }
+            $this->_erros = $this->db->error();
+        }
+        return FALSE;
+    }
+    
     public function obter_registro_inserido(){
         return $this->obter_registro_por_id($this->id_inserido());
     }

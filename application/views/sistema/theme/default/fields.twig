@@ -34,7 +34,7 @@
     {% elseif field.type == 'lista'%}
         {% include 'sistema/theme/default/fields/lista.twig' with {'field':field,'subfieldtype':subfieldtype} %}
     {% elseif field.type == 'lista-boleana'%}
-        {% include 'sistema/theme/default/fields/lista.twig' with {'field':field,'subfieldtype':subfieldtype} %}
+        {% include 'sistema/theme/default/fields/lista-boleana.twig' with {'field':field,'subfieldtype':subfieldtype} %}
     {% elseif field.type == 'subfield'%}
         {% include 'sistema/theme/default/fields/subfield.twig' with {'field':field,'subfieldtype':subfieldtype} %}
     {% endif %}

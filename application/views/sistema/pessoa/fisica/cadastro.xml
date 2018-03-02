@@ -16,7 +16,7 @@
             </field>
             <field type="data" name="estado_civil" id="estado_civil" legend="Estado Civil" column="s:6">
             </field>
-            <field type="lista-boleana" name="sexo" id="sexo" legend="Sexo" value="Masculino">
+            <field type="lista" name="sexo" id="sexo" legend="Sexo" value="Masculino">
                 <options>
                     <option id="masculino">Masculino</option>
                     <option id="feminino">Feminino</option>

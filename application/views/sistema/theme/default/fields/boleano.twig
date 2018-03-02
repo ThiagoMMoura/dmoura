@@ -1,45 +1,50 @@
-<label>
-    <input type="checkbox" 
-           name="{{ field.name }}" 
-           {# pattern="" #} 
-           {% if field.id is defined and field.id != "" %}
-                id="{{ field.id }}" data-input="{{ field.id }}"
-           {% endif %}
+<div class="switch-line">
+    <p style="display: table-cell; vertical-align: top;">{{ field.legend }}</p>
+    <div class="switch" style="display: table-cell;width: 1%;">
+        <input type="checkbox" 
+               name="{{ field.name }}" 
+               {# pattern="" #} 
+               {% if field.id is defined and field.id != "" %}
+                    id="{{ field.id }}" data-input="{{ field.id }}"
+               {% endif %}
 
-           {% if field.value is defined %}
-                value="{{ field.value }}" 
-           {% endif %}
+               {% if field.value is defined %}
+                    value="{{ field.value }}" 
+               {% endif %}
 
-           {% if field.checked is defined and field.checked %}
-                checked
-           {% endif %}
-           
-           {% if field.required is defined and field.required %}
-                required 
-           {% endif %}
+               {% if field.checked is defined and field.checked %}
+                    checked
+               {% endif %}
 
-           {% if field.disabled is defined and field.disabled%}
-                disabled 
-           {% endif %}
+               {% if field.required is defined and field.required %}
+                    required 
+               {% endif %}
 
-           {% if field.autofocus is defined and field.autofocus %}
-                autofocus 
-           {% endif %}
+               {% if field.disabled is defined and field.disabled%}
+                    disabled 
+               {% endif %}
 
-           {% if field.class is defined and field.class != "" %}
-                class="{{ field.class }}" 
-           {% endif %}
+               {% if field.autofocus is defined and field.autofocus %}
+                    autofocus 
+               {% endif %}
+                class="switch-input
+                    {% if field.class is defined and field.class != "" %}
+                         {{ field.class }} 
+                    {% endif %}
+                "
+               {% if field.tabindex is defined and field.tabindex != "" %}
+                    tabindex="{{ field.tabindex }}" 
+               {% endif %}
 
-           {% if field.tabindex is defined and field.tabindex != "" %}
-                tabindex="{{ field.tabindex }}" 
-           {% endif %}
+               {% if field.atributes is defined %}
+                    {{ field.atributes }} 
+               {% endif %}
 
-           {% if field.atributes is defined %}
-                {{ field.atributes }} 
-           {% endif %}
-           
-           {% include 'sistema/theme/default/fields/subfieldattr.twig' %}
-           />
-    {{ field.legend }}
-    <span class="form-error"></span>
-</label>
+               {% include 'sistema/theme/default/fields/subfieldattr.twig' %}
+               />
+        <label class="switch-paddle" for="{{ field.id }}">
+            <span class="show-for-sr">{{ field.legend }}</span>
+        </label>
+    </div>
+</div>
+<span class="form-error"></span>

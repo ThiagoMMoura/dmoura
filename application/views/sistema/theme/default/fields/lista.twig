@@ -30,7 +30,7 @@
             {{ field.atributes }} 
        {% endif %}
        
-       {% if field.type == 'lista' %}
+       {% if field.type == 'lista' and field.options['list-url'] is not empty %}
             data-getlist="{{ field.options|json_encode() }}"
        {% else %}
            data-listok

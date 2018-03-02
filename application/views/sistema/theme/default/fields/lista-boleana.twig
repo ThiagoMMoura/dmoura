@@ -1,0 +1,24 @@
+{% if subfieldtype is not defined or not subfieldtype %}
+    <label for="{{ field.id }}-lista">{{ field.legend }}</label>
+{% endif %}
+    <ul name="{{ field.name }}" 
+        {% if field.id is defined and field.id != "" %}
+            id="{{ field.id }}-lista" data-input="{{ field.id }}"
+        {% endif %}
+        class="no-bullet"
+        {% if field.options['list-url'] is not empty %}
+            data-getbollist="{{ field.options|json_encode() }}"
+        {% endif %}
+        >
+        <li data-bollistmodel class="hide">
+            {% set modelo = field|merge({'id':'modelo-' ~ field.id,'name':'modelo','legend':'{$legend$}','value':0}) %}
+            {% include 'sistema/theme/default/fields/boleano.twig' with {'field':modelo} %}
+        </li>
+        {% for key, option in field.options.options %}
+            {% set opfield = field|merge({'id':field.id~'-'~option.id,'name':option.id,'legend':option.value,'value':0}) %}
+            <li>
+                {% include 'sistema/theme/default/fields/boleano.twig' with {'field':opfield} %}
+            </li>
+        {% endfor %}
+    </ul>
+<span class="form-error"></span>

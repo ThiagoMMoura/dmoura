@@ -61,6 +61,11 @@
     <div class="row expanded hide">
         {% include 'sistema/theme/default/table/buttongroup.twig' with {'buttongroup':sv_table.tag('buttongroup')} %}
     </div>
+    <div class="row expanded column hide" data-msg-no-record="{{ sv_table.attr('id') }}">
+        <div class="callout warning">
+            <h5>Nenhum registro encontrado</h5>
+        </div>
+    </div>
     <table id="{{ sv_table.attr('id') }}" class="dmx-table">
         <thead>
             <tr>

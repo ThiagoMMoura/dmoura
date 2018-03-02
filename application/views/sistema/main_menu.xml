@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <menu id="menu-principal">
+        <item type="link" id="dashboard" title="Painel de Instrumentos" url="sistema/dashboard" icon="tachometer"></item>
+        <item type="submenu" id="contato" title="Contato" icon="address-book">
+            <item type="submenu" id="telefone" title="Telefones" icon="phone">
+                <item type="link" id="operadora-cadastro" title="Cadastro Operadora" url="sistema/contato/telefone/operadora/cadastro" icon="plus"></item>
+                <item type="link" id="operadora-consulta" title="Consulta Operadora" url="sistema/contato/telefone/operadora/consulta" icon="search"></item>
+                <item type="link" id="tipo-cadastro" title="Cadastro Tipo" url="sistema/contato/telefone/tipo/cadastro" icon="plus"></item>
+                <item type="link" id="tipo-consulta" title="Consulta Tipo" url="sistema/contato/telefone/tipo/consulta" icon="search"></item>
+            </item>
+        </item>
+        <item type="submenu" id="pessoa" title="Pessoa" icon="users">
+            <item type="link" id="fisica-cadastro" title="Pessoa Física" url="sistema/pessoa/fisica/cadastro" icon="user-plus"></item>
+            <item type="link" id="fisica-consulta" title="Pessoa Física" url="sistema/pessoa/fisica/consulta" icon="search"></item>
+        </item>
+        <item type="submenu" id="seguranca" title="Segurança" icon="shield">
+            <item type="submenu" id="controle-acesso" title="Controle de Acesso" icon="key">
+                <item type="link" id="setor-cadastro" title="Cadastro Setor" url="sistema/seguranca/setor/cadastro" icon="plus"></item>
+                <item type="link" id="setor-cadastro" title="Consulta Setor" url="sistema/seguranca/setor/consulta" icon="search"></item>
+            </item>
+        </item>
+        <item type="submenu" id="sistema" title="Sistema" icon="cogs">
+            <item type="link" id="user-consulta" title="Consulta Usuário" url="sistema/sistema/usuario/consulta" icon="users"></item>
+            <item type="link" id="user-cadastro" title="Cadastro Usuário" url="sistema/sistema/usuario/cadastro" icon="user-plus" access-area=""></item>
+        </item>
+        <item type="submenu" id="ferramentas" title="Ferramentas" icon="wrench">
+            <item type="submenu" id="xml" title="XML" icon="file-code-o">
+                <item type="link" id="extracao-ncm" title="Extrair NCM de NF-e" url="sistema/ferramentas/xml/extracao_ncm" icon="code"></item>
+                <item type="link" id="mesclar-csv" title="Mesclar CSV" url="sistema/ferramentas/xml/mescla_csv" icon="code"></item>
+            </item>
+        </item>
+    </menu>
+</root>

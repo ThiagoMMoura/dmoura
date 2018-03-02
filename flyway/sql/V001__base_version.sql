@@ -25,6 +25,75 @@ USE `dmoura`;
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `alias` varchar(50) NOT NULL, -- Caracteres permitidos: "abcdefghijklmnopqrstuvxwyz_0123456789"
+    `email` varchar(150) DEFAULT '',
+    `senha` varchar(150) NOT NULL,
+    `nivel` int(1) NOT NULL DEFAULT '4',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `un_alias` (`alias`),
+    UNIQUE KEY `un_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `user` (`alias`,`senha`,`nivel`) VALUES
+    ('WebMaster','1c9e899ab77610223649760332ddfee6ec0a9ab1',1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `setor`
+--
+
+DROP TABLE IF EXISTS `setor`;
+CREATE TABLE `setor` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `titulo` varchar(50) NOT NULL,
+    `descricao` varchar(250) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `permissao`
+--
+
+DROP TABLE IF EXISTS `permissao`;
+CREATE TABLE `permissao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idsetor` int(11) NOT NULL,
+  `idpermissao` varchar(100) NOT NULL, -- Caracteres permitidos: "abcdefghijklmnopqrstuvxwyz_0123456789"
+  `acesso` tinyint(1) NOT NULL DEFAULT '1',
+  `tipo` varchar(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idsetor` (`idsetor`),
+  KEY `idpermissao` (`idpermissao`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `alocado`
+--
+
+DROP TABLE IF EXISTS `alocado`;
+CREATE TABLE `alocado` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `iduser` int(11) NOT NULL,
+    `idsetor` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `iduser` (`iduser`),
+    KEY `idsetor` (`idsetor`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- ------------------------------------------------------
+
+--
 -- Estrutura da tabela `bairro`
 --
 
@@ -34,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `bairro` (
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -133,20 +202,6 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `grupo_permissoes`
---
-
-DROP TABLE IF EXISTS `grupo_permissoes`;
-CREATE TABLE IF NOT EXISTS `grupo_permissoes` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` varchar(250) DEFAULT NULL,
-  `fixo` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `logradouro`
 --
 
@@ -156,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `logradouro` (
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
   `nome` varchar(150) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -192,20 +247,6 @@ INSERT INTO `operadora_telefone` (`id`, `operadora`) VALUES
 (2, 'Oi'),
 (3, 'Tim'),
 (4, 'Vivo');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `permissao`
---
-
-DROP TABLE IF EXISTS `permissao`;
-CREATE TABLE IF NOT EXISTS `permissao` (
-  `id` int(11) NOT NULL,
-  `grupo` int(11) NOT NULL,
-  `area` int(11) NOT NULL,
-  `liberado` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -329,13 +370,6 @@ ALTER TABLE `funcionario`
   ADD UNIQUE KEY `un_rg` (`rg`);
 
 --
--- Indexes for table `grupo_permissoes`
---
-ALTER TABLE `grupo_permissoes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_nome` (`nome`);
-
---
 -- Indexes for table `logradouro`
 --
 ALTER TABLE `logradouro`
@@ -355,12 +389,6 @@ ALTER TABLE `operadora_telefone`
   ADD UNIQUE KEY `un_operadora` (`operadora`);
 
 --
--- Indexes for table `permissao`
---
-ALTER TABLE `permissao`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `pessoa`
 --
 ALTER TABLE `pessoa`
@@ -372,9 +400,7 @@ ALTER TABLE `pessoa`
 --
 ALTER TABLE `pessoa_fisica`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cpf_2` (`cpf`),
-  ADD KEY `in_cpf` (`cpf`),
-  ADD KEY `cpf` (`cpf`);
+  ADD UNIQUE KEY `un_cpf` (`cpf`);
 
 --
 -- Indexes for table `telefone`
@@ -404,11 +430,6 @@ ALTER TABLE `bairro`
 ALTER TABLE `funcionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `grupo_permissoes`
---
-ALTER TABLE `grupo_permissoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `logradouro`
 --
 ALTER TABLE `logradouro`
@@ -423,11 +444,6 @@ ALTER TABLE `municipio`
 --
 ALTER TABLE `operadora_telefone`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `permissao`
---
-ALTER TABLE `permissao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pessoa`
 --

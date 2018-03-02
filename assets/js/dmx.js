@@ -39,8 +39,7 @@ var dmx = {
     requestGet : function(id_form,id){
         var form = this.getFormulario(id_form);
         form.getIdentifier().value = id;
-        form.request(null,'get');
-        return form;
+        return form.request(null,'get');
     },
     
     formulario: {
@@ -218,8 +217,11 @@ var dmx = {
              * @returns {this}
              */
             this.setValue = function(field_id,value){
-                this.fields[field_id].value = value;
-                return this.callback.setValue(field_id,value,this);
+                if(!isNothing(field_id)){
+                    this.fields[field_id].value = value;
+                    this.callback.setValue(field_id,value,this);
+                }
+                return this;
             };
             
             /**
@@ -242,12 +244,16 @@ var dmx = {
              * @returns {this}
              */
             this.setError = function(field_id,error){
-                this.fields[field_id].error = error;
+                if(!isNothing(field_id)){
+                    this.fields[field_id].error = error;
+                }
                 return this;
             };
             
             this.setSubFieldError = function(field_id,error){
-                this.sub_fields[field_id].error = error;
+                if(!isNothing(field_id)){
+                    this.sub_fields[field_id].error = error;
+                }
                 return this;
             };
             
@@ -347,9 +353,13 @@ var dmx = {
              * @returns {datamaster.formularios.id.fields}
              */
             this.getIdByFieldName = function(field_name){
-                var id;
-                for(id in this.fields){
-                    if(this.fields[id].name === field_name) break;
+                var id = undefined;
+                var i;
+                for(i in this.fields){
+                    if(this.fields[i].name === field_name) {
+                        id = i;
+                        break;
+                    }
                 }
                 return id;
             };
@@ -361,9 +371,13 @@ var dmx = {
              * @returns {datamaster.formularios.id.sub_fields|datamaster.formularios.id.fields}
              */
             this.getIdBySubFieldName = function(field_name){
-                var id;
-                for(id in this.sub_fields){
-                    if(this.sub_fields[id].name === field_name) break;
+                var id = undefined;
+                var i;
+                for(i in this.sub_fields){
+                    if(this.sub_fields[i].name === field_name){
+                        id = i;
+                        break;
+                    }
                 }
                 return id;
             };
@@ -377,9 +391,13 @@ var dmx = {
              * @returns {datamaster.formularios.id.sub_fields|datamaster.formularios.id@arr;sub_fields@arr;fields}
              */
             this.getSubIdBySubFieldName = function(sub_id,field_name){
-                var id;
-                for(id in this.sub_fields[sub_id].fields){
-                    if(this.sub_fields[sub_id].fields[id].name === field_name) break;
+                var id = undefined;
+                var i;
+                for(i in this.sub_fields[sub_id].fields){
+                    if(this.sub_fields[sub_id].fields[i].name === field_name){
+                        id = i;
+                        break;
+                    }
                 }
                 return id;
             };
@@ -502,20 +520,40 @@ var dmx = {
                                 this.cleanAllErrors();
                                 this.checkErrors();
                                 var f;
-                                for(f in data.form){
-                                    if(typeof data.form[f] === 'object'){
-                                        var s;
-                                        for(s in data.form[f]){
-                                            this.setSubFieldValueByName(this.getIdBySubFieldName(f),s,data.form[f][s]);
-                                        }
-                                    }else{
-                                        this.setFieldValueByName(f,data.form[f]);
+//                                for(f in data.form){
+//                                    if(typeof data.form[f] === 'object'){
+//                                        var s;
+//                                        for(s in data.form[f]){
+//                                            this.setSubFieldValueByName(this.getIdBySubFieldName(f),s,data.form[f][s]);
+//                                        }
+//                                    }else{
+//                                        this.setFieldValueByName(f,data.form[f]);
+//                                    }
+//                                }
+                                for(f in this.fields){
+                                    var name = this.fields[f].name; 
+                                    if(data.form[name]){
+                                        this.setValue(f,data.form[name]);
                                     }
                                 }
+                                for(f in this.sub_fields){
+                                    var name = this.sub_fields[f].name; 
+                                    if(data.form[name]){
+                                        var s;
+                                        for(s in this.sub_fields[f].fields){
+                                            var subname = this.sub_fields[f].fields[s].name;
+                                            if(data.form[name][subname]){
+                                                this.setSubFieldValue(f,s,data.form[name][subname]);
+                                            }
+                                        }
+                                    }
+                                }
+                                
                                 this.setAction('update');
                             };
                             error = function(e){
                                 var data = e.responseJSON;
+                                this.setAction('insert');
                                 this.callback.showMessage(data.message,this);
                             };
                             break;
@@ -556,8 +594,8 @@ var dmx = {
                                 var data = e.responseJSON;
                                 var f;
                                 for(f in data.form){
-                                    if(Array.isArray(data.form[f])){
-                                        this.setSubFieldErrorByName(f,data.form[f]);
+                                    if(f.includes('[')){
+                                        this.setSubFieldErrorByName(f.split('[')[0],data.form[f]);
                                     }else{
                                         this.setErrorByName(f,data.form[f]);
                                     }
@@ -567,19 +605,20 @@ var dmx = {
                             };
                             break; 
                     }
-                    $.ajax({
-                        url: this.url,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: data_values,
-                        context: this
-                    }).done(success).fail(error);
+                    return $.ajax({
+                            url: this.url,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: data_values,
+                            context: this
+                        }).done(success).fail(error);
                 }else{
                     this.callback.showMessage({
                         'title':'Erro de permisão',
                         'message':'Está ação não é permitida!',
                         'type':3
                     },this);
+                    return false;
                 }
             };
             
@@ -649,17 +688,17 @@ var dmx = {
             var data_form = {};
             data_form['action'] = 'list';
             data_form['form'] = dbfield;
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                data: data_form
-            }).done(function(data){
-                success(data.form);
-            }).fail(function(e){
-                var data = e.responseJSON;
-                error(data);
-            });
+            return $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data_form
+                }).done(function(data){
+                    success(data.form);
+                }).fail(function(e){
+                    var data = e.responseJSON;
+                    error(data);
+                });
         }
     },
     buttonAction : function(id_form,id_button){
@@ -777,6 +816,8 @@ var dmx = {
              */
             this.title = table.tags.title;
             
+            this.records = 0;
+            
             this.callback = {
                 showMessage : function(message,context){ return context; },
                 newRow : function(row,context){ return context; },
@@ -836,7 +877,7 @@ var dmx = {
              * @returns {Tag}
              */
             this.getHColById = function(id){
-                return this.getHCol(this.getHColIndexById(i));
+                return this.getHCol(this.getHColIndexById(id));
             };
             
             /**
@@ -873,28 +914,29 @@ var dmx = {
                 }
                 
                 if(!isNothing(this.where)){
-                    data_values.form.like = this.where;
+                    data_values.form.where = this.where;
                 }
                 success = function(data){
-                    console.log(data);
                     var i;
                     this.callback.cleanTable(this);
                     for(i in data.form){
                         var row = data.form[i];
                         this.callback.newRow(row,this);
                     }
+                    this.records = i;
                 };
                 error = function(e){
                     var data = e.responseJSON;
+                    this.records = 0;
                     this.callback.showMessage(data.message,this);
                 };
-                $.ajax({
-                    url: this.url,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: data_values,
-                    context: this
-                }).done(success).fail(error);
+                return $.ajax({
+                        url: this.url,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: data_values,
+                        context: this
+                    }).done(success).fail(error);
             };
             
             this.request = function(id_button){
@@ -927,15 +969,13 @@ var dmx = {
                             this.callback.showMessage(data.message,this);
                         };
                 }
-                console.log('Função request: ');
-                console.log(data_values);
-                $.ajax({
-                    url: this.url,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: data_values,
-                    context: this
-                }).done(success).fail(error);
+                return $.ajax({
+                        url: this.url,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: data_values,
+                        context: this
+                    }).done(success).fail(error);
             };
             
             /**
@@ -1019,10 +1059,10 @@ var dmx = {
          * @param {String} id_table
          * @param {String} id_col
          * @param {String} direction
-         * @returns {dmx.tabela.tabela_modelo}
+         * @returns {$;false}
          */
         sort : function(id_table,id_col,direction){
-            this.tabelas[id_table].sortColById(id_col,direction).requestQuery();
+            return this.tabelas[id_table].sortColById(id_col,direction).requestQuery();
         }
     }
 };
@@ -1050,7 +1090,7 @@ function arrayFields(fields){
     var a = {};
     for(f in fields){
         a[f] = new Field(fields[f]);
-        a[f].value = [a[f].value];
+        a[f].value = undefined;
     }
     return a;
 }

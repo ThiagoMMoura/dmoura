@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <table id="tabela-pessoa-fisica" name="pessoa-fisica" selector="id"
+           url="sistema/pessoa/fisica" 
+           model="pessoa_fisica_model"
+           join='[["pessoa p","pessoa_fisica.pessoa = p.id"]]'
+           sortcol="0"
+    >
+        <title>Consulta Pessoa Física</title>
+        <search>
+            <searchtext></searchtext>
+            <searchfield>
+                <option id="nome">Nome</option>
+                <option id="cpf">CPF</option>
+            </searchfield>
+        </search>
+        <head>
+            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
+                <title>Código</title>
+                <select>pessoa_fisica.id as id</select>
+                <size>exato</size>
+            </hcol>
+            <hcol id="cpf" name="cpf" type="cpf_cnpj">
+                <title>CPF</title>
+                <select>cpf</select>
+                <size>20</size>
+            </hcol>
+            <hcol id="nome" name="nome" type="alfanumerico" orderby="nome {$direction$}">
+                <title>Nome</title>
+                <select>nome</select>
+                <size>40</size>
+            </hcol>
+            <hcol id="nascimento" name="nascimento" type="data" orderby="nascimento {$direction$}">
+                <title>Nascimento</title>
+                <select>nascimento</select>
+                <size>exato</size>
+            </hcol>
+        </head>
+        <body>
+            <bcol type="link">
+                <url>sistema/pessoa/fisica/cadastro/{$id$}</url>
+                <content>id</content>
+            </bcol>
+            <bcol type="texto">
+                <content>cpf</content>
+            </bcol>
+            <bcol type="texto">
+                <content>nome</content>
+            </bcol>
+            <bcol type="texto">
+                <content>nascimento</content>
+            </bcol>
+        </body>
+        <buttongroup>
+            <button type="novo" id="novo">
+                <title>Novo</title>
+                <url>sistema/pessoa/fisica/cadastro</url>
+            </button>
+        </buttongroup>
+    </table>
+    
+</root>

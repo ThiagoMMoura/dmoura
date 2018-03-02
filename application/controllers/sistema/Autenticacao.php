@@ -11,6 +11,7 @@ class Autenticacao extends CI_Controller{
         parent::__construct();
         $this->config->load('sistema');
         $this->load->library('form_validation');
+        $this->load->library('twig');
     }
     
     public function index(){
@@ -47,23 +48,28 @@ class Autenticacao extends CI_Controller{
     
     public function entrar(){
         $dados = array();
-        if(is_numeric($this->input->post('usuario'))){
-            $this->form_validation->set_rules('usuario', 'Usuário', 'trim|required');
-            $dados['id'] = $this->input->post('usuario');
-        }else{
+//        if(is_numeric($this->input->post('usuario'))){
+//            $this->form_validation->set_rules('usuario', 'Usuário', 'trim|required');
+//            $dados['id'] = $this->input->post('usuario');
+//        }else{
+        if(strpos($this->input->post('usuario'),'@')){
             $this->form_validation->set_rules('usuario', 'Usuário', 'trim|required|valid_email');
             $dados['email'] = $this->input->post('usuario');
+        }else{
+            $this->form_validation->set_rules('usuario', 'Usuário', 'trim|required');
+            $dados['alias'] = $this->input->post('usuario');
         }
+//        }
         $this->form_validation->set_rules('senha', 'Senha', 'trim|required|' . $this->config->item('hash-senha'));
 
         if ($this->form_validation->run() == FALSE) {
             $this->login('error_login',MSG_ERROR);
         } else {
-            $this->load->model('pessoa_model');
+            $this->load->model('user_model');
             $dados['nivel'] = NIVEL_OPERARIO;
             $dados['senha'] = $this->input->post('senha');
-            if($this->pessoa_model->valida_usuario($dados)){//Validação de dados do usuário no banco
-                $userdata = $this->pessoa_model->registro(); //Armazena dados do usuário na sessão
+            if($this->user_model->valida_usuario($dados)){//Validação de dados do usuário no banco
+                $userdata = $this->user_model->registro(); //Armazena dados do usuário na sessão
                 $userdata['logado'] = TRUE;
 
                 $this->session->set_userdata($userdata);
@@ -82,8 +88,8 @@ class Autenticacao extends CI_Controller{
     
     private function _logoff(){
         if($this->_logado()){
-            $this->load->model('pessoa_model');
-            $userdata = $this->pessoa_model->obter_nome_colunas();
+            $this->load->model('user_model');
+            $userdata = $this->user_model->obter_nome_colunas();
 
             $this->session->set_userdata('logado', FALSE);
             $this->session->unset_userdata('logado');

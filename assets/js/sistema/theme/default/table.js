@@ -16,6 +16,7 @@ var showMessage = function(message,table,callback){
           confirmButtonText: "Fechar",
           closeOnConfirm: false },
         callback);
+    
     return table;
 };
 
@@ -25,7 +26,7 @@ var newRow = function(row,table){
     var count = $('#'+table.id).attr('data-row-count') || 0;
     $(clone).attr('data-row',count);
     for(c in row){
-        $(clone).html(replaceAll($(clone).html(),'{$'+c+'$}',row[c]));
+        $(clone).html(replaceAll($(clone).html(),'{$'+c+'$}',row[c]!==null?row[c]:'-'));
     }
     for(c in table.body.tag('bcol')){
         var bcol = table.body.tag('bcol')[c];
@@ -129,5 +130,12 @@ var initTable = function(sv_table){
             .setCallback_getSelectedItems(getSelectedItems)
             .setCallback_cleanTable(cleanTable);
     resizeTable(tbl.id);
-    tbl.requestQuery();
+    var requestend = function(){
+        if(tbl.records===0){
+            $('#'+tbl.id).hide();
+            $('[data-msg-no-record="'+tbl.id+'"]').removeClass('hide');
+        }
+        desativaLoadingContent();
+    };
+    $.when(tbl.requestQuery()).then(requestend).fail(requestend);
 };

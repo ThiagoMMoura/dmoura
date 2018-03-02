@@ -59,6 +59,17 @@ Controle de Acesso:
  - O Usuário tem acesso a um ou mais setores.
 
 /*******************************************
+ * Criação de menus com XML, regras: *
+ *******************************************/
+    <root>
+        <menu id="" title="" icon="">
+            <item type="link" id="" title="" icon="" url=""></item>
+            <item type="submenu" id="" title="" icon="" url="">
+                <item type="link|submenu" id="" title="" icon="" url=""></item>
+            </item>
+        </menu>
+    </root>
+/*******************************************
  * Criação de formulários com XML, regras: *
  *******************************************/
  - <root></root>:

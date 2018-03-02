@@ -29,10 +29,15 @@
                         </div>
                         <div class="canvas-user-dados">
                             <div class="canvas-user-title">
-                                {{ app.session.nome }}
+                                {% if app.session.nome is defined %}
+                                    {{ app.session.nome }}
+                                {% else %}
+                                    {{ app.session.alias }}
+                                {% endif %}
                             </div>
                             <div class="canvas-user-subtitle fonte-cinza-claro">
-                                Cargo {{ app.session.cargo }}
+                                {% set _nivel = ['Institucional','Intermediário','Operário'] %}
+                                Nível {{ _nivel[app.session.nivel - 1] }}
                             </div>
                         </div>
                         <div class="canvas-user-menu menu-centered">
@@ -42,7 +47,7 @@
                         </div>
                     </div>
                     <div class="off-canvas-menu">
-                        {% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'type':'accordion'} %}
+                        {% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'menu':sv_main_menu,'type':'accordion'} %}
                     </div>
                 </div>
             
@@ -78,6 +83,12 @@
                         {% block conteudo %}{% endblock %}
                     </div>
                     <div class="screen-fixed-content-bottom">
+                    </div>
+                    <div class="loader-container" data-loading="content">
+                        <div class="row">
+                            <div class="loader-circle float-center"><div class="loader-littlecircle"></div></div>
+                            <div class="loader">Carregando...</div>
+                        </div>
                     </div>
                 </div>
             </div>

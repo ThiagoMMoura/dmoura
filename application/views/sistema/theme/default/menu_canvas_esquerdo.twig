@@ -1,20 +1,49 @@
 {% set _tipo = 'drilldown' %}
 {% if type is defined %}
-	{% set _tipo = type %}
+    {% set _tipo = type %}
 {% endif %}
+{% if _tipo == 'accordion' %}
+    <ul class="vertical menu" data-accordion-menu id="{{ menu.attr('id') }}">
+{% elseif _tipo == 'drilldown' %}
+    <ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" id="{{ menu.attr('id') }}" data-drilldown>
+{% endif %}
+    {% import _self as this %}
+    {% for item in menu.tag('item') %}
+        {{ this.item(item,_tipo) }}
+    {% endfor %}
+</ul>
+{% macro link(item) %}
+    <a href="{{ item.attr('url') }}" alt="{{ item.attr('title') }}" class="{{ item.attr('url') == _url_pagina?'is-active':'' }}" id="{{ item.attr('id') }}">
+        <i class="fa {{ item.attr('icon') is not empty ? 'fa-' ~ item.attr('icon') ~ ' fa-lg fa-fw': 'fa fa-circle fa-sm fa-fw' }}"></i> <span>{{ item.attr('title') }}</span>
+    </a>
+{% endmacro %}
+{% macro item(item,tipo) %}
+    {% import _self as this %}
+    <li>
+        {{ this.link(item) }}
+        {% if item.attr('type') == 'submenu' %}
+            <ul class="vertical menu{{ tipo == 'accordion'?' nested':'' }}">
+                {% for subitem in item.tag('item') %}
+                    {{ this.item(subitem,tipo) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+{#
 {% if submenu is defined %}
     {% set menu = submenu %}
     <ul class="vertical menu{{ _tipo == 'accordion'?' nested':'' }}">
 {% else %}
-    {% set menu = app.config.item('menu-principal') %}
 	{% if _tipo == 'accordion' %}
-		<ul class="vertical menu" data-accordion-menu>
+		<ul class="vertical menu" data-accordion-menu id="{{ menu.attr('id') }}">
 	{% elseif _tipo == 'drilldown' %}
-		<ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" data-drilldown>
+		<ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" id="{{ menu.attr('id') }}" data-drilldown>
 	{% endif %}
     
 {% endif %}
-    {% for item in menu %}
+    {% for menu.tag('item') in menu %}
         <li>
             {% if item.url is defined %}
                 <a href="{{ base_url(item.url) }}" alt="{{ item.nome }}" class="{{ item.url == _url_pagina?'is-active':'' }}">
@@ -29,3 +58,4 @@
         </li>
     {% endfor %}
 </ul>
+        #}

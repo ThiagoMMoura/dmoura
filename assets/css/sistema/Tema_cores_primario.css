@@ -118,13 +118,74 @@ a:hover{
 [type="tel"], [type="text"], [type="time"], [type="url"], [type="week"], textarea{
     box-shadow: none;
 }
+
+.switch-line{
+    border-top: 1px #cacaca solid;
+    padding: .5rem 0px .5rem 0px;
+    transition: background-color .25s ease-out,color .25s ease-out;
+}
+.switch-line:hover{
+    background-color: #f8f8f8;
+}
 /**************************
  * Estilos tabela dinâmica
  **************************/
 .dmx-table th[onclick]:hover, .dmx-table th[onclick]:hover i{
     color: rgba(22, 86, 108, 1);
 }
-
+/****************
+ * Estilo loader
+ ****************/
+.loader-container .loader{
+    color: rgba(160, 224, 246, 1);
+    animation-name: loader-pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+}
+.loader-circle { 
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+.loader-circle{
+    border: 1px solid rgba(160, 224, 246, 0);
+    border-radius: 50%;
+    border-top: 1px solid rgba(35, 137, 173, 1);
+    border-left: 1px solid rgba(35, 137, 173, 1);
+    width: 2rem;
+    height: 2rem;
+    animation: spin 2s linear infinite, loader-circle-pulse 1.5s ease infinite;
+}
+.loader-littlecircle{
+    border: 1px solid rgba(160, 224, 246, 0);
+    border-radius: 50%;
+    border-top: 1px solid rgba(160, 224, 246, 1);
+    border-left: 1px solid rgba(160, 224, 246, 1);
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: .2rem;
+    animation: spin-reverse 1s linear infinite, loader-circle-pulse 1.5s ease infinite;
+}
+@keyframes spin-reverse {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes loader-circle-pulse {
+    0% {border-top-color: rgba(160, 224, 246, 1);border-left-color: rgba(160, 224, 246, 1);}
+    50% {border-top-color: rgba(35, 137, 173, 1);border-left-color: rgba(35, 137, 173, 1);}
+    100% {border-top-color: rgba(160, 224, 246, 1);border-left-color: rgba(160, 224, 246, 1);}
+}
+@keyframes loader-pulse {
+    0% {color: rgba(160, 224, 246, 1);}
+    50% {color: rgba(35, 137, 173, 1);}
+    100% {color: rgba(160, 224, 246, 1);}
+}
 /* Formulário Modernos */
 .modern-input-group.on-focus > .input-group-field::-moz-placeholder,
 .modern-input-group.placeholder-visible > .input-group-field::-moz-placeholder, 

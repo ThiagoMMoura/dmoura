@@ -36,6 +36,14 @@ class Controle_acesso {
     }
     
     public function area($area){
+        $this->load->model('permissao_model');
+        $select = [
+            'where' => ['idpermissao' => $area,'a.iduser' => $this->session->userdata('id')],
+            'join' => ['alocado a','a.idsetor = permissao.idsetor']
+        ];
+        if($this->permissao_model->selecionar($select)){
+            log_message('DEBUG', var_dump($this->permissao_model->registros()));
+        }
         return TRUE;
     }
     

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <form
+        id="cadastro-setor"
+        action="sistema/seguranca/setor"
+        method="POST"
+        field-identifier="id"
+    >
+        <section name="cadastro" title="Cadastro" id="cadastro">
+            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
+            </field>
+            <field type="alfanumerico" name="titulo" id="titulo" legend="Titulo" column="s:8|m:10" required="TRUE" autofocus="TRUE">
+            </field>
+            <field type="texto" name="descricao" id="descricao" legend="Descrição" column="s:12|m:12" required="TRUE" autofocus="TRUE">
+            </field>
+            <field type="lista-boleana" id="permissoes" name="permissoes" legend="Privilégios do Setor">
+                <options list-url="sistema/seguranca/permissoes"></options>
+            </field>
+        </section>
+        <buttongroup>
+            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
+            <button type="novo" name="novo" id="novo" title="Novo"></button>
+            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/seguranca/setor/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/seguranca/setor/consulta"></button>
+        </buttongroup>
+    </form>
+</root>

@@ -43,9 +43,12 @@ var updateSubField = function(form){
         for(f in form.sub_fields[s].fields){
             var field = form.sub_fields[s].fields[f];
             field.value = [];
-            $('#' + s + ' #'+f).each(function(index){
-                field.value[index] = valor(f,field.type);
-            });
+            if($('#' + s).attr('data-subfield-count')>0){
+                $('#' + s + ' #'+f).each(function(index){
+                    field.value[index] = valor(s + ' [data-subfield="'+index+'"] #' +f,field.type);
+                });
+            }
+            console.log(field.value);
         }
     }
 };
@@ -89,6 +92,7 @@ var setValue = function(id,value,form){
 };
 
 var valor = function(id,type,value){
+    console.log('ID: '+id+' TYPE: '+type+' VALUE: '+value);
     switch(type){
         case 'identificador':
         case 'texto':
@@ -109,6 +113,24 @@ var valor = function(id,type,value){
             $('#'+id).prop('checked',value);
             break;
         case 'lista-boleana':
+            if(value===undefined){
+                var lista = [];
+                var i = 0;
+                $('#'+id+'-lista [data-input]').each(function(){
+                    if($(this).prop('checked')){
+                        lista[i] = $(this).attr('name');
+                        i++;
+                    }
+                });
+                return lista;
+            }
+            var i;
+            $('#'+id+'-lista [data-input]').removeProp('checked');
+            //$('#'+id+'-lista').attr('data-setbollist',JSON.stringify(value));
+            for(i in value){
+                $('#'+id+'-lista [data-input][name="'+value[i]+'"]').prop('checked',true);
+            }
+            break;
         case 'lista':
             if(value===undefined){
                 return $('#'+id).find('option:contains("'+$('#'+id).val()+'")').attr('id');
@@ -147,9 +169,11 @@ var setSubFieldValue = function(sub_id,id,value,form){
  * @param {String} dbfield
  * @param {String} selected
  * @param {Object} context
+ * @param {function} callback_semaforo 
  * @returns {Object}
  */
-var getList = function(url,dbfield,selected,context){
+var getList = function(url,dbfield,selected,context,callback_semaforo){
+    Semaphoro.Up('request-list');
     dmx.formulario.requestList(url,dbfield,function(form){
         var i;
         for(i in form){
@@ -159,8 +183,30 @@ var getList = function(url,dbfield,selected,context){
                 $(context).append('<option id="' + i + '">' + form[i] + "</option>");
             }
         }
-        $(context).find('[id="' + $(context).attr('data-setlist') + '"]').prop('selected',true);
-    },function(form){});
+        Semaphoro.Down('request-list',callback_semaforo);
+        //$(context).find('[id="' + $(context).attr('data-setlist') + '"]').prop('selected',true);
+    },function(form){Semaphoro.Down('request-list',callback_semaforo);});
+};
+
+var getBolList = function(url,dbfield,selected,context,callback_semaforo){
+    Semaphoro.Up('request-list');
+    dmx.formulario.requestList(url,dbfield,function(form){
+        var i;
+        var id = $(context).find('li[data-bollistmodel] [data-input]').attr('id').replace('modelo-','');
+        for(i in form){
+            var copy = $(context).find('li[data-bollistmodel]').clone();
+            $(copy).removeClass('hide').removeAttr('data-bollistmodel').find('[data-input]').attr('id',id+'-'+i).attr('name',i)
+                    .attr('onchange',replaceAll($(copy).find('[data-input]').attr('onchange'),'modelo-'+id,id));
+            $(copy).find('label[for="modelo-'+id+'"]').attr('for',id+'-'+i);
+            $(copy).html(replaceAll($(copy).html(),'{$legend$}',form[i]));
+            $(context).append(copy);
+        }
+        Semaphoro.Down('request-list',callback_semaforo);
+//        var data = $(context).data('setbollist');
+//        for(i in data){
+//            $(context).find('li [data-input][name="'+data[i]+'"]').prop('checked',true);
+//        }
+    },function(form){Semaphoro.Down('request-list',callback_semaforo);});
 };
 
 /**
@@ -244,7 +290,7 @@ var checkSubFieldError = function(field_id,form){
     return form;
 };
 
-var initForm = function(sv_form,id){    
+var initForm = function(sv_form,id){
     var esseForm = dmx.novoFormulario(sv_form.id,sv_form.action,sv_form['field-identifier'],sv_form['not-permitted'],'insert');
     esseForm.setCallback_setValue(setValue);
     esseForm.setCallback_setSubFieldValue(setSubFieldValue);
@@ -266,20 +312,35 @@ var initForm = function(sv_form,id){
         }
     }
     var b;
+    var executaRequestGet = function(){
+        if(!isNothing(id)){
+            dmx.requestGet(sv_form.id,id);
+        }else{
+            esseForm.setAction('insert');
+        }
+        desativaLoadingContent();
+    };
     for(b in sv_form.buttongroup){
         var button = sv_form.buttongroup[b];
         esseForm.addButton(new Button(button));
     }
+    var countrequest = 0;
     //Populando listas.
     $('[data-getlist]').each(function(){
         var data = $(this).data('getlist');
-        getList(data['list-url'],data['list-dbfield'],data.selected,this);
+        countrequest++;
+        getList(data['list-url'],data['list-dbfield'],data.selected,this,executaRequestGet);
     });
     $('[data-subfield="0"]').hide();
-    if(!isNothing(id)){
-        dmx.requestGet(sv_form.id,id);
-    }else{
-        esseForm.setAction('insert');
+    //Populando listas-boleanas
+    $('[data-getbollist]').each(function(){
+        var data = $(this).data('getbollist');
+        countrequest++;
+        getBolList(data['list-url'],data['list-dbfield'],data.selected,this,executaRequestGet);
+    });
+    if(countrequest===0){
+        executaRequestGet();
     }
 };
+
 

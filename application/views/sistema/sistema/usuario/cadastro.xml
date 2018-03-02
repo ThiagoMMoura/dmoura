@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <form action="sistema/sistema/usuario" method="POST" id="cadastro-usuario-sistema" field-identifier="id">
+        <section name="cadastro" title="Cadastro" id="cadastro">
+            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
+            </field>
+            <field type="alfanumerico" name="alias" id="alias" legend="Apelido" column="s:8|m:10" required="TRUE" autofocus="TRUE">
+            </field>
+            <field type="alfanumerico" name="email" id="email" legend="Email" column="s:12|m:10">
+            </field>
+            <field type="lista" name="nivel" id="nivel" legend="Nível" column="s:12|m:2" value="3">
+                <options>
+                    <option id="1">Institucional</option>
+                    <option id="2">Intermediário</option>
+                    <option id="3">Operário</option>
+                </options>
+            </field>
+            <field type="senha" name="senha" id="senha" legend="Senha" column="s:12|m:6">
+            </field>
+            <field type="senha" name="senhaconfirma" id="senhaconfirma" legend="Confirma Senha" column="s:12|m:6">
+            </field>
+            <field type="lista-boleana" name="alocado" id="alocado" legend="Setores Alocado" column="s:12" value="1">
+                <options list-url="sistema/seguranca/setor"></options>
+            </field>
+            <!--field type="subfield" id="alocado" name="alocado" legend="Setores Alocados">
+                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
+                <subfield type="lista" name="setor" id="setor" legend="Setor" column="s:12" value="1">
+                    <options list-url="sistema/seguranca/setor"></options>
+                </subfield>
+            </field-->
+        </section>
+        <buttongroup>
+            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
+            <button type="novo" name="novo" id="novo" title="Novo"></button>
+            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/sistema/usuario/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/sistema/usuario/consulta"></button>
+        </buttongroup>
+    </form>
+</root>

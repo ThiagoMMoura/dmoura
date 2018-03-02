@@ -7,6 +7,31 @@ function replaceAll(string, token, newtoken) {
     }
     return string;
 }
+var Semaphoro = {
+    semaforos : {},
+    Create : function(id){
+        this.semaforos[id] = 0;
+        console.log('Create Semaphoro: '+id);
+    },
+    Up : function(id){
+        if(this.semaforos[id]===undefined){
+            this.Create(id);
+        }
+        this.semaforos[id]++;
+    },
+    Down : function(id,callback){
+        this.semaforos[id]--;
+        if(this.semaforos[id]===0){
+            callback();
+        }
+    }
+};
+var ativaLoadingContent = function(){
+    $('[data-loading="content"]').fadeIn('slow');
+};
+var desativaLoadingContent = function(){
+    $('[data-loading="content"]').fadeOut('slow');
+};
 $(document).ready(function(){
     var fixContentHeight = function(){
         var h = $(window).height();

@@ -102,5 +102,14 @@
     <script src="{{ base_url('assets/plugin/sweetalert/sweetalert.min.js') }}"></script>
     {#<script src="{{ base_url('assets/js/formulario.js') }}"></script>#}
     <script src="{{ base_url('assets/js/dmx.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('#{{ sv_main_menu.attr('id') }} li > ul').each(function(){
+                if($.isEmptyObject($(this).find('li')[0])){
+                    $(this).parent().hide();
+                }
+            });
+        });
+    </script>
     {% block scripts %}{% endblock %}
 {% endblock %}

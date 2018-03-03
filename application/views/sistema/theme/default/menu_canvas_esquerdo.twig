@@ -19,46 +19,16 @@
 {% endmacro %}
 {% macro item(item,tipo) %}
     {% import _self as this %}
-    <li {% if item.attr('type') == 'submenu' and item.tag('item')|length == 0 %}
-            class="hide"
-        {% endif %}
-    >
-        {{ this.link(item) }}
-        {% if item.attr('type') == 'submenu' %}
-            <ul class="vertical menu{{ tipo == 'accordion'?' nested':'' }}">
-                {% for subitem in item.tag('item') %}
-                    {{ this.item(subitem,tipo) }}
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </li>
-{% endmacro %}
-
-{#
-{% if submenu is defined %}
-    {% set menu = submenu %}
-    <ul class="vertical menu{{ _tipo == 'accordion'?' nested':'' }}">
-{% else %}
-	{% if _tipo == 'accordion' %}
-		<ul class="vertical menu" data-accordion-menu id="{{ menu.attr('id') }}">
-	{% elseif _tipo == 'drilldown' %}
-		<ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" id="{{ menu.attr('id') }}" data-drilldown>
-	{% endif %}
-    
-{% endif %}
-    {% for menu.tag('item') in menu %}
+    {% if item.attr('type') == 'link' or item.tag('item')|length > 0 %}
         <li>
-            {% if item.url is defined %}
-                <a href="{{ base_url(item.url) }}" alt="{{ item.nome }}" class="{{ item.url == _url_pagina?'is-active':'' }}">
-            {% endif %}
-                <i class="fa {{ item.icone is defined ? item.icone ~ ' fa-lg fa-fw': 'fa fa-circle fa-sm fa-fw' }}"></i> <span>{{ item.titulo }}</span>
-            {% if item.url is defined %}
-                </a>
-            {% endif %}
-            {% if item.submenu is defined %}
-                {% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'submenu': item.submenu} %}
+            {{ this.link(item) }}
+            {% if item.attr('type') == 'submenu' %}
+                <ul class="vertical menu{{ tipo == 'accordion'?' nested':'' }}">
+                    {% for subitem in item.tag('item') %}
+                        {{ this.item(subitem,tipo) }}
+                    {% endfor %}
+                </ul>
             {% endif %}
         </li>
-    {% endfor %}
-</ul>
-        #}
+    {% endif %}
+{% endmacro %}

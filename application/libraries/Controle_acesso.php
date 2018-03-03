@@ -44,15 +44,18 @@ class Controle_acesso {
      * @return boolean
      */
     public function permissao($id,$tipo){
-        $this->CI->load->model('permissao_model');
-        $select = [
-            'where' => ['idpermissao' => $id,'a.iduser' => $this->CI->session->userdata('id'),'acesso'=>TRUE,'tipo'=>$tipo],
-            'join' => ['alocado a','a.idsetor = permissao.idsetor']
-        ];
-        if($this->CI->permissao_model->selecionar($select)){
-            return $this->CI->permissao_model->num_registros() > 0;
+        if($id!=NULL){
+            $this->CI->load->model('permissao_model');
+            $select = [
+                'where' => ['idpermissao' => $id,'a.iduser' => $this->CI->session->userdata('id'),'acesso'=>TRUE,'tipo'=>$tipo],
+                'join' => ['alocado a','a.idsetor = permissao.idsetor']
+            ];
+            if($this->CI->permissao_model->selecionar($select)){
+                return $this->CI->permissao_model->num_registros() > 0;
+            }
+            return FALSE;
         }
-        return FALSE;
+        return TRUE;
     }
     
     /**

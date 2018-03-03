@@ -19,7 +19,10 @@
 {% endmacro %}
 {% macro item(item,tipo) %}
     {% import _self as this %}
-    <li>
+    <li {% if item.attr('type') == 'submenu' and item.tag('item')|length == 0 %}
+            class="hide"
+        {% endif %}
+    >
         {{ this.link(item) }}
         {% if item.attr('type') == 'submenu' %}
             <ul class="vertical menu{{ tipo == 'accordion'?' nested':'' }}">

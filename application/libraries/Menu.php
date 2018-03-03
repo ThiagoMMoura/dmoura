@@ -46,11 +46,13 @@ class MenuTag{
     const MUITAS = 2;
     const UMA_MUITAS = 3;
     
+    private $CI;
     public $atributos = [];
     public $tags = [];
     public $tagName;
     
     public function __construct($tagName) {
+        $this->CI =& get_instance();
         $this->tagName = $tagName;
     }
     
@@ -89,7 +91,9 @@ class MenuTag{
                 }
             case self::MAX_UMA:
                 if(count($elements)>0){
-                    $this->tags[$name] = $this->newTag($elements[0], $name);
+                    if($this->CI->controle_acesso->area($elements[0]->getAttribute('access-area'))){
+                        $this->tags[$name] = $this->newTag($elements[0], $name);
+                    }
                 }
                 break;
             case self::UMA_MUITAS:
@@ -100,8 +104,10 @@ class MenuTag{
             case self::MUITAS:
                 if(count($elements)>0){
                     $this->tags[$name] = [];
-                    foreach($elements as $k => $v){
-                        $this->tags[$name][$k] = $this->newTag($v, $name);
+                    foreach($elements as $v){
+                        if($this->CI->controle_acesso->area($v->getAttribute('access-area'))){
+                            $this->tags[$name][] = $this->newTag($v, $name);
+                        }
                     }
                 }
                 break;

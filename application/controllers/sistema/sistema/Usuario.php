@@ -8,9 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Usuario extends MY_Controller{
     public function __construct() {
         parent::__construct('sistema/sistema/usuario','Usuário','consulta');
+        $this->_add_func_permission_id('insert', 'sistema-usuario-inserir');
+        $this->_add_func_permission_id('update', 'sistema-usuario-alterar');
+        $this->_add_func_permission_id('get', 'sistema-usuario-visualizar');
     }
     
     public function cadastro($id = NULL){
+        // Verificação de permissões
+        $this->_allowed_area('sistema-usuario-cadastro');
+        
         $data = [
             'titulo' => 'Cadastro Usuário',
             'sv_id' => $id
@@ -19,6 +25,9 @@ class Usuario extends MY_Controller{
     }
     
     public function consulta(){
+        // Verificação de permissões
+        $this->_allowed_area('sistema-usuario-consulta');
+        
         $data = [
             'titulo' => 'Consulta Usuário'
         ];

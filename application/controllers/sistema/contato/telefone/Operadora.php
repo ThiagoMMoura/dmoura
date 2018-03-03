@@ -8,9 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Operadora extends MY_Controller{
     public function __construct() {
         parent::__construct('sistema/contato/telefone/operadora','Operadora Telefônica','cadastro');
+        $this->_add_func_permission_id('insert','contato-telefone-operadora-gravar');
     }
     
     public function cadastro($id = NULL){
+        // Verificação de permissões
+        $this->_allowed_area('contato-telefone-operadora-cadastro');
+        
         $data = [
             'titulo' => 'Cadastro Operadora Telefônica',
             'sv_id' => $id
@@ -19,6 +23,9 @@ class Operadora extends MY_Controller{
     }
     
     public function consulta(){
+        // Verificação de permissões
+        $this->_allowed_area('contato-telefone-operadora-consulta');
+        
         $data = [
             'titulo' => 'Consulta Operadora Telefônica'
         ];

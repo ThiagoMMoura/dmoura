@@ -11,6 +11,9 @@ class Setor extends MY_Controller{
     }
     
     public function cadastro($id = NULL){
+        // Verificação de permissões
+        $this->_allowed_area('seguranca-setor-cadastro');
+        
         $data = [
             'titulo' => 'Cadastro Setor',
             'sv_id' => $id
@@ -19,6 +22,9 @@ class Setor extends MY_Controller{
     }
     
     public function consulta(){
+        // Verificação de permissões
+        $this->_allowed_area('seguranca-setor-consulta');
+        
         $data = [
             'titulo' => 'Consulta Setor'
         ];
@@ -26,6 +32,9 @@ class Setor extends MY_Controller{
     }
     
     protected function _insert($data_form){
+        // Verificação de permissões
+        $this->_allowed_function('seguranca-setor-inserir');
+        
         $this->load->library('form_validation');
         $this->load->model('setor_model');
         
@@ -92,6 +101,9 @@ class Setor extends MY_Controller{
      * @param mixed $dataform
      */
     protected function _update($dataform){
+        // Verificação de permissões
+        $this->_allowed_function('seguranca-setor-alterar');
+        
         $this->load->library('form_validation');
         $this->load->model('setor_model');
         

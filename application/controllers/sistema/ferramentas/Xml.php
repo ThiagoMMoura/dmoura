@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Xml extends MY_Controller{
     public function __construct() {
         parent::__construct('sistema/ferramentas/xml','XML','extracao_ncm');
+        $this->_allowed_area('ferramentas-xml');
     }
 	
     public function extracao_ncm(){

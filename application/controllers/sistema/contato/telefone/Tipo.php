@@ -11,7 +11,8 @@ class Tipo extends MY_Controller{
     }
     
     public function cadastro($id = NULL){
-        $this->load->model('tipo_telefone_model');
+        // Verificação de permissões
+        $this->_allowed_area('contato-telefone-tipo-cadastro');
         
         $data = [
             'titulo' => 'Cadastro Tipo Telefone',
@@ -21,6 +22,9 @@ class Tipo extends MY_Controller{
     }
     
     public function consulta(){
+        // Verificação de permissões
+        $this->_allowed_area('contato-telefone-tipo-consulta');
+        
         $data = [
             'titulo' => 'Consulta Tipo Telefone'
         ];
@@ -28,6 +32,9 @@ class Tipo extends MY_Controller{
     }
     
     protected function _insert($form){
+        // Verificação de permissões
+        $this->_allowed_function('contato-telefone-tipo-gravar');
+        
         $this->load->library('form_validation');
         $this->load->model('tipo_telefone_model');
         

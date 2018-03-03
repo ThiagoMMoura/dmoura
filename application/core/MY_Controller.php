@@ -17,6 +17,7 @@ class MY_Controller extends CI_Controller{
      */
     private $_pai;
     private $_caminho_controle;
+    private $_permissions_id;
     protected $_page_index;
     protected $_action;
     protected $_title;
@@ -34,6 +35,14 @@ class MY_Controller extends CI_Controller{
         $this->_action = $this->input->post('action');
         $this->_title = $title;
         $this->_pai = strstr($caminho_controle,'/',TRUE);//Descobre o nome da arvore pai.
+        $this->_permissions_id = [
+            'insert'=>'',
+            'update'=>'',
+            'delet'=>'',
+            'list'=>'',
+            'query'=>'',
+            'get'=>''
+        ];
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
 
         $this->load->library('controle_acesso');
@@ -43,6 +52,9 @@ class MY_Controller extends CI_Controller{
         
         if($this->input->is_ajax_request()){
             if($this->_action!=NULL){
+                // Verificação de permissão de execução
+                $this->_allowed_function($this->_permissions_id[$this->_action]);
+                
                 switch ($this->_action) {
                     case "insert":
                         $this->_insert($this->input->post('form'));
@@ -296,6 +308,14 @@ class MY_Controller extends CI_Controller{
         return $this->_caminho_controle;
     }
     
+    protected function _add_func_permission_id($func,$id = NULL){
+        if(is_array($func)){
+            $this->_permissions_id = array_merge($this->_permissions_id,$func);
+        }else{
+            $this->_permissions_id[$func] = $id;
+        }
+    }
+
     protected function _allowed_area($id){
         if(!$this->controle_acesso->area($id)){
             $this->_get_custom('area_restrita');

@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <permissions>
-        <permission id="texte1" type="zone" title="Texte 1"></permission>
-        <permission id="teste2" type="func" title="Teste 2"></permission>
-        <permission id="teste3" type="func" title="Teste 3"></permission>
+        <permission id="seguranca-setor-cadastro" type="zone" title="Cadastro de Setores"></permission>
+        <permission id="seguranca-setor-consulta" type="zone" title="Consulta de Setores"></permission>
+        <permission id="seguranca-setor-inserir" type="func" title="Gravar Setor"></permission>
+        <permission id="seguranca-setor-alterar" type="func" title="Alterar Setor"></permission>
+        <permission id="sistema-usuario-cadastro" type="zone" title="Cadastro de Usuário"></permission>
+        <permission id="sistema-usuario-consulta" type="zone" title="Consulta de Usuário"></permission>
+        <permission id="sistema-usuario-inserir" type="func" title="Gravar Usuário"></permission>
+        <permission id="sistema-usuario-alterar" type="func" title="Alterar Usuário"></permission>
+        <permission id="sistema-usuario-visualizar" type="func" title="Visualizar Usuário"></permission>
+        <permission id="contato-telefone-operadora-cadastro" type="zone" title="Cadastro de Operadora de Telefone"></permission>
+        <permission id="contato-telefone-operadora-consulta" type="zone" title="Consulta de Operadora de Telefone"></permission>
+        <permission id="contato-telefone-operadora-inserir" type="func" title="Gravar Operadora de Telefone"></permission>
+        <permission id="contato-telefone-tipo-cadastro" type="zone" title="Cadastro de Tipo de Telefone"></permission>
+        <permission id="contato-telefone-tipo-consulta" type="zone" title="Consulta de Tipo de Telefone"></permission>
+        <permission id="contato-telefone-tipo-inserir" type="func" title="Gravar Tipo de Telefone"></permission>
+        <permission id="ferramentas-xml" type="zone" title="Ferramentas de XML"></permission>
     </permissions>
 </root>

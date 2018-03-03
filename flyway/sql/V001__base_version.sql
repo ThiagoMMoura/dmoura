@@ -57,6 +57,9 @@ CREATE TABLE `setor` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+INSERT INTO `user` (`titulo`,`descricao`) VALUES
+    ('Master','Setor com acesso a todas as Áreas e Funções.');
+
 -- --------------------------------------------------------
 
 --
@@ -75,6 +78,24 @@ CREATE TABLE `permissao` (
   KEY `idpermissao` (`idpermissao`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+INSERT INTO `permissao` (`id`, `idsetor`, `idpermissao`, `acesso`, `tipo`) VALUES
+    (NULL, '1', 'seguranca-setor-cadastro', '1', 'zone'),
+    (NULL, '1', 'seguranca-setor-consulta', '1', 'zone'),
+    (NULL, '1', 'seguranca-setor-inserir', '1', 'func'),
+    (NULL, '1', 'seguranca-setor-alterar', '1', 'func'),
+    (NULL, '1', 'contato-telefone-operadora-cadastro', '1', 'zone'),
+    (NULL, '1', 'contato-telefone-operadora-consulta', '1', 'zone'),
+    (NULL, '1', 'contato-telefone-operadora-inserir', '1', 'func'), 
+    (NULL, '1', 'contato-telefone-tipo-cadastro', '1', 'zone'),
+    (NULL, '1', 'contato-telefone-tipo-consulta', '1', 'zone'),
+    (NULL, '1', 'contato-telefone-tipo-inserir', '1', 'func'),
+    (NULL, '1', 'sistema-usuario-cadastro', '1', 'zone'),
+    (NULL, '1', 'sistema-usuario-consulta', '1', 'zone'),
+    (NULL, '1', 'sistema-usuario-inserir', '1', 'func'),
+    (NULL, '1', 'sistema-usuario-alterar', '1', 'func'),
+    (NULL, '1', 'sistema-usuario-visualizar', '1', 'func'),
+    (NULL, '1', 'ferramentas-xml', '1', 'zone')
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +111,9 @@ CREATE TABLE `alocado` (
     KEY `iduser` (`iduser`),
     KEY `idsetor` (`idsetor`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `alocado` (`id`, `iduser`, `idsetor`) VALUES 
+    (NULL, '1', '1')
 
 -- ------------------------------------------------------
 

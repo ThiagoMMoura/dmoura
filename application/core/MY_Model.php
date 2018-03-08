@@ -269,7 +269,7 @@ class MY_Model extends CI_Model{
     public function inserir_lote($data){
         $this->_inicializar();
         $valores = [];
-        if(is_array($data)){
+        if(is_array($data) && $data!=NULL){
             foreach($data as $k => $d){
                 $valores[$k] = [];
                 foreach($this->nome_colunas_tabela as $key){
@@ -323,6 +323,36 @@ class MY_Model extends CI_Model{
     }
     
     /**
+     * Realiza UPDATE do lote de registros passados por parametro no banco de dados.
+     * 
+     * @param array $data Array de dados a serem inseridos.
+     * @param string $where Campo condicional do registro a ser alterado.
+     * @return boolean Retorna <code>TRUE</code> em caso de sucesso, <code>FALSE</code> em caso
+     * de falha.
+     */
+    public function alterar_lote($data,$where = 'id'){
+        $this->_inicializar();
+        $valores = [];
+        if(is_array($data)){
+            foreach($data as $k => $d){
+                $valores[$k] = [];
+                foreach($this->nome_colunas_tabela as $key){
+                    if(array_key_exists($key, $d)){
+                        $valores[$k][$key] = $d[$key];
+                    }
+                }
+            }
+            log_message('DEBUG', var_export($valores,TRUE));
+            if($this->db->update_batch($this->nome_tabela,$valores,$where)){
+                $this->_ultimo_sql = $this->db->last_query();
+                return TRUE;
+            }
+            $this->_erros = $this->db->error();
+        }
+        return FALSE;
+    }
+    
+    /**
      * Deleta com a ID passada por parametro.
      * 
      * @param int $id ID do registro a ser deletado.
@@ -334,6 +364,32 @@ class MY_Model extends CI_Model{
                 $this->db->where_in('id',$id);
             }else{
                 $this->db->where('id', $id);
+            }
+            return $this->db->delete($this->nome_tabela);
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Deleta registros de acordo com as condições passadas por parâmetro.
+     *  
+     * @param int $condition Condição para exclusão dos registros.
+     * @return boolean retorna <code>TRUE</code> se houve sucesso ou <code>FALSE</code> se caso falhou.
+     */
+    public function deletar_condicional($condition){
+        if($condition!=NULL){
+            if(key_exists('where_in', $condition)){
+                foreach($condition['where_in'] as $k => $v){
+                    $this->db->where_in($k,$v);
+                }
+            }
+            if(key_exists('where_not_in', $condition)){
+                foreach($condition['where_not_in'] as $k => $v){
+                    $this->db->where_not_in($k,$v);
+                }
+            }
+            if(key_exists('where', $condition)){
+                $this->db->where($condition['where']);
             }
             return $this->db->delete($this->nome_tabela);
         }

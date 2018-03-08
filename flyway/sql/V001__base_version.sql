@@ -57,7 +57,7 @@ CREATE TABLE `setor` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `user` (`titulo`,`descricao`) VALUES
+INSERT INTO `setor` (`titulo`,`descricao`) VALUES
     ('Master','Setor com acesso a todas as Áreas e Funções.');
 
 -- --------------------------------------------------------
@@ -94,7 +94,7 @@ INSERT INTO `permissao` (`id`, `idsetor`, `idpermissao`, `acesso`, `tipo`) VALUE
     (NULL, '1', 'sistema-usuario-inserir', '1', 'func'),
     (NULL, '1', 'sistema-usuario-alterar', '1', 'func'),
     (NULL, '1', 'sistema-usuario-visualizar', '1', 'func'),
-    (NULL, '1', 'ferramentas-xml', '1', 'zone')
+    (NULL, '1', 'ferramentas-xml', '1', 'zone');
 
 -- --------------------------------------------------------
 
@@ -113,7 +113,113 @@ CREATE TABLE `alocado` (
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 INSERT INTO `alocado` (`id`, `iduser`, `idsetor`) VALUES 
-    (NULL, '1', '1')
+    (NULL, '1', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pessoa`
+--
+
+DROP TABLE IF EXISTS `pessoa`;
+CREATE TABLE `pessoa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL, -- Razão Social
+  `apelido` varchar(100) DEFAULT NULL, -- Nome Fantasia
+  `ativo` tinyint(1) NOT NULL DEFAULT '1',
+  `iduser` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_iduser` (`iduser`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pessoa_fisica`
+--
+
+DROP TABLE IF EXISTS `pessoa_fisica`;
+CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cpf` varchar(11) NOT NULL,
+  `nascimento` date NOT NULL,
+  `sexo` enum('masculino','feminino') NOT NULL,
+  `nacionalidade` varchar(100) DEFAULT NULL,
+  `naturalidade` varchar(100) DEFAULT NULL,
+  `estado_civil` varchar(50) DEFAULT NULL,
+  `conjuge` varchar(100) DEFAULT NULL,
+  `cnpj` varchar(14) DEFAULT NULL, -- Inicio contato empresa
+  `razao` varchar(100) NOT NULL,
+  `telefone1` varchar(12) NOT NULL,
+  `idoperadora1` int(11) NOT NULL DEFAULT '0',
+  `telefone2` varchar(12) NOT NULL,
+  `idoperadora2` int(11) NOT NULL DEFAULT '0',
+  `telefone3` varchar(12) NOT NULL,
+  `idoperadora3` int(11) NOT NULL DEFAULT '0',
+  `cargo` varchar(50) DEFAULT NULL,
+  `cep` varchar(8) DEFAULT NULL,
+  `numero` int(5) NOT NULL DEFAULT '0',
+  `complemento` varchar(100) DEFAULT NULL, -- Fim contato empresa
+  `idpessoa` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_cpf` (`cpf`),
+  UNIQUE KEY `un_idpessoa` (`idpessoa`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- ------------------------------------------------------
+
+--
+-- Estrutura da tabela `contato_cobranca`
+--
+
+DROP TABLE IF EXISTS `contato_cobranca`;
+CREATE TABLE `contato_cobranca` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `nome` varchar(100) NOT NULL,
+    `telefone` varchar(12) NOT NULL,
+    `idoperadora` int(11) NOT NULL DEFAULT '0',
+    `parentesco` varchar(50) DEFAULT NULL,
+    `cep` varchar(8) DEFAULT NULL,
+    `numero` int(5) NOT NULL DEFAULT '0',
+    `complemento` varchar(100) DEFAULT NULL,
+    `idpessoafisica` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- ------------------------------------------------------
+
+--
+-- Estrutura da tabela `endereco_pessoa`
+--
+
+DROP TABLE IF EXISTS `endereco_pessoa`;
+CREATE TABLE `endereco_pessoa` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `destinatario` varchar(100) NOT NULL, -- O recebedor da entrega
+    `cep` varchar(8) DEFAULT NULL,
+    `tipo` enum('residencial','comercial') NOT NULL,
+    `numero` int(5) NOT NULL DEFAULT '0',
+    `complemento` varchar(100) DEFAULT NULL,
+    `referencia` varchar(100) DEFAULT NULL, -- Referencia para localização na entrega
+    `principal` tinyint(1) NOT NULL DEFAULT '0', -- Define se o endereço é o prícipal para entregas
+    `idpessoa` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- ------------------------------------------------------
+
+--
+-- Estrutura da tabela `email_contato`
+--
+
+DROP TABLE IF EXISTS `email_contato`;
+CREATE TABLE `email_contato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(150) NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `idpessoa` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- ------------------------------------------------------
 
@@ -122,11 +228,12 @@ INSERT INTO `alocado` (`id`, `iduser`, `idsetor`) VALUES
 --
 
 DROP TABLE IF EXISTS `bairro`;
-CREATE TABLE IF NOT EXISTS `bairro` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `bairro` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL
+  `nome` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -136,11 +243,12 @@ CREATE TABLE IF NOT EXISTS `bairro` (
 --
 
 DROP TABLE IF EXISTS `ci_sessions`;
-CREATE TABLE IF NOT EXISTS `ci_sessions` (
+CREATE TABLE `ci_sessions` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
   `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
-  `data` blob NOT NULL
+  `data` blob NOT NULL,
+  KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -150,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 DROP TABLE IF EXISTS `endereco`;
-CREATE TABLE IF NOT EXISTS `endereco` (
+CREATE TABLE `endereco` (
   `cep` int(8) NOT NULL,
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) DEFAULT NULL,
@@ -159,7 +267,8 @@ CREATE TABLE IF NOT EXISTS `endereco` (
   `num_ini` int(11) DEFAULT '0',
   `num_fim` int(11) DEFAULT '0',
   `lado` tinyint(1) DEFAULT NULL,
-  `complemento` varchar(150) DEFAULT NULL
+  `complemento` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`cep`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -169,9 +278,10 @@ CREATE TABLE IF NOT EXISTS `endereco` (
 --
 
 DROP TABLE IF EXISTS `estado`;
-CREATE TABLE IF NOT EXISTS `estado` (
+CREATE TABLE `estado` (
   `uf` varchar(2) NOT NULL,
-  `nome` varchar(50) NOT NULL
+  `nome` varchar(50) NOT NULL,
+  PRIMARY KEY (`uf`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -213,15 +323,17 @@ INSERT INTO `estado` (`uf`, `nome`) VALUES
 -- Estrutura da tabela `funcionario`
 --
 
-DROP TABLE IF EXISTS `funcionario`;
-CREATE TABLE IF NOT EXISTS `funcionario` (
-  `id` int(11) NOT NULL,
-  `rg` varchar(10) NOT NULL,
-  `cargo` int(11) NOT NULL,
-  `salario` float NOT NULL DEFAULT '0',
-  `pessoa_fisica` int(11) NOT NULL,
-  `ferias` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- DROP TABLE IF EXISTS `funcionario`;
+-- CREATE TABLE IF NOT EXISTS `funcionario` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `rg` varchar(10) NOT NULL,
+--   `cargo` int(11) NOT NULL,
+--   `salario` float NOT NULL DEFAULT '0',
+--   `pessoa_fisica` int(11) NOT NULL,
+--   `ferias` tinyint(1) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   UNIQUE KEY `un_rg` (`rg`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -230,11 +342,12 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
 --
 
 DROP TABLE IF EXISTS `logradouro`;
-CREATE TABLE IF NOT EXISTS `logradouro` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `logradouro` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
-  `nome` varchar(150) NOT NULL
+  `nome` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -244,11 +357,12 @@ CREATE TABLE IF NOT EXISTS `logradouro` (
 --
 
 DROP TABLE IF EXISTS `municipio`;
-CREATE TABLE IF NOT EXISTS `municipio` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `municipio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uf` varchar(2) NOT NULL,
-  `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nome` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -257,66 +371,22 @@ CREATE TABLE IF NOT EXISTS `municipio` (
 --
 
 DROP TABLE IF EXISTS `operadora_telefone`;
-CREATE TABLE IF NOT EXISTS `operadora_telefone` (
-  `id` int(11) NOT NULL,
-  `operadora` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE `operadora_telefone` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `operadora` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_operadora` (`operadora`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `operadora_telefone`
 --
 
 INSERT INTO `operadora_telefone` (`id`, `operadora`) VALUES
-(1, 'Claro'),
-(2, 'Oi'),
-(3, 'Tim'),
-(4, 'Vivo');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pessoa`
---
-
-DROP TABLE IF EXISTS `pessoa`;
-CREATE TABLE IF NOT EXISTS `pessoa` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `cep` varchar(8) DEFAULT NULL,
-  `numero` int(5) NOT NULL DEFAULT '0',
-  `complemento` varchar(100) DEFAULT NULL,
-  `senha` varchar(150) NOT NULL,
-  `nivel` int(11) NOT NULL,
-  `tel_principal` int(11) DEFAULT '0',
-  `resenha` tinyint(1) NOT NULL DEFAULT '1',
-  `ativo` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `pessoa`
---
-
-INSERT INTO `pessoa` (`id`, `nome`, `email`, `cep`, `numero`, `complemento`, `senha`, `nivel`, `tel_principal`, `resenha`, `ativo`) VALUES
-(1, 'Web Master', 'webmaster@dmoura.com.br', NULL, 0, NULL, '1c9e899ab77610223649760332ddfee6ec0a9ab1', 1, NULL, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pessoa_fisica`
---
-
-DROP TABLE IF EXISTS `pessoa_fisica`;
-CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
-  `id` int(11) NOT NULL,
-  `cpf` varchar(11) NOT NULL,
-  `nascimento` date NOT NULL,
-  `sexo` enum('masculino','feminino','outro','') NOT NULL,
-  `nacionalidade` varchar(100) DEFAULT NULL,
-  `naturalidade` varchar(100) DEFAULT NULL,
-  `estado_civil` varchar(50) DEFAULT NULL,
-  `pessoa` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+(NULL, 'Claro'),
+(NULL, 'Oi'),
+(NULL, 'Tim'),
+(NULL, 'Vivo');
 
 -- --------------------------------------------------------
 
@@ -325,14 +395,14 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
 --
 
 DROP TABLE IF EXISTS `telefone`;
-CREATE TABLE IF NOT EXISTS `telefone` (
-  `id` int(11) NOT NULL,
-  `ddd` int(2) NOT NULL,
-  `telefone` int(11) NOT NULL,
-  `tipo` int(11) NOT NULL,
-  `operadora` int(11) NOT NULL,
-  `pessoa` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+CREATE TABLE `telefone` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `telefone` varchar(12) NOT NULL,
+  `idtipo` int(11) NOT NULL,
+  `idoperadora` int(11) NOT NULL,
+  `idpessoa` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -342,152 +412,24 @@ CREATE TABLE IF NOT EXISTS `telefone` (
 
 DROP TABLE IF EXISTS `tipo_telefone`;
 CREATE TABLE IF NOT EXISTS `tipo_telefone` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_tipo` (`tipo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `tipo_telefone`
 --
 
 INSERT INTO `tipo_telefone` (`id`, `tipo`) VALUES
-(1, 'Casa'),
-(2, 'Celular'),
-(3, 'Fax'),
-(4, 'Trabalho'),
-(5, 'WhatsApp');
+(NULL, 'Principal'),
+(NULL, 'Casa'),
+(NULL, 'Celular'),
+(NULL, 'Fax'),
+(NULL, 'Trabalho'),
+(NULL, 'WhatsApp');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bairro`
---
-ALTER TABLE `bairro`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ci_sessions`
---
-ALTER TABLE `ci_sessions`
-  ADD KEY `ci_sessions_timestamp` (`timestamp`);
-
---
--- Indexes for table `endereco`
---
-ALTER TABLE `endereco`
-  ADD PRIMARY KEY (`cep`);
-
---
--- Indexes for table `estado`
---
-ALTER TABLE `estado`
-  ADD PRIMARY KEY (`uf`),
-  ADD UNIQUE KEY `un_nome` (`nome`);
-
---
--- Indexes for table `funcionario`
---
-ALTER TABLE `funcionario`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_rg` (`rg`);
-
---
--- Indexes for table `logradouro`
---
-ALTER TABLE `logradouro`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `municipio`
---
-ALTER TABLE `municipio`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `operadora_telefone`
---
-ALTER TABLE `operadora_telefone`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_operadora` (`operadora`);
-
---
--- Indexes for table `pessoa`
---
-ALTER TABLE `pessoa`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_email` (`email`);
-
---
--- Indexes for table `pessoa_fisica`
---
-ALTER TABLE `pessoa_fisica`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_cpf` (`cpf`);
-
---
--- Indexes for table `telefone`
---
-ALTER TABLE `telefone`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tipo_telefone`
---
-ALTER TABLE `tipo_telefone`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `un_tipo` (`tipo`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bairro`
---
-ALTER TABLE `bairro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `funcionario`
---
-ALTER TABLE `funcionario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `logradouro`
---
-ALTER TABLE `logradouro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `municipio`
---
-ALTER TABLE `municipio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `operadora_telefone`
---
-ALTER TABLE `operadora_telefone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `pessoa`
---
-ALTER TABLE `pessoa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `pessoa_fisica`
---
-ALTER TABLE `pessoa_fisica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `telefone`
---
-ALTER TABLE `telefone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tipo_telefone`
---
-ALTER TABLE `tipo_telefone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

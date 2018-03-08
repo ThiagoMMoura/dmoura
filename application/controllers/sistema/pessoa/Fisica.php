@@ -36,14 +36,14 @@ class Fisica extends MY_Controller{
         $form = array();
         
         if($valor!=NULL){
-            $selecionar['select'] = array('pessoa_fisica.id','p.id AS pessoa_id','cpf','p.nome AS nome',
-                'email','nascimento','nacionalidade','naturalidade','estado_civil',
-                'sexo','p.cep','en.uf AS uf','m.nome AS municipio',
-                'b.nome AS bairro','l.nome AS logradouro','numero','p.complemento','resenha','p.ativo','en.complemento AS complemento2');
+            $selecionar['select'] = array('pessoa_fisica.id','pessoa_fisica.idpessoa','cpf','p.nome AS nome','p.apelido',
+                'nascimento','nacionalidade','naturalidade','estado_civil','sexo','conjuge','cnpj',
+                'razao','telefone1','idoperadora1','telefone2','idoperadora2','telefone3','idoperadora3',
+                'cargo','pessoa_fisica.cep','en.uf AS uf','m.nome AS municipio',
+                'b.nome AS bairro','l.nome AS logradouro','numero','pessoa_fisica.complemento AS complemento2','p.ativo','en.complemento AS complemento');
             $selecionar['join'] = array(
-                array('pessoa p','pessoa_fisica.pessoa = p.id'),
-                array('endereco en','en.cep = p.cep'),
-                //array('estado e','e.uf = en.uf'),
+                array('pessoa p','pessoa_fisica.idpessoa = p.id'),
+                array('endereco en','en.cep = pessoa_fisica.cep'),
                 array('municipio m','m.id = en.municipio'),
                 array('bairro b','b.id = en.bairro'),
                 array('logradouro l','l.id = en.logradouro')
@@ -57,24 +57,132 @@ class Fisica extends MY_Controller{
                 $nascimento = explode('-',$form['nascimento']);
                 $form['nascimento'] = $nascimento[2] . '/' . $nascimento[1] . '/' . $nascimento[0];
 
-                $this->load->model('telefone_model');
-                $tel_sel = array();
-                $tel_sel['where']['pessoa'] = $this->pessoa_fisica_model->campo('pessoa_id');
-                if($this->telefone_model->selecionar($tel_sel)){
-                    $telefones['id'] = array();
-                    $telefones['ddd'] = array();
-                    $telefones['telefone'] = array();
-                    $telefones['tipo'] = array();
-                    $telefones['operadora'] = array();
-                    while($this->telefone_model->possui_proximo()){
-                        $telefones['id'][] = $this->telefone_model->campo('id');
-                        $telefones['ddd'][] = $this->telefone_model->campo('ddd');
-                        $telefones['telefone'][] = $this->telefone_model->campo('telefone');
-                        $telefones['tipo'][] = $this->telefone_model->campo('tipo');
-                        $telefones['operadora'][] = $this->telefone_model->campo('operadora');
+                // Lista endereços da pessoa
+                $this->load->model('endereco_pessoa_model');
+                $selecionar = [];
+                $selecionar['select'] = ['endereco_pessoa.*','en.uf AS uf','m.nome AS municipio',
+                    'b.nome AS bairro','l.nome AS logradouro','numero','endereco_pessoa.complemento AS complemento2',
+                    'en.complemento AS complemento'];
+                $selecionar['join'] = [
+                    ['endereco en','en.cep = endereco_pessoa.cep'],
+                    ['municipio m','m.id = en.municipio'],
+                    ['bairro b','b.id = en.bairro'],
+                    ['logradouro l','l.id = en.logradouro']
+                ];
+                $selecionar['where']['idpessoa'] = $this->pessoa_fisica_model->campo('idpessoa');
+                if($this->endereco_pessoa_model->selecionar($selecionar)){
+                    $lote = [
+                        'id' => [],
+                        'cep' => [],
+                        'tipo' => [],
+                        'numero' => [],
+                        'complemento2' => [],
+                        'uf' => [],
+                        'municipio' => [],
+                        'bairro' => [],
+                        'logradouro' => [],
+                        'complemento' => []
+                    ];
+                    while($this->endereco_pessoa_model->possui_proximo()){
+                        $lote['id'][] = $this->endereco_pessoa_model->campo('id');
+                        $lote['cep'][] = $this->endereco_pessoa_model->campo('cep');
+                        $lote['tipo'][] = $this->endereco_pessoa_model->campo('tipo');
+                        $lote['numero'][] = $this->endereco_pessoa_model->campo('numero');
+                        $lote['complemento2'][] = $this->endereco_pessoa_model->campo('complemento2');
+                        $lote['uf'][] = $this->endereco_pessoa_model->campo('uf');
+                        $lote['municipio'][] = $this->endereco_pessoa_model->campo('municipio');
+                        $lote['bairro'][] = $this->endereco_pessoa_model->campo('bairro');
+                        $lote['logradouro'][] = $this->endereco_pessoa_model->campo('logradouro');
+                        $lote['complemento'][] = $this->endereco_pessoa_model->campo('complemento');
                     }
-                    $form['telefones'] = $telefones;
+                    $form['enderecos'] = $lote;
                 }
+                
+                // Lista emails da pessoa
+                $this->load->model('email_contato_model');
+                $selecionar = [];
+                $selecionar['where']['idpessoa'] = $this->pessoa_fisica_model->campo('idpessoa');
+                if($this->email_contato_model->selecionar($selecionar)){
+                    $lote = [
+                        'id' => [],
+                        'email' => [],
+                        'descricao' => []
+                    ];
+                    while($this->email_contato_model->possui_proximo()){
+                        $lote['id'][] = $this->email_contato_model->campo('id');
+                        $lote['email'][] = $this->email_contato_model->campo('email');
+                        $lote['descricao'][] = $this->email_contato_model->campo('descricao');
+                    }
+                    $form['emails'] = $lote;
+                }
+                
+                // Lista telefones da pessoa
+                $this->load->model('telefone_model');
+                $selecionar = [];
+                $selecionar['where']['idpessoa'] = $this->pessoa_fisica_model->campo('idpessoa');
+                if($this->telefone_model->selecionar($selecionar)){
+                    $lote = [
+                        'id' => [],
+                        'telefone' => [],
+                        'idtipo' => [],
+                        'idoperadora' => []
+                    ];
+                    while($this->telefone_model->possui_proximo()){
+                        $lote['id'][] = $this->telefone_model->campo('id');
+                        $lote['telefone'][] = $this->telefone_model->campo('telefone');
+                        $lote['idtipo'][] = $this->telefone_model->campo('idtipo');
+                        $lote['idoperadora'][] = $this->telefone_model->campo('idoperadora');
+                    }
+                    $form['telefones'] = $lote;
+                }
+                
+                // Lista contatos cobrança da pessoa
+                $this->load->model('contato_cobranca_model');
+                $selecionar = [];
+                $selecionar['select'] = ['contato_cobranca.*','en.uf AS uf','m.nome AS municipio',
+                    'b.nome AS bairro','l.nome AS logradouro','numero','contato_cobranca.complemento AS complemento2',
+                    'en.complemento AS complemento'];
+                $selecionar['join'] = [
+                    ['endereco en','en.cep = contato_cobranca.cep'],
+                    ['municipio m','m.id = en.municipio'],
+                    ['bairro b','b.id = en.bairro'],
+                    ['logradouro l','l.id = en.logradouro']
+                ];
+                $selecionar['where']['idpessoafisica'] = $this->pessoa_fisica_model->campo('id');
+                if($this->contato_cobranca_model->selecionar($selecionar)){
+                    $lote = [
+                        'id' => [],
+                        'nome' => [],
+                        'telefone' => [],
+                        'idoperadora' => [],
+                        'parentesco' => [],
+                        'cep' => [],
+                        'numero' => [],
+                        'complemento2' => [],
+                        'uf' => [],
+                        'municipio' => [],
+                        'bairro' => [],
+                        'logradouro' => [],
+                        'complemento' => []
+                    ];
+                    while($this->contato_cobranca_model->possui_proximo()){
+                        $lote['id'][] = $this->contato_cobranca_model->campo('id');
+                        $lote['nome'][] = $this->contato_cobranca_model->campo('nome');
+                        $lote['telefone'][] = $this->contato_cobranca_model->campo('telefone');
+                        $lote['idoperadora'][] = $this->contato_cobranca_model->campo('idoperadora');
+                        $lote['parentesco'][] = $this->contato_cobranca_model->campo('parentesco');
+                        $lote['cep'][] = $this->contato_cobranca_model->campo('cep');
+                        $lote['numero'][] = $this->contato_cobranca_model->campo('numero');
+                        $lote['complemento2'][] = $this->contato_cobranca_model->campo('complemento2');
+                        $lote['uf'][] = $this->contato_cobranca_model->campo('uf');
+                        $lote['municipio'][] = $this->contato_cobranca_model->campo('municipio');
+                        $lote['bairro'][] = $this->contato_cobranca_model->campo('bairro');
+                        $lote['logradouro'][] = $this->contato_cobranca_model->campo('logradouro');
+                        $lote['complemento'][] = $this->contato_cobranca_model->campo('complemento');
+                    }
+                    $form['contato_cobranca'] = $lote;
+                }
+                
                 $type = MSG_SUCCESS;
                 $message = 'Registro encontrado com sucesso!';
                 $status_header = 200;
@@ -110,18 +218,54 @@ class Fisica extends MY_Controller{
             ),
             array('is_valid_cpf' => 'O CPF digitado não é válido.')
         );
+        $this->form_validation->set_rules('apelido', 'Apelido', 'trim');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[pessoa.email]');
         $this->form_validation->set_rules('nascimento', 'Data Nascimento', 'trim|required|max_length[10]');
-        $this->form_validation->set_rules('enviar_email', "Enviar Email", 'trim');
-        //$this->form_validation->set_rules('nascimento[dia]', 'Dia Nascimento', 'trim|required|exact_length[2]');
-        //$this->form_validation->set_rules('nascimento[mes]', 'Mes Nascimento', 'trim|required|exact_length[2]');
-        //$this->form_validation->set_rules('nascimento[ano]', 'Ano Nascimento', 'trim|required|exact_length[4]');
         $this->form_validation->set_rules('nacionalidade', 'Nacionalidade', 'trim');
         $this->form_validation->set_rules('naturalidade', 'Naturalidade', 'trim');
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
         $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[masculino,feminino]');
-        $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
+        $this->form_validation->set_rules('conjuge', 'Conjuge', 'trim');
+        $this->form_validation->set_rules('enderecos[id][]', 'Id Endereço', 'trim');
+        $this->form_validation->set_rules('enderecos[tipo][]', 'Tipo Endereço', 'trim|required|in_list[residencial,comercial]');
+        $this->form_validation->set_rules('enderecos[cep][]', 'CEP', 'trim|required');
+        $this->form_validation->set_rules('enderecos[uf][]', 'Estado', 'trim|required');
+        $this->form_validation->set_rules('enderecos[municipio][]', 'Municipio', 'trim|required');
+        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim');
+        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim');
+        $this->form_validation->set_rules('enderecos[numero][]', 'Número', 'trim|is_natural');
+        $this->form_validation->set_rules('enderecos[complemento][]', 'Complemento', 'trim');
+        $this->form_validation->set_rules('enderecos[complemento2][]', 'Complemento2', 'trim');
+        $this->form_validation->set_rules('emails[id][]', 'Id Email', 'trim');
+        $this->form_validation->set_rules('emails[email][]', 'Email', 'trim|valid_email');
+        $this->form_validation->set_rules('emails[descricao][]', 'Descrição', 'trim');
+        $this->form_validation->set_rules('telefones[id][]', 'Id Telefone', 'trim');
+        $this->form_validation->set_rules('telefones[telefone][]', 'Número Telefone', 'trim');
+        $this->form_validation->set_rules('telefones[idoperadora][]', 'Operadora', 'trim');
+        $this->form_validation->set_rules('telefones[idtipo][]', 'Tipo Telefone', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[id][]', 'Id Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[nome][]', 'Nome Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[parentesco][]', 'Parentesco Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[telefone][]', 'Telefone Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[idoperadora][]', 'Operadora Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[cep][]', 'CEP Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[uf][]', 'Estado Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[municipio][]', 'Cidade Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[bairro][]', 'Bairro Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[logradouro][]', 'Logradouro Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[numero][]', 'Número Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[complemento][]', 'Complemento Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[complemento2][]', 'Complemento Endereço Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim');
+        $this->form_validation->set_rules('razao', 'Razão Social', 'trim');
+        $this->form_validation->set_rules('cargo', 'Cargo', 'trim');
+        $this->form_validation->set_rules('telefone1', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora1', 'Operadora', 'trim');
+        $this->form_validation->set_rules('telefone2', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora2', 'Operadora', 'trim');
+        $this->form_validation->set_rules('telefone3', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora3', 'Operadora', 'trim');
+        $this->form_validation->set_rules('cep', 'CEP', 'trim|required');
         $this->form_validation->set_rules('uf', 'Estado', 'trim|required');
         $this->form_validation->set_rules('municipio', 'Municipio', 'trim|required');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
@@ -129,11 +273,6 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('numero', 'Número', 'trim|is_natural');
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim');
         $this->form_validation->set_rules('complemento2', 'Complemento2', 'trim');
-        $this->form_validation->set_rules('telefones[id][]', 'Id Telefone', 'trim');
-        $this->form_validation->set_rules('telefones[ddd][]', 'DDD', 'trim');
-        $this->form_validation->set_rules('telefones[telefone][]', 'Número Telefone', 'trim');
-        $this->form_validation->set_rules('telefones[operadora][]', 'Operadora', 'trim');
-        $this->form_validation->set_rules('telefones[tipo][]', 'Tipo Telefone', 'trim');
 
         $type = MSG_ERROR;
         $message = 'Falha ao salvar dados!';
@@ -144,22 +283,17 @@ class Fisica extends MY_Controller{
             $message = 'Campos com preenchimento incorreto!';
             $form = $this->form_validation->error_array();
         } else {
-            $this->load->helper('string');
+//            $this->load->helper('string');
             $this->load->model('endereco_model');
             
             if($this->endereco_model->consulta_cep($data_form['cep'])===FALSE){
                 $cep_dados = $data_form;
-                $cep_dados['complemento'] = $data_form['complemento2'];
                 $this->endereco_model->salva_cep($cep_dados);
             }
             
             //Prepara dados para gravação na tabela pessoa
-            $senha = random_string();//Gera uma senha aleatória
-            $pessoa_dados = $data_form;
-            $pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
-            $pessoa_dados['tipo'] = NIVEL_CLIENTE;
-            $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
-            $pessoa_dados['resenha'] = 1;
+            $pessoa_dados['nome'] = $data_form['nome'];
+            $pessoa_dados['apelido'] = $data_form['apelido'];
             $pessoa_dados['ativo'] = 1;
             if($this->pessoa_model->inserir($pessoa_dados)){
                 
@@ -167,27 +301,102 @@ class Fisica extends MY_Controller{
                 $fisica_dados = $data_form;
                 $nascimento = explode('/', $fisica_dados['nascimento']);
                 $fisica_dados['nascimento'] = $nascimento['2'] . '-' . $nascimento['1']  . '-' . $nascimento['0'] ;
-                $fisica_dados['pessoa'] = $this->pessoa_model->id_inserido();
+                $fisica_dados['idpessoa'] = $this->pessoa_model->id_inserido();
                 if($this->pessoa_fisica_model->inserir($fisica_dados)){
+                    $form['id'] = $this->pessoa_fisica_model->id_inserido();
+                    
+                    //Cadastra endereços da pessoa
+                    if($data_form['enderecos']['id']){
+                        $this->load->model('endereco_pessoa_model');
+                        $lote = [];
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['enderecos']['id'] as $k => $d){
+                            if($this->endereco_model->consulta_cep($data_form['enderecos']['cep'][$k])===FALSE){
+                                $cep_dados = [
+                                    'cep' => $data_form['enderecos']['cep'][$k],
+                                    'uf' => $data_form['enderecos']['uf'][$k],
+                                    'municipio' => $data_form['enderecos']['municipio'][$k],
+                                    'bairro' => $data_form['enderecos']['bairro'][$k],
+                                    'logradouro' => $data_form['enderecos']['logradouro'][$k],
+                                    'complemento' => $data_form['enderecos']['complemento'][$k]
+                                ];
+                                $this->endereco_model->salva_cep($cep_dados);
+                            }
+                            $lote[] = [
+                                'destinatario' => $data_form['nome'],
+                                'cep' => $data_form['enderecos']['cep'][$k],
+                                'tipo' => $data_form['enderecos']['tipo'][$k],
+                                'numero' => $data_form['enderecos']['numero'][$k],
+                                'complemento' => $data_form['enderecos']['complemento2'][$k],
+                                'idpessoa' => $fisica_dados['idpessoa']
+                            ];
+                        }
+                        //Salva lote de registros no banco de dados
+                        $this->endereco_pessoa_model->inserir_lote($lote);
+                    }
+                    
+                    //Cadastra emails da pessoa
+                    if($data_form['emails']['id']){
+                        $this->load->model('email_contato_model');
+                        $lote = [];
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['emails']['id'] as $k => $d){
+                            $lote[] = [
+                                'email' => $data_form['emails']['email'][$k],
+                                'descricao' => $data_form['emails']['descricao'][$k],
+                                'idpessoa' => $fisica_dados['idpessoa']
+                            ];
+                        }
+                        //Salva lote de registros no banco de dados
+                        $this->email_contato_model->inserir_lote($lote);
+                    }
                     
                     //Cadastra números de telefone para a pessoa
                     if($data_form['telefones']['id']){
                         $this->load->model('telefone_model');
-                        $telefones = array();
+                        $telefones = [];
                         //Converte os dados dos telefones em um array legivel pela função salvar_telefones
-                        foreach($data_form['telefones']['id'] as $k => $id_tel){
-                            $telefones[] = array(
-                               // 'ddd' => $data_form['telefones']['ddd'][$k],
+                        foreach($data_form['telefones']['id'] as $k => $d){
+                            $telefones[] = [
                                 'telefone' => $data_form['telefones']['telefone'][$k],
-                                'operadora' => $data_form['telefones']['operadora'][$k],
-                                'tipo' =>$data_form['telefones']['tipo'][$k]
-                            );
+                                'idoperadora' => $data_form['telefones']['idoperadora'][$k],
+                                'idtipo' =>$data_form['telefones']['idtipo'][$k]
+                            ];
                         }
                         //Salva telefones e altera o telefone principal na tabela pessoa
-                        $tel_principal = $this->telefone_model->salvar_telefones($telefones,$fisica_dados['pessoa']);
-                        if(!empty($tel_principal)){
-                            $this->pessoa_model->alterar(array('tel_principal'=>$tel_principal[0]),'id = ' . $fisica_dados['pessoa']);
+                        $this->telefone_model->salvar_telefones($telefones,$fisica_dados['idpessoa']);
+                    }
+                    
+                    //Cadastra contatos de cobrança da pessoa
+                    if($data_form['contato_cobranca']['id']){
+                        $this->load->model('contato_cobranca_model');
+                        $lote = array();
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['contato_cobranca']['id'] as $k => $d){
+                            if($this->endereco_model->consulta_cep($data_form['contato_cobranca']['cep'][$k])===FALSE){
+                                $cep_dados = [
+                                    'cep' => $data_form['contato_cobranca']['cep'][$k],
+                                    'uf' => $data_form['contato_cobranca']['uf'][$k],
+                                    'municipio' => $data_form['contato_cobranca']['municipio'][$k],
+                                    'bairro' => $data_form['contato_cobranca']['bairro'][$k],
+                                    'logradouro' => $data_form['contato_cobranca']['logradouro'][$k],
+                                    'complemento' => $data_form['contato_cobranca']['complemento'][$k]
+                                ];
+                                $this->endereco_model->salva_cep($cep_dados);
+                            }
+                            $lote[] = [
+                                'nome' => $data_form['contato_cobranca']['nome'][$k],
+                                'parentesco' => $data_form['contato_cobranca']['parentesco'][$k],
+                                'telefone' => $data_form['contato_cobranca']['telefone'][$k],
+                                'idoperadora' => $data_form['contato_cobranca']['idoperadora'][$k],
+                                'cep' => $data_form['contato_cobranca']['cep'][$k],
+                                'numero' => $data_form['contato_cobranca']['numero'][$k],
+                                'complemento' => $data_form['contato_cobranca']['complemento2'][$k],
+                                'idpessoafisica' => $form['id']
+                            ];
                         }
+                        //Salva lote de registros no banco de dados
+                        $this->contato_cobranca_model->inserir_lote($lote);
                     }
                     
                     //Altera variavéis do alerta para mensagem de sucesso
@@ -196,21 +405,6 @@ class Fisica extends MY_Controller{
                     $status_header = 200;
                     $form['id'] = $this->pessoa_fisica_model->id_inserido();
                     
-                    //Envia email com a senha caso tenha algum email cadastrado
-                    //if($pessoa_dados['email']!=NULL && $data_form['enviar_email']){
-//                        $this->load->library('email');
-//                        if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
-//                            $config =  $this->config->item('email_smtp')['email_suporte'];
-//                            $this->email->initialize($config);
-//                        }
-//                        $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
-//                        $this->email->to($pessoa_dados['email']);
-//
-//                        $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
-//                        $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
-//
-//                        $this->email->send();
-                    //}
                 }else{
                     //Deleta o registro na tabela pessoa caso falhe o insert na tabela pessoa_fisica
                     $this->pessoa_model->deletar($fisica_dados['pessoa']);
@@ -239,22 +433,56 @@ class Fisica extends MY_Controller{
         $this->load->model('pessoa_fisica_model');
         
         $this->form_validation->set_data($data_form);
-        $this->form_validation->set_rules('id_pessoa', 'Id Pessoa', 'trim');
+        $this->form_validation->set_rules('id', 'Id Pessoa Física', 'trim|required');
         $this->form_validation->set_rules('cpf', 'CPF',array(
                 'trim','required','is_natural','exact_length[11]',
                 array('is_valid_cpf',array($this->pessoa_fisica_model,'cpf_valido'))
             ),
             array('is_valid_cpf' => 'O CPF digitado não é válido.')
         );
+        $this->form_validation->set_rules('apelido', 'Apelido', 'trim');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
-        $this->form_validation->set_rules('resenha', 'Resenha', 'trim');
-        $this->form_validation->set_rules('ativo', 'Ativo', 'trim');
         $this->form_validation->set_rules('nascimento', 'Nascimento', 'trim|required|exact_length[10]');
         $this->form_validation->set_rules('nacionalidade', 'Nacionalidade', 'trim');
         $this->form_validation->set_rules('naturalidade', 'Naturalidade', 'trim');
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
         $this->form_validation->set_rules('sexo', 'Sexo', 'trim|required|in_list[masculino,feminino]');
+        $this->form_validation->set_rules('conjuge', 'Conjuge', 'trim');
+        $this->form_validation->set_rules('enderecos[id][]', 'Id Endereço', 'trim');
+        $this->form_validation->set_rules('enderecos[tipo][]', 'Tipo Endereço', 'trim|required|in_list[residencial,comercial]');
+        $this->form_validation->set_rules('enderecos[cep][]', 'CEP', 'trim|required');
+        $this->form_validation->set_rules('enderecos[uf][]', 'Estado', 'trim|required');
+        $this->form_validation->set_rules('enderecos[municipio][]', 'Municipio', 'trim|required');
+        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim');
+        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim');
+        $this->form_validation->set_rules('enderecos[numero][]', 'Número', 'trim|is_natural');
+        $this->form_validation->set_rules('enderecos[complemento][]', 'Complemento', 'trim');
+        $this->form_validation->set_rules('enderecos[complemento2][]', 'Complemento2', 'trim');
+        $this->form_validation->set_rules('emails[id][]', 'Id Email', 'trim');
+        $this->form_validation->set_rules('emails[email][]', 'Email', 'trim|valid_email');
+        $this->form_validation->set_rules('emails[descricao][]', 'Descrição', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[id][]', 'Id Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[nome][]', 'Nome Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[parentesco][]', 'Parentesco Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[telefone][]', 'Telefone Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[idoperadora][]', 'Operadora Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[cep][]', 'CEP Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[uf][]', 'Estado Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[municipio][]', 'Cidade Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[bairro][]', 'Bairro Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[logradouro][]', 'Logradouro Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[numero][]', 'Número Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[complemento][]', 'Complemento Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('contato_cobranca[complemento2][]', 'Complemento Endereço Contato Cobrança', 'trim');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim');
+        $this->form_validation->set_rules('razao', 'Razão Social', 'trim');
+        $this->form_validation->set_rules('cargo', 'Cargo', 'trim');
+        $this->form_validation->set_rules('telefone1', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora1', 'Operadora', 'trim');
+        $this->form_validation->set_rules('telefone2', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora2', 'Operadora', 'trim');
+        $this->form_validation->set_rules('telefone3', 'Telefone', 'trim');
+        $this->form_validation->set_rules('idoperadora3', 'Operadora', 'trim');
         $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
         $this->form_validation->set_rules('uf', 'Estado', 'trim');
         $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
@@ -264,7 +492,6 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim');
         $this->form_validation->set_rules('complemento2', 'Complemento2', 'trim');
         $this->form_validation->set_rules('telefones[id][]', 'Id Telefone', 'trim');
-        $this->form_validation->set_rules('telefones[ddd][]', 'DDD', 'trim');
         $this->form_validation->set_rules('telefones[telefone][]', 'Número Telefone', 'trim');
         $this->form_validation->set_rules('telefones[operadora][]', 'Operadora', 'trim');
         $this->form_validation->set_rules('telefones[tipo][]', 'Tipo Telefone', 'trim');
@@ -278,94 +505,181 @@ class Fisica extends MY_Controller{
             $message = 'Campos com preenchimento incorreto!';
             $form = $this->form_validation->error_array();
         } else {
-            $this->load->helper('string');
             $this->load->model('endereco_model');
             
             if($this->endereco_model->consulta_cep($data_form['cep'])===FALSE){
-                $cep_dados = $data_form;
-                $cep_dados['complemento'] = $data_form['complemento2'];
-                $this->endereco_model->salva_cep($cep_dados);
+                $this->endereco_model->salva_cep($data_form);
             }
             
             $id_pessoa = 0;
-            $selecionar['select'] = array('pessoa');
-            $selecionar['join'] = array(array('pessoa p','p.id = pessoa_fisica.pessoa'));
+            $selecionar['select'] = array('idpessoa');
+            $selecionar['join'] = array(array('pessoa p','p.id = pessoa_fisica.idpessoa'));
             $selecionar['where'] = 'cpf = ' . $data_form['cpf'];
             if($this->pessoa_fisica_model->selecionar($selecionar)){
                 if($this->pessoa_fisica_model->num_registros() === 1){
-                    $id_pessoa = $this->pessoa_fisica_model->campo('pessoa');
+                    $id_pessoa = $this->pessoa_fisica_model->campo('idpessoa');
                 }
             }
-            if($id_pessoa > 0){
+            //Prepara dados para gravação na tabela pessoa
+            $pessoa_dados = [
+                'nome' => $data_form['nome'],
+                'apelido' => $data_form['apelido']
+            ];
+            if($id_pessoa > 0 && $this->pessoa_model->alterar($pessoa_dados,array('id'=>$id_pessoa))){
+                
                 //Prepara dados para gravação na tabela pessoa_fisica
                 $fisica_dados = $data_form;
                 $nascimento = explode('/',$fisica_dados['nascimento']);
                 $fisica_dados['nascimento'] = $nascimento[2] . '-' . $nascimento[1] . '-' . $nascimento[0];
-                //$fisica_dados['pessoa'] = $this->input->post('id_pessoa');
+                
                 //Altera os dados na tabela Pessoa Fisica
-                $this->pessoa_fisica_model->alterar($fisica_dados,array('cpf'=>$data_form['cpf']));
-
-                //Cadastra números de telefone para a pessoa
-                $this->load->model('telefone_model');
-                $telefones_old = array();
-                $telefones_new = array();
-                //Converte os dados dos telefones em um array legivel pela função salvar_telefones
-                foreach($data_form['telefones']['id'] as $k => $id_tel){
-                    $telefone = array(
-                        //'ddd' => $data_form['telefones']['ddd'][$k],
-                        'telefone' => $data_form['telefones']['telefone'][$k],
-                        'operadora' => $data_form['telefones']['operadora'][$k],
-                        'tipo' => $data_form['telefones']['tipo'][$k]
-                    );
-                    if($id_tel>0){
-                        $telefone['id'] = $id_tel;
-                        $telefones_old[] = $telefone;
-                    }else{
-                        $telefones_new[] = $telefone;
+                if($this->pessoa_fisica_model->alterar($fisica_dados,array('cpf'=>$data_form['cpf']))){
+                    $form['id'] = $data_form['id'];
+                    
+                    //Cadastra endereços da pessoa
+                    if($data_form['enderecos']['id']){
+                        $this->load->model('endereco_pessoa_model');
+                        $lote_altera = [];
+                        $lote_insere = [];
+                        $condition = ['where_not_in'=>['id'=>[]],'where'=>['idpessoa'=>$id_pessoa]];
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['enderecos']['id'] as $k => $id){
+                            if($this->endereco_model->consulta_cep($data_form['enderecos']['cep'][$k])===FALSE){
+                                $cep_dados = [
+                                    'cep' => $data_form['enderecos']['cep'][$k],
+                                    'uf' => $data_form['enderecos']['uf'][$k],
+                                    'municipio' => $data_form['enderecos']['municipio'][$k],
+                                    'bairro' => $data_form['enderecos']['bairro'][$k],
+                                    'logradouro' => $data_form['enderecos']['logradouro'][$k],
+                                    'complemento' => $data_form['enderecos']['complemento'][$k]
+                                ];
+                                $this->endereco_model->salva_cep($cep_dados);
+                            }
+                            $lote = [
+                                'destinatario' => $data_form['nome'],
+                                'cep' => $data_form['enderecos']['cep'][$k],
+                                'tipo' => $data_form['enderecos']['tipo'][$k],
+                                'numero' => $data_form['enderecos']['numero'][$k],
+                                'complemento' => $data_form['enderecos']['complemento2'][$k],
+                                'idpessoa' => $id_pessoa
+                            ];
+                            if($id>0){
+                                $condition['where_not_in']['id'][] = $id;
+                                $lote['id'] = $id;
+                                $lote_altera[] = $lote;
+                            }else{
+                                $lote_insere[] = $lote;
+                            }
+                        }
+                        //Salva lote de registros no banco de dados
+                        $this->endereco_pessoa_model->deletar_condicional($condition);
+                        $this->endereco_pessoa_model->inserir_lote($lote_insere);
+                        $this->endereco_pessoa_model->alterar_lote($lote_altera,'id');
                     }
+                    
+                    //Cadastra emails da pessoa
+                    if($data_form['emails']['id']){
+                        $this->load->model('email_contato_model');
+                        $lote_altera = [];
+                        $lote_insere = [];
+                        $condition = ['where_not_in'=>['id'=>[]],'where'=>['idpessoa'=>$id_pessoa]];
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['emails']['id'] as $k => $id){
+                            $lote = [
+                                'email' => $data_form['emails']['email'][$k],
+                                'descricao' => $data_form['emails']['descricao'][$k],
+                                'idpessoa' => $id_pessoa
+                            ];
+                            if($id>0){
+                                $condition['where_not_in']['id'][] = $id;
+                                $lote['id'] = $id;
+                                $lote_altera[] = $lote;
+                            }else{
+                                $lote_insere[] = $lote;
+                            }
+                        }
+                        //Salva lote de registros no banco de dados
+                        $this->email_contato_model->deletar_condicional($condition);
+                        $this->email_contato_model->inserir_lote($lote_insere);
+                        $this->email_contato_model->alterar_lote($lote_altera,'id');
+                    }
+                    
+                    //Cadastra números de telefone para a pessoa
+                    if($data_form['telefones']['id']){
+                        $this->load->model('telefone_model');
+                        $lote_altera = [];
+                        $lote_insere = [];
+                        $condition = ['where_not_in'=>['id'=>[]],'where'=>['idpessoa'=>$id_pessoa]];
+                        //Converte os dados dos telefones em um array legivel pela função salvar_telefones
+                        foreach($data_form['telefones']['id'] as $k => $id){
+                            $lote = [
+                                'telefone' => $data_form['telefones']['telefone'][$k],
+                                'idoperadora' => $data_form['telefones']['idoperadora'][$k],
+                                'idtipo' => $data_form['telefones']['idtipo'][$k]
+                            ];
+                            if($id>0){
+                                $condition['where_not_in']['id'][] = $id;
+                                $lote['id'] = $id;
+                                $lote_altera[] = $lote;
+                            }else{
+                                $lote_insere[] = $lote;
+                            }
+                        }
+                        //Salva telefones
+                        $this->telefone_model->deletar_condicional($condition);
+                        $this->telefone_model->salvar_telefones($lote_insere,$id_pessoa);
+                        $this->telefone_model->alterar_telefones($lote_altera,$id_pessoa);
+                    }
+                    
+                    //Cadastra contatos de cobrança da pessoa
+                    if($data_form['contato_cobranca']['id']){
+                        $this->load->model('contato_cobranca_model');
+                        $lote_altera = [];
+                        $lote_insere = [];
+                        $condition = ['where_not_in'=>['id'=>[]],'where'=>['idpessoafisica'=>$form['id']]];
+                        // Cria lotes de registros para inserção
+                        foreach($data_form['contato_cobranca']['id'] as $k => $id){
+                            if($this->endereco_model->consulta_cep($data_form['contato_cobranca']['cep'][$k])===FALSE){
+                                $cep_dados = [
+                                    'cep' => $data_form['contato_cobranca']['cep'][$k],
+                                    'uf' => $data_form['contato_cobranca']['uf'][$k],
+                                    'municipio' => $data_form['contato_cobranca']['municipio'][$k],
+                                    'bairro' => $data_form['contato_cobranca']['bairro'][$k],
+                                    'logradouro' => $data_form['contato_cobranca']['logradouro'][$k],
+                                    'complemento' => $data_form['contato_cobranca']['complemento'][$k]
+                                ];
+                                $this->endereco_model->salva_cep($cep_dados);
+                            }
+                            $lote = [
+                                'nome' => $data_form['contato_cobranca']['nome'][$k],
+                                'parentesco' => $data_form['contato_cobranca']['parentesco'][$k],
+                                'telefone' => $data_form['contato_cobranca']['telefone'][$k],
+                                'idoperadora' => $data_form['contato_cobranca']['idoperadora'][$k],
+                                'cep' => $data_form['contato_cobranca']['cep'][$k],
+                                'numero' => $data_form['contato_cobranca']['numero'][$k],
+                                'complemento' => $data_form['contato_cobranca']['complemento2'][$k],
+                                'idpessoafisica' => $form['id']
+                            ];
+                            if($id>0){
+                                $condition['where_not_in']['id'][] = $id;
+                                $lote['id'] = $id;
+                                $lote_altera[] = $lote;
+                            }else{
+                                $lote_insere[] = $lote;
+                            }
+                        }
+                        //Salva lote de registros no banco de dados
+                        $this->contato_cobranca_model->deletar_condicional($condition);
+                        $this->contato_cobranca_model->inserir_lote($lote_insere);
+                        $this->contato_cobranca_model->alterar_lote($lote_altera,'id');
+                    }
+                    
+                    //Altera variavéis do alerta para mensagem de sucesso
+                    $type = MSG_SUCCESS;
+                    $message = 'Dados alterados com sucesso!';
+                    $status_header = 200;
                 }
-                //Salva telefones
-                $this->telefone_model->salvar_telefones($telefones_new,$id_pessoa);
-                $this->telefone_model->alterar_telefones($telefones_old,$id_pessoa);
-
-                //Prepara dados para gravação na tabela pessoa
-                $senha = random_string();//Gera uma senha aleatória
-                $pessoa_dados = $data_form;
-                //$pessoa_dados['grupo'] = $this->config->item('grupo_padrao_cliente');
-                //$pessoa_dados['tipo'] = Pessoa_model::CLIENTE;
-                if($pessoa_dados['resenha']==1){
-                    $pessoa_dados['senha'] = hash($this->config->item('hash-senha'),$senha);
-                }
-                //Alterar o telefone principal na tabela pessoa
-//                if(!empty($tel_principal)){
-//                    $pessoa_dados['tel_principal'] = $tel_principal[0];
-//                }
-                
-                //Altera os dados na tabela Pessoa e
-                //Envia email com a senha caso tenha algum email cadastrado
-//                if($this->pessoa_model->alterar($pessoa_dados,array('id'=>$id_pessoa)) && 
-//                        $pessoa_dados['email']!=NULL && $pessoa_dados['resenha']==1){
-//                    $this->load->library('email');
-//                    if(array_key_exists('email_suporte', $this->config->item('email_smtp'))){
-//                        $config =  $this->config->item('email_smtp')['email_suporte'];
-//                        $this->email->initialize($config);
-//                    }
-//                    $this->email->from($this->config->item('email_suporte'),$this->config->item('nome_fantasia'));
-//                    $this->email->to($pessoa_dados['email']);
-//
-//                    $this->email->subject($this->config->item('nome_fantasia') . ' - Cadastro Efetuado');
-//                    $this->email->message($this->load->view('sistema/email_padrao/cadastro_cliente',array('senha'=>$senha,'nome'=>$pessoa_dados['nome']),TRUE));
-//
-//                    $this->email->send();
-//                }
-                
-                //Altera variavéis do alerta para mensagem de sucesso
-                $type = MSG_SUCCESS;
-                $message = 'Dados alterados com sucesso!';
-                $status_header = 200;
-                $form['id'] = $this->pessoa_fisica_model->id_inserido();
             }
-
         }
         $json = array(
             'action' => $this->_action,

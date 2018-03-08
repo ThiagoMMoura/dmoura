@@ -3,13 +3,14 @@
     <table id="tabela-pessoa-fisica" name="pessoa-fisica" selector="id"
            url="sistema/pessoa/fisica" 
            model="pessoa_fisica_model"
-           join='[["pessoa p","pessoa_fisica.pessoa = p.id"]]'
+           join='[["pessoa p","pessoa_fisica.idpessoa = p.id"]]'
            sortcol="0"
     >
         <title>Consulta Pessoa Física</title>
         <search>
             <searchtext></searchtext>
             <searchfield>
+                <option id="apelido">Apelido</option>
                 <option id="nome">Nome</option>
                 <option id="cpf">CPF</option>
             </searchfield>
@@ -24,6 +25,11 @@
                 <title>CPF</title>
                 <select>cpf</select>
                 <size>20</size>
+            </hcol>
+            <hcol id="apelido" name="apelido" type="alfanumerico" orderby="apelido {$direction$}">
+                <title>Apelido</title>
+                <select>apelido</select>
+                <size>40</size>
             </hcol>
             <hcol id="nome" name="nome" type="alfanumerico" orderby="nome {$direction$}">
                 <title>Nome</title>
@@ -43,6 +49,9 @@
             </bcol>
             <bcol type="texto">
                 <content>cpf</content>
+            </bcol>
+            <bcol type="texto">
+                <content>apelido</content>
             </bcol>
             <bcol type="texto">
                 <content>nome</content>

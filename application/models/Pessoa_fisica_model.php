@@ -10,7 +10,7 @@ if (!defined('BASEPATH')) {
  */
 class Pessoa_fisica_model extends MY_Model{
     public function __construct(){
-        parent::__construct('pessoa_fisica',array('id','cpf','nascimento','sexo','nacionalidade','naturalidade','estado_civil','pessoa'));
+        parent::__construct('pessoa_fisica',array('id','cpf','nascimento','sexo','nacionalidade','naturalidade','estado_civil','conjuge','cnpj','razao','telefone1','idoperadora1','telefone2','idoperadora2','telefone3','idoperadora3','cargo','cep','numero','complemento','idpessoa'));
     }
     
     public function cpf_valido($cpf){

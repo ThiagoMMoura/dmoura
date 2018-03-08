@@ -6,58 +6,139 @@
             </field>
             <field type="alfanumerico" name="cpf" id="cpf" legend="CPF" column="s:8|m:4" maxlength="11" required="TRUE" autofocus="TRUE">
             </field>
+            <field type="alfanumerico" name="apelido" id="apelido" legend="Apelido" column="s:12|m:6">
+            </field>
             <field type="alfanumerico" name="nome" id="nome" legend="Nome" column="s:12|m:6">
             </field>
-            <field type="data" name="nascimento" id="nascimento" legend="Nascimento" column="s:6">
-            </field>
-            <field type="data" name="nacionalidade" id="nacionalidade" legend="Nacionalidade" column="s:6">
-            </field>
-            <field type="data" name="naturalidade" id="naturalidade" legend="Naturalidade" column="s:6">
-            </field>
-            <field type="data" name="estado_civil" id="estado_civil" legend="Estado Civil" column="s:6">
-            </field>
-            <field type="lista" name="sexo" id="sexo" legend="Sexo" value="Masculino">
+            <field type="lista" name="sexo" id="sexo" legend="Sexo" value="Masculino" column="s:12|m:6">
                 <options>
                     <option id="masculino">Masculino</option>
                     <option id="feminino">Feminino</option>
                 </options>
             </field>
+            <field type="data" name="nascimento" id="nascimento" legend="Nascimento" column="s:6">
+            </field>
+            <field type="alfanumerico" name="nacionalidade" id="nacionalidade" legend="Nacionalidade" column="s:6">
+            </field>
+            <field type="alfanumerico" name="naturalidade" id="naturalidade" legend="Naturalidade" column="s:6">
+            </field>
+            <field type="alfanumerico" name="estado_civil" id="estado_civil" legend="Estado Civil" column="s:6">
+            </field>
+            <field type="alfanumerico" name="conjuge" id="conjuge" legend="Conjuge" column="s:12">
+            </field>
         </section>
         <section name="endereco" title="Endereço" id="endereco">
-            <field type="alfanumerico" name="cep" id="cep" legend="CEP" column="s:6">
-            </field>
-            <field type="lista" name="uf" id="estado" legend="Estado" column="s:6" value="RS">
-                <options list-url="sistema/endereco/estado"></options>
-            </field>
-            <field type="alfanumerico" name="municipio" id="municipio" legend="Municipio" column="s:6">
-            </field>
-            <field type="alfanumerico" name="bairro" id="bairro" legend="Bairro" column="s:6">
-            </field>
-            <field type="alfanumerico" name="logradouro" id="logradouro" legend="Logradouro" column="s:12">
-            </field>
-            <field type="numero" name="numero" id="numero" legend="Número" column="s:6">
-            </field>
-            <field type="alfanumerico" name="complemento" id="complemento" legend="Complemento" column="s:6" disabled="TRUE">
-            </field>
-            <field type="alfanumerico" name="complemento2" id="complemento2" legend="Seu complemento" column="s:12">
+            <field type="subfield" id="enderecos" name="enderecos" legend="Endereços">
+                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
+                <subfield type="lista" name="tipo" id="tipo" legend="Tipo" value="Residencial">
+                    <options>
+                        <option id="residencial">Residencial</option>
+                        <option id="comercial">Comercial</option>
+                    </options>
+                </subfield>
+                <subfield type="alfanumerico" name="cep" id="cep" legend="CEP" column="s:6" placeholder="Entre com o CEP">
+                </subfield>
+                <subfield type="lista" name="uf" id="estado" legend="Estado" column="s:6" value="RS">
+                    <options list-url="sistema/endereco/estado"></options>
+                </subfield>
+                <subfield type="alfanumerico" name="municipio" id="municipio" legend="Municipio" column="s:6" placeholder="Entre com a Cidade">
+                </subfield>
+                <subfield type="alfanumerico" name="bairro" id="bairro" legend="Bairro" column="s:6" placeholder="Entre com o Bairro">
+                </subfield>
+                <subfield type="alfanumerico" name="logradouro" id="logradouro" legend="Logradouro" column="s:12" placeholder="Entre com a Rua/Av">
+                </subfield>
+                <subfield type="numero" name="numero" id="numero" legend="Número" column="s:6" placeholder="Número">
+                </subfield>
+                <subfield type="alfanumerico" name="complemento" id="complemento" legend="Complemento" column="s:6" disabled="TRUE" >
+                </subfield>
+                <subfield type="alfanumerico" name="complemento2" id="complemento2" legend="Seu complemento" column="s:12" placeholder="Entre com o Complemento">
+                </subfield>
             </field>
         </section>
         <section name="contato" title="Contato" id="contato">
-            <field type="alfanumerico" name="email" id="email" legend="Email" column="s:12">
+            <field type="subfield" id="emails" name="emails" legend="Emails de Contato">
+                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
+                <subfield type="alfanumerico" name="email" id="email" legend="Email" column="s:12|m:8" placeholder="Entre com o Email">
+                </subfield>
+                <subfield type="alfanumerico" name="descricao" id="descricao" legend="Descrição" column="s:12|m:4" placeholder="Entre com a Descrição">
+                </subfield>
             </field>
             <field type="subfield" id="telefones" name="telefones" legend="Número de Telefone">
                 <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
                 <subfield type="alfanumerico" name="telefone" id="telefone" legend="Telefone" column="s:6"></subfield>
-                <subfield type="lista" name="tipo" id="tipo" legend="Tipo" column="s:3" value="1">
+                <subfield type="lista" name="idtipo" id="idtipo" legend="Tipo" column="s:3" value="1">
                     <options list-url="sistema/contato/telefone/tipo"></options>
                 </subfield>
-                <subfield type="lista" name="operadora" id="operadora" legend="Operadora" column="s:3" value="1">
+                <subfield type="lista" name="idoperadora" id="idoperadora" legend="Operadora" column="s:3" value="1">
                     <options list-url="sistema/contato/telefone/operadora"></options>
                 </subfield>
             </field>
-            <field type="boleano" name="resenha" id="resenha" legend="Nova senha" >
+            <field type="subfield" id="contato-cobranca" name="contato_cobranca" legend="Contatos para Cobrança">
+                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
+                <subfield type="alfanumerico" name="nome" id="nome" legend="Nome Contato" column="s:12|m:6" placeholder="Nome Contato">
+                </subfield>
+                <subfield type="alfanumerico" name="parentesco" id="parentesco" legend="Parentesco" column="s:12|m:6" placeholder="Parentesco"></subfield>
+                <subfield type="alfanumerico" name="telefone" id="telefone" legend="Telefone" column="s:8" placeholder="Telefone"></subfield>
+                <subfield type="lista" name="idoperadora" id="idoperadora" legend="Operadora" column="s:4" placeholder="Operadora">
+                    <options list-url="sistema/contato/telefone/operadora"></options>
+                </subfield>
+                <subfield type="alfanumerico" name="cep" id="cep" legend="CEP" column="s:6" placeholder="Entre com o CEP">
+                </subfield>
+                <subfield type="lista" name="uf" id="estado" legend="Estado" column="s:6" value="RS">
+                    <options list-url="sistema/endereco/estado"></options>
+                </subfield>
+                <subfield type="alfanumerico" name="municipio" id="municipio" legend="Municipio" column="s:6" placeholder="Entre com a Cidade">
+                </subfield>
+                <subfield type="alfanumerico" name="bairro" id="bairro" legend="Bairro" column="s:6" placeholder="Entre com o Bairro">
+                </subfield>
+                <subfield type="alfanumerico" name="logradouro" id="logradouro" legend="Logradouro" column="s:12" placeholder="Entre com a Rua/Av">
+                </subfield>
+                <subfield type="numero" name="numero" id="numero" legend="Número" column="s:6" placeholder="Número">
+                </subfield>
+                <subfield type="alfanumerico" name="complemento" id="complemento" legend="Complemento" column="s:6" disabled="TRUE" >
+                </subfield>
+                <subfield type="alfanumerico" name="complemento2" id="complemento2" legend="Complemento Contato" column="s:12" placeholder="Entre com o Complemento">
+                </subfield>
             </field>
-            <field type="boleano" name="campo_boleano2" id="campo-boleano2" legend="Boleano true" checked="TRUE">
+        </section>
+        <section name="empresa_contato" title="Dados Empresa" id="empresa-contato">
+            <field type="alfanumerico" name="cnpj" id="cnpj" legend="CNPJ" column="s:12|m:5">
+            </field>
+            <field type="alfanumerico" name="razao" id="razao" legend="Nome Empresa" column="s:12|m:7">
+            </field>
+            <field type="alfanumerico" name="cargo" id="cargo" legend="Cargo" column="s:12">
+            </field>
+            <field type="alfanumerico" name="telefone1" id="telefone1" legend="Telefone" column="s:8">
+            </field>
+            <field type="lista" name="idoperadora1" id="idoperadora1" legend="Operadora" column="s:4" value="1">
+                <options list-url="sistema/contato/telefone/operadora"></options>
+            </field>
+            <field type="alfanumerico" name="telefone2" id="telefone2" legend="Telefone" column="s:8">
+            </field>
+            <field type="lista" name="idoperadora2" id="idoperadora2" legend="Operadora" column="s:4" value="1">
+                <options list-url="sistema/contato/telefone/operadora"></options>
+            </field>
+            <field type="alfanumerico" name="telefone3" id="telefone3" legend="Telefone" column="s:8">
+            </field>
+            <field type="lista" name="idoperadora3" id="idoperadora3" legend="Operadora" column="s:4" value="1">
+                <options list-url="sistema/contato/telefone/operadora"></options>
+            </field>
+            <field type="alfanumerico" name="cep" id="cep" legend="CEP" column="s:6" placeholder="Entre com o CEP">
+            </field>
+            <field type="lista" name="uf" id="estado" legend="Estado" column="s:6" value="RS">
+                <options list-url="sistema/endereco/estado"></options>
+            </field>
+            <field type="alfanumerico" name="municipio" id="municipio" legend="Municipio" column="s:6" placeholder="Entre com a Cidade">
+            </field>
+            <field type="alfanumerico" name="bairro" id="bairro" legend="Bairro" column="s:6" placeholder="Entre com o Bairro">
+            </field>
+            <field type="alfanumerico" name="logradouro" id="logradouro" legend="Logradouro" column="s:12" placeholder="Entre com a Rua/Av">
+            </field>
+            <field type="numero" name="numero" id="numero" legend="Número" column="s:6" placeholder="Número">
+            </field>
+            <field type="alfanumerico" name="complemento" id="complemento" legend="Complemento" column="s:6" disabled="TRUE" >
+            </field>
+            <field type="alfanumerico" name="complemento2" id="complemento2" legend="Complemento Empresa" column="s:12" placeholder="Entre com o Complemento">
             </field>
         </section>
         <buttongroup>

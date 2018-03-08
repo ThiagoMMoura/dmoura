@@ -13,7 +13,7 @@ class Endereco_model extends MY_Model{
     }
     
     public function consulta_cep($cep){
-        $select['where']['cep'] = str_replace('-', '', $cep);
+        $select['where']['cep'] = $cep;
         $select['order_by'] = 'logradouro';
         $this->selecionar($select);
         return $this->registro();

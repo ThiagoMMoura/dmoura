@@ -70,12 +70,11 @@ class Setor extends MY_Controller{
                     ];
                 }
                 
-                if($this->permissao_model->inserir_lote($lote)){
-                    $type = MSG_SUCCESS;
-                    $message = 'Dados salvos com sucesso!';
-                    $status_header = 200;
-                }
+                $this->permissao_model->inserir_lote($lote);
                 
+                $type = MSG_SUCCESS;
+                $message = 'Dados salvos com sucesso!';
+                $status_header = 200;
             }
         }
         

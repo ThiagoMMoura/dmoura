@@ -3,27 +3,109 @@
     Author     : Thiago Moura
 */
 body{
-    background-color: #EEF7FF;
+    background: linear-gradient(rgba(15,26,63,1),rgba(0,113,188,1));
+    min-height: 100vh;
+}
+input::placeholder{
+    color: white;
+    opacity: 1;
+}
+input::-moz-placeholder{
+    color: white;
+    opacity: 1;
+}
+input::-webkit-input-placeholder{
+    color: white;
+    opacity: 1;
+}
+input:focus::placeholder{
+    opacity: 0;
+}
+.input-group{
+    margin: .5rem 0px;
+}
+.input-group-label,[type="text"],[type="password"]{
+    padding-left: 0px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    color: white;
+}
+[type="text"]:focus,[type="password"]:focus{
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+.input-group-label i{
+    color: white;
+    font-size: 1.25rem;
+}
+hr{
+    margin: 0px;
 }
 h1, h2, h3{
     background-color: #5DB2FF;
     color: white;
     padding: .6rem;
 }
-div.login {
-    *height: 17.625rem;
+.login {
+    padding: 0px 2.5rem;
+    max-width: 400px;
+}
+.login .column, .login .columns {
+    padding: 0px;
+}
+.logo{
+    max-width: 400px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.logo img{
+    padding: 15vh 2.5rem;
+    width:auto;
 }
 .button:hover{
-    background-color: #C6E4FF;
-    color: black;
+    background-color: rgba(18, 18, 18, 1);
+    color: white;
 }
 .button{
-    background-color: #DFF0FF;
-    color: black;
+    margin-top: 10vh;
+    background-color: rgba(38, 38, 38, 1);
+    color: white;
 }
-.alertas{
-    *position: absolute;
-    *left: 1rem;
-    *right: 1rem;
-    *top: 20%;
+.alertas .callout p, .alertas .callout h5{
+    margin: 0px;
+}
+.alertas .callout{
+    padding: .5rem;
+}
+.alertas .callout.alert{
+    background: rgba(245, 176, 189, 1);
+    color: rgba(234, 82, 111, 1);
+}
+.alertas .close-button, .alertas .close-button.medium {
+    right: .5rem;
+    top: .5rem;
+    font-size: 1.5em;
+    line-height: 1;
+    color: white;
+}
+/* Medium and up */
+@media screen and (min-width: 40em) {
+    .logo{
+        max-width: 500px;
+    }
+}
+/* Large and up */
+@media screen and (min-width: 64em) {
+    .logo{
+        max-width: 600px;
+    }
+    .input-group{
+        margin: .75rem 0px;
+    }
+    .input-group-label{
+        padding-right: 1.25rem;
+    }
 }

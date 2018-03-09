@@ -13,17 +13,24 @@ html, *, h1, h2, h3, h4, h5, h6{
 .off-canvas{
     font-size: 80%;
 }
+.canvas-logo{
+    max-height: 2.5rem;
+}
 .canvas-logo *{
     font-family: Arial;
     font-weight: bold;
 }
+.canvas-logo img{
+    max-height: 2.5rem;
+    padding: .75rem;
+}
 .canvas-logo, .canvas-user, .canvas-user-foto, .canvas-user-dados, .canvas-user-menu, .off-canvas-menu{
     float: left;
 }
-.canvas-user, .title-page, .canvas-logo{
+.canvas-user, .title-page{
     padding-right: .9375rem;
 }
-.canvas-user, .title-page, .canvas-user-dados, .canvas-logo{
+.canvas-user, .title-page, .canvas-user-dados{
     padding-left: .9375rem;
 }
 .canvas-user-foto, .canvas-user-dados{
@@ -41,10 +48,8 @@ html, *, h1, h2, h3, h4, h5, h6{
 .canvas-logo, .canvas-user, .canvas-user-menu, .title-expanse, .off-canvas-menu{
     width: 100%;
 }
-.canvas-logo{
-    padding: .5rem;
-}
 .canvas-logo-title{
+    padding: .5rem;
     line-height: 1.5em;
     font-size: 1rem;
 }

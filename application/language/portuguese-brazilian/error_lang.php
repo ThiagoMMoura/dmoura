@@ -7,7 +7,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['error_login_necessario']='Você precisa realizar login para acessar a página.';
+$lang['error_login_necessario']='Login necessário!';
 $lang['error_login_required'] = 'Login necessário!';
 $lang['error_login_incorreto']='O email ou senha não está correto.';
 $lang['error_level_required'] = 'Você não tem acesso a está área do sistema.';
@@ -23,4 +23,4 @@ $lang['error_register_failed_try_later'] = 'Falha ao salvar cadastro, tente mais
 $lang['error_deleting_image'] = 'Falha ao excluir imagem. Tente novamente mais tarde!';
 $lang['error_deleting'] = 'Falha ao excluir. Tente novamente mais tarde!';
 $lang['error_changing_cover'] = 'Não foi possível alterar a capa deste album. Tente novamente mais tarde!';
-$lang['error_login'] = 'Não foi possível realizar login, alguma das informações enviadas deve conter erros.';
+$lang['error_login'] = 'Dados incorretos.';

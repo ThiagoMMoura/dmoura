@@ -9,8 +9,8 @@
         </section>
         <buttongroup>
             <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
-            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/contato/telefone/operadora/consulta"></button>
-            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/pessoa/fisica/consulta"></button>
+            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/contato/telefone/tipo/consulta"></button>
+            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/contato/telefone/tipo/consulta"></button>
         </buttongroup>
     </form>
 </root>

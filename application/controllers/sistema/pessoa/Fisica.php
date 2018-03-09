@@ -220,7 +220,7 @@ class Fisica extends MY_Controller{
         );
         $this->form_validation->set_rules('apelido', 'Apelido', 'trim');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
-        $this->form_validation->set_rules('nascimento', 'Data Nascimento', 'trim|required|max_length[10]');
+        $this->form_validation->set_rules('nascimento', 'Data Nascimento', 'trim|max_length[10]');
         $this->form_validation->set_rules('nacionalidade', 'Nacionalidade', 'trim');
         $this->form_validation->set_rules('naturalidade', 'Naturalidade', 'trim');
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
@@ -231,8 +231,8 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('enderecos[cep][]', 'CEP', 'trim|required');
         $this->form_validation->set_rules('enderecos[uf][]', 'Estado', 'trim|required');
         $this->form_validation->set_rules('enderecos[municipio][]', 'Municipio', 'trim|required');
-        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim');
-        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim');
+        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim|required');
+        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim|required');
         $this->form_validation->set_rules('enderecos[numero][]', 'Número', 'trim|is_natural');
         $this->form_validation->set_rules('enderecos[complemento][]', 'Complemento', 'trim');
         $this->form_validation->set_rules('enderecos[complemento2][]', 'Complemento2', 'trim');
@@ -265,9 +265,9 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('idoperadora2', 'Operadora', 'trim');
         $this->form_validation->set_rules('telefone3', 'Telefone', 'trim');
         $this->form_validation->set_rules('idoperadora3', 'Operadora', 'trim');
-        $this->form_validation->set_rules('cep', 'CEP', 'trim|required');
-        $this->form_validation->set_rules('uf', 'Estado', 'trim|required');
-        $this->form_validation->set_rules('municipio', 'Municipio', 'trim|required');
+        $this->form_validation->set_rules('cep', 'CEP', 'trim');
+        $this->form_validation->set_rules('uf', 'Estado', 'trim');
+        $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
         $this->form_validation->set_rules('logradouro', 'Logradouro', 'trim');
         $this->form_validation->set_rules('numero', 'Número', 'trim|is_natural');
@@ -306,7 +306,7 @@ class Fisica extends MY_Controller{
                     $form['id'] = $this->pessoa_fisica_model->id_inserido();
                     
                     //Cadastra endereços da pessoa
-                    if($data_form['enderecos']['id']){
+                    if(key_exists('enderecos', $data_form) && key_exists('id', $data_form['enderecos']) && $data_form['enderecos']['id']){
                         $this->load->model('endereco_pessoa_model');
                         $lote = [];
                         // Cria lotes de registros para inserção
@@ -336,7 +336,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra emails da pessoa
-                    if($data_form['emails']['id']){
+                    if(key_exists('emails', $data_form) && key_exists('id', $data_form['emails']) && $data_form['emails']['id']){
                         $this->load->model('email_contato_model');
                         $lote = [];
                         // Cria lotes de registros para inserção
@@ -352,7 +352,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra números de telefone para a pessoa
-                    if($data_form['telefones']['id']){
+                    if(key_exists('telefones', $data_form) && key_exists('id', $data_form['telefones']) && $data_form['telefones']['id']){
                         $this->load->model('telefone_model');
                         $telefones = [];
                         //Converte os dados dos telefones em um array legivel pela função salvar_telefones
@@ -368,7 +368,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra contatos de cobrança da pessoa
-                    if($data_form['contato_cobranca']['id']){
+                    if(key_exists('contato_cobranca', $data_form) && key_exists('id', $data_form['contato_cobranca']) && $data_form['contato_cobranca']['id']){
                         $this->load->model('contato_cobranca_model');
                         $lote = array();
                         // Cria lotes de registros para inserção
@@ -442,7 +442,7 @@ class Fisica extends MY_Controller{
         );
         $this->form_validation->set_rules('apelido', 'Apelido', 'trim');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[5]');
-        $this->form_validation->set_rules('nascimento', 'Nascimento', 'trim|required|exact_length[10]');
+        $this->form_validation->set_rules('nascimento', 'Nascimento', 'trim|exact_length[10]');
         $this->form_validation->set_rules('nacionalidade', 'Nacionalidade', 'trim');
         $this->form_validation->set_rules('naturalidade', 'Naturalidade', 'trim');
         $this->form_validation->set_rules('estado_civil', 'Estado Civil', 'trim');
@@ -453,8 +453,8 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('enderecos[cep][]', 'CEP', 'trim|required');
         $this->form_validation->set_rules('enderecos[uf][]', 'Estado', 'trim|required');
         $this->form_validation->set_rules('enderecos[municipio][]', 'Municipio', 'trim|required');
-        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim');
-        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim');
+        $this->form_validation->set_rules('enderecos[bairro][]', 'Bairro', 'trim|required');
+        $this->form_validation->set_rules('enderecos[logradouro][]', 'Logradouro', 'trim|required');
         $this->form_validation->set_rules('enderecos[numero][]', 'Número', 'trim|is_natural');
         $this->form_validation->set_rules('enderecos[complemento][]', 'Complemento', 'trim');
         $this->form_validation->set_rules('enderecos[complemento2][]', 'Complemento2', 'trim');
@@ -483,7 +483,7 @@ class Fisica extends MY_Controller{
         $this->form_validation->set_rules('idoperadora2', 'Operadora', 'trim');
         $this->form_validation->set_rules('telefone3', 'Telefone', 'trim');
         $this->form_validation->set_rules('idoperadora3', 'Operadora', 'trim');
-        $this->form_validation->set_rules('cep', 'CEP', 'trim|required|is_natural');
+        $this->form_validation->set_rules('cep', 'CEP', 'trim|is_natural');
         $this->form_validation->set_rules('uf', 'Estado', 'trim');
         $this->form_validation->set_rules('municipio', 'Municipio', 'trim');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim');
@@ -537,7 +537,7 @@ class Fisica extends MY_Controller{
                     $form['id'] = $data_form['id'];
                     
                     //Cadastra endereços da pessoa
-                    if($data_form['enderecos']['id']){
+                    if(key_exists('enderecos', $data_form) && key_exists('id', $data_form['enderecos']) && $data_form['enderecos']['id']){
                         $this->load->model('endereco_pessoa_model');
                         $lote_altera = [];
                         $lote_insere = [];
@@ -578,7 +578,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra emails da pessoa
-                    if($data_form['emails']['id']){
+                    if(key_exists('emails', $data_form) && key_exists('id', $data_form['emails']) && $data_form['emails']['id']){
                         $this->load->model('email_contato_model');
                         $lote_altera = [];
                         $lote_insere = [];
@@ -605,7 +605,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra números de telefone para a pessoa
-                    if($data_form['telefones']['id']){
+                    if(key_exists('telefones', $data_form) && key_exists('id', $data_form['telefones']) && $data_form['telefones']['id']){
                         $this->load->model('telefone_model');
                         $lote_altera = [];
                         $lote_insere = [];
@@ -632,7 +632,7 @@ class Fisica extends MY_Controller{
                     }
                     
                     //Cadastra contatos de cobrança da pessoa
-                    if($data_form['contato_cobranca']['id']){
+                    if(key_exists('contato_cobranca', $data_form) && key_exists('id', $data_form['contato_cobranca']) && $data_form['contato_cobranca']['id']){
                         $this->load->model('contato_cobranca_model');
                         $lote_altera = [];
                         $lote_insere = [];

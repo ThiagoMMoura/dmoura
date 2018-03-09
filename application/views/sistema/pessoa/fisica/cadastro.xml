@@ -10,7 +10,7 @@
             </field>
             <field type="alfanumerico" name="nome" id="nome" legend="Nome" column="s:12|m:6">
             </field>
-            <field type="lista" name="sexo" id="sexo" legend="Sexo" value="Masculino" column="s:12|m:6">
+            <field type="lista" name="sexo" id="sexo" legend="Sexo" value="masculino" column="s:12|m:6">
                 <options>
                     <option id="masculino">Masculino</option>
                     <option id="feminino">Feminino</option>

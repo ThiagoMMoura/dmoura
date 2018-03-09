@@ -5,11 +5,12 @@
     <h1 class="show-for-small-only"></h1>
     <div class="row expanded" data-equalizer data-equalize-on="medium" id="test-eq">
         {% import _self as this %}
-        {{ this.lista_menus(sv_main_menu,0) }}
+        {{ this.lista_menus(sv_main_menu) }}
     </div>
-    {% macro link(item,color) %}
+    {% macro link(item) %}
+        {% set color = {0:'252,235,76','tachometer':'232,52,52','users':'102,99,198','search':'102,99,198','user-plus':'39,145,57','plus':'39,145,57',1:'153,77,153'} %}
         <div class="medium-6 large-4 columns end">
-            <div class="callout" data-equalizer-watch style="background: rgba({{ color }},1);">
+            <div class="callout" data-equalizer-watch style="background: rgba({{ color[item.attr('icon') in ['plus','search','users','user-plus','tachometer']?item.attr('icon'):0] }},1);">
                 <a href="{{ item.attr('url') }}">
                     <h4 style="color: white;"><i style="color: white;" class="fa {{ item.attr('icon') is not empty ? 'fa-' ~ item.attr('icon') ~ ' fa-lg fa-fw': 'fa fa-circle fa-sm fa-fw' }}"></i>
                     {{ item.attr('title') }}</h4>
@@ -17,18 +18,13 @@
             </div>
         </div>
     {% endmacro %}
-    {% macro lista_menus(menu,i) %}
+    {% macro lista_menus(menu) %}
         {% import _self as this %}
-        {% set color = ['232,52,52','102,99,198','252,235,76','39,145,57','153,77,153'] %}
         {% for item in menu.tag('item') %}
             {% if item.attr('type') == 'link' %}
-                {{ this.link(item,cycle(color,i)) }}
-                {% set i = i + 1 %}
+                {{ this.link(item) }}
             {% else %}
-
-                {% for subitem in item.tag('item') %}
-                    {{ this.lista_menus(subitem,i) }}
-                {% endfor %}
+                {{ this.lista_menus(item) }}
             {% endif %}
         {% endfor %}
     {% endmacro %}

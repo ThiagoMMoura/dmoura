@@ -2,23 +2,44 @@
 {% block styles %}
 {% endblock %}
 {% block conteudo %}
-<div class="row expanded" data-equalizer data-equalize-on="medium" id="test-eq">
-    <div class="medium-4 columns">
-        <div class="callout" data-equalizer-watch>
-            <a href="{{ base_url('sistema/pessoa/fisica/cadastro') }}">
-                <h4>Cadastro de Pessoa Física</h4>
-            </a>
-        </div>
+    <h1 class="show-for-small-only"></h1>
+    <div class="row expanded" data-equalizer data-equalize-on="medium" id="test-eq">
+        {% import _self as this %}
+        {{ this.lista_menus(sv_main_menu,0) }}
     </div>
-</div>
-<div class="row">
-    <p>BASEPATH: {{ basepath }}</p>
-    <p>SELF: {{ self }}</p>
-    <p>FCPATH: {{ fcpath }}</p>
-    <p>SYSDIR: {{ sysdir }}</p>
-    <p>APPPATH: {{ apppath }}</p>
-    <p>VIEWPATH: {{ viewpath }}</p>
-</div>
+    {% macro link(item,color) %}
+        <div class="medium-6 large-4 columns end">
+            <div class="callout" data-equalizer-watch style="background: rgba({{ color }},1);">
+                <a href="{{ item.attr('url') }}">
+                    <h4 style="color: white;"><i style="color: white;" class="fa {{ item.attr('icon') is not empty ? 'fa-' ~ item.attr('icon') ~ ' fa-lg fa-fw': 'fa fa-circle fa-sm fa-fw' }}"></i>
+                    {{ item.attr('title') }}</h4>
+                </a>
+            </div>
+        </div>
+    {% endmacro %}
+    {% macro lista_menus(menu,i) %}
+        {% import _self as this %}
+        {% set color = ['232,52,52','102,99,198','252,235,76','39,145,57','153,77,153'] %}
+        {% for item in menu.tag('item') %}
+            {% if item.attr('type') == 'link' %}
+                {{ this.link(item,cycle(color,i)) }}
+                {% set i = i + 1 %}
+            {% else %}
+
+                {% for subitem in item.tag('item') %}
+                    {{ this.lista_menus(subitem,i) }}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endmacro %}
+    {# <div class="row">
+        <p>BASEPATH: {{ basepath }}</p>
+        <p>SELF: {{ self }}</p>
+        <p>FCPATH: {{ fcpath }}</p>
+        <p>SYSDIR: {{ sysdir }}</p>
+        <p>APPPATH: {{ apppath }}</p>
+        <p>VIEWPATH: {{ viewpath }}</p>
+    </div> #}
 {% endblock %}
 {% block scripts %}
     <script>

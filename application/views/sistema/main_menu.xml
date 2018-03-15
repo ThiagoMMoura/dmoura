@@ -2,17 +2,17 @@
 <root>
     <menu id="menu-principal">
         <item type="link" id="dashboard" title="Painel de Instrumentos" url="sistema/dashboard" icon="tachometer"></item>
-        <item type="submenu" id="contato" title="Contato" icon="address-book">
-            <item type="submenu" id="telefone" title="Telefones" icon="phone">
-                <item type="link" id="operadora-cadastro" title="Cadastro Operadora" url="sistema/contato/telefone/operadora/cadastro" icon="plus" access-area="contato-telefone-operadora-cadastro"></item>
-                <item type="link" id="operadora-consulta" title="Consulta Operadora" url="sistema/contato/telefone/operadora/consulta" icon="search" access-area="contato-telefone-operadora-consulta"></item>
-                <item type="link" id="tipo-cadastro" title="Cadastro Tipo" url="sistema/contato/telefone/tipo/cadastro" icon="plus" access-area="contato-telefone-tipo-cadastro"></item>
-                <item type="link" id="tipo-consulta" title="Consulta Tipo" url="sistema/contato/telefone/tipo/consulta" icon="search" access-area="contato-telefone-tipo-consulta"></item>
+        <item type="submenu" id="contato" title="Configurações de Contato" icon="address-book">
+            <item type="submenu" id="telefone" title="Dados Telefones" icon="phone">
+                <item type="link" id="operadora-cadastro" title="Nova Operadora" url="sistema/contato/telefone/operadora/cadastro" icon="plus" access-area="contato-telefone-operadora-cadastro"></item>
+                <item type="link" id="operadora-consulta" title="Consulta Operadoras" url="sistema/contato/telefone/operadora/consulta" icon="search" access-area="contato-telefone-operadora-consulta"></item>
+                <item type="link" id="tipo-cadastro" title="Novo Tipo Telefone" url="sistema/contato/telefone/tipo/cadastro" icon="plus" access-area="contato-telefone-tipo-cadastro"></item>
+                <item type="link" id="tipo-consulta" title="Consulta Tipos Telefone" url="sistema/contato/telefone/tipo/consulta" icon="search" access-area="contato-telefone-tipo-consulta"></item>
             </item>
         </item>
-        <item type="submenu" id="pessoa" title="Pessoa" icon="users">
-            <item type="link" id="fisica-cadastro" title="Pessoa Física" url="sistema/pessoa/fisica/cadastro" icon="user-plus" access-area=""></item>
-            <item type="link" id="fisica-consulta" title="Pessoa Física" url="sistema/pessoa/fisica/consulta" icon="search" access-area=""></item>
+        <item type="submenu" id="pessoa" title="Clientes" icon="users">
+            <item type="link" id="fisica-cadastro" title="Novo Cliente" url="sistema/pessoa/fisica/cadastro" icon="user-plus" access-area=""></item>
+            <item type="link" id="fisica-consulta" title="Consulta Clientes" url="sistema/pessoa/fisica/consulta" icon="search" access-area=""></item>
         </item>
         <item type="submenu" id="seguranca" title="Segurança" icon="shield">
             <item type="submenu" id="controle-acesso" title="Controle de Acesso" icon="key">

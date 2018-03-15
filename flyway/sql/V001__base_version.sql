@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `dmoura`
 --
-CREATE DATABASE IF NOT EXISTS `dmoura` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `dmoura`;
+-- CREATE DATABASE IF NOT EXISTS `dmoura` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+-- USE `dmoura`;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE `pessoa` (
   `nome` varchar(100) NOT NULL, -- Razão Social
   `apelido` varchar(100) DEFAULT NULL, -- Nome Fantasia
   `ativo` tinyint(1) NOT NULL DEFAULT '1',
-  `iduser` int(11) NOT NULL,
+  `iduser` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `un_iduser` (`iduser`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

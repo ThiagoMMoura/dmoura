@@ -26,16 +26,23 @@ var Semaphoro = {
         }
     }
 };
+
 var ativaLoadingContent = function(){
     $('[data-loading="content"]').fadeIn('slow');
 };
+/**
+ * Desativa icone de Loading da página.
+ * 
+ * @returns {jQuery}
+ */
 var desativaLoadingContent = function(){
-    $('[data-loading="content"]').fadeOut('slow');
+    return $('[data-loading="content"]').fadeOut('slow');
 };
+var app = angular.module('myApp', []);
 $(document).ready(function(){
     var fixContentHeight = function(){
         var h = $(window).height();
-        var b = $('.screen-fixed-content-top').height() + $('.screen-fixed-content-bottom').height();
+        var b = $('.screen-fixed-content-top').outerHeight() + $('.screen-fixed-content-bottom').outerHeight()+1;//
         $('.content-block').css('max-height',h-b).css('height',h-b);
     };
     fixContentHeight();

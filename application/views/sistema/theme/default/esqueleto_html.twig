@@ -1,3 +1,6 @@
+{% import "sistema/theme/default/macro/button.twig" as button %}
+{% import "sistema/theme/default/macro/modal.twig" as modal %}
+{% import "sistema/theme/default/macro/field.twig" as field %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
@@ -10,7 +13,7 @@
         {% block head %}{% endblock %}
         <title>{% block titulo_pagina %}{% endblock %}</title>
     </head>
-    <body>
+    <body ng-app="myApp">
         {% block body %}
         {% endblock %}
         

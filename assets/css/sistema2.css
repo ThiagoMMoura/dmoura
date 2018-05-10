@@ -2,6 +2,10 @@
     Created on : 16/12/2016, 13:39:38
     Author     : Thiago Moura
 */
+:root{
+    --screen-padding: .625rem;
+    --top-bar-height: 2.8125rem;
+}
 html, *, h1, h2, h3, h4, h5, h6{
     font-family: 'sofia_prolight';
     font-weight: normal;
@@ -14,14 +18,14 @@ html, *, h1, h2, h3, h4, h5, h6{
     font-size: 80%;
 }
 .canvas-logo{
-    max-height: 2.5rem;
+    max-height: var(--top-bar-height);
 }
 .canvas-logo *{
     font-family: Arial;
     font-weight: bold;
 }
 .canvas-logo img{
-    max-height: 2.5rem;
+    max-height: var(--top-bar-height);
     padding: .75rem;
 }
 .canvas-logo, .canvas-user, .canvas-user-foto, .canvas-user-dados, .canvas-user-menu, .off-canvas-menu{
@@ -106,20 +110,104 @@ html, *, h1, h2, h3, h4, h5, h6{
 .content-block:not(.top-fade){
     z-index: -2;
 }*/
-.top-bar, .top-bar-title{
-    padding: 0px;
+.dmx-button, .dmx-button *{
+    line-height: var(--top-bar-height);
+    color: white;
 }
-.top-bar .menu > li > a, .top-bar .menu > li > a i, .top-bar button, .top-bar .menu > li > label, .top-bar .menu > li > label i{
-    line-height: 1.5rem;
-    font-size: 1rem;
+.dmx-button, .label, .label.primary{
+    background-color: var(--main-color-125);
 }
-.top-bar .menu > li > a, .top-bar button, .top-bar .menu > li > label{
-    padding: .5rem;
-    min-width: 2.5rem;
+.dmx-button, .dmx-top-bar .dropdown.menu > li.is-dropdown-submenu-parent > a.dmx-button {
+    padding: 0 var(--screen-padding);
+    display: flex !important;
+    flex-grow: 1;
 }
-.top-bar .menu > li > a i, .top-bar .menu > li > a span, .top-bar .menu > li > label i, .top-bar .menu > li > label span{
+.dmx-button:hover{
+    background-color: var(--main-color-175);
+}
+.dmx-button > *{
+    display: block;
+}
+.dmx-button.dmx-reverse, .dmx-button.dmx-reverse *{
+    color: var(--main-color-125);
+    background-color: transparent;
+}
+.dmx-button.dmx-reverse:hover, .dmx-button.dmx-reverse:hover *{
+    color: var(--main-color-150);
+}
+.dmx-button .dmx-button-text{
+    padding-left: .5rem;
+}
+.dmx-button.dmx-reverse.alert, .dmx-button.dmx-reverse.alert *{
+    color: var(--red);
+}
+.dmx-button.dmx-reverse.alert:hover, .dmx-button.dmx-reverse.alert:hover *{
+    color: var(--red-150);
+}
+
+.top-bar.dmx-top-bar *{
+    color: white;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+.top-bar.dmx-top-bar{
+    max-height: var(--top-bar-height);
+    height: var(--top-bar-height);
+    padding: 0;
+}
+.top-bar.dmx-top-bar .menu-text{
+    font-weight: normal;
+    line-height: var(--top-bar-height);
+}
+.top-bar.dmx-top-bar .top-bar-left, .top-bar.dmx-top-bar .top-bar-right{
+    width: auto;
+}
+.dmx-button{
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+.menu > li > a.dmx-button i, .menu > li > a.dmx-button img, .menu > li > a.dmx-button svg {
+    margin-right: 0;
+}
+.top-bar.dmx-top-bar ul.submenu{
+    background-color: white;
+    z-index: 2;
+}
+.top-bar.dmx-top-bar ul.submenu *{
+    color: var(--black);
+}
+.top-bar.dmx-top-bar ul.submenu .dmx-button{
+    background-color: white;
+}
+.top-bar.dmx-top-bar ul.submenu .dmx-button:hover{
+    background-color: var(--black-0);
+}
+.top-bar.dmx-top-bar .dmx-button{
+    
+}
+.dmx-top-bar .dropdown.menu > li.is-dropdown-submenu-parent > a.dmx-button::after {
+    display: none;
+}
+.dmx-top-bar .dmx-button.square-button{
+    height: var(--top-bar-height);
+    min-width: var(--top-bar-height);
+    max-width: var(--top-bar-height);
+    text-align: center;
+}
+.dmx-top-bar .dmx-modal-title{
+    padding-left: 0;
+}
+/*.top-bar .menu > li > a i, .top-bar .menu > li > a span, .top-bar .menu > li > label i, .top-bar .menu > li > label span{
     margin: 0px .25rem;
 }
+.dmx-button span{
+    padding-left: .5rem;
+    text-transform: uppercase;
+    font-size: .75rem;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+}*/
 .content-block{
     overflow: auto;
 }
@@ -136,6 +224,11 @@ html, *, h1, h2, h3, h4, h5, h6{
 .divisao-bar-content{
     height: .25rem;
     width: 100%;
+    position: absolute;
+    background: url('../imagens/sombra.png');
+    background-repeat: repeat-x;
+    background-size: auto .25rem;
+    z-index: 1;
 }
 .no-padding-h{
     padding-left: 0px !important;
@@ -151,7 +244,7 @@ html, *, h1, h2, h3, h4, h5, h6{
 /*[type="color"], [type="date"], [type="datetime-local"], [type="datetime"], 
 [type="email"], [type="month"], [type="number"], [type="password"], 
 [type="search"], [type="tel"], [type="text"], [type="time"], [type="url"], 
-[type="week"] {*/
+[type="week"] {
 .modern-input-group {
     display: table;
     width: 100%;
@@ -222,11 +315,6 @@ html, *, h1, h2, h3, h4, h5, h6{
     color: transparent;
     font-weight: 400;
 }
-/*[type="color"]:focus, [type="date"]:focus, [type="datetime-local"]:focus, 
-[type="datetime"]:focus, [type="email"]:focus, [type="month"]:focus, 
-[type="number"]:focus, [type="password"]:focus, [type="search"]:focus, 
-[type="tel"]:focus, [type="text"]:focus, [type="time"]:focus, [type="url"]:focus, 
-[type="week"]:focus{*/
 .modern-input-group > :focus{
     outline: none;
     border-width: 0 0 1px 0;
@@ -277,7 +365,6 @@ html, *, h1, h2, h3, h4, h5, h6{
 }
 .modern-form-list-add .modern-list-group{
     margin-left: -.625rem;
-    /*margin-right: -.625rem;*/
 }
 .modern-form-list-add .modern-list-group, .modern-form-list-add .modern-list-title{
     padding-right: 1.5rem;
@@ -305,7 +392,7 @@ html, *, h1, h2, h3, h4, h5, h6{
 }
 .modern-form-row::after {
     clear: both;
-}
+}*/
 /*********************
  * Estilos Formulário
  *********************/
@@ -349,10 +436,19 @@ html, *, h1, h2, h3, h4, h5, h6{
     position: absolute;
     right: 0px;
     left: 0px;
+    z-index: 2;
 }
 .loader-container .loader{
     font-size: 1rem;
 }
+
+/* Small only */
+@media screen and (max-width: 39.9375em) {
+    .dmx-top-bar .dmx-page-title{
+        padding-left: 0px;
+    }
+}
+
 /* Medium and up */
 @media screen and (min-width: 40em) {
     .modern-form-list-add .modern-list-group{
@@ -363,15 +459,27 @@ html, *, h1, h2, h3, h4, h5, h6{
         padding-right: .9375rem;
         padding-left: .9375rem;
     }
+    :root{
+        --screen-padding: 1rem;
+    }
 }
+
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+    .dmx-top-bar .dmx-page-title{
+        padding-left: 0px;
+    }
+}
+
 /* Large and up */
 @media screen and (min-width: 64em) {
     .content-block{
         padding-top: .9375rem;
     }
-}
-@media screen and (min-width: 64em){
     .position-left.reveal-for-large ~ .off-canvas-content .loader-container{
         left: 250px;
     }
 }
+
+/* Large only */
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {}

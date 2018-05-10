@@ -17,18 +17,43 @@
         - Vermelho Médio: rgba(234, 82, 111, 1);
         - Vermelho Médio Claro: rgba(245, 176, 189, 1);
         - Vermelho Claro: rgba(245, 176, 189, 1);
+0 mais claro
+25, 50, 75 entre o mais claro e a cor de centro
+100 é a cor de centro.
+125, 150, 175 entre a cor de centro e o mais escuro
+200 mais escuro
 */
+:root {
+    --main-color: rgba(48, 188, 237, 1);
+    --main-color-50: rgba(160, 224, 246, 1);
+    --main-color-50-r: 160;
+    --main-color-50-g: 224;
+    --main-color-50-b: 246;
+    --main-color-125: rgba(35, 137, 173, 1);
+    --main-color-150: rgba(22, 86, 108, 1);
+    --main-color-175: rgba(15, 52, 65, 1);
+    --black: rgba(38, 38, 38, 1);
+    --black-0: rgba(235,235,235,1);
+    --black-25: rgba(195, 195, 195, 1);
+    --black-50: rgba(156, 156, 156, 1);
+    --black-75: rgba(97, 97, 97, 1);
+    --black-150: rgba(18, 18, 18, 1);
+    --red: rgba(234, 82, 111, 1);
+    --red-0: rgba(253,239,241,1);
+    --red-50: rgba(245, 176, 189, 1);
+    --red-150: rgba(107,38,51,1);
+}
 *, h1, h2, h3, h4, h5, h6{
-    color: rgba(38, 38, 38, 1);
+    color: var(--black);
 }
 .off-canvas-menu{
-    background-color: rgba(38, 38, 38, 1);
+    background-color: var(--black);
 }
 .top-bar, .top-bar ul{
-    background-color: rgba(35, 137, 173, 1);
+    background-color: var(--main-color-125);
 }
 .canvas-logo, .top-bar .menu > li > a:hover, .top-bar button:hover, .top-bar .menu > li > label:hover{
-    background-color: rgba(22, 86, 108, 1);
+    background-color: var(--main-color-150);
 }
 .top-bar-title, .top-bar-title *,
 .top-bar a, .top-bar a *,
@@ -36,32 +61,32 @@
     color: white;
 }
 .canvas-user-title, .canvas-user-subtitle, .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6{
-    color: rgba(156, 156, 156, 1);
+    color: var(--black-50);
 }
 .canvas-user-menu a,
 .canvas-user-menu a *,
 .off-canvas-menu a,
 .off-canvas-menu a *,
 .off-canvas .close-button span{
-    color: rgba(156, 156, 156, 1);
+    color: var(--black-50);
 }
 .off-canvas a:hover, .off-canvas a:hover *, .off-canvas .close-button:hover span, .off-canvas-menu a.is-active *{
     color: white;
 }
 .off-canvas a:hover{
-    border-bottom-color: rgba(22, 86, 108, 1);
+    border-bottom-color: var(--main-color-150);
 }
 .off-canvas-menu a:hover{
-    background-color: rgba(22, 86, 108, 1);
+    background-color: var(--main-color-150);
 }
 .off-canvas-menu a.is-active{
-    background-color: rgba(35, 137, 173, 1);
+    background-color: var(--main-color-125);
 }
 .off-canvas{
-    background-color: rgba(18, 18, 18, 1);
+    background-color: var(--black-150);
 }
 .off-canvas-menu .is-accordion-submenu-parent > a::after{
-    border-top-color: rgba(156, 156, 156, 1);
+    border-top-color: var(--black-50);
 }
 .off-canvas-menu .is-accordion-submenu-parent > a:hover::after{
     border-top-color: white;
@@ -74,46 +99,46 @@
 }
 /* Botões e links da página */
 a{
-    color: rgba(35, 137, 173, 1);
+    color: var(--main-color-125);
 }
 a:hover{
-    color: rgba(22, 86, 108, 1);
+    color: var(--main-color-150);
 }
 .button, .button *{
     color: white;
 }
 .button{
-    background-color: rgba(48, 188, 237, 1);
+    background-color: var(--main-color);
 }
 .button:focus, .button:hover{
-    background-color: rgba(22, 86, 108, 1);
+    background-color: var(--main-color-150);
     color: white;
 }
 .fa-spin, .fa-pulse{
-    color: rgba(48, 188, 237, 1);
+    color: var(--main-color);
 }
 .tabs-content{
     border: none;
 }
 .tabs{
     border-width: 0px 0px 1px;
-    border-color: rgba(156, 156, 156, 1);
-    background: rgba(253,253,253,1);
+    border-color: var(--black-50);
+    background: rgba(253, 253, 253, 1);
 }
 .tabs-title > a{
     border-bottom: transparent solid 3px;
-    color: rgba(156, 156, 156, 1);
+    color: var(--black-50);
 }
 .tabs-title > a:focus, .tabs-title > a[aria-selected="true"]{
     background: transparent;
-    color: rgba(35, 137, 173, 1);
-    border-bottom-color: rgba(35, 137, 173, 1);
+    color: var(--main-color-125);
+    border-bottom-color: var(--main-color-125);
 }
 /****************
  * Estilo Textos
  ****************/
 .text-alert{
-    color: rgba(234, 82, 111, 1);
+    color: var(--red);
 }
 /*********************
  * Estilo Formulários
@@ -137,13 +162,13 @@ a:hover{
  * Estilos tabela dinâmica
  **************************/
 .dmx-table th[onclick]:hover, .dmx-table th[onclick]:hover i{
-    color: rgba(22, 86, 108, 1);
+    color: var(--main-color-150);
 }
 /****************
  * Estilo loader
  ****************/
 .loader-container .loader{
-    color: rgba(160, 224, 246, 1);
+    color: var(--main-color-50);
     animation-name: loader-pulse;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
@@ -156,19 +181,19 @@ a:hover{
     border-radius: 50%;
 }
 .loader-circle{
-    border: 1px solid rgba(160, 224, 246, 0);
+    border: 1px solid rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0);
     border-radius: 50%;
-    border-top: 1px solid rgba(35, 137, 173, 1);
-    border-left: 1px solid rgba(35, 137, 173, 1);
+    border-top: 1px solid var(--main-color-125);
+    border-left: 1px solid var(--main-color-125);
     width: 2rem;
     height: 2rem;
     animation: spin 2s linear infinite, loader-circle-pulse 1.5s ease infinite;
 }
 .loader-littlecircle{
-    border: 1px solid rgba(160, 224, 246, 0);
+    border: 1px solid rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0);
     border-radius: 50%;
-    border-top: 1px solid rgba(160, 224, 246, 1);
-    border-left: 1px solid rgba(160, 224, 246, 1);
+    border-top: 1px solid var(--main-color-50);
+    border-left: 1px solid var(--main-color-50);
     width: 1.5rem;
     height: 1.5rem;
     margin: .2rem;
@@ -183,14 +208,14 @@ a:hover{
   100% { transform: rotate(0deg); }
 }
 @keyframes loader-circle-pulse {
-    0% {border-top-color: rgba(160, 224, 246, 1);border-left-color: rgba(160, 224, 246, 1);}
-    50% {border-top-color: rgba(35, 137, 173, 1);border-left-color: rgba(35, 137, 173, 1);}
-    100% {border-top-color: rgba(160, 224, 246, 1);border-left-color: rgba(160, 224, 246, 1);}
+    0% {border-top-color: var(--main-color-50);border-left-color: var(--main-color-50);}
+    50% {border-top-color: var(--main-color-125);border-left-color: var(--main-color-125);}
+    100% {border-top-color: var(--main-color-50);border-left-color: var(--main-color-50);}
 }
 @keyframes loader-pulse {
-    0% {color: rgba(160, 224, 246, 1);}
-    50% {color: rgba(35, 137, 173, 1);}
-    100% {color: rgba(160, 224, 246, 1);}
+    0% {color: var(--main-color-50);}
+    50% {color: var(--main-color-125);}
+    100% {color: var(--main-color-50);}
 }
 /* Formulário Modernos */
 .modern-input-group.on-focus > .input-group-field::-moz-placeholder,
@@ -198,14 +223,14 @@ a:hover{
 .modern-input-group > .input-group-label,
 .modern-radio input[type=radio] + label,
 .modern-checkbox input[type=checkbox] + label{
-    color: rgba(48, 188, 237, 1);
+    color: var(--main-color);
 }
 .modern-input-group.on-focus > .input-group-field::-webkit-input-placeholder,
 .modern-input-group.placeholder-visible > .input-group-field::-webkit-input-placeholder,
 .modern-input-group > .input-group-label,
 .modern-radio input[type=radio] + label,
 .modern-checkbox input[type=checkbox] + label{
-    color: rgba(48, 188, 237, 1);
+    color: var(--main-color);
 }
 .modern-input-group.on-focus.is-invalid > .input-group-field::-moz-placeholder,
 .modern-input-group.placeholder-visible.is-invalid > .input-group-field::-moz-placeholder, 
@@ -222,14 +247,14 @@ a:hover{
     color: rgba(245, 176, 189, 1);
 }
 .modern-input-group.modern-selector > .input-group-label{
-    color: rgba(18, 18, 18, 1);
+    color: var(--black-150);
 }
 .modern-input-group > .input-group-label, .modern-input-group > .input-group-field,
 .modern-radio label:before, .modern-checkbox label:before{
-    border-color: rgba(48, 188, 237, 1);
+    border-color: var(--main-color);
 }
 .modern-input-group > .input-group-field{
-    color: rgba(35, 137, 173, 1);
+    color: var(--main-color-125);
 }
 .modern-input-group > .error-msg > .error-expand{
     background-color: white;
@@ -237,64 +262,64 @@ a:hover{
 .modern-input-group.is-invalid .input-group-field, .modern-input-group.is-invalid .input-group-label,
 .modern-input-group.on-focus > .error-msg{/*is-invalid*/
     border-style: solid;
-    border-color: rgba(234, 82, 111, 1);
+    border-color: var(--red);
     background-color: white;
-    color: rgba(234, 82, 111, 1);
+    color: var(--red);
 }
 .modern-input-group.on-focus .input-group-field, .modern-input-group.on-focus .input-group-label{
-    border-color: rgba(18, 18, 18, 1);
+    border-color: var(--black-150);
 }
 .modern-radio input[type=radio]:checked + label:before{
-    background-color: rgba(35, 137, 173, 1);
-    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0),
-        0px 0px 0px 0px rgba(160, 224, 246, .3),
+    background-color: var(--main-color-125);
+    box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0),
+        0px 0px 0px 0px rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
         inset 0px 0px 0px .2rem white;
 }
 .modern-radio input[type=radio] + label:before,
 .modern-checkbox input[type=checkbox] + label:before{
-    color: rgba(35, 137, 173, 1);
-    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0),
-        0px 0px 0px 0px rgba(160, 224, 246, .3),
+    color: var(--main-color-125);
+    box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0),
+        0px 0px 0px 0px rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
         inset 0px 0px 0px .2rem white;
 }
 .modern-radio input[type=radio] + label:hover:before,
 .modern-radio input[type=radio] + label:focus:before,
 .modern-checkbox input[type=checkbox] + label:hover:before,
 .modern-checkbox input[type=checkbox] + label:focus:before{
-    border-color: rgba(35, 137, 173, 1);
-    color: rgba(35, 137, 173, 1);
-    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
-        0px 0px 0px 0px rgba(160, 224, 246, .3),
+    border-color: var(--main-color-125);
+    color: var(--main-color-125);
+    box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
+        0px 0px 0px 0px rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
         inset 0px 0px 0px .2rem white;
 }
 .modern-radio input[type=radio] + label:hover,
 .modern-checkbox input[type=checkbox] + label:hover,
 .modern-radio input[type=radio]+ label:focus,
 .modern-checkbox input[type=checkbox]+ label:focus{
-    color: rgba(35, 137, 173, 1);
+    color: var(--main-color-125);
 }
 .modern-radio input[type=radio]:not(:checked) + label:focus:before,
 .modern-checkbox input[type=checkbox]:not(:checked) + label:focus:before{
-    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
-        0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+    box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
+        0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
         inset 0px 0px 0px .2rem white;
 }
 .modern-radio input[type=radio]:checked + label:active:before,
 .modern-radio input[type=radio]:checked + label:focus:before{
-    box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3),
-        0px 0px 0px .8125rem rgba(160, 224, 246, .3),
+    box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
+        0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3),
         inset 0px 0px 0px .2rem white;
-    background: rgba(35, 137, 173, 1);
+    background: var(--main-color-125);
 }
 
 
 .modern-form-list-add .modern-list-group .modern-form-list-button,
 .modern-form-list-add .modern-list-title .modern-form-list-button{
     border-style: solid;
-    border-color: rgba(156, 156, 156, 1);
+    border-color: var(--black-50);
 }
 .modern-form-list-add .modern-form-list-button:hover, .modern-form-list-add .modern-form-list-button:focus{
-    border-color: rgba(48, 188, 237, 1);
+    border-color: var(--main-color);
 }
 /* Badge e textos coloridos*/
 .badge, .badge *{
@@ -304,27 +329,36 @@ a:hover{
     background-color: rgba(91, 186, 111, 1);
 }
 .badge.alert, .badge.alert *{
-    background-color: rgba(234, 82, 111, 1);
+    background-color: var(--red);
 }
 .success-text{
     color: rgba(91, 186, 111, 1);
 }
 .alert-text, .error-msg{
-    color: rgba(234, 82, 111, 1);
+    color: var(--red);
 }
 .animate-button:active, .animate-button:focus{
     -webkit-animation: clickroundedbuttons .65s ease-in-out;
     animation: clickroundedbuttons .65s ease-in-out;
 }
+/********************
+ * Cores dos botões *
+ ********************/
+.button.alert {
+    background-color: var(--red);
+}
+.button.alert:focus, .button.alert:hover {
+    background-color: var(--red-150);
+}
 @-webkit-keyframes clickroundedbuttons{
-    0% {box-shadow: 0px 0px 0px 0px rgba(160, 224, 246, .3);}
-    40% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3);}
-    50% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, .3);}
-    100% {box-shadow: 0px 0px 0px .8125rem rgba(160, 224, 246, 0);}
+    0% {box-shadow: 0px 0px 0px 0px rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3);}
+    40% {box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3);}
+    50% {box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3);}
+    100% {box-shadow: 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0);}
 }
 @keyframes clickroundedbuttons{
-    0% {box-shadow: inherit, 0px 0px 0px 0px rgba(160, 224, 246, .3), inherit;}
-    40% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, .3), inherit;}
-    50% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, .3), inherit;}
-    100% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(160, 224, 246, 0), inherit;}
+    0% {box-shadow: inherit, 0px 0px 0px 0px rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3), inherit;}
+    40% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3), inherit;}
+    50% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), .3), inherit;}
+    100% {box-shadow: inherit, 0px 0px 0px .8125rem rgba(var(--main-color-50-r),var(--main-color-50-g),var(--main-color-50-b), 0), inherit;}
 }

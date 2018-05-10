@@ -63,5 +63,26 @@ $(document).ready(function(){
     $('.modern-input-group > .input-group-field').on('blur',function(){
       $(this).parent().removeClass('on-focus');
     });
+    
+    //Script de modal
+    $('[data-modal-close]').on('click',function(){
+        var id = $(this).attr('data-modal-close');
+        $('[data-modal]#'+id).hide();
+    });
+    $('[data-modal-open]').on('click',function(event){
+        event.preventDefault();
+        var id = $(this).attr('data-modal-open');
+        $('[data-modal]#'+id).show();
+    });
+    $('[data-modal]').on('click',function(event) {
+        if (event.target === this) {
+            $(this).hide();
+        }
+    });
+    $(document).on('keydown',function(event){
+        if(Foundation.Keyboard.parseKey(event) === 'ESCAPE'){
+            $($('[data-modal]:visible')).hide();
+        }
+    });
 });
 

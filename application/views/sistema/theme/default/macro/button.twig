@@ -1,0 +1,72 @@
+{% macro create(b,type) %}
+    {% import _self as mb %}
+    {% if (type is not empty and type == 'link') or b.type == 'link' %}
+        {{ mb.link_button(b) }}
+    {% elseif (type is not empty and type == 'link-reverse') or b.type == 'link-reverse' %}
+        {{ mb.link_button_reverse(b) }}
+    {% elseif (type is not empty and type == 'generic') or b.type == 'generic' %}
+        {{ mb.generic_button(b) }}
+    {% else %}
+        {{ mb.default_button(b) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro attr(b) %}
+    {% if b.ng is defined and b.ng is not empty %}
+        {% for k,v in b.ng %}
+            ng-{{ k }}="{{ v }}"
+        {% endfor %}
+    {% endif %}
+
+    {% for k,v in b['data-attr'] %}
+        data-{{ k }}="{{ v }}"
+    {% endfor %}
+
+    {% for k,v in b.attr %}
+        {{ k }}="{{ v }}"
+    {% endfor %}
+{% endmacro %}
+
+{% macro button_icon(icon) %}
+    {%- if icon is not empty -%}
+        <i class="dmx-button-icon fa fa-{{ icon }} fa-lg fa-fw"></i>
+    {%- endif -%}
+{% endmacro %}
+
+{% macro button_title(b,enclosed) %}
+    {%- if (enclosed or b['title-class'] is not empty) and b.title is not empty -%}
+        <span class="dmx-button-text {{ b['title-class'] }}">{{ b.title }}</span>
+    {%- else -%}
+        {{- b.title -}}
+    {%- endif -%}
+{% endmacro %}
+
+{% macro link_button_reverse(b) %}
+    {% import _self as mb %}
+    {% set b = b|merge({'class':b.class ~ ' dmx-reverse'}) %}
+    {{ mb.link_button(b) }}
+{% endmacro %}
+
+{% macro link_button(b) %}
+    {% import _self as mb %}
+    <a class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
+            {{- mb.button_icon(b.icon) -}}
+            {{- mb.button_title(b,b.icon is not empty) -}}
+    </a>
+{% endmacro %}
+
+{% macro generic_button(b) %}
+    {% import _self as mb %}
+    <label for="{{ b.for }}" class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
+            {{- mb.button_icon(b.icon) -}}
+            {{- mb.button_title(b,b.icon is not empty) -}}
+    </label>
+{% endmacro %}
+
+{% macro default_button(b) %}
+    {% import _self as mb %}
+    <button type="button" class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
+        {{- mb.button_icon(b.icon) -}}
+        {{- mb.button_title(b,b.icon is not empty) -}}
+    </button>
+{% endmacro %}

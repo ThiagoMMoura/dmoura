@@ -1,0 +1,32 @@
+{% macro create(m) %}
+    {% import "sistema/theme/default/macro/button.twig" as button %}
+    <div class="dmx-modal" id="{{ m.id }}" data-modal>
+        <div class="dmx-modal-container">
+            <div class="screen-fixed-content-top">
+                <div class="top-bar dmx-top-bar">
+                    <div class="top-bar-left">
+                        <ul class="menu">
+                            {% if m['button-voltar'] is not empty %}
+                                <li>
+                                    {{ button.create({icon:'arrow-left',ng:m['button-voltar'].ng,'data-attr':{'modal-close':m.id},attr:{'aria-label':m['button-voltar'].title} }) }}
+                                </li>
+                            {% endif %}
+                            <li class="menu-text dmx-modal-title">{{ m.title }}</li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right">
+                        <ul class="menu">
+                            {% for b in m['top-bar-buttons'] %}
+                                <li>{{ button.create(b) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="divisao-bar-content"></div>
+            </div>
+            <div class="dmx-modal-content">
+                {{ m.content }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

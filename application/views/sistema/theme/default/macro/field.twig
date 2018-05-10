@@ -1,0 +1,180 @@
+{% macro create(f,type) %}
+    {% import _self as mf %}
+    {% if f.equalizer is empty %}
+        {% set f = f|merge({equalizer:1}) %}
+    {% endif %}
+    {% if type is not empty %}
+        {% set f = f|merge({'type':type}) %}
+    {% endif %}
+    {% if f.type in ['text','date',''] %}
+        {{ mf.field_text(f) }}
+    {% elseif f.type == 'textarea' %}
+        {{ mf.field_textarea(f) }}
+    {% elseif f.type == 'select-list' %}
+        {{ mf.field_select_list(f) }}
+    {% elseif f.type == 'mult-select-list' %}
+        {{ mf.field_mult_select_list(f) }}
+    {% elseif f.type == 'dataset-add' %}
+        {{ mf.field_dataset_add(f) }}
+    {% elseif f.type == 'checkbox' %}
+        {{ mf.field_checkbox(f) }}
+    {% elseif f.type == 'switch' %}
+        {{ mf.field_switch(f) }}
+    {% elseif f.type == 'hidden' %}
+        {{ mf.field_hidden(f) }}
+    {% elseif f.type == 'section' %}
+    	{{ mf.field_section(f) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro field_text(f) %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <div class="dmx-input-box {{ (f.disabled?'disabled ')~f.size }} column {{ f.class }} " ng-class="{'is-invalid':error.{{ f.name }} }" {{ f.equalizer?'data-equalizer-watch' }}>
+        <label>
+            <span>{{ f.title }}</span><input type="{{ f.type is not empty?f.type:'text' }}" id="{{ f.id }}" ng-model="{{ form_name }}.{{ f.name }}" name="{{ f.name }}" {{ (f.disabled?'disabled') }}>
+            <span class="form-error" ng-class="{'is-visible':error.{{ f.name }} }"><i class="fa fa-times-circle-o"></i> {{ '{{error.'~f.name~'}}' }}</span>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro field_textarea(f) %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <div class="dmx-input-box {{ (f.disabled?'disabled') }} column {{ f.class }} " ng-class="{'is-invalid':error.{{ f.name }} }">
+        <label>
+            <span>{{ f.title }}</span><textarea id="{{ f.id }}" ng-model="{{ form_name }}.{{ f.name }}" name="{{ f.name }}" {{ (f.disabled?'disabled') }}></textarea>
+            <span class="form-error" ng-class="{'is-visible':error.{{ f.name }} }"><i class="fa fa-times-circle-o"></i> {{ '{{error.'~f.name~'}}' }}</span>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro field_checkbox(f) %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <div class="dmx-checkbox {{ (f.disabled?'disabled') }} column {{ f.class }}" ng-class="{'is-invalid':error.{{ f.name }} }" >
+        <label class="flex-box">
+            <div class="dmx-info">
+                <span>{{ f.title }}</span>
+                <span>{{ f.description }}</span>
+                <span class="form-error" ng-class="{'is-visible':error.{{ f.name }} }"><i class="fa fa-times-circle-o"></i> {{ '{{error.'~f.name~'}}' }}</span>
+            </div>
+            <input type="checkbox" id="{{ f.id }}" ng-model="{{ form_name }}.{{ f.name }}" name="{{ f.name }}" {{ (f.disabled?'disabled') }}>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro field_switch(f) %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <div class="dmx-checkbox {{ (f.disabled?'disabled') }} column {{ f.class }}" ng-class="{'is-invalid':error.{{ f.name }} }" >
+        <label class="flex-box">
+            <div class="dmx-info">
+                <span>{{ f.title }}</span>
+                <span>{{ f.description }}</span>
+                <span class="form-error" ng-class="{'is-visible':error.{{ f.name }} }"><i class="fa fa-times-circle-o"></i> {{ '{{error.'~f.name~'}}' }}</span>
+            </div>
+            <div class="switch">
+                <input class="switch-input" id="{{ f.id }}" type="checkbox" name="{{ f.name }}" ng-model="{{ form_name }}.{{ f.name }}">
+                <label class="switch-paddle" for="{{ f.id }}">
+                    <span class="show-for-sr">{{ f.title }}</span>
+                </label>
+            </div>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro field_select_list(f) %}
+    {% import "sistema/theme/default/macro/modal.twig" as modal %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <div class="dmx-input-box dmx-select-input {{ (f.disabled?'disabled ')~f.size }} column {{ f.class }} " ng-class="{'is-invalid':error.{{ f.name }} }" {{ f.equalizer?'data-equalizer-watch' }}>
+        <label class="flex-box" data-modal-open="modal-{{ f.id }}">
+            <div class="dmx-input">
+                <span>{{ f.title }}</span>
+                <input type="text" id="fake-{{ f.id }}" ng-model="list.{{ f.name }}[{{ form_name }}.{{ f.name }}]" >
+            </div>
+            <div class="dmx-button-open">
+                <i class="fa fa-chevron-right"></i>
+            </div>
+        </label>
+        {% set modal_content %}
+            <ul class="no-bullet dmx-select-list">
+                <li ng-repeat="(x,y) in list.{{ f.name }}">
+                    <label><input type="radio" ng-model="{{ form_name }}.{{ f.name }}" name="{{ f.name }}" ng-value="x" data-modal-close="modal-{{ f.id }}">{{ '{{y}}' }}</label>
+                </li>
+            </ul>
+        {% endset %}
+        {{ modal.create({id:'modal-'~f.id,title:'Selecionar '~f.title,'button-voltar':{title:'Fechar Seleção'},content:modal_content}) }}            
+    </div>
+{% endmacro %}
+
+{% macro field_mult_select_list(f) %}
+    {% import "sistema/theme/default/macro/modal.twig" as modal %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    {% set modal_id = 'modal-'~f.id %}
+    
+    <div class="dmx-input-box dmx-select-input {{ (f.disabled?'disabled') }} column {{ f.class }}" ng-class="{'is-invalid':error.{{ f.name }} }" >
+        <label class="flex-box" data-modal-open="{{ modal_id }}">
+            <div class="dmx-input">
+                <span>{{ f.title }}</span>
+                <div class="dmx-input-mult-select"><span class="label primary" ng-repeat="(k,v) in {{ form_name }}.{{ f.name }}">{{ "{{list['"~f.name~"'][v]}}" }}</span></div>
+            </div>
+            <div class="dmx-button-open">
+                <i class="fa fa-chevron-right"></i>
+            </div>
+        </label>
+        {% set modal_content %}
+            <ul class="no-bullet dmx-select-list">
+                <li ng-repeat="(x,y) in list.{{ f.name }}  track by $index">
+                    <label><input type="checkbox" ng-model="modal.{{ f.name }}[$index]" name="{{ f.name }}" ng-true-value="'{{ '{{x}}' }}'">{{ '{{y}}' }}</label>
+                </li>
+            </ul>
+        {% endset %}
+        {{ modal.create({id:modal_id,title:'Selecionar '~f.title,'button-voltar':{title:'Fechar Seleção'},content:modal_content,'top-bar-buttons':[{title:'Confirmar',ng:{'click':"modalMultSelectConfirm('"~f.name~"');"},'data-attr':{'modal-close':modal_id} }]}) }}            
+    </div>
+{% endmacro %}
+
+{% macro field_dataset_add(f) %}
+    {% import "sistema/theme/default/macro/button.twig" as button %}
+    {% import "sistema/theme/default/macro/modal.twig" as modal %}
+    {% import _self as mf %}
+    {% set modal_id = 'modal-'~f.id %}
+    {% set form_name = (f['form-name'] is empty?'form':f['form-name']) %}
+    
+    <ul class="dmx-add-box column {{ f.class }}">
+        <li class="dmx-add-button-box">
+            {{ button.create({type:'link-reverse',title:'Adicionar '~f.title,icon:'plus','data-attr':{'modal-open':modal_id} }) }}
+        </li>
+        <li class="dmx-item-box flex-box" ng-repeat="(k,v) in {{ form_name }}.{{ f.name }} track by $index">
+            <div class="dmx-item-box-label" ng-click="modalEdit('{{ f.name }}',$index)" onclick="$('[data-modal]#{{ modal_id }}').show();">
+                <span>
+                    {%- for k,label in f.labels -%}
+                        {{- label.prefix~'{{v.'~label.field~'}}'~label.suffix -}}
+                    {%- endfor -%}
+                </span>
+            </div>
+            <ul class="menu">
+                <li>{{ button.create({'type':'link-reverse','title':'Editar','icon':'pencil','ng':{'click':"modalEdit('"~f.name~"',$index)"},'attr':{onclick:"$('[data-modal]#"~ modal_id~"').show();" } }) }}</li>
+                <li>{{ button.create({'type':'link-reverse','title':'Excluir','icon':'trash','class':'alert','ng':{'click':"modalRemove('"~f.name~"',$index)"} }) }}</li>
+            </ul>
+        </li>
+        {% set modal_content %}
+            {% for k,field in f.fields %}
+                {% set field = field|merge({'form-name':'modal.'~f.name,equalizer:0}) %}
+                {{ mf.create(field) }}
+            {% endfor %}
+        {% endset %}
+        {{ modal.create({id:modal_id,title:'Adicionar '~f.title,'button-voltar':{title:'Fechar Formulário',ng:{click:"modalReset('"~f.name~"')"} },content:modal_content,'top-bar-buttons':[{title:'Confirmar',ng:{'click':"modalAdd('"~f.name~"');modalReset('"~f.name~"')"},'data-attr':{'modal-close':modal_id} }]}) }}
+    </ul>
+{% endmacro %}
+
+{% macro field_hidden(f) %}
+    <input type="hidden" ng-model="{{ (f['form-name'] is empty?'form':f['form-name']) }}.{{ f.name }}" name="{{ f.name }}" id="{{ f.id }}">
+{% endmacro %}
+
+{% macro field_section(f) %}
+    <div class="dmx-section column {{ f.class }}">
+        {{f.title}}
+    </div>
+{% endmacro %}

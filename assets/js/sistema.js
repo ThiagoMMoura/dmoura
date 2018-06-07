@@ -9,8 +9,10 @@ function replaceAll(string, token, newtoken) {
 }
 var Semaphoro = {
     semaforos : {},
-    Create : function(id){
+    defaultCallBack : null,
+    Create : function(id,defaultCallBack = null){
         this.semaforos[id] = 0;
+        this.defaultCallBack = defaultCallBack;
         console.log('Create Semaphoro: '+id);
     },
     Up : function(id){
@@ -19,11 +21,18 @@ var Semaphoro = {
         }
         this.semaforos[id]++;
     },
-    Down : function(id,callback){
+    Down : function(id,callback = null){
         this.semaforos[id]--;
         if(this.semaforos[id]===0){
-            callback();
+            if(this.defaultCallBack != null){
+                this.defaultCallBack();
+            }
+            if(callback != null){
+                callback();
+            }
+            return true;
         }
+        return false;
     }
 };
 

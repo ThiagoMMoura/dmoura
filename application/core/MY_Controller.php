@@ -45,7 +45,9 @@ class MY_Controller extends CI_Controller{
         ];
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
 
-        $this->load->library('controle_acesso');
+        //central permitting processing
+        $this->load->library('controle_acesso',NULL,'cpp');
+        $this->load->library('vision_control',NULL,'vc');
     }
     
     public function index(){
@@ -78,14 +80,13 @@ class MY_Controller extends CI_Controller{
                 }
             }else{
                 $json = array(
-                    'action' => $this->_action,
                     'message' => array(
                         'type' => MSG_ERROR,
                         'title' => 'Solicitação inválida.',
                         'message' => 'A requisição enviada não é válida ou não está completa.',
                         'closable' => TRUE
                     ),
-                    'debug' => var_dump($this->input->post())
+                    'debug' => $this->input->post()
                 );
                 $this->output
                     ->set_status_header(400)
@@ -288,6 +289,13 @@ class MY_Controller extends CI_Controller{
         $this->twig->display(($without_theme_path?'':$this->config->item('theme')) . $path,$data);
     }
     
+    protected function _get_view($sPath, $oData = []){
+        //$this->vc->xmlParser2($sPath);
+        //$this->load->library($this->config->item('theme') . 'theme_control');
+        //$this->display('master_view',$oData);
+        $this->vc->display($sPath,$oData);
+    }
+    
     protected function _get_formulario($path, $data = array()){
         $this->load->library('formulario');
         $data = array_merge($data, $this->formulario->parser($path));
@@ -317,7 +325,7 @@ class MY_Controller extends CI_Controller{
     }
 
     protected function _allowed_area($id){
-        if(!$this->controle_acesso->area($id)){
+        if(!$this->cpp->area($id)){
             $this->_get_custom('area_restrita');
             $this->output->_display();
             exit;
@@ -325,7 +333,7 @@ class MY_Controller extends CI_Controller{
     }
     
     protected function _allowed_function($id){
-        if(!$this->controle_acesso->funcao($id)){
+        if(!$this->cpp->funcao($id)){
             $json = array(
                 'action' => $this->_action,
                 'message' => array(

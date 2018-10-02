@@ -1,0 +1,30 @@
+{% macro tab_main(id,tab_buttons,tabs_content) %}
+    <ul class="tabs" data-tabs id="{{ id }}">
+        {{ tab_buttons|raw }}
+    </ul>
+    <div class="tabs-content" data-tabs-content="{{ id }}">
+        {{ tabs_content|raw }}
+    </div>
+{% endmacro %}
+
+{% macro tab_panel(id,content,class) %}
+    <div class="tabs-panel {{ class }}" id="{{ id }}" data-equalizer data-equalize-on="small">
+        {{ content|raw }}
+    </div>
+{% endmacro %}
+
+{% macro tab_button(id,title,class) %}
+    <li class="tabs-title {{ class }}">
+        <a href="#{{ id }}" aria-selected="true" onclick="reInitEqualizer('#{{id}}');">{{ title|upper }}</a>
+    </li>
+{% endmacro %}
+
+{% import _self as tb %}
+
+{% if element_type in ['tab_main','tabs','tab'] %}
+    {{ tb.tab_main(id,tab_buttons,tabs_content) }}
+{% elseif element_type == 'tab_panel' %}
+    {{ tb.tab_panel(id,content,class) }}
+{% elseif element_type == 'tab_button' %}
+    {{ tb.tab_button(id,title,class) }}
+{% endif %}

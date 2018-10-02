@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{{ base_url('assets/plugin/sweetalert/themes/google/google.css') }}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{{ base_url('assets/css/sistema2.css') }}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{{ base_url('assets/css/sistema/Tema_cores_primario.css') }}" type="text/css" charset="utf-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
     {% block styles %}{% endblock %}
 {% endblock %}
 {% block titulo_pagina %}
@@ -48,37 +49,37 @@
                         </div>
                     </div>
                     <div class="off-canvas-menu">
-                        {% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'menu':sv_main_menu,'type':'accordion'} %}
+                        {{ sv_main_menu|raw }}
+                        {#% include 'sistema/theme/default/menu_canvas_esquerdo.twig' with {'menu':sv_main_menu,'type':'accordion'} %#}
                     </div>
                 </div>
             
-                <div class="off-canvas-content" data-off-canvas-content>
+                <div class="off-canvas-content" data-off-canvas-content ng-controller="content_ctrl">
                     <div class="screen-fixed-content-top">
-                        <div class="top-bar dmx-top-bar" id="mainTopBar" data-ng-controller="mainTopBar">
+                        {%- set maintopbarid = 'mainTopBar' -%}
+                        <div class="top-bar dmx-top-bar" id="{{ maintopbarid }}" data-ng-controller="mainTopBar">
                             <div class="top-bar-left">
                                 <ul class="menu">
                                     <li class="hide-for-large">
-                                        {{ button.create({icon:'navicon','data-attr':{toggle:'offCanvasLeft'} }) }}
+                                        {{ button.make({'element_type':'button','icon':'navicon','attributes':'data-toggle="offCanvasLeft"'}) }}
                                     </li>
                                     <li class="menu-text dmx-page-title">{{ titulo }}</li>
                                 </ul>
                             </div>
                             <div class="top-bar-right">
-                                <ul class="dropdown menu" data-dropdown-menu>
+                                {%- set topbarmenuid = maintopbarid ~ '-menu' -%}
+                                <ul class="dropdown menu" data-dropdown-menu id="{{ topbarmenuid }}">
                                     {% block botoes %}{% endblock %}
-                                    <li ng-repeat="(x,y) in buttons">
-                                        {{ button.create({type:'generic','for':'{{y.for}}',icon:'{{y.icon}}',title:'{{y.title}}','title-class':'hide-for-small-only'}) }}
-                                        {#<label class="dmx-button" for="{{ '{{y.for}}' }}">
-                                            <i class="dmx-button-icon fa fa-{{ '{{y.icon}}' }}"></i><span class="dmx-button-text hide-for-small-only">{{ '{{y.title}}' }}</span>
-                                        </label>#}
+                                    <li ng-repeat="(x,y) in top_bar_buttons" id="{{ topbarmenuid~'-item-{[{y.id}]}' }}" class="{{ 'y.hide'|NG }} hide-for-small-only">
+                                        {{ button.make({'element_type':'button_generic','for_button':'{[{y.for}]}','title':'{[{y.title}]}','icon':'{[{y.icon}]}','id':'{[{y.id}]}','title_class':'hide-for-small-only'}) }}
                                     </li>
                                     <li><a href="#" class="hide"><i class="fa fa-search"></i></a></li>
                                     <li class="has-submenu show-for-small-only">
-                                        {{ button.create({type:'link',icon:'ellipsis-v'}) }}
-                                        <ul class="submenu menu vertical" data-submenu>
-                                            <li ng-repeat="(x,y) in buttons">
-                                                {{ button.create({type:'generic','for':'{{y.for}}',icon:'{{y.icon}}',title:'{{y.title}}'}) }}
-                                                {#<a class="dmx-button" href="#0"><i class="dmx-button-icon fa fa-{{ '{{y.icon}}' }}"></i><span class="dmx-button-text">{{ '{{y.title}}' }}</span></a>#}
+                                        {{ button.make({'element_type':'button_link','icon':'ellipsis-v'}) }}
+                                        {%- set topbarsubmenuid = maintopbarid ~ '-submenu' -%}
+                                        <ul class="submenu menu vertical" data-submenu id="{{topbarsubmenuid}}">
+                                            <li ng-repeat="(x,y) in buttons()" id="{{ topbarsubmenuid~'-item-{[{y.id}]}' }}">
+                                                {{ button.make({'element_type':'button_generic','id':'{[{y.id}]}','for_button':'{[{y.for}]}','icon':'{[{y.icon}]}','title':'{[{y.title}]}'}) }}
                                             </li>
                                         </ul>
                                     </li>
@@ -96,7 +97,7 @@
                     </div>
                     <div class="screen-fixed-content-bottom">
                     </div>
-                    <div class="loader-container" data-loading="content">
+                    <div class="loader-container animate-show-hide" data-loading="content" ng-show="showLoadPage()">
                         <div class="row">
                             <div class="loader-circle float-center"><div class="loader-littlecircle"></div></div>
                             <div class="loader">Carregando...</div>
@@ -109,20 +110,14 @@
 {% endblock %}
 {% block scripts_base %}
     <script src="{{ base_url('assets/js/sistema.js') }}"></script>
-    <script src="{{ base_url('assets/plugin/sweetalert/sweetalert.min.js') }}"></script>
-    {#<script src="{{ base_url('assets/js/formulario.js') }}"></script>#}
-    <script src="{{ base_url('assets/js/dmx.js') }}"></script>
     <script>
-        $(document).ready(function(){
-            $('#{{ sv_main_menu.attr('id') }} li > ul').each(function(){
-                if($.isEmptyObject($(this).find('li')[0])){
-                    $(this).parent().hide();
-                }
-            });
-        });
-        app.controller('mainTopBar', function($scope) {
-            $scope.buttons = [{'for':'idalguma','title':'Salvar','icon':'save'},{'for':'idalgumac','title':'Novo','icon':'plus'}];
+        app.config(function ($compileProvider,$interpolateProvider,$locationProvider) {
+            $compileProvider.debugInfoEnabled({{ ENVIRONMENT == 'production' ? 'false' : 'true' }});
+            $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+            $locationProvider.html5Mode({enable: true,rewriteLinks: false});
         });
     </script>
+    <script src="{{ base_url('assets/plugin/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ base_url('assets/js/sistema/theme/default/master_angular.js') }}"></script>
     {% block scripts %}{% endblock %}
 {% endblock %}

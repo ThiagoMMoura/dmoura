@@ -1,0 +1,33 @@
+{% macro frame(id,title,content,button_back,top_bar_buttons) %}
+    <div class="dmx-modal" id="{{ id }}" data-modal>
+        <div class="dmx-modal-container">
+            <div class="screen-fixed-content-top">
+                <div class="top-bar dmx-top-bar">
+                    <div class="top-bar-left">
+                        <ul class="menu">
+                            <li>{{ button_back|raw }}</li>
+                            <li class="menu-text dmx-modal-title">{{ title }}</li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right">
+                        <ul class="menu">
+                            {% for bt in top_bar_buttons %}
+                                <li>{{ bt|raw }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="divisao-bar-content"></div>
+            </div>
+            <div class="dmx-modal-content">
+                {{ content ? (content|raw) : '{{frame_content}}' }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as mo %}
+
+{% if element_type == 'frame' %}
+    {{ mo.frame(id,title,content,button_back,top_bar_buttons) }}
+{% endif %}

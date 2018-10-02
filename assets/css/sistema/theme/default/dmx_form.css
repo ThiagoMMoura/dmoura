@@ -254,6 +254,22 @@ li.dmx-item-box, li.dmx-add-button-box{
 .dmx-select-list [type="radio"],.dmx-select-list [type="checkbox"]{
     margin: 0px 1rem 0px 0px;
 }
+
+/*****************************
+ * animate-show-hide angular *
+ *****************************/
+.animate-show-hide.ng-hide {
+    opacity: 0;
+}
+
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+    transition: all linear 0.5s;
+}
+
+/*********************
+ * Screen adaptation *
+ *********************/
 /* Small only */
 @media screen and (max-width: 39.9375em) {
     .border-left-small{

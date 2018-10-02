@@ -1,0 +1,16 @@
+{% macro form(id,name,action,edit_action,datalists,content) %}
+    <form action="{{ action }}" id="{{ id }}" name="{{ name }}" class="dmx-form" ng-controller="registration_form_ctrl" ng-init='form_id="{{ id }}";form_action="{{ base_url(action) }}";form_name="{{ name }}";edit_action="{{ edit_action }}";setDatalists({{datalists|raw}});'>
+        {{ content|raw }}
+        {#<div class="row column">
+            <pre class="row">Form: {[{form|json}]}</pre>
+            <pre class="row" style="padding:.5rem;border: 1px solid yellow;">List: {{ 'list|json'|NG }}</pre>
+            <pre class="row" style="padding:.5rem;border: 1px solid yellow;">default_value: {{ 'default_value|json'|NG }}</pre>
+        </div>#}
+    </form>
+{% endmacro %}
+
+{% import _self as f %}
+
+{% if element_type == 'form' %}
+    {{ f.form(id,name,action,edit_action,datalists,content) }}
+{% endif %}

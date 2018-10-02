@@ -1,0 +1,27 @@
+{% extends 'sistema/theme/default/layout_sistema.twig' %}
+
+{% block styles %}
+    <link href="{{ base_url('assets/css/sistema/theme/default/dmx_form.css') }}" type="text/css" rel="stylesheet" charset="utf-8">
+    {% for key, link in sv_link %}
+        <link href="{{ link.href }}" type="{{ link.type }}" rel="{{ link.rel }}" charset="{{ link.charset }}">
+    {% endfor %}
+{% endblock %}
+{% block botoes %}
+    
+{% endblock %}
+{% block conteudo %}
+    {#{ module.create(app.vc.getMain()) }#}
+    {{ _data.getHTML()|raw }}
+    {#<pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ app.vc.getMain().form|json_encode() }}</pre>
+    <pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ _data.form.fields }}</pre>
+    <pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ _data.form.datasets }}</pre>
+    <pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ _data.form.firstIndex }}</pre>
+    <pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ _data.form.convert_type }}</pre>
+    <pre class="row" style="border: 1px solid yellow;padding: .5rem;white-space: pre-wrap;overflow-wrap: break-word;">{{ _data.form.lists }}</pre>#}
+    
+{% endblock %}
+{% block scripts %}
+    {% for key, script in sv_script %}
+        <script src="{{ script.src }}" type="{{ script.type }}"></script>
+    {% endfor %}
+{% endblock %}

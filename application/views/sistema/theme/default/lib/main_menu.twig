@@ -1,0 +1,38 @@
+{% macro main_menu(id,type,content) %}
+    {% if type == 'accordion' %}
+        <ul class="vertical menu" data-accordion-menu id="{{ id }}">{{ content|raw }}</ul>
+    {% else %}{# drilldown #}
+        <ul class="vertical menu" data-back-button="<li class='js-drilldown-back'><a>Voltar</a></li>" id="{{ id }}" data-drilldown>{{ content|raw }}</ul>
+    {% endif %}
+{% endmacro %}
+
+{% macro menu_link(id,title,url,icon,is_active) %}
+    <a href="{{ url }}" alt="{{ title }}" class="{{ is_active?'is-active':'' }}" id="{{ id }}">
+        <i class="fa {{ icon is not empty ? 'fa-' ~ icon ~ ' fa-lg': 'fa-circle fa-sm' }} fa-fw"></i> <span>{{ title }}</span>
+    </a>
+{% endmacro %}
+
+{% macro item_menu(id,title,url,icon,is_active) %}
+    {% import _self as this %}
+    <li>{{ this.menu_link(id,title,url,icon,is_active) }}</li>
+{% endmacro %}
+
+{% macro submenu(id,type,title,url,icon,content,is_active) %}
+    {% import _self as this %}
+    <li>
+        {{ this.menu_link(id,title,url,icon,is_active) }}
+        <ul class="vertical menu{{ type == 'accordion'?' nested':'' }}">
+            {{ content|raw }}
+        </ul>
+    </li>
+{% endmacro %}
+
+{% import _self as mb %}
+
+{% if element_type == 'main_menu' %}
+    {{ mb.main_menu(id,type,content) }}
+{% elseif element_type == 'mainmenu_sub' %}
+    {{ mb.submenu(id,type,title,url,icon,content,is_active) }}
+{% elseif element_type == 'mainmenu_item' %}
+    {{ mb.item_menu(id,title,url,icon,is_active) }}
+{% endif %}

@@ -1,0 +1,66 @@
+{% macro button_icon(icon) %}
+    {%- if icon is not empty -%}
+        <i class="dmx-button-icon fa fa-{{ icon }} fa-lg fa-fw"></i>
+    {%- endif -%}
+{% endmacro %}
+
+{% macro button_title(title,title_class,enclosed) %}
+    {%- if (enclosed or title_class is not empty) and title is not empty -%}
+        <span class="dmx-button-text {{ title_class }}">{{ title }}</span>
+    {%- else -%}
+        {{- title -}}
+    {%- endif -%}
+{% endmacro %}
+
+{% macro link_button_reverse(id,title,icon,class,attributes,title_class) %}
+    {% import _self as mb %}
+    {{ mb.link_button(id,title,icon,class ~ ' dmx-reverse',attributes,title_class) }}
+{% endmacro %}
+
+{% macro link_button(id,title,icon,class,attributes,title_class) %}
+    {% import _self as mb %}
+    <a class="dmx-button {{ class }}" {{ attributes|raw }}>
+        {{- mb.button_icon(icon) -}}
+        {{- mb.button_title(title,title_class,icon is not empty) -}}
+    </a>
+{% endmacro %}
+
+{% macro generic_button(id,title,icon,class,attributes,title_class,idfor) %}
+    {% import _self as mb %}
+    <label for="{{ idfor }}" class="dmx-button {{ class }}" id="{{id}}" {{ attributes|raw }}>
+        {{- mb.button_icon(icon) -}}
+        {{- mb.button_title(title,title_class,icon is not empty) -}}
+    </label>
+{% endmacro %}
+
+{% macro default_button(id,title,icon,class,attributes,title_class) %}
+    {% import _self as mb %}
+    <button type="button" class="dmx-button {{ class }}" id="{{id}}" {{ attributes|raw }}>
+        {{- mb.button_icon(icon) -}}
+        {{- mb.button_title(title,title_class,icon is not empty) -}}
+    </button>
+{% endmacro %}
+
+{% macro form_button(id,title,icon,class,attributes,title_class) %}
+    {% import _self as mb %}
+    {% set generic_button = '{id:"generic-'~id~'",title:"'~title~'",for:"'~id~'",icon:"'~icon~'"}' %}
+    {{ mb.default_button(id,title,icon,class,attributes~" ng-init='top_bar_buttons.push("~generic_button~");'",title_class) }}
+{% endmacro %}
+
+{% macro make(data) %}
+    {% include _self with data %}
+{% endmacro %}
+
+{% import _self as mb %}
+
+{% if element_type == 'button_link' %}
+    {{ mb.link_button(id,title,icon,class,attributes,title_class) }}
+{% elseif element_type == 'button_link_reverse' %}
+    {{ mb.link_button_reverse(id,title,icon,class,attributes,title_class) }}
+{% elseif element_type == 'button_generic' %}
+    {{ mb.generic_button(id,title,icon,class,attributes,title_class,for_button) }}
+{% elseif element_type starts with 'button' %}
+    {{ mb.default_button(id,title,icon,class,attributes,title_class) }}
+{% elseif element_type == 'form_button' %}
+    {{ mb.form_button(id,title,icon,class,attributes,title_class) }}
+{% endif %}

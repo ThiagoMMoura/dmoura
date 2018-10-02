@@ -1,28 +1,33 @@
-{% import "sistema/theme/default/macro/button.twig" as button %}
+{% import "sistema/theme/default/lib/button.twig" as button %}
 {% import "sistema/theme/default/macro/modal.twig" as modal %}
 {% import "sistema/theme/default/macro/field.twig" as field %}
+{% import "sistema/theme/default/macro/tab.twig" as tab %}
+{% import "sistema/theme/default/macro/component.twig" as component %}
+{% import "sistema/theme/default/macro/entity.twig" as entity %}
+{% import "sistema/theme/default/macro/module.twig" as module %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html ng-app="myApp">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="{{ base_url() }}">
         <link rel="stylesheet" href="{{ base_url('assets/framework/css/foundation.min.css') }}" />
         <link rel="stylesheet" href="{{ base_url('assets/framework/foundation-icons.css') }}" />
         <script src="{{ base_url('assets/framework/js/vendor/jquery.js') }}"></script>
         {% block head %}{% endblock %}
         <title>{% block titulo_pagina %}{% endblock %}</title>
     </head>
-    <body ng-app="myApp">
+    <body ng-controller="ctrl_body">
         {% block body %}
         {% endblock %}
         
         {% if ENVIRONMENT != 'production' %}
             {#{ this.load.view('sistema/debug_info_sistema') }#}
         {% endif %}
+        <script src="{{ base_url('assets/framework/js/vendor/what-input.js') }}"></script>
+        <script src="{{ base_url('assets/framework/js/vendor/foundation.min.js') }}"></script>
+        <script>$(document).foundation();</script>
+        {% block scripts_base %}{% endblock %}
     </body>
-    <script src="{{ base_url('assets/framework/js/vendor/what-input.js') }}"></script>
-    <script src="{{ base_url('assets/framework/js/vendor/foundation.min.js') }}"></script>
-    <script>$(document).foundation();</script>
-    {% block scripts_base %}{% endblock %}
 </html>

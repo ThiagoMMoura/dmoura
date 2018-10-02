@@ -1,0 +1,136 @@
+{#% block botoes %}
+    {% for k, b in sv_table.tag('buttongroup').tag('button') %}
+        <li>
+            <label for="{{ b.attr('id') }}">
+                {% if b.tag('icon') is not empty or b.attr('type') in ['novo','excluir','editar','favoritar','direcionar'] %}
+                    <i class="fa fa-
+                        {%- if b.tag('icon') is not empty %}
+                            {{- b.tag('icon') }}
+                        {%- elseif b.attr('type') == "editar" -%}
+                            edit
+                        {%- elseif b.attr('type') == "excluir" -%}
+                            trash
+                        {%- elseif b.attr('type') in ["novo"] -%}
+                            plus
+                        {%- elseif b.attr('type') == "favoritar" -%}
+                            star
+                        {%- elseif b.attr('type') == "direcionar" -%}
+                            share
+                        {% endif %}
+                    "></i>
+                {% endif %}
+                {{ b.tag('title') }}
+            </label>
+        </li>
+    {% endfor %}
+{% endblock %#}
+{#% if sv_table.tag('search') is not empty %}
+        {% set search = sv_table.tag('search') %}
+        <div class="row expanded" id="{{ search.attr('id') }}">
+            <div class="small-8 medium-4 column">
+                <div class="input-group">
+                    <input type="text" name="search_text" id="{{ search.tag('searchtext').attr('id') }}" class="input-group-field" placeholder="Pesquisar"
+                           onchange="search('{{ sv_table.attr('id') }}');">
+                    <div class="input-group-button">
+                        <button type="button" class="button" onclick="dmx.getTabela('{{ sv_table.attr('id') }}').requestQuery();"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="small-4 medium-3 column">
+                <select name="search_field" id="{{ search.tag('searchfield').attr('id') }}" onchange="search('{{ sv_table.attr('id') }}');">
+                    {% for k, option in search.tag('searchfield').tag('option') %}
+                        <option id="{{ option.attr('id') }}" 
+                                {% if option.attr('selected') %}
+                                    selected
+                                {% endif %}
+                                >{{ option.attr('value') }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="small-2 column">
+            </div>
+        </div>
+    {% endif %}
+    <div class="row expanded hide">
+        {% include 'sistema/theme/default/table/buttongroup.twig' with {'buttongroup':sv_table.tag('buttongroup')} %}
+    </div>#}
+
+{% macro table_head_col(id,title,order,class,attributes) %}
+    <th class="{#{ hcol.attr('type') == 'oculto'?'hide' }#}{{ class }}" id="{{ id }}" {{ attributes|raw }} style="{#{ hcol.tag('size')=='exato'?'min-width:1%':'max-width:' ~ hcol.tag('size') ~ '%' }#}" data-size="{#{ hcol.tag('size') }#}"
+        {#% if order is not empty %}
+            {% set direction = ['ASC','DESC'] %}
+            onclick="dmx.tabela.sort('{{ sv_table.attr('id') }}','{{ hcol.attr('id') }}',$(this).attr('data-sort-direction'));sortToggle('{{ sv_table.attr('id') }}',this);"
+            data-sort-direction="{{ direction[sv_table.attr('sortcol') == k?1:0] }}"
+        {% endif %#}  
+        >
+        {{ title }}
+        {#% if order is not empty %}
+            <i class="fa fa-sort
+               {%- if sv_table.attr('sortcol') == k -%}
+                    -down
+               {%- endif -%}
+               "></i>
+        {% endif %#}
+    </th>
+{% endmacro %}
+
+{% macro table_body_col(id,type,name,url,class,attributes) %}
+    <td class="{#{ hcol.attr('type') == 'oculto'?'hide' }#}{{ class }}" id="{{ id }}" {{ attributes|raw }}>
+        {% if type == 'link' %}
+            <a href="{{ base_url(url) }}{[{item.id}]}">{[{ item.{{ name }} }]}</a>
+        {% else %}
+            {[{ item.{{ name }} }]}
+        {% endif %}
+    </td>
+{% endmacro %}
+
+{% macro table_head(id,columns) %}
+    <thead>
+        <tr>
+            <th style="min-width: 1%;" data-size="exato">
+                <input type="checkbox" onclick="$('#{{ id }} input[name=selector]').prop('checked',$(this).prop('checked'));">
+            </th>
+            {{ columns|raw }}
+        </tr>
+    </thead>
+{% endmacro %}
+
+{% macro table_body(id,columns) %}
+    <tbody>
+        <tr class="row-even" ng-repeat='(key, item) in table_items'>
+            <td style="min-width: 1%">
+                <input type="checkbox" name="selector" value="{[{key}]}{#${{ sv_table.attr('selector') }}$#}">
+            </td>
+            {{ columns|raw }}
+        </tr>
+    </tbody>
+{% endmacro %}
+
+{% macro table(id,name,title,url,head,body,filter) %}
+    <div class="table-list" ng-controller="table_list_ctrl" ng-init="table_url = '{{ base_url(url) }}';getList();">
+        {{ filter|raw }}
+        <div class="row expanded column hide" data-msg-no-record="{{ id }}">
+            <div class="callout warning">
+                <h5>Nenhum registro encontrado</h5>
+            </div>
+        </div>
+        <table id="{{ id }}" class="dmx-table">
+            {{ head|raw }}
+            {{ body|raw }}
+        </table>
+    </div>
+{% endmacro %}
+
+{% import _self as tl %}
+
+{% if element_type == 'table' %}
+    {{ tl.table(id,name,title,url,head,body,filter) }}
+{% elseif element_type == 'table_head' %}
+    {{ tl.table_head(id,columns) }}
+{% elseif element_type == 'table_body' %}
+    {{ tl.table_body(id,columns) }}
+{% elseif element_type == 'table_head_col' %}
+    {{ tl.table_head_col(id,title,order,class,attributes) }}
+{% elseif element_type == 'table_body_col' %}
+    {{ tl.table_body_col(id,type,name,url,class,attributes) }}
+{% endif %}

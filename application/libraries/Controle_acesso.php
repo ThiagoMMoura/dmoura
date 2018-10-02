@@ -1,7 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+include 'sistema/support/CPPH.php';
 /**
- * Description of permissoes
+ * Description of central permitting processing
  *
  * @package	Application
  * @subpackage	Libraries
@@ -29,7 +31,7 @@ class Controle_acesso {
     /**
      * Retorna <b>TRUE</b> se o usuário estiver logado, <b>FALSE</b> caso contrário.
      * 
-     * @return boolean
+     * @return bool
      */
     public function logado() {
         return ($this->CI->session->has_userdata('logado') && $this->CI->session->logado);
@@ -41,7 +43,7 @@ class Controle_acesso {
      * 
      * @param string $id
      * @param string $tipo
-     * @return boolean
+     * @return bool
      */
     public function permissao($id,$tipo){
         if($id!=NULL){
@@ -62,8 +64,8 @@ class Controle_acesso {
      * Retorna <code>TRUE</code> caso o usuário possua permissão para a Área com
      * a <code>id</code> informada por parâmetro.
      * 
-     * @param type $id
-     * @return type
+     * @param string $id
+     * @return bool
      */
     public function area($id){
         return $this->permissao($id,'zone');
@@ -73,8 +75,8 @@ class Controle_acesso {
      * Retorna <code>TRUE</code> caso o usuário possua permissão para a Função com
      * a <code>id</code> informada por parâmetro.
      * 
-     * @param type $id
-     * @return type
+     * @param string $id
+     * @return bool
      */
     public function funcao($id){
         return $this->permissao($id,'func');
@@ -84,8 +86,8 @@ class Controle_acesso {
      * Retorna <code>TRUE</code> caso o usuário possua nível igual ou superior ao
      * informado por parâmetro.
      * 
-     * @param type $nivel
-     * @return type
+     * @param string $nivel
+     * @return bool
      */
     public function nivel($nivel){
         return $this->CI->session->nivel<=$nivel;

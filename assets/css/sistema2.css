@@ -474,7 +474,7 @@ html, *, h1, h2, h3, h4, h5, h6{
 /* Large and up */
 @media screen and (min-width: 64em) {
     .content-block{
-        padding-top: .9375rem;
+        /*padding-top: .9375rem;*/
     }
     .position-left.reveal-for-large ~ .off-canvas-content .loader-container{
         left: 250px;

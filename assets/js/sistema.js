@@ -47,7 +47,7 @@ var ativaLoadingContent = function(){
 var desativaLoadingContent = function(){
     return $('[data-loading="content"]').fadeOut('slow');
 };
-var app = angular.module('myApp', ['ngAnimate']);
+
 $(document).ready(function(){
     var fixContentHeight = function(){
         var h = $(window).height();

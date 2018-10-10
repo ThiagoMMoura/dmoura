@@ -47,8 +47,8 @@ class Table_list extends Element_container{
                 //return new Table_list_col_link($component, $parent, $key, $previousSiblingKey);
             case 'tl_col':
                 return new Table_list_col($component, $parent, $key, $previousSiblingKey);
-            //case 'tl_button':
-                //return new Table_list_button($component, $parent, $key, $previousSiblingKey);
+            case 'tl_button':
+                return new Table_list_button($component, $parent, $key, $previousSiblingKey);
             //case 'tl_selection':
                 //return new Table_list_selection($component, $parent, $key, $previousSiblingKey);
             case 'table_list':

@@ -109,15 +109,16 @@
     </div>
 {% endblock %}
 {% block scripts_base %}
+    <script src="{{ base_url('assets/plugin/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ base_url('assets/js/sistema.js') }}"></script>
     <script>
+        var app = angular.module('myApp', ['ngAnimate']);
         app.config(function ($compileProvider,$interpolateProvider,$locationProvider) {
             $compileProvider.debugInfoEnabled({{ ENVIRONMENT == 'production' ? 'false' : 'true' }});
             $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-            $locationProvider.html5Mode({enable: true,rewriteLinks: false});
+            $locationProvider.html5Mode({'enabled': true,'rewriteLinks': false});
         });
     </script>
-    <script src="{{ base_url('assets/plugin/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ base_url('assets/js/sistema/theme/default/master_angular.js') }}"></script>
     {% block scripts %}{% endblock %}
 {% endblock %}

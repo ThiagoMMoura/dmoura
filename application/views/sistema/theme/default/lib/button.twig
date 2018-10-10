@@ -41,7 +41,7 @@
     </button>
 {% endmacro %}
 
-{% macro form_button(id,title,icon,class,attributes,title_class) %}
+{% macro top_bar_button(id,title,icon,class,attributes,title_class) %}
     {% import _self as mb %}
     {% set generic_button = '{id:"generic-'~id~'",title:"'~title~'",for:"'~id~'",icon:"'~icon~'"}' %}
     {{ mb.default_button(id,title,icon,class,attributes~" ng-init='top_bar_buttons.push("~generic_button~");'",title_class) }}
@@ -61,6 +61,6 @@
     {{ mb.generic_button(id,title,icon,class,attributes,title_class,for_button) }}
 {% elseif element_type starts with 'button' %}
     {{ mb.default_button(id,title,icon,class,attributes,title_class) }}
-{% elseif element_type == 'form_button' %}
-    {{ mb.form_button(id,title,icon,class,attributes,title_class) }}
+{% elseif element_type == 'top_bar_button' %}
+    {{ mb.top_bar_button(id,title,icon,class,attributes,title_class) }}
 {% endif %}

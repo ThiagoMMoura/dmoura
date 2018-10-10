@@ -27,7 +27,31 @@ var isEmpty = function(value){
     return value === undefined || value === null || value === '';
 };
 
-app.controller('ctrl_body', function($scope,$filter,$window,$rootScope) {
+var completeURLData = function(url_edit,data){
+    var url_seg = url_edit.split("/");
+    var new_url = '';
+    var i;
+    console.log(url_edit,data);
+    for (i = 0; i < url_seg.length;i++) {
+        if (url_seg[i].slice(0,1) === "$") {
+            var value = data[url_seg[i].slice(1)]
+
+            if (value) {
+                new_url += value;
+            }
+        } else {
+            new_url += url_seg[i];
+        }
+
+        if (i < url_seg.length -1) {
+            new_url += "/";
+        }
+    }
+
+    return new_url;
+};
+
+app.controller('ctrl_body', function($scope,$location,$filter,$window,$rootScope) {
 
     $scope.$on('request', function(event,url,data,successCallback,errorCallback){
         event.stopPropagation();
@@ -39,6 +63,14 @@ app.controller('ctrl_body', function($scope,$filter,$window,$rootScope) {
             context: event.targetScope
         }).then(successCallback, errorCallback);
     });
+    
+    $scope.goToPage = function (url) {
+        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {
+            $window.location.href = url;
+        } else {
+            $window.location.href = $location.url(url).absUrl();
+        }
+    };
 });
 
 app.controller('content_ctrl', function($scope, $timeout){
@@ -63,7 +95,7 @@ app.controller('content_ctrl', function($scope, $timeout){
     
     $timeout(function(){
         if (show_load_page && count_on_loading === 0){
-            console.log('finalizado a força');
+            console.info('finalizado a força');
             $scope.finishLoadPage();
         }
     },1000);
@@ -86,6 +118,7 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
     $scope.list = {};
     $scope.form = {};
     $scope.error = {};
+    $scope.current_url = '';
     
     $scope.requestAssociativeOptionsList = function(name,url,assign={}){
         Semaphoro.Up('create-ctrl');
@@ -100,7 +133,7 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
             this.list[name] = angular.extend(assign,data.form);
             
             if(Semaphoro.Down('create-ctrl')){
-                console.log('Fim do carregamento de listas.');
+                console.info('Fim do carregamento de listas.');
                 
                 this.$broadcast('initialize');
                 this.$apply();
@@ -117,6 +150,8 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
         
         var successCallback = function(data){
             this.form = angular.extend(this.form,data.form);
+            action = 'update'; console.info('Action to UPDATE');
+            this.$broadcast('update_data');
             
             if (Semaphoro.Down('form_get_item')) {
                 this.finishLoadPage();
@@ -160,22 +195,23 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
         }
     };
     
-    var getDataFormEdit = function(){
+    var getDataFormEdit = function(path,url_edit){
+        console.log(url_edit,path);
         if ($scope.edit_action) {
             var i;
             var data = {};
             var seg = [];
             var seg_edit = [];
-            var path = angular.copy($location.path());
-            var url_edit = $scope.edit_action;
+            //var path = angular.copy($location.path());
+            //var url_edit = $scope.edit_action;
             
             if (path.slice(-1)==='/') {
                 path = path.slice(0,-1);
             }
             seg = path.slice(1).split("/");
             
-            if ($scope.edit_action.slice(-1)==="/") {
-                url_edit = $scope.edit_action.slice(-1);
+            if (url_edit.slice(-1)==="/") {
+                url_edit = url_edit.slice(-1);
             }
             seg_edit = url_edit.split("/");
             
@@ -198,11 +234,13 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
     };
     
     $scope.$on('initialize',function(event){
+        console.info('initialize form INI');
         if (!initialized) {
-            console.log('initilize controller form');
+            console.info('initilize controller form');
+            console.group();
             $scope.formReset();
-            //console.log($location.absUrl(),' - ',$scope.edit_action,' - ',$location.path());
-            var data = getDataFormEdit();
+            console.log($scope.page_title,' | ',$location.host(),' | ',$location.absUrl(),' - Edit: ',$scope.edit_action,' - Path: ',$location.path());
+            var data = getDataFormEdit($location.path(),$scope.edit_action);
             console.log('DATA',data);
             if (data) {
                 Semaphoro.Create('form_get_item');
@@ -218,10 +256,12 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
             }
             
             initialized = true;
+            console.groupEnd();
         }
     });
         
     $scope.formReset = function(){
+        console.info('formReset INI');
         action = 'insert';
         $scope.form = angular.copy($scope.default_value);
         $scope.error = {};
@@ -247,7 +287,12 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
         var successCallback = function(data) {
             action = 'update';
             this.error = {};
+            this.form = angular.extend(this.form,data.form);
+            $location.url(completeURLData(this.edit_action,data.form)).replace();
+            this.$apply();
+            reInitEqualizer('#'+this.form_id+' [data-equalizer]');
             console.log(data);
+            
             if(bShowMessage){
                 showMessage(data.message);
             }
@@ -257,15 +302,18 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
             
             this.error = data.form;console.log(data.form);
             this.$apply();
-            reInitEqualizer('#'+$scope.form_id+' [data-equalizer]');
+            reInitEqualizer('#'+this.form_id+' [data-equalizer]');
             showMessage(data.message);
         };
         $scope.$emit('request',$scope.form_action,{action:action,form:getForm()},successCallback, errorCallback );
     };
 
     $scope.newForm = function(){
+        if ($scope.edit_action) {
+            $location.url($scope.edit_action.split('$')[0]);
+        }
         $scope.formReset();
-        console.log("Novo.");
+        console.info("Novo.");
     };
 
     $scope.saveAndLoadPage = function(url){
@@ -288,7 +336,7 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
     };
 
     $scope.loadPage = function(url){
-        console.log("Fechado.");
+        console.info("Fechado.");
         $window.location.href =  url;
     };
 
@@ -384,7 +432,7 @@ app.controller('field_mult_select_list_ctrl', function($scope,$filter) {
             if($scope.field_data[i]){
                 new_data.push($scope.field_data[i]);
             }
-        }
+        }console.log($scope.field_data);
         
         field_data_default = angular.copy($scope.field_data);
         $scope.setFieldData($scope.field_name,new_data);
@@ -393,6 +441,21 @@ app.controller('field_mult_select_list_ctrl', function($scope,$filter) {
     $scope.actionMultSelectClose = function(){
         $scope.field_data = angular.copy(field_data_default);
     };
+    
+    $scope.$on('update_data', function () {
+        var aux_data = $scope.getFieldData($scope.field_name);
+        var i;
+        
+        field_data_default = {};
+        for (i in aux_data) {
+            var key = $.inArray(aux_data[i], Object.keys($scope.list[$scope.field_name]));
+            if (key > -1) {
+                field_data_default[key] = aux_data[i];
+            }
+        }
+        
+        $scope.field_data = angular.copy(field_data_default);
+    });
 });
 
 /**
@@ -448,12 +511,12 @@ app.controller('field_dataset_add_ctrl', function($scope,$filter,$window,$rootSc
     $scope.modalEdit = function(namemodal,id){
         $scope.dataset_index = id;
         $scope.field_data_local = angular.copy($scope.form[namemodal][id]);
-        console.log('ModalEdit');
+        console.info('ModalEdit');
         console.log(namemodal+' index: '+$scope.dataset_index);
     };
 
     $scope.modalRemove = function(namemodal,id){
         $scope.form[namemodal].splice(id,1);
-        console.log('ModalRemove');
+        console.info('ModalRemove');
     };
 });

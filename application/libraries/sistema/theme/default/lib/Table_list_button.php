@@ -2,13 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Form_button
+ * Description of Table_list_button
  *
  * @package	Application
  * @subpackage	Libraries
  * @author Thiago Moura
  */
-class Form_button extends Top_bar_button{
+class Table_list_button extends Top_bar_button{
     
     /**
      * Função de inicialização da classe.
@@ -19,17 +19,17 @@ class Form_button extends Top_bar_button{
         $this->setAttr('hide',TRUE);
         
         switch($this->type){
-            case 'save':
+            /*case 'save':
                 $this->addNGClickEvent('save();');
                 $this->getIcon() || $this->setIcon('save');
                 $this->getTitle() || $this->setTitle('Salvar');
-            break;
+            break;*/
             case 'new':
-                $this->addNGClickEvent('newForm();');
+                $this->addNGClickEvent("goToPage('" . $this->getAttr('url') . "');");
                 $this->getIcon() || $this->setIcon('plus');
                 $this->getTitle() || $this->setTitle('Novo');
             break;
-            case 'save_close':
+            /*case 'save_close':
                 $this->addNGClickEvent("saveAndLoadPage('" . base_url($this->getAttr('url')) . "');");
                 $this->getIcon() || $this->setIcon('save');
                 $this->getTitle() || $this->setTitle('Salvar & Fechar');
@@ -38,7 +38,7 @@ class Form_button extends Top_bar_button{
                 $this->addNGClickEvent("loadPage('" . base_url($this->getAttr('url'))  . "');");
                 $this->getIcon() || $this->setIcon('times');
                 $this->getTitle() || $this->setTitle('Fechar');
-            break;
+            break;*/
         }
 
         return parent::initialize();

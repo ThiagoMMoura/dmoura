@@ -28,9 +28,7 @@ class Table_list_col extends Element{
     public function __construct(Component &$component, Container &$parent = NULL, $key = NULL, $previousSiblingKey = NULL){
         parent::__construct($component, $parent, $key, $previousSiblingKey);
         
-        $this->type = $this->getAttr('data-type') ?? 'text';
-        //$this->sizeCount = ['small'=>MAX_RESPONSIVE_SIZE,'medium'=>MAX_RESPONSIVE_SIZE,'large'=>MAX_RESPONSIVE_SIZE];
-        //$this->setEqualizer(TRUE);
+        $this->type = str_replace('tl_col_', '', $this->getElementName());
     }
 
     /**
@@ -42,81 +40,6 @@ class Table_list_col extends Element{
         //$this->applyFieldSettings();
 
         return parent::initialize();
-    }
-
-    /**
-     * Aplica as configurações do campo.
-     * 
-     * @return void
-     */
-    public function applyFieldSettings(){
-        //log_message('DEBUG', 'FIELD hasPreviousSibling: ' . ($this->hasPreviousSibling()?1:0));
-        if($this->hasPreviousSibling() && $this->getPreviousSibling() instanceof Field){
-            $this->sizeCount = $this->getPreviousSibling()->sizeCount;
-        }
-        
-        $this->applySizeClass()
-                ->applyLeftBorderClass()
-                ->applyDisabledClass();
-
-        //$this->sizeCount = array_merge($this->sizeCount, $this->getSizes());
-    }
-
-    /**
-     * Aplica classe do tamanho das colunas responsivas do elemento.
-     * 
-     * @return static
-     */
-    protected function applySizeClass(){
-        foreach($this->getSizes() as $name => $size){
-            $this->addClass($name . '-' . $size);
-        }
-
-        $this->addClass('column');
-
-        return $this;
-    }
-
-    /**
-     * Aplica classe da borda esquerda no campo se necessário e retorna o objeto Field.
-     * 
-     * @return static
-     */
-    protected function applyLeftBorderClass(){
-        foreach($this->sizeCount as $size_name => $old_size){
-            $field_size = $this->getSize($size_name);
-            //log_message('DEBUG','SIZE ' . $this->getName() . " $size_name: $field_size | OLD: $old_size");
-            if(($field_size + $old_size) <= MAX_RESPONSIVE_SIZE){
-                $this->addClass('border-left-' . $size_name);
-                $field_size += $old_size;
-            }
-
-            $this->sizeCount[$size_name] = $field_size;
-        }
-        //log_message('DEBUG','COUNT ' . $this->getName() . ': ' . json_encode($this->sizeCount) . ' | CLASS: ' . $this->getAttr('class'));
-        return $this;
-    }
-    
-    /**
-     * Aplica classe disabled se necessário.
-     *
-     * @return static
-     */
-    protected function applyDisabledClass(){
-        if ($this->hasDisabled()){
-            $this->addClass('disabled');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Retorna TRUE caso o campo esteja desativado, caso contrário retorna FALSE.
-     *
-     * @return bool
-     */
-    public function hasDisabled(){
-        return (bool) $this->getAttr('disabled');
     }
 
     /**
@@ -149,24 +72,6 @@ class Table_list_col extends Element{
     
     public function getOrder() {
         return $this->isOrdered() ? ($this->getAttr('order') ?? 'ASC') : NULL;
-    }
-
-    /**
-     * Retorna o atributo size do elemento.
-     *
-     * @return mixed
-     */
-    public function getSize($size_name){
-        return $this->getSizes()[$size_name] ?? MAX_RESPONSIVE_SIZE;
-    }
-
-    /**
-     * Retorna um array com os size do elemento.
-     *
-     * @return array
-     */
-    public function getSizes(){
-        return (array) $this->getAttr('size');
     }
 
     public function getHeadClass(){

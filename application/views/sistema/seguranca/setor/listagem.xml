@@ -1,58 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <table id="tabela-setor"
-           name="setor"
-           selector="id"
-           url="sistema/seguranca/setor" 
-           model="setor_model"
-           sortcol="0"
-    >
-        <title>Consulta Setor</title>
-        <search>
-            <searchtext></searchtext>
-            <searchfield>
-                <option id="titulo">Titulo</option>
-                <option id="descricao">Descrição</option>
-            </searchfield>
-        </search>
-        <head>
-            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
-                <title>Código</title>
-                <select>id</select>
-                <size>exato</size>
-            </hcol>
-            <hcol id="titulo" name="titulo" type="alfanumerico" orderby="titulo {$direction$}">
-                <title>Titulo</title>
-                <select>titulo</select>
-                <size>40</size>
-            </hcol>
-            <hcol id="descricao" name="descricao" type="alfanumerico">
-                <title>Descrição</title>
-                <select>descricao</select>
-                <size>60</size>
-            </hcol>
-        </head>
-        <body>
-            <bcol type="link">
-                <url>sistema/seguranca/setor/cadastro/{$id$}</url>
-                <content>{$id$}</content>
-            </bcol>
-            <bcol type="link">
-                <url>sistema/seguranca/setor/cadastro/{$id$}</url>
-                <content>{$titulo$}</content>
-            </bcol>
-            <bcol type="texto">
-                <content>{$descricao$}</content>
-            </bcol>
-        </body>
-        <buttongroup>
-            <button type="novo" id="novo">
-                <title>Novo</title>
-                <url>sistema/seguranca/setor/cadastro</url>
-            </button>
-            <button type="excluir" id="excluir">
-                <title>Excluir</title>
-            </button>
-        </buttongroup>
-    </table>
+    <main_content>
+        <table_list name="tabela-setor" url="sistema/seguranca/setor" title="Consulta Setor">
+            <tl_filter>
+                <field_text id="setor" name="setor" title="Setor"></field_text>
+            </tl_filter>
+            <tl_row>
+                <tl_col_link id="id" name="id" title="Código" order="ASC" size='{small:min}' url="sistema/seguranca/setor/cadastro/{[{id}]}"></tl_col_link>
+                <tl_col id="titulo" name="titulo" title="Titulo" data-type="text"></tl_col>
+                <tl_col id="descricao" name="descricao" title="Descrição" data-type="text"></tl_col>
+            </tl_row>
+            <tl_button type="new" id="novo" url="sistema/seguranca/setor/cadastro"></tl_button>
+            <head>
+                <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
+                    <title>Código</title>
+                    <select>id</select>
+                    <size>exato</size>
+                </hcol>
+                <hcol id="titulo" name="titulo" type="alfanumerico" orderby="titulo {$direction$}">
+                    <title>Titulo</title>
+                    <select>titulo</select>
+                    <size>40</size>
+                </hcol>
+                <hcol id="descricao" name="descricao" type="alfanumerico">
+                    <title>Descrição</title>
+                    <select>descricao</select>
+                    <size>60</size>
+                </hcol>
+            </head>
+            <body>
+                <bcol type="link">
+                    <url>sistema/seguranca/setor/cadastro/{$id$}</url>
+                    <content>{$id$}</content>
+                </bcol>
+                <bcol type="link">
+                    <url>sistema/seguranca/setor/cadastro/{$id$}</url>
+                    <content>{$titulo$}</content>
+                </bcol>
+                <bcol type="texto">
+                    <content>{$descricao$}</content>
+                </bcol>
+            </body>
+            <buttongroup>
+                <button type="novo" id="novo">
+                    <title>Novo</title>
+                    <url>sistema/seguranca/setor/cadastro</url>
+                </button>
+                <button type="excluir" id="excluir">
+                    <title>Excluir</title>
+                </button>
+            </buttongroup>
+        </table_list>
+    </main_content>
 </root>

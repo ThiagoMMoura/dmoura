@@ -12,9 +12,12 @@ class Estado extends MY_Controller{
     }
     
     protected function _list($data_form){
-        $this->load->model('estado_model');
-        $form = $this->estado_model->obter_uf_estado();
-        
+        //$this->load->model('estado_model');
+        $form = []; //$this->estado_model->obter_uf_estado();
+        $estados = $this->doctrine->em->getRepository('Entity\Estado')->findAll();
+        foreach($estados as $uf){
+            $form[$uf->getId()] = $uf->getName();
+        }
         $json = array(
             'action' => $this->_action,
             'message' => array(

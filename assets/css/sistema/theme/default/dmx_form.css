@@ -236,11 +236,12 @@ li.dmx-item-box, li.dmx-add-button-box{
     margin: 10vh auto;
     background-color: white;
     border-color: var(--main-color-125);
+    height: 80vh;
 }
 .dmx-modal-content{
     width: 100%;
     overflow: auto;
-    max-height: calc(100vh - 46px);
+    max-height: calc(100% - 45px);
 }
 .dmx-select-list{
     margin: 0px;

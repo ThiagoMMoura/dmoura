@@ -1,0 +1,31 @@
+{% macro create(c) %}
+    {% import "sistema/theme/default/macro/button.twig" as button %}
+    {% import "sistema/theme/default/macro/modal.twig" as modal %}
+    {% import "sistema/theme/default/macro/field.twig" as field %}
+    {% import "sistema/theme/default/macro/tab.twig" as tab %}
+    {% import _self as cp %}
+
+    {% if c.name starts with 'modal' %}
+        {{ modal.create(c) }}
+    {% elseif c.name starts with 'button' %}
+        {{ button.create(c) }}
+    {% elseif c.name starts with 'field' %}
+        {{ field.create(c) }}
+    {% elseif c.name starts with 'tab' %}
+        {{ tab.create(c) }}
+    {% else %}
+        {{ cp.default(c) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro default(c) %}
+    {% import _self as cp %}
+    <div class="row column">
+        <h3>{{ c.attr.title }} <small>{{ c.name }}</small></h3>
+        <div id="{{ c.id }}">
+            {% for child in c.childs %}
+                {{ cp.create(child) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

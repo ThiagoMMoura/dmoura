@@ -1,0 +1,77 @@
+{% macro create(c) %}
+    {% import _self as tb %}
+    {% if c.name in ['tab_main','tabs','tab'] %}
+        {{ tb.tab_main(c) }}
+    {% elseif c.name == 'tab_panel' %}
+        {{ tb.tab_panel(c) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro tab_main(c) %}
+    {% import "sistema/theme/default/macro/component.twig" as component %}
+    <ul class="tabs" data-tabs id="{{ c.attr.id }}">
+        {% for comp in c.childs %}
+            {% if comp.name == 'tab_panel' %}
+                <li class="tabs-title {{ comp.attr['is-active']?'is-active' }}"><a href="#{{ comp.attr.id }}" aria-selected="true" onclick="reInitEqualizer('#{{comp.attr.id}}');">{{ comp.attr.title|upper }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <div class="tabs-content" data-tabs-content="{{ c.attr.id }}">
+        {% for comp in c.childs %}
+            {{ component.create(comp) }}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro tab_panel(c) %}
+    {% import "sistema/theme/default/macro/component.twig" as component %}
+    {% import _self as tb %}
+    <div class="tabs-panel {{ c.attr['is-active']?'is-active' }}" id="{{ c.attr.id }}" data-equalizer data-equalize-on="small">
+        {%- set count = {'small':12,'medium':12,'large':12} -%}
+
+        {%- for comp in c.childs -%}
+            {#%- if comp.attr.size is not empty -%}
+                {%- set size = comp.attr.size|cast_to_array -%}
+                {{- comp.setAttr('size',size|merge({'count':count})) -}}
+                {{- comp.setAttr('class',comp.attr.class~' '~tb.get_left_border(comp)) -}}
+                {{- component.create(comp) }}
+                {%- set count = comp.attr.size.count -%}
+            {%- else -%#}
+                {{ component.create(comp) }}
+            {#%- endif -%#}
+        {%- endfor -%}
+    </div>
+{% endmacro %}
+
+{% macro get_left_border(comp) %}
+    {%- set size = comp.attr.size -%}
+    {%- set count = size.count -%}
+
+    {%- set mc = count.medium -%}
+    {%- if size.small is not empty -%}
+        {%- if (size.small + count.small <= 12) -%}
+            {%- set count = count|merge({'small':(size.small + count.small)}) -%}
+            border-left-small{{ ' ' }}
+        {%- else -%}
+            {%- set count = count|merge({'small':size.small}) -%}
+        {%- endif -%}
+    {%- endif -%}
+    {%- if size.medium is not empty -%}
+        {%- if (size.medium + count.medium <= 12) -%}
+            {%- set count = count|merge({'medium':(size.medium + count.medium)}) -%}
+            border-left-medium{{ ' ' }}
+        {%- else -%}
+            {%- set count = count|merge({'medium':size.medium}) -%}
+        {%- endif -%}
+    {%- endif -%}
+    {%- if size.large is not empty -%}
+        {%- if (size.large + count.large <= 12) -%}
+            {%- set count = count|merge({'large':(size.large + count.large)}) -%}
+            border-left-large{{ ' ' }}
+        {%- else -%}
+            {%- set count = count|merge({'large':size.large}) -%}
+        {%- endif -%}
+    {%- endif -%}
+    {%- set size = size|merge({'count':count}) -%}
+    {{- comp.setAttr('size',size) -}}
+{% endmacro %}

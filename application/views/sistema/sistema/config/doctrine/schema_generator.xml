@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <main_content>
+        <form action="sistema/sistema/config/doctrine_sys" name="doctrine-shcema-generator">
+            <datalist name="entities">
+                <item value-id="Banco">Banco</item>
+                <item value-id="User">User</item>
+                <item value-id="Pessoa">Pessoa</item>
+                <item value-id="PessoaJuridica">PessoaJuridica</item>
+                <item value-id="RefBancaria">Referência Bancaria</item>
+                <item value-id="RefComercial">Referência Comercial</item>
+                <item value-id="Site">Site</item>
+            </datalist>
+            <tab>
+                <tab_panel title="Gerador" id="cadastro" is-active="TRUE">
+                    <field_mult_select_list name="entities" id="entities" title="Entidades"></field_mult_select_list>
+                </tab_panel>
+            </tab>
+            <form_button type="save" id="salvar" title="Gerar"></form_button>
+            <!--form_button type="save_close" id="salvar-fechar" url="sistema/sistema/usuario/consulta"></form_button-->
+        </form>
+    </main_content>
+</root>

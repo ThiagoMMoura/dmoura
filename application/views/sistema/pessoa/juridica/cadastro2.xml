@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <main_content>
+        <form action="sistema/ferramentas/teste" method="POST" name="pessoa">
+            <datalist name="genero">
+                <item value-id="masculino">Masculino</item>
+                <item value-id="feminino">Feminino</item>
+            </datalist>
+            <datalist name="tipo_endereco">
+                <item value-id="residencial">Residencial</item>
+                <item value-id="comercial">Comercial</item>
+            </datalist>
+            <datalist name="operadora_telefone" url="sistema/contato/telefone/operadora"></datalist>
+            <datalist name="tipo_telefone" url="sistema/contato/telefone/tipo"></datalist>
+            <datalist name="uf" url="sistema/endereco/estado"></datalist>
+            <tab>
+                <tab_panel title="Cadastro" id="cadastro" is-active="1">
+                    <field_text name="id" title="Código" id="id" size='{"medium":2,"large":2}' disabled="TRUE"></field_text>
+                    <field_text name="cpf" title="CPF" id="cpf" size='{"medium":4,"large":4}' required="TRUE"></field_text>
+                    <field_text name="apelido" title="Apelido" id="apelido" size='{"medium":6,"large":6}'></field_text>
+                    <field_text name="nome" title="Nome" id="nome" size='{"large":9}' required="TRUE"></field_text>
+                    <field_select_list name="genero" title="Gênero" value="masculino" size='{"medium":6,"large":3}'></field_select_list>
+                    <field_date name="nascimento" title="Nascimento" size='{"medium":6,"large":4}'></field_date>
+                    <field_text name="nacionalidade" title="Nacionalidade" id="nacionalidade" size='{"medium":6,"large":4}'></field_text>
+                    <field_text name="naturalidade" title="Naturalidade" id="naturalidade" size='{"medium":6,"large":4}'></field_text>
+                    <field_text name="estado_civil" title="Estado Cívil" id="estado_civil" size='{"medium":4,"large":4}'></field_text>
+                    <field_text name="cojuge" title="Conjuge" id="cojuge" size='{"medium":8,"large":8}'></field_text>
+                </tab_panel>
+                <tab_panel title="Endereços" id="aba_enderecos">
+                    <!--field_section title="Endereços" id="secenderecos"></field_section-->
+                    <field_dataset_add name="enderecos" title="Endereços" id="enderecos" labels='[{"field":"tipo","list":"tipo_endereco"},{"prefix":", Rua/Av ","field":"logradouro"},{"prefix":", ","field":"numero"},{"prefix":", ","field":"bairro"},{"prefix":", ","field":"municipio"},{"prefix":" - ","field":"uf"},{"prefix":", ","field":"cep","suffix":"."}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_select_list name="tipo" title="Tipo" id="tipo" list="tipo_endereco" value="residencial"></field_select_list>
+                        <field_text name="cep" title="CEP" id="cep"></field_text>
+                        <field_select_list name="uf" title="Estado" id="uf" value=":first"></field_select_list>
+                        <field_text name="municipio" title="Municipio" id="municipio"></field_text>
+                        <field_text name="bairro" title="Bairro" id="bairro"></field_text>
+                        <field_text name="logradouro" title="Rua" id="logradouro"></field_text>
+                        <field_text name="numero" title="Número" id="numero"></field_text>
+                        <field_hidden name="complemento" title="Complemento" id="complemento"></field_hidden>
+                        <field_text name="complemento2" title="Complemento" id="complemento2"></field_text>
+                    </field_dataset_add>
+                </tab_panel>
+                <tab_panel title="Contato" id="contato">
+                    <field_dataset_add name="emails" title="Emails" id="emails" labels='[{"field":"email"},{"prefix":" - ","field":"descricao","suffix":"."}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="email" title="Email" id="email"></field_text>
+                        <field_text name="descricao" title="Descrição" id="descricao"></field_text>
+                    </field_dataset_add>
+                    <field_dataset_add name="telefones" title="Telefones" id="telefones" labels='[{"field":"telefone"},{"prefix":" - ","field":"idoperadora","list":"operadora_telefone"},{"prefix":" - ","field":"idtipo","suffix":".","list":"tipo_telefone"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="telefone" title="Telefone" id="telefone"></field_text>
+                        <field_select_list name="idoperadora" title="Operadora" list="operadora_telefone"></field_select_list>
+                        <field_select_list name="idtipo" title="Tipo" list="tipo_telefone"></field_select_list>
+                    </field_dataset_add>
+                    <field_dataset_add name="contato_cobranca" title="Contatos para Cobrança" id="contato-cobranca" labels='[{"field":"nome"},{"prefix":", ","field":"parentesco"},{"prefix":" - Tel.:","field":"telefone","suffix":"."}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="nome" title="Nome" id="nome"></field_text>
+                        <field_text name="parentesco" title="Parentesco" id="parentesco"></field_text>
+                        <field_text name="telefone" title="Telefone" id="telefone"></field_text>
+                        <field_select_list name="idoperadora" title="Operadora" list="operadora_telefone"></field_select_list>
+                        <field_text name="cep" title="CEP" id="cep"></field_text>
+                        <field_select_list name="uf" title="Estado" id="uf" value=":first"></field_select_list>
+                        <field_text name="municipio" title="Municipio" id="municipio"></field_text>
+                        <field_text name="bairro" title="Bairro" id="bairro"></field_text>
+                        <field_text name="logradouro" title="Rua" id="logradouro"></field_text>
+                        <field_text name="numero" title="Número" id="numero"></field_text>
+                        <field_hidden name="complemento" title="Complemento" id="complemento"></field_hidden>
+                        <field_text name="complemento2" title="Complemento" id="complemento2"></field_text>
+                    </field_dataset_add>
+                </tab_panel>
+                <tab_panel title="Dados Empresa" id="empresa_contato">
+                    <field_text name="cep_empresa" title="CEP" id="cep_empresa"></field_text>
+                    <field_select_list name="uf_empresa" title="Estado" id="uf_empresa" list="uf" value=":first"></field_select_list>
+                </tab_panel>
+            </tab>
+            <form_button type="save" id="salvar"></form_button>
+            <form_button type="new" id="novo"></form_button>
+            <form_button type="save_close" id="salvar-fechar" url="sistema/pessoa/fisica/consulta"></form_button>
+            <form_button type="close" id="fechar" url="sistema/pessoa/fisica/consulta"></form_button>
+        </form>
+        <script src="assets/css/theme/default/dmx.css"></script>
+    </main_content>
+</root>
+
+

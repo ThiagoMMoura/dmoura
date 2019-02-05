@@ -49,8 +49,8 @@ class Controle_acesso {
         if($id!=NULL){
             $this->CI->load->model('permissao_model');
             $select = [
-                'where' => ['idpermissao' => $id,'a.iduser' => $this->CI->session->userdata('id'),'acesso'=>TRUE,'tipo'=>$tipo],
-                'join' => ['alocado a','a.idsetor = permissao.idsetor']
+                'where' => ['idpermissao' => $id,'a.user_id' => $this->CI->session->userdata('id'),'acesso'=>TRUE,'tipo'=>$tipo],
+                'join' => ['user_alocado_setor a','a.setor_id = permissao.idsetor']
             ];
             if($this->CI->permissao_model->selecionar($select)){
                 return $this->CI->permissao_model->num_registros() > 0;

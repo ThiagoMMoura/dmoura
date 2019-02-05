@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <main_content>
+        <form action="sistema/pessoa/juridica" method="POST" name="pessoa">
+            <datalist name="tipo_endereco">
+                <item value-id="residencial">Residencial</item>
+                <item value-id="comercial">Comercial</item>
+            </datalist>
+            <datalist name="operadora_telefone" url="sistema/contato/telefone/operadora"></datalist>
+            <datalist name="tipo_telefone" url="sistema/contato/telefone/tipo"></datalist>
+            <datalist name="uf" url="sistema/endereco/estado"></datalist>
+            <datalist name="banco" url="sistema/endereco/estado"></datalist>
+            <tab>
+                <tab_panel title="Cadastro" id="cadastro" is-active="1">
+                    <field_text name="id" title="Código" id="id" size='{"medium":2,"large":2}' disabled="TRUE"></field_text>
+                    <field_text name="cnpj" title="CNPJ" id="cnpj" size='{"medium":5,"large":5}' required="TRUE"></field_text>
+                    <field_text name="inscricao_estadual" title="Inscrição Estadual" size='{"medium":5,"large":5}'></field_text>
+                    <field_text name="apelido" title="Nome Fantasia" id="apelido" size='{"medium":6,"large":6}'></field_text>
+                    <field_text name="nome" title="Razão Social" id="nome" size='{"medium":6,"large":6}' required="TRUE"></field_text>
+                    <field_dataset_add name="autorizado" title="Autorizado a retirar" id="autorizado" labels='[{"field":"nome"},{"prefix":" - ","field":"descricao"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="nome" title="Nome" id="nome"></field_text>
+                        <field_text name="descricao" title="Descrição" id="descricao"></field_text>
+                    </field_dataset_add>
+                </tab_panel>
+                <tab_panel title="Endereços" id="aba_enderecos">
+                    <field_dataset_add name="enderecos" title="Endereços" id="enderecos" labels='[{"field":"tipo","list":"tipo_endereco"},{"prefix":", Rua/Av ","field":"logradouro"},{"prefix":", ","field":"numero"},{"prefix":", ","field":"bairro"},{"prefix":", ","field":"municipio"},{"prefix":" - ","field":"uf"},{"prefix":", ","field":"cep","suffix":"."}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_select_list name="tipo" title="Tipo" id="tipo" list="tipo_endereco" value="comercial"></field_select_list>
+                        <field_text name="cep" title="CEP" id="cep"></field_text>
+                        <field_select_list name="uf" title="Estado" id="uf" value=":first"></field_select_list>
+                        <field_text name="municipio" title="Municipio" id="municipio"></field_text>
+                        <field_text name="bairro" title="Bairro" id="bairro"></field_text>
+                        <field_text name="logradouro" title="Rua" id="logradouro"></field_text>
+                        <field_text name="numero" title="Número" id="numero"></field_text>
+                        <field_hidden name="complemento" title="Complemento" id="complemento"></field_hidden>
+                        <field_text name="complemento2" title="Complemento" id="complemento2"></field_text>
+                    </field_dataset_add>
+                </tab_panel>
+                <tab_panel title="Contato" id="contato">
+                    <field_dataset_add name="telefones" title="Telefones" id="telefones" labels='[{"field":"telefone"},{"prefix":" - ","field":"idoperadora","list":"operadora_telefone"},{"prefix":" - ","field":"idtipo","suffix":".","list":"tipo_telefone"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="telefone" title="Telefone" id="telefone"></field_text>
+                        <field_select_list name="idoperadora" title="Operadora" list="operadora_telefone"></field_select_list>
+                        <field_select_list name="idtipo" title="Tipo" list="tipo_telefone"></field_select_list>
+                    </field_dataset_add>
+                    <field_dataset_add name="emails" title="Emails" id="emails" labels='[{"field":"email"},{"prefix":" - ","field":"descricao","suffix":"."}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="email" title="Email" id="email"></field_text>
+                        <field_text name="descricao" title="Descrição" id="descricao"></field_text>
+                    </field_dataset_add>
+                    <field_dataset_add name="web" title="Redes Sociais" id="web" labels='[{"field":"url"},{"prefix":" - ","field":"site"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="url" title="Link" id="url"></field_text>
+                        <field_select_list name="site" title="Rede Social" id="site" list="redes_sociais"></field_select_list>
+                    </field_dataset_add>
+                    <field_dataset_add name="referencia_comercial" title="Referência Comercial" id="referencia-comercial" labels='[{"field":"razao"},{"prefix":" -  ","field":"cnpj"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_text name="razao" title="Razão Social" id="razao"></field_text>
+                        <field_text name="cnpj" title="CNPJ" id="cnpj"></field_text>
+                        <field_text name="telefone1" title="Telefone 1" id="telefone1"></field_text>
+                        <field_select_list name="idoperadora1" title="Operadora 1" list="operadora_telefone"></field_select_list>
+                        <field_text name="telefone2" title="Telefone 2" id="telefone2"></field_text>
+                        <field_select_list name="idoperadora2" title="Operadora 2" list="operadora_telefone"></field_select_list>
+                        <field_text name="telefone3" title="Telefone 3" id="telefone3"></field_text>
+                        <field_select_list name="idoperadora3" title="Operadora 3" list="operadora_telefone"></field_select_list>
+                        <field_text name="cep" title="CEP" id="cep"></field_text>
+                        <field_select_list name="uf" title="Estado" id="uf" value=":first"></field_select_list>
+                        <field_text name="municipio" title="Municipio" id="municipio"></field_text>
+                        <field_text name="bairro" title="Bairro" id="bairro"></field_text>
+                        <field_text name="logradouro" title="Rua" id="logradouro"></field_text>
+                        <field_text name="numero" title="Número" id="numero"></field_text>
+                        <field_hidden name="complemento" title="Complemento" id="complemento"></field_hidden>
+                        <field_text name="complemento2" title="Complemento" id="complemento2"></field_text>
+                    </field_dataset_add>
+                    <field_dataset_add name="referencia_bancaria" title="Referência Bancaria" id="referencia-bancaria" labels='[{"field":"banco"},{"prefix":" -  ","field":"conta"}]'>
+                        <field_hidden name="id" title="Código" id="id"></field_hidden>
+                        <field_select_list name="banco" title="Banco" list="banco"></field_select_list>
+                        <field_text name="agencia" title="Agência" id="agencia"></field_text>
+                        <field_text name="conta" title="Conta" id="conta"></field_text>
+                    </field_dataset_add>
+                </tab_panel>
+            </tab>
+            <form_button type="save" id="salvar"></form_button>
+            <form_button type="new" id="novo"></form_button>
+            <form_button type="save_close" id="salvar-fechar" url="sistema/pessoa/juridica/consulta"></form_button>
+            <form_button type="close" id="fechar" url="sistema/pessoa/juridica/consulta"></form_button>
+        </form>
+    </main_content>
+</root>
+
+

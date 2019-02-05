@@ -1,49 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <table id="tabela-tipo-telefone"
-           name="tipo-telefone"
-           selector="id"
-           url="sistema/contato/telefone/tipo" 
-           model="tipo_telefone_model"
-           sortcol="0"
-    >
-        <title>Consulta Tipo Telefone</title>
-        <search>
-            <searchtext></searchtext>
-            <searchfield>
-                <option id="tipo">Tipo</option>
-            </searchfield>
-        </search>
-        <head>
-            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
-                <title>Código</title>
-                <select>id</select>
-                <size>exato</size>
-            </hcol>
-            <hcol id="tipo" name="tipo" type="alfanumerico" orderby="tipo {$direction$}">
-                <title>Tipo</title>
-                <select>tipo</select>
-                <size>100</size>
-            </hcol>
-        </head>
-        <body>
-            <bcol type="link">
-                <url>sistema/contato/telefone/tipo/cadastro/{$id$}</url>
-                <content>{$id$}</content>
-            </bcol>
-            <bcol type="texto">
-                <content>{$tipo$}</content>
-            </bcol>
-        </body>
-        <buttongroup>
-            <button type="novo" id="novo">
-                <title>Novo</title>
-                <url>sistema/contato/telefone/tipo/cadastro</url>
-            </button>
-            <button type="excluir" id="excluir">
-                <title>Excluir</title>
-            </button>
-        </buttongroup>
-    </table>
-    
+    <main_content>
+        <table_list name="tabela-tipo-telefone" url="sistema/contato/telefone/tipo" title="Consulta Tipo de Telefone">
+            <tl_filter>
+                <field_text id="name" name="name" title="Nome"></field_text>
+            </tl_filter>
+            <tl_row>
+                <tl_col_link id="id" name="id" title="Código" size='{small:min}' url="sistema/contato/telefone/tipo/cadastro/{[{id}]}"></tl_col_link>
+                <tl_col_link id="alias" name="tipo" title="Tipo" data-type="text" order="ASC" url="sistema/contato/telefone/tipo/cadastro/{[{id}]}"></tl_col_link>
+            </tl_row>
+            <tl_button type="new" id="novo" url="sistema/contato/telefone/tipo/cadastro"></tl_button>
+            <tl_selection type="select" id="selecao">
+                <tls_button type="delete" id="excluir"></tls_button>
+            </tl_selection>
+        </table_list>
+        <table id="tabela-tipo-telefone"
+               name="tipo-telefone"
+               selector="id"
+               url="sistema/contato/telefone/tipo" 
+               model="tipo_telefone_model"
+               sortcol="0"
+        >
+            <title>Consulta Tipo Telefone</title>
+            <search>
+                <searchtext></searchtext>
+                <searchfield>
+                    <option id="tipo">Tipo</option>
+                </searchfield>
+            </search>
+            <head>
+                <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
+                    <title>Código</title>
+                    <select>id</select>
+                    <size>exato</size>
+                </hcol>
+                <hcol id="tipo" name="tipo" type="alfanumerico" orderby="tipo {$direction$}">
+                    <title>Tipo</title>
+                    <select>tipo</select>
+                    <size>100</size>
+                </hcol>
+            </head>
+            <body>
+                <bcol type="link">
+                    <url>sistema/contato/telefone/tipo/cadastro/{$id$}</url>
+                    <content>{$id$}</content>
+                </bcol>
+                <bcol type="texto">
+                    <content>{$tipo$}</content>
+                </bcol>
+            </body>
+            <buttongroup>
+                <button type="novo" id="novo">
+                    <title>Novo</title>
+                    <url>sistema/contato/telefone/tipo/cadastro</url>
+                </button>
+                <button type="excluir" id="excluir">
+                    <title>Excluir</title>
+                </button>
+            </buttongroup>
+        </table>
+    </main_content>
 </root>

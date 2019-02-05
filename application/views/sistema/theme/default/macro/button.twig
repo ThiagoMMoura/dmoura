@@ -1,12 +1,12 @@
-{% macro create(b,type) %}
+{% macro create(b) %}
     {% import _self as mb %}
-    {% if (type is not empty and type == 'link') or b.type == 'link' %}
+    {% if b.name == 'button_link' %}
         {{ mb.link_button(b) }}
-    {% elseif (type is not empty and type == 'link-reverse') or b.type == 'link-reverse' %}
+    {% elseif b.name == 'button_link_reverse' %}
         {{ mb.link_button_reverse(b) }}
-    {% elseif (type is not empty and type == 'generic') or b.type == 'generic' %}
+    {% elseif b.name == 'button_generic' %}
         {{ mb.generic_button(b) }}
-    {% else %}
+    {% elseif b.name starts with 'button' %}
         {{ mb.default_button(b) }}
     {% endif %}
 {% endmacro %}
@@ -22,8 +22,12 @@
         data-{{ k }}="{{ v }}"
     {% endfor %}
 
-    {% for k,v in b.attr %}
-        {{ k }}="{{ v }}"
+    {% for k,v in b %}
+        {% if k in ['aria-label','data-close','data-open','onclick','id'] %}
+            {{ k }}="{{ v }}"
+        {% elseif k == 'hide' %}
+            style="display:none !important;"
+        {% endif %}
     {% endfor %}
 {% endmacro %}
 
@@ -43,30 +47,30 @@
 
 {% macro link_button_reverse(b) %}
     {% import _self as mb %}
-    {% set b = b|merge({'class':b.class ~ ' dmx-reverse'}) %}
+    {{ b.setAttr('class', b.attr.class ~ ' dmx-reverse') }}
     {{ mb.link_button(b) }}
 {% endmacro %}
 
 {% macro link_button(b) %}
     {% import _self as mb %}
-    <a class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
-            {{- mb.button_icon(b.icon) -}}
-            {{- mb.button_title(b,b.icon is not empty) -}}
+    <a class="dmx-button {{ b.attr.class }}" {{ mb.attr(b.attr) }}>
+            {{- mb.button_icon(b.attr.icon) -}}
+            {{- mb.button_title(b.attr,b.attr.icon is not empty) -}}
     </a>
 {% endmacro %}
 
 {% macro generic_button(b) %}
     {% import _self as mb %}
-    <label for="{{ b.for }}" class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
-            {{- mb.button_icon(b.icon) -}}
-            {{- mb.button_title(b,b.icon is not empty) -}}
+    <label for="{{ b.attr.for }}" class="dmx-button {{ b.attr.class }}" {{ mb.attr(b.attr) }}>
+            {{- mb.button_icon(b.attr.icon) -}}
+            {{- mb.button_title(b.attr,b.attr.icon is not empty) -}}
     </label>
 {% endmacro %}
 
 {% macro default_button(b) %}
     {% import _self as mb %}
-    <button type="button" class="dmx-button {{ b.class }}" {{ mb.attr(b) }}>
-        {{- mb.button_icon(b.icon) -}}
-        {{- mb.button_title(b,b.icon is not empty) -}}
+    <button type="button" class="dmx-button {{ b.attr.class }}" {{ mb.attr(b.attr) }}>
+        {{- mb.button_icon(b.attr.icon) -}}
+        {{- mb.button_title(b.attr,b.attr.icon is not empty) -}}
     </button>
 {% endmacro %}

@@ -1,23 +1,39 @@
-{% macro create(m) %}
+{% macro create(m,content) %}
+    {% import _self as mo %}
+    {{ mo.base_modal(m,content) }}
+{% endmacro %}
+{% macro modal_add(m,content) %}
+{% endmacro %}
+{% macro base_modal(m,content) %}
     {% import "sistema/theme/default/macro/button.twig" as button %}
-    <div class="dmx-modal" id="{{ m.id }}" data-modal>
+    {% import "sistema/theme/default/macro/component.twig" as component %}
+    <div class="dmx-modal" id="{{ m.attr.id }}" data-modal>
         <div class="dmx-modal-container">
             <div class="screen-fixed-content-top">
                 <div class="top-bar dmx-top-bar">
                     <div class="top-bar-left">
                         <ul class="menu">
-                            {% if m['button-voltar'] is not empty %}
+                            {% if m.attr['button-back'] is not empty %}
                                 <li>
-                                    {{ button.create({icon:'arrow-left',ng:m['button-voltar'].ng,'data-attr':{'modal-close':m.id},attr:{'aria-label':m['button-voltar'].title} }) }}
+                                    {% set button_back = m.vc.newComponent('button',m.attr['button-back'],[],m.attr.id) %}
+                                    {{- button_back.setAttr('title','') -}}
+                                    {{- button_back.setAttr('icon','arrow-left') -}}
+                                    {{- button_back.setAttr('data-attr',{'modal-close':m.attr.id}) -}}
+                                    {{- button_back.setAttr('aria-label',m.attr['button-back'].title) -}}
+                                    {{ button.create(button_back) }}
                                 </li>
                             {% endif %}
-                            <li class="menu-text dmx-modal-title">{{ m.title }}</li>
+                            <li class="menu-text dmx-modal-title">{{ m.attr.title }}</li>
                         </ul>
                     </div>
                     <div class="top-bar-right">
                         <ul class="menu">
-                            {% for b in m['top-bar-buttons'] %}
-                                <li>{{ button.create(b) }}</li>
+                            {% for ch in m.childs %}
+                                {% if ch.name == 'top_bar_buttons' %}
+                                    {% for b in ch.childs %}
+                                        <li>{{ button.create(b) }}</li>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
@@ -25,7 +41,13 @@
                 <div class="divisao-bar-content"></div>
             </div>
             <div class="dmx-modal-content">
-                {{ m.content }}
+                {% if content is empty %}
+                    {% for ch in m.childs %}
+                        {{ component.create(ch) }}
+                    {% endfor %}
+                {% else %}
+                    {{ content }}
+                {% endif %}
             </div>
         </div>
     </div>

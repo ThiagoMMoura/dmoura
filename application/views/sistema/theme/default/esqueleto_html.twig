@@ -18,7 +18,7 @@
         {% block head %}{% endblock %}
         <title>{% block titulo_pagina %}{% endblock %}</title>
     </head>
-    <body ng-controller="ctrl_body">
+    <body ng-controller="ctrl_body" ng-init="page_title='D\'Moura | {{ titulo }}'">
         {% block body %}
         {% endblock %}
         

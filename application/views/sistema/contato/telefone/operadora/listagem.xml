@@ -1,49 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <table id="tabela-operadora-telefone"
-           name="operadora-telefone"
-           selector="id"
-           url="sistema/contato/telefone/operadora" 
-           model="operadora_telefone_model"
-           sortcol="0"
-    >
-        <title>Consulta Operadora Telefônica</title>
-        <search>
-            <searchtext></searchtext>
-            <searchfield>
-                <option id="operadora">Operadora</option>
-            </searchfield>
-        </search>
-        <head>
-            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
-                <title>Código</title>
-                <select>id</select>
-                <size>exato</size>
-            </hcol>
-            <hcol id="operadora" name="operadora" type="alfanumerico" orderby="operadora {$direction$}">
-                <title>Operadora</title>
-                <select>operadora</select>
-                <size>100</size>
-            </hcol>
-        </head>
-        <body>
-            <bcol type="link">
-                <url>sistema/contato/telefone/operadora/cadastro/{$id$}</url>
-                <content>{$id$}</content>
-            </bcol>
-            <bcol type="texto">
-                <content>{$operadora$}</content>
-            </bcol>
-        </body>
-        <buttongroup>
-            <button type="novo" id="novo">
-                <title>Novo</title>
-                <url>sistema/contato/telefone/operadora/cadastro</url>
-            </button>
-            <button type="excluir" id="excluir">
-                <title>Excluir</title>
-            </button>
-        </buttongroup>
-    </table>
-    
+    <main_content>
+        <table_list name="operadora-telefone" url="sistema/contato/telefone/operadora" title="Consulta Operadora Telefônica">
+            <tl_filter>
+                <field_text id="operadora" name="operadora" title="Operadora"></field_text>
+            </tl_filter>
+            <tl_row>
+                <tl_col_link id="id" name="id" title="Código" order="ASC" size='{small:min}' url="sistema/contato/telefone/operadora/cadastro/{[{id}]}"></tl_col_link>
+                <tl_col id="operadora" name="operadora" title="Operadora" data-type="text"></tl_col>
+            </tl_row>
+            <tl_button type="new" id="novo" url="sistema/contato/telefone/operadora/cadastro"></tl_button>
+            <tl_selection type="select" id="selecao">
+                <tls_button type="delete" id="excluir"></tls_button>
+            </tl_selection>
+        </table_list>
+    </main_content>
 </root>

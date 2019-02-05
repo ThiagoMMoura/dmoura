@@ -18,7 +18,7 @@ class Setor extends MY_Controller{
             'titulo' => 'Cadastro Setor',
             'sv_id' => $id
         ];
-        $this->_get_formulario('sistema/seguranca/setor/cadastro', $data);
+        $this->vc->display('sistema/seguranca/setor/cadastro', $data);
     }
     
     public function consulta(){
@@ -28,7 +28,7 @@ class Setor extends MY_Controller{
         $data = [
             'titulo' => 'Consulta Setor'
         ];
-        $this->_get_listagem('sistema/seguranca/setor/listagem', $data);
+        $this->vc->display('sistema/seguranca/setor/listagem', $data);
     }
     
     protected function _insert($data_form){
@@ -263,5 +263,24 @@ class Setor extends MY_Controller{
             }
         }
         return TRUE;
+    }
+    
+    protected function _query($filter){
+        $form = $this->doctrine->em->getRepository('Entity\Setor')->findAll();
+        
+        $json = array(
+            'action' => $this->_action,
+            'message' => array(
+                'type' => MSG_SUCCESS,
+                'title' => 'Listagem',
+                'message' => 'Listagem realizada com sucesso!',
+                'closable' => TRUE
+            ),
+            'form' => $form
+        );
+        $this->output
+            ->set_status_header(200)
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
 }

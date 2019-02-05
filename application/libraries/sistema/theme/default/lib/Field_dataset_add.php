@@ -36,7 +36,7 @@ class Field_dataset_add extends Field implements Container{
         
         $this->setValue($this->fields->getFormFields());
         
-
+        $this->setEqualizer(FALSE);
     }
 
     /**
@@ -65,7 +65,7 @@ class Field_dataset_add extends Field implements Container{
     public static function setAllFormName($element,$form_name,$name,$error_name){
         if ($element instanceof Field) {
             $element->setEqualizer(FALSE);
-            $element->setErrorName($error_name  . "['+modal['" . $name . "Id']+'][" . ($element->getErrorName() ?? $element->getName()) . "]");
+            $element->setErrorName("_{$error_name}['+dataset_index+'][" . ($element->getErrorName() ?? $element->getName()) . "]");
             $element->setFormName($form_name);
         } else if ($element instanceof Container && !($element instanceof Field_dataset_add)) {
             $element->getElements()->transform(function($element) use ($form_name,$name,$error_name){

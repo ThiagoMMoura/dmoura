@@ -214,6 +214,15 @@ class DOMComponent{
             'field_date' => [
                 'size' => ['type'=>'json']
             ],
+            'field_password' => [
+                'size' => ['type'=>'json']
+            ],
+            'field_pass' => [
+                'size' => ['type'=>'json']
+            ],
+            'field_psw' => [
+                'size' => ['type'=>'json']
+            ],
             'button' => [
                 'id' => ['required'=>TRUE]
             ],

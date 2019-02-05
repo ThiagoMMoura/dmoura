@@ -300,7 +300,7 @@ app.controller('registration_form_ctrl', function($scope,$filter,$window,$locati
         var errorCallback = function(response) {
             var data = response.responseJSON;
             
-            this.error = data.form;console.log(data.form);
+            this.error = data.form;
             this.$apply();
             reInitEqualizer('#'+this.form_id+' [data-equalizer]');
             showMessage(data.message);
@@ -444,14 +444,20 @@ app.controller('field_mult_select_list_ctrl', function($scope,$filter) {
     
     $scope.$on('update_data', function () {
         var aux_data = $scope.getFieldData($scope.field_name);
-        var i;
+        var i, pos = 0;
         
         field_data_default = {};
-        for (i in aux_data) {
-            var key = $.inArray(aux_data[i], Object.keys($scope.list[$scope.field_name]));
-            if (key > -1) {
-                field_data_default[key] = aux_data[i];
+        for (i in $scope.list[$scope.field_list_name]) {
+            var l;
+            
+            for(l in aux_data){
+                if(aux_data[l] == i){
+                    field_data_default[pos] = aux_data[l].toString();
+                    break;
+                }
             }
+            
+            pos++;
         }
         
         $scope.field_data = angular.copy(field_data_default);

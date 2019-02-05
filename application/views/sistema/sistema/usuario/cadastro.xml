@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <form action="sistema/sistema/usuario" method="POST" id="cadastro-usuario-sistema" field-identifier="id">
-        <section name="cadastro" title="Cadastro" id="cadastro">
-            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
-            </field>
-            <field type="alfanumerico" name="alias" id="alias" legend="Apelido" column="s:8|m:10" required="TRUE" autofocus="TRUE">
-            </field>
-            <field type="alfanumerico" name="email" id="email" legend="Email" column="s:12|m:10">
-            </field>
-            <field type="lista" name="nivel" id="nivel" legend="Nível" column="s:12|m:2" value="3">
-                <options>
-                    <option id="1">Institucional</option>
-                    <option id="2">Intermediário</option>
-                    <option id="3">Operário</option>
-                </options>
-            </field>
-            <field type="senha" name="senha" id="senha" legend="Senha" column="s:12|m:6">
-            </field>
-            <field type="senha" name="senhaconfirma" id="senhaconfirma" legend="Confirma Senha" column="s:12|m:6">
-            </field>
-            <field type="lista-boleana" name="alocado" id="alocado" legend="Setores Alocado" column="s:12" value="1">
-                <options list-url="sistema/seguranca/setor"></options>
-            </field>
-            <!--field type="subfield" id="alocado" name="alocado" legend="Setores Alocados">
-                <subfield type="identificador" name="id" id="id" class="hide" value="0"></subfield>
-                <subfield type="lista" name="setor" id="setor" legend="Setor" column="s:12" value="1">
-                    <options list-url="sistema/seguranca/setor"></options>
-                </subfield>
-            </field-->
-        </section>
-        <buttongroup>
-            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
-            <button type="novo" name="novo" id="novo" title="Novo"></button>
-            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/sistema/usuario/consulta"></button>
-            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/sistema/usuario/consulta"></button>
-        </buttongroup>
-    </form>
+    <main_content>
+        <form action="sistema/sistema/usuario" name="cadastro-usuario-sistema" field-identifier="id" edit="sistema/sistema/usuario/cadastro/$id">
+            <datalist name="nivel">
+                <item value-id="1">Institucional</item>
+                <item value-id="2">Intermediário</item>
+                <item value-id="3">Operário</item>
+            </datalist>
+            <datalist name="setores" url="sistema/seguranca/setor"></datalist>
+            <tab>
+                <tab_panel title="Cadastro" id="cadastro" is-active="TRUE">
+                    <field_text name="id" id="id" title="Codigo" size='{"medium":4,"large":2}' disabled="TRUE"></field_text>
+                    <field_text name="alias" id="alias" title="Apelido" size='{"medium":8,"large":10}' required="TRUE" autofocus="TRUE"></field_text>
+                    <field_text name="email" id="email" title="Email" size='{"medium":12,"large":10}'></field_text>
+                    <field_select_list name="nivel" id="nivel" title="Nível" value="3" size='{"medium":12,"large":2}'></field_select_list>
+                    <field_pass name="senha" id="senha" title="Senha" size='{"medium":6,"large":6}'></field_pass>
+                    <field_pass name="senhaconfirma" id="senhaconfirma" title="Confirma Senha" size='{"medium":6,"large":6}'></field_pass>
+                    <field_mult_select_list name="alocado" id="alocado" title="Setores Alocado" value="1" list="setores"></field_mult_select_list>
+                </tab_panel>
+            </tab>
+            <form_button type="save" id="salvar"></form_button>
+            <form_button type="new" id="novo"></form_button>
+            <form_button type="save_close" id="salvar-fechar" url="sistema/sistema/usuario/consulta"></form_button>
+            <form_button type="close" id="fechar" url="sistema/sistema/usuario/consulta"></form_button>
+        </form>
+    </main_content>
 </root>

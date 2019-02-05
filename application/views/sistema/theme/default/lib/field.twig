@@ -85,7 +85,7 @@
 {% endmacro %}
 
 {% macro field_mult_select_list(id, name, title, description, class, form_name, error_name, attributes, disabled, list, frame_id, frame) %}
-    <div class="dmx-input-box dmx-select-input {{ class }}" ng-class="{'is-invalid':error['{{ error_name }}'] }" ng-controller="field_mult_select_list_ctrl" ng-init="field_name = '{{ name }}';">
+    <div class="dmx-input-box dmx-select-input {{ class }}" ng-class="{'is-invalid':error['{{ error_name }}'] }" ng-controller="field_mult_select_list_ctrl" ng-init="field_name = '{{ name }}';field_list_name = '{{ list }}'">
         <label class="flex-box" data-modal-open="{{ frame_id }}">
             <div class="dmx-input">
                 <span>{{ title }}</span>
@@ -143,7 +143,7 @@
 
 {% import _self as mf %}
 
-{% if element_type in ['field_text','field'] %}
+{% if element_type in ['field_text','field_password','field_pass','field_psw','field'] %}
     {{ mf.field(type, id, name, title, class, form_name, error_name, attributes, disabled) }}
 {% elseif element_type == 'field_date' %}
     {{ mf.field_date(id, name, title, default_value, class, form_name, error_name, attributes, disabled) }}

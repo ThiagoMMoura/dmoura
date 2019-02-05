@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <main_content>
+        <include url="sistema/theme/default/dashboard.twig"></include>
+        <script src="assets/css/theme/default/dmx.css"></script>
+    </main_content>
+</root>
+
+

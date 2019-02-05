@@ -1,0 +1,142 @@
+{% extends 'sistema/theme/default/layout_sistema.twig' %}
+
+{% block styles %}
+    <link href="{{ base_url('assets/css/sistema/theme/default/dmx_form.css') }}" type="text/css" rel="stylesheet" charset="utf-8">
+    {% for key, link in sv_link %}
+        <link href="{{ link.href }}" type="{{ link.type }}" rel="{{ link.rel }}" charset="{{ link.charset }}">
+    {% endfor %}
+{% endblock %}
+{% block botoes %}
+{% endblock %}
+{% block conteudo %}
+    <form action="#" method="POST" id="form-teste" class="dmx-form" name="form">
+        <ul class="tabs" data-tabs id="form-tabs">
+            <li class="tabs-title is-active"><a href="#first" aria-selected="true">TESTE</a></li>
+        </ul>
+        <div class="tabs-content" data-tabs-content="form-tabs" data-ng-controller="formTeste">
+            <div class="tabs-panel is-active" id="first" data-equalizer data-equalize-on="small">
+                {% for key, field in sv_form %}
+
+                {% endfor %}
+                {{ field.create({title:'ID',id:'field-id',name:'id',size:'medium-2',disabled:1}) }}
+                
+                {{ field.create({title:'CPF',id:'field-cpf',name:'cpf',size:'medium-4',class:'border-left-medium border-left-large'}) }}
+                
+                {{ field.create({title:'Apelido',id:'field-apelido',name:'apelido',size:'medium-6',class:'border-left-medium border-left-large'}) }}
+                
+                {{ field.create({title:'Nome',id:'field-nome',name:'nome',size:'large-9'}) }}
+                
+                {{ field.create({type:'select-list',title:'Gênero',id:'field-genero',name:'genero',size:'medium-6 large-3',class:'border-left-large'}) }}
+                
+                {{ field.create({title:'Nascimento',id:'field-nascimento',name:'nascimento',size:'medium-6 large-4',class:'border-left-medium'},'date') }}
+                
+                {{ field.create({title:'Nacionalidade',id:'field-nacionalidade',name:'nacionalidade',size:'medium-6 large-4',class:'border-left-large'}) }}
+                
+                {{ field.create({title:'Naturalidade',id:'field-naturalidade',name:'naturalidade',size:'medium-6 large-4',class:'border-left-medium border-left-large'}) }}
+
+                {{ field.create({type:'textarea',title:'Descrição',id:'field-descricao',name:'descricao'}) }}
+                
+                {{ field.create({type:'section',title:'Endereços'}) }}
+
+                {% set endereco_fields = [{title:'CEP',id:'field-cep',name:'cep'},{type:'select-list',title:'Estado',id:'field-uf',name:'uf'},{title:'Cidade',id:'field-cidade',name:'cidade'},{title:'Bairro',id:'field-bairro',name:'bairro'},{title:'Logradouro',id:'field-rua',name:'rua'},{title:'Número',id:'field-numero',name:'numero'}] %}
+                {{ field.create({type:'dataset-add',title:'Endereço',id:'field-enderecos',name:'enderecos',labels:[{field:'cep',suffix:' - '},{field:'rua'},{prefix:', ',field:'numero'},{prefix:', ',field:'bairro'},{prefix:', ',field:'cidade'},{prefix:'-',field:'uf'}],fields:endereco_fields}) }}
+                
+                {{ field.create({type:'section',title:'Seção de checkbox'}) }}
+                {{ field.create({type:'mult-select-list',title:'Estado',id:'field-uf',name:'uf'}) }}
+                {{ field.create({type:'checkbox',title:'Verdadeiro',id:'field-verdadeiro',name:'verdadeiro'}) }}
+
+                {{ field.create({type:'switch',title:'Verdadeiro 2',id:'field-verdadeiro2',name:'verdadeiro2',description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras commodo, est id vehicula tincidunt, neque sem rutrum ante, eget pellentesque ligula est sit amet sem.'}) }}
+            </div>
+            <button type="button" ng-click="">Salvar</button>
+            <div class="row"><div class="column">List:<pre>{{ '{{list|json}}' }}</pre></div></div>
+            <pre>Form:{{ '{{form|json}}' }}</pre>
+            <pre>Modal:{{ '{{modal|json}}' }}</pre>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ base_url('assets/js/sistema/theme/default/forms.js') }}" type="text/javascript"></script>
+     <script>
+        $(document).ready(function(){
+            {#var sv_form = JSON.parse('{{ sv_form|json_encode()|raw }}');
+            initForm(sv_form,'{{ sv_id }}');#}
+            desativaLoadingContent();
+        });
+        
+        app.run(function($rootScope) {
+            
+            
+        });
+        app.controller('formTeste', function($scope) {
+            $scope.list = {
+                genero : {
+                    "masculino" : "Masculino",
+                    "feminino" : "Feminino"
+                },
+                uf : {
+                    AC : "Acre",
+                    BH : "Bahia",
+                    DF : "Distrito Federal",
+                    MG : "Minas Gerais",
+                    MS : "Mato Groso do Sul",
+                    PR : "Paraná",
+                    SC : "Santa Catarina",
+                    SP : "São Paulo",
+                    RJ : "Rio de Janeiro",
+                    RS : "Rio Grande do Sul"
+                }
+            };
+            $scope.error = {
+                    nome : 'teste de erro'
+            };
+            $scope.form = {
+                genero : 'masculino',
+                nascimento : new Date(1992,02,10),
+                enderecos: [
+                    {cep:'94085-150',uf:'RS',cidade:'Gravataí',rua:'R. Aluizio de Azevedo',numero: '233', bairro:'Morada do Vale 1'},
+                    {cep:'',uf:'RS',cidade:'',rua:'R. Cirne Lima',numero: '155', bairro:'Morada do Vale 1'}
+                ],
+                id : 102
+            };
+            var modal = {enderecos:{cep:'',uf:'AC',cidade:'',rua:'',numero: '', bairro:''}};
+            $scope.modal = angular.copy(modal);
+            $scope.modal.enderecosId = -1;
+            $scope.modalAdd = function(namemodal){
+                var modalId = $scope.modal[namemodal+'Id'];
+                if(modalId>=0){
+                    $scope.form[namemodal][modalId] = angular.copy($scope.modal[namemodal]);
+                }else{
+                    $scope.form[namemodal].push(angular.copy($scope.modal[namemodal]));
+                }
+                console.log('ModalAdd');
+                $(document).foundation();
+            };
+            $scope.modalEdit = function(namemodal,id){
+                $scope.modal[namemodal+'Id'] = id;
+                $scope.modal[namemodal] = angular.copy($scope.form[namemodal][id]);
+                console.log('ModalEdit');
+            };
+            $scope.modalRemove = function(namemodal,id){
+                $scope.form[namemodal].splice(id,1);
+                console.log('ModalRemove');
+            };
+            $scope.modalReset = function(namemodal){
+                $scope.modal[namemodal+'Id'] = -1;
+                $scope.modal[namemodal] = angular.copy(modal[namemodal]);
+                console.log('ModalReset');
+            };
+            $scope.modalMultSelectConfirm = function(namemodal){
+                var i;
+                $scope.form[namemodal] = [];
+                for(i in $scope.modal[namemodal]){
+                    if($scope.modal[namemodal][i]){
+                        $scope.form[namemodal].push($scope.modal[namemodal][i]);
+                    }
+                }
+            };
+        });
+    </script> 
+    {% for key, script in sv_script %}
+        <script src="{{ script.src }}" type="{{ script.type }}"></script>
+    {% endfor %}
+{% endblock %}

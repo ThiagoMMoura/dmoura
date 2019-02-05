@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <form action="sistema/contato/telefone/tipo" method="POST" id="cadastro-tipo-telefone" not-permitted="update" field-identifier="id">
-        <section name="cadastro" title="Cadastro" id="cadastro">
-            <field type="identificador" name="id" id="id" legend="Codigo" column="s:4|m:2" disabled="TRUE">
-            </field>
-            <field type="alfanumerico" name="tipo" id="tipo" legend="Tipo" column="s:8|m:10" required="TRUE" autofocus="TRUE">
-            </field>
-        </section>
-        <buttongroup>
-            <button type="submeter" name="salvar" id="salvar" title="Salvar"></button>
-            <button type="submeterfechar" name="salvar_fechar" id="salvar-fechar" title="Salvar e Fechar" url="sistema/contato/telefone/tipo/consulta"></button>
-            <button type="fechar" name="fechar" id="fechar" title="Cancelar" url="sistema/contato/telefone/tipo/consulta"></button>
-        </buttongroup>
-    </form>
+    <main_content>
+        <form action="sistema/contato/telefone/tipo" name="cadastro-tipo-telefone" not-permitted="update" field-identifier="id" edit="sistema/contato/telefone/tipo/cadastro/$id">
+            <tab>
+                <tab_panel title="Cadastro" id="cadastro" is-active="TRUE">
+                    <field_text name="id" id="id" title="Codigo" size='{"medium":4,"large":2}' disabled="TRUE">
+                    </field_text>
+                    <field_text name="tipo" id="tipo" title="Tipo" size='{"medium":8,"large":10}' required="TRUE" autofocus="TRUE">
+                    </field_text>
+                </tab_panel>
+            </tab>
+            <form_button type="save" id="salvar"></form_button>
+            <form_button type="new" id="novo"></form_button>
+            <form_button type="save_close" id="salvar-fechar" url="sistema/contato/telefone/tipo/consulta"></form_button>
+            <form_button type="close" id="fechar" url="sistema/contato/telefone/tipo/consulta"></form_button>
+        </form>
+    </main_content>
 </root>

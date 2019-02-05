@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <table id="tabela-usuario-sistema"
-           name="usuario-sistema"
-           selector="id"
-           url="sistema/sistema/usuario" 
-           model="user_model"
-           sortcol="0"
-    >
-        <title>Consulta Usuário</title>
-        <search>
-            <searchtext></searchtext>
-            <searchfield>
-                <option id="alias">Nome</option>
-                <option id="email">Email</option>
-                <option id="nivel">Nível</option>
-            </searchfield>
-        </search>
-        <head>
-            <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
-                <title>Código</title>
-                <select>id</select>
-                <size>exato</size>
-            </hcol>
-            <hcol id="alias" name="alias" type="alfanumerico" orderby="alias {$direction$}">
-                <title>Nome</title>
-                <select>alias</select>
-                <size>30</size>
-            </hcol>
-            <hcol id="email" name="email" type="alfanumerico" orderby="email {$direction$}">
-                <title>Email</title>
-                <select>email</select>
-                <size>70</size>
-            </hcol>
-            <hcol id="nivel" name="nivel" type="alfanumerico" orderby="nivel {$direction$}">
-                <title>Nível</title>
-                <select>nivel</select>
-                <size>exato</size>
-            </hcol>
-        </head>
-        <body>
-            <bcol type="link">
-                <url>sistema/sistema/usuario/cadastro/{$id$}</url>
-                <content>{$id$}</content>
-            </bcol>
-            <bcol type="link">
-                <url>sistema/sistema/usuario/cadastro/{$id$}</url>
-                <content>{$alias$}</content>
-            </bcol>
-            <bcol type="texto">
-                <content>{$email$}</content>
-            </bcol>
-            <bcol type="texto">
-                <content>{$nivel$}</content>
-            </bcol>
-        </body>
-        <buttongroup>
-            <button type="novo" id="novo">
-                <title>Novo</title>
-                <url>sistema/sistema/usuario/cadastro</url>
-            </button>
-        </buttongroup>
-    </table>
-    
+    <main_content>
+        <table_list name="tabela-usuario-sistema" url="sistema/sistema/usuario" title="Consulta Usuário">
+            <tl_filter>
+                <field_text id="name" name="name" title="Nome"></field_text>
+            </tl_filter>
+            <tl_row>
+                <tl_col_link id="id" name="id" title="Código" size='{small:min}' url="sistema/sistema/usuario/cadastro/{[{id}]}"></tl_col_link>
+                <tl_col_link id="alias" name="alias" title="Nome de Usuário" data-type="text" order="ASC" url="sistema/sistema/usuario/cadastro/{[{id}]}"></tl_col_link>
+                <tl_col id="email" name="email" title="E-mail" data-type="text"></tl_col>
+                <tl_col id="nivel" name="nivel" title="Nível" data-type="text"></tl_col>
+            </tl_row>
+            <tl_button type="new" id="novo" url="sistema/sistema/usuario/cadastro"></tl_button>
+            <tl_selection type="select" id="selecao">
+                <tls_button type="delete" id="excluir"></tls_button>
+            </tl_selection>
+            <search>
+                <searchtext></searchtext>
+                <searchfield>
+                    <option id="alias">Nome</option>
+                    <option id="email">Email</option>
+                    <option id="nivel">Nível</option>
+                </searchfield>
+            </search>
+            <head>
+                <hcol id="id" name="id" type="identificador" orderby="id {$direction$}">
+                    <title>Código</title>
+                    <select>id</select>
+                    <size>exato</size>
+                </hcol>
+                <hcol id="alias" name="alias" type="alfanumerico" orderby="alias {$direction$}">
+                    <title>Nome</title>
+                    <select>alias</select>
+                    <size>30</size>
+                </hcol>
+                <hcol id="email" name="email" type="alfanumerico" orderby="email {$direction$}">
+                    <title>Email</title>
+                    <select>email</select>
+                    <size>70</size>
+                </hcol>
+                <hcol id="nivel" name="nivel" type="alfanumerico" orderby="nivel {$direction$}">
+                    <title>Nível</title>
+                    <select>nivel</select>
+                    <size>exato</size>
+                </hcol>
+            </head>
+            <body>
+                <bcol type="link">
+                    <url>sistema/sistema/usuario/cadastro/{$id$}</url>
+                    <content>{$id$}</content>
+                </bcol>
+                <bcol type="link">
+                    <url>sistema/sistema/usuario/cadastro/{$id$}</url>
+                    <content>{$alias$}</content>
+                </bcol>
+                <bcol type="texto">
+                    <content>{$email$}</content>
+                </bcol>
+                <bcol type="texto">
+                    <content>{$nivel$}</content>
+                </bcol>
+            </body>
+            <buttongroup>
+                <button type="novo" id="novo">
+                    <title>Novo</title>
+                    <url>sistema/sistema/usuario/cadastro</url>
+                </button>
+            </buttongroup>
+        </table_list>
+    </main_content>
 </root>

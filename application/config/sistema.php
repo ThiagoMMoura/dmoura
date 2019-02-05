@@ -18,3 +18,21 @@ $config['pagina-resenha'] = 'sistema/usuario/senha/alterar';
 $config['hash-senha'] = 'sha1';
 
 $config['prefixo-id-menu'] = 'mn-';
+
+//$config['modules'] = ['main','infos','messages','includes'];
+
+/*$config['entity_rules'] = [
+	'tools' => [
+		'buttons'=>['type'=>'arrayOfObjects']
+	],
+	'form' => [
+		'lists' => ['type'=>'arrayOfObjects'],
+		'form' => ['type'=>'object']
+	],
+	'scripts' => [
+		'list' => ['type'=>'arrayOfObjects']
+	],
+	'links' => [
+		'list' => ['type'=>'arrayOfObjects']
+	]
+];*/

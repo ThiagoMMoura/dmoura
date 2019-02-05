@@ -55,7 +55,18 @@ class Field extends Element{
         
     	$this->value = $this->getAttr('value') ?? '';
         $this->convert_type = NULL;
-        $this->field_type = 'text';
+
+        switch ($this->getElementName()) {
+            case 'field_password':
+            case 'field_pass':
+            case 'field_psw':
+                $this->field_type = 'password';
+                break;
+            default:
+                $this->field_type = 'text';
+                break;
+        }
+        
         $this->form_name = $this->getAttr('form_name') ?? $this->getAttr('form-name');
         $this->sizeCount = ['small'=>MAX_RESPONSIVE_SIZE,'medium'=>MAX_RESPONSIVE_SIZE,'large'=>MAX_RESPONSIVE_SIZE];
         $this->setEqualizer(TRUE);

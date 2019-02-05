@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <menu id="menu-principal">
-        <item type="link" id="dashboard" title="Painel de Instrumentos" url="sistema/dashboard" icon="tachometer"></item>
-        <item type="submenu" id="contato" title="Configurações de Contato" icon="address-book">
-            <item type="submenu" id="telefone" title="Dados Telefones" icon="phone">
-                <item type="link" id="operadora-cadastro" title="Nova Operadora" url="sistema/contato/telefone/operadora/cadastro" icon="plus" access-area="contato-telefone-operadora-cadastro"></item>
-                <item type="link" id="operadora-consulta" title="Consulta Operadoras" url="sistema/contato/telefone/operadora/consulta" icon="search" access-area="contato-telefone-operadora-consulta"></item>
-                <item type="link" id="tipo-cadastro" title="Novo Tipo Telefone" url="sistema/contato/telefone/tipo/cadastro" icon="plus" access-area="contato-telefone-tipo-cadastro"></item>
-                <item type="link" id="tipo-consulta" title="Consulta Tipos Telefone" url="sistema/contato/telefone/tipo/consulta" icon="search" access-area="contato-telefone-tipo-consulta"></item>
-            </item>
-        </item>
-        <item type="submenu" id="pessoa" title="Clientes" icon="users">
-            <item type="link" id="fisica-cadastro" title="Novo Cliente" url="sistema/pessoa/fisica/cadastro" icon="user-plus" access-area=""></item>
-            <item type="link" id="fisica-consulta" title="Consulta Clientes" url="sistema/pessoa/fisica/consulta" icon="search" access-area=""></item>
-        </item>
-        <item type="submenu" id="seguranca" title="Segurança" icon="shield">
-            <item type="submenu" id="controle-acesso" title="Controle de Acesso" icon="key">
-                <item type="link" id="setor-cadastro" title="Cadastro Setor" url="sistema/seguranca/setor/cadastro" icon="plus" access-area="seguranca-setor-cadastro"></item>
-                <item type="link" id="setor-cadastro" title="Consulta Setor" url="sistema/seguranca/setor/consulta" icon="search" access-area="seguranca-setor-consulta"></item>
-            </item>
-        </item>
-        <item type="submenu" id="sistema" title="Sistema" icon="cogs">
-            <item type="link" id="user-consulta" title="Consulta Usuário" url="sistema/sistema/usuario/consulta" icon="users" access-area="sistema-usuario-consulta"></item>
-            <item type="link" id="user-cadastro" title="Cadastro Usuário" url="sistema/sistema/usuario/cadastro" icon="user-plus" access-area="sistema-usuario-cadastro"></item>
-        </item>
-        <item type="submenu" id="ferramentas" title="Ferramentas" icon="wrench">
-            <item type="submenu" id="xml" title="XML" icon="file-code-o" access-area="ferramentas-xml">
-                <item type="link" id="extracao-ncm" title="Extrair NCM de NF-e" url="sistema/ferramentas/xml/extracao_ncm" icon="code" access-area=""></item>
-                <item type="link" id="mesclar-csv" title="Mesclar CSV" url="sistema/ferramentas/xml/mescla_csv" icon="code" access-area=""></item>
-            </item>
-        </item>
-    </menu>
+    <main_menu>
+        <mainmenu_item id="dashboard" title="Painel de Instrumentos" url="sistema/dashboard" icon="tachometer"></mainmenu_item>
+        <mainmenu_sub id="contato" title="Configurações de Contato" icon="address-book">
+            <mainmenu_sub id="telefone" title="Dados Telefones" icon="phone">
+                <mainmenu_item id="operadora-cadastro" title="Nova Operadora" url="sistema/contato/telefone/operadora/cadastro" icon="plus" access-area="contato-telefone-operadora-cadastro"></mainmenu_item>
+                <mainmenu_item id="operadora-consulta" title="Consulta Operadoras" url="sistema/contato/telefone/operadora/consulta" icon="search" access-area="contato-telefone-operadora-consulta"></mainmenu_item>
+                <mainmenu_item id="tipo-cadastro" title="Novo Tipo Telefone" url="sistema/contato/telefone/tipo/cadastro" icon="plus" access-area="contato-telefone-tipo-cadastro"></mainmenu_item>
+                <mainmenu_item id="tipo-consulta" title="Consulta Tipos Telefone" url="sistema/contato/telefone/tipo/consulta" icon="search" access-area="contato-telefone-tipo-consulta"></mainmenu_item>
+            </mainmenu_sub>
+        </mainmenu_sub>
+        <mainmenu_sub id="pessoa" title="Clientes" icon="users">
+            <mainmenu_item id="fisica-cadastro" title="Novo Cliente" url="sistema/pessoa/fisica/cadastro" icon="user-plus" access-area=""></mainmenu_item>
+            <mainmenu_item id="fisica-consulta" title="Consulta Clientes" url="sistema/pessoa/fisica/consulta" icon="search" access-area=""></mainmenu_item>
+            <mainmenu_item id="juridica-cadastro" title="Novo Cliente Juridico" url="sistema/pessoa/juridica/cadastro" icon="user-plus" access-area=""></mainmenu_item>
+        </mainmenu_sub>
+        <mainmenu_sub id="seguranca" title="Segurança" icon="shield">
+            <mainmenu_sub id="controle-acesso" title="Controle de Acesso" icon="key">
+                <mainmenu_item id="setor-cadastro" title="Cadastro Setor" url="sistema/seguranca/setor/cadastro" icon="plus" access-area="seguranca-setor-cadastro"></mainmenu_item>
+                <mainmenu_item id="setor-cadastro" title="Consulta Setor" url="sistema/seguranca/setor/consulta" icon="search" access-area="seguranca-setor-consulta"></mainmenu_item>
+            </mainmenu_sub>
+        </mainmenu_sub>
+        <mainmenu_sub id="sistema" title="Sistema" icon="cogs">
+            <mainmenu_item id="user-consulta" title="Consulta Usuário" url="sistema/sistema/usuario/consulta" icon="users" access-area="sistema-usuario-consulta"></mainmenu_item>
+            <mainmenu_item id="user-cadastro" title="Cadastro Usuário" url="sistema/sistema/usuario/cadastro" icon="user-plus" access-area="sistema-usuario-cadastro"></mainmenu_item>
+        </mainmenu_sub>
+        <mainmenu_sub id="ferramentas" title="Ferramentas" icon="wrench">
+            <mainmenu_sub id="xml" title="XML" icon="file-code-o" access-area="ferramentas-xml">
+                <mainmenu_item id="extracao-ncm" title="Extrair NCM de NF-e" url="sistema/ferramentas/xml/extracao_ncm" icon="code" access-area=""></mainmenu_item>
+                <mainmenu_item id="mesclar-csv" title="Mesclar CSV" url="sistema/ferramentas/xml/mescla_csv" icon="code" access-area=""></mainmenu_item>
+            </mainmenu_sub>
+            <mainmenu_sub id="testes" title="Testes" icon="code">
+                <mainmenu_item id="teste-cadastro" title="Testar Cadastro" url="sistema/ferramentas/teste" icon="code" access-area=""></mainmenu_item>
+            </mainmenu_sub>
+        </mainmenu_sub>
+    </main_menu>
 </root>

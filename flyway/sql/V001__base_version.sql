@@ -101,19 +101,15 @@ INSERT INTO `permissao` (`id`, `idsetor`, `idpermissao`, `acesso`, `tipo`) VALUE
 --
 -- Estrutura da tabela `alocado`
 --
+DROP TABLE IF EXISTS `user_alocado_setor`;
+CREATE TABLE `user_alocado_setor` (
+ `user_id` INT NOT NULL ,
+ `setor_id` INT NOT NULL ,
+ PRIMARY KEY (`user_id`, `setor_id`)
+) ENGINE = InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `alocado`;
-CREATE TABLE `alocado` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `iduser` int(11) NOT NULL,
-    `idsetor` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `iduser` (`iduser`),
-    KEY `idsetor` (`idsetor`)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-INSERT INTO `alocado` (`id`, `iduser`, `idsetor`) VALUES 
-    (NULL, '1', '1');
+INSERT INTO `user_alocado_setor` (`user_id`, `setor_id`) VALUES 
+    ('1', '1');
 
 -- --------------------------------------------------------
 
@@ -126,10 +122,29 @@ CREATE TABLE `pessoa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL, -- Razão Social
   `apelido` varchar(100) DEFAULT NULL, -- Nome Fantasia
+  `ncp` varchar(14) NOT NULL, -- CPF/CNPJ
+  `nascimento` date NOT NULL,
+  `type` varchar(32) NOT NULL, -- Pessoa Física ou Juridica
   `ativo` tinyint(1) NOT NULL DEFAULT '1',
-  `iduser` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `un_iduser` (`iduser`)
+  UNIQUE KEY `un_user_id` (`user_id`),
+  UNIQUE KEY `un_ncp` (`ncp`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pessoa_juridica`
+--
+
+DROP TABLE IF EXISTS `pessoa_juridica`;
+CREATE TABLE IF NOT EXISTS `pessoa_juridica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inscricao_estadual` varchar(32) DEFAULT NULL,
+  `pessoa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `un_pessoa_id` (`pessoa_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -202,7 +217,7 @@ CREATE TABLE `endereco_pessoa` (
     `complemento` varchar(100) DEFAULT NULL,
     `referencia` varchar(100) DEFAULT NULL, -- Referencia para localização na entrega
     `principal` tinyint(1) NOT NULL DEFAULT '0', -- Define se o endereço é o prícipal para entregas
-    `idpessoa` int(11) NOT NULL,
+    `pessoa_id` int(11) NOT NULL,
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -217,7 +232,7 @@ CREATE TABLE `email_contato` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(150) NOT NULL,
   `descricao` varchar(50) DEFAULT NULL,
-  `idpessoa` int(11) NOT NULL,
+  `pessoa_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -230,7 +245,6 @@ CREATE TABLE `email_contato` (
 DROP TABLE IF EXISTS `bairro`;
 CREATE TABLE `bairro` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
@@ -259,7 +273,7 @@ CREATE TABLE `ci_sessions` (
 
 DROP TABLE IF EXISTS `endereco`;
 CREATE TABLE `endereco` (
-  `cep` int(8) NOT NULL,
+  `cep` varchar(8) NOT NULL,
   `uf` varchar(2) NOT NULL,
   `municipio` int(11) DEFAULT NULL,
   `bairro` int(11) DEFAULT NULL,
@@ -344,7 +358,6 @@ INSERT INTO `estado` (`uf`, `nome`) VALUES
 DROP TABLE IF EXISTS `logradouro`;
 CREATE TABLE `logradouro` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uf` varchar(2) NOT NULL,
   `municipio` int(11) NOT NULL,
   `nome` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
@@ -429,6 +442,91 @@ INSERT INTO `tipo_telefone` (`id`, `tipo`) VALUES
 (NULL, 'Fax'),
 (NULL, 'Trabalho'),
 (NULL, 'WhatsApp');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ref_bancaria_cliente`
+--
+
+DROP TABLE IF EXISTS `ref_bancaria_cliente`;
+CREATE TABLE `ref_bancaria_cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agencia` varchar(20) NOT NULL,
+  `conta` varchar(20) NOT NULL,
+  `banco_id` int(11) NOT NULL,
+  `pessoa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ref_comercial_cliente`
+--
+
+DROP TABLE IF EXISTS `ref_comercial_cliente`;
+CREATE TABLE `ref_comercial_cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cnpj` varchar(14) DEFAULT NULL,
+  `razao` varchar(100) NOT NULL,
+  `telefone1` varchar(12) NOT NULL,
+  `idoperadora1` int(11) NOT NULL DEFAULT '0',
+  `telefone2` varchar(12) NOT NULL,
+  `idoperadora2` int(11) NOT NULL DEFAULT '0',
+  `telefone3` varchar(12) NOT NULL,
+  `idoperadora3` int(11) NOT NULL DEFAULT '0',
+  `cep` varchar(8) DEFAULT NULL,
+  `numero` int(5) NOT NULL DEFAULT '0',
+  `complemento` varchar(100) DEFAULT NULL,
+  `pessoa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `banco`
+--
+
+DROP TABLE IF EXISTS `banco`;
+CREATE TABLE `banco` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL,
+  `codigo` varchar(6) NOT NULL,
+  `site` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `autorizado_cliente`
+--
+
+DROP TABLE IF EXISTS `autorizado_cliente`;
+CREATE TABLE `autorizado_cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `descricao` varchar(250) DEFAULT NULL,
+  `pessoa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `site_contato`
+--
+
+DROP TABLE IF EXISTS `site_contato`;
+CREATE TABLE `site_contato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `link` varchar(150) NOT NULL,
+  `tipo` varchar(50) NOT NULL,
+  `pessoa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,0 +1,40 @@
+{% macro create(entity) %}
+    {% import _self as et %}
+
+    {% if entity.name == 'form' %}
+        {{ et.form(entity.lists,entity.form) }}
+    {% elseif entity.name == 'tools' %}
+        {{ et.tools(entity) }}
+    {% elseif entity.name == 'scripts' %}
+        {#{ et.form(entity) }#}
+    {% else %}
+        {{ et.default_button(b) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro form(lists,form) %}
+    {% import "sistema/theme/default/macro/component.twig" as comp %}
+    
+    <form action="{{ form.attr.action }}" id="{{ form.attr.id }}" name="{{ form.attr.name }}" class="dmx-form" ng-controller="{{ form.attr.name }}">
+        {% for child in form.childs %}
+            {%- if child.name == 'button_save' -%}
+                {{- child.setAttr('ng',{'click':'save()'}) -}}
+            {%- elseif child.name == 'button_new' -%}
+                {{- child.setAttr('ng',{'click':'newForm()'}) -}}
+            {%- elseif child.name == 'button_save_close' -%}
+                {{- child.setAttr('ng',{'click':'saveAndLoadPage("'~base_url(child.attr.url)~'")'}) -}}
+            {%- elseif child.name == 'button_close' -%}
+                {{- child.setAttr('ng',{'click':'loadPage("'~base_url(child.attr.url)~'")'}) -}}
+            {%- endif -%}
+            {{ comp.create(child) }}
+        {% endfor %}
+        <div class="row column">
+            <pre class="row">Form: {{ '{{form|json}}' }}</pre>
+            <pre class="row" style="padding:.5rem;border: 1px solid yellow;">List: {{ '{{list|json}}' }}</pre>
+            <pre class="row" style="padding:.5rem;border: 1px solid yellow;">Modal: {{ '{{modal|json}}' }}</pre>
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro tools(lists) %}
+{% endmacro %}

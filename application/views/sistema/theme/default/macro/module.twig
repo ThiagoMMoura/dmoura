@@ -1,0 +1,8 @@
+{% macro create(module) %}
+    {% import "sistema/theme/default/macro/entity.twig" as entity %}
+    
+    {% for ent in module.entities %}
+        {{ entity.create(ent) }}
+    {% endfor %}
+{% endmacro %}
+

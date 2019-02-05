@@ -7,7 +7,6 @@ class Doctrine{
     public $em;
     
     public function __construct(){
-        log_message('INFO', '(Doctrine) Uso de memória: '.(memory_get_usage()/1024/1024).' Megabytes (' . memory_get_usage() . ')');
         // Carrega e aplica as configurações de banco de dados
         require APPPATH . 'config/database.php';
         $connection_options = array(

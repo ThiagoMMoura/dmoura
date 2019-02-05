@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //use ArrayAccess;
 //use InvalidArgumentException;
+include_once "model/ArraySerializationConfig.php";
 
 /**
  * Description of Arr
@@ -563,5 +564,65 @@ class Arr{
         }
        
         return array_keys($array)[count($array)-1];
+    }
+
+    public static function arraySerialization($value, ArraySerializationConfig $config = NULL) {
+        $array = [];
+        $new_array = [];
+
+        if (!$config) {
+            $config = new ArraySerializationConfig();
+        }
+
+        if (is_array($value)) {
+            $array = $value;
+        } else if ($value instanceof Arrayable) {
+            $array = $value->toArray();
+        } else if (is_object($value)) {
+            $array = get_object_vars($value);
+        } else if (is_iterable($value)) {
+            $array = $value;
+        } else if (is_scalar($value)) {
+            return $value;
+        }
+
+        foreach($array as $key => $val) {
+            switch ($config->getMode()) {
+                case $config::MODE_NO_ASSOCIATIVE:
+                    if ($config->hasFilter()) {
+                        if ($config->isFiltered($key)) {
+                            $new_array[] = Arr::arraySerialization($val, $config->getElementConfig($key));
+                        }
+                    } else {
+                        $new_array[] = Arr::arraySerialization($val, $config->getElementConfig($key));
+                    }
+                    
+                    break;
+                case $config::MODE_ONLY_FIRST_VALUE:
+                    if ($config->hasFilter()) {
+                        if ($config->isFiltered($key)) {
+                            return Arr::arraySerialization($val, $config->getElementConfig($key));
+                        }
+                    } else {
+                        return Arr::arraySerialization($val, $config->getElementConfig($key));
+                    }
+
+                    break;
+
+                case $config::MODE_ASSOCIATIVE:
+                default:
+                    if ($config->hasFilter()) {
+                        if ($config->isFiltered($key)) {
+                            $new_array[$key] = Arr::arraySerialization($val, $config->getElementConfig($key));
+                        }
+                    } else {
+                        $new_array[$key] = Arr::arraySerialization($val, $config->getElementConfig($key));
+                    }
+
+                    break;
+            }
+        }
+
+        return $new_array;
     }
 }

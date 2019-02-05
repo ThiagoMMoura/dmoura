@@ -20,6 +20,6 @@ class Dashboard extends MY_Controller{
             'apppath' => APPPATH,
             'viewpath' => VIEWPATH
         ];
-        $this->display('dashboard', $data);
+        $this->vc->display('sistema/dashboard', $data);
     }
 }

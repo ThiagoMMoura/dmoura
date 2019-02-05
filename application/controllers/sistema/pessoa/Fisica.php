@@ -16,14 +16,14 @@ class Fisica extends MY_Controller{
             'titulo' => 'Cadastro Pessoa Física',
             'sv_id' => $id
         ];
-        $this->_get_formulario('sistema/pessoa/fisica/cadastro', $data);
+        $this->vc->display('sistema/pessoa/fisica/cadastro', $data);
     }
     
     public function consulta(){
         $data = [
             'titulo' => 'Consulta Pessoa Física'
         ];
-        $this->_get_listagem('sistema/pessoa/fisica/listagem', $data);
+        $this->vc->display('sistema/pessoa/fisica/listagem', $data);
     }
     
     protected function _get($data_form){

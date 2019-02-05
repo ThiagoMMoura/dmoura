@@ -45,6 +45,11 @@ class MY_Controller extends CI_Controller{
         ];
         $this->config->load($this->_pai); //Carrega configurações da arvore pai.
 
+        if (!$this->input->is_ajax_request()) {
+            register_shutdown_function(function () {
+                echo '<a style="position:absolute;bottom:25px;right:15px;z-index:99999;padding:10px;background-color:#e9e9e9b3;" onclick="this.style.display = \'none\';">Pico de uso da memória: ', memory_get_peak_usage() / 1024, 'kb</a>', PHP_EOL;
+            });
+        }
         //central permitting processing
         $this->load->library('controle_acesso',NULL,'cpp');
         $this->load->library('vision_control',NULL,'vc');
@@ -53,6 +58,7 @@ class MY_Controller extends CI_Controller{
     public function index(){
         
         if($this->input->is_ajax_request()){
+            log_message('DEBUG','Requisição do tipo Ajax.');
             if($this->_action!=NULL){
                 // Verificação de permissão de execução
                 $this->_allowed_function($this->_permissions_id[$this->_action]);

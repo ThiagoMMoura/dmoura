@@ -10,6 +10,7 @@
         <permission id="sistema-usuario-inserir" type="func" title="Gravar Usuário"></permission>
         <permission id="sistema-usuario-alterar" type="func" title="Alterar Usuário"></permission>
         <permission id="sistema-usuario-visualizar" type="func" title="Visualizar Usuário"></permission>
+        <permission id="sistema-config-doctrine" type="zone" title="Configurações do Doctrine"></permission>
         <permission id="contato-telefone-operadora-cadastro" type="zone" title="Cadastro de Operadora de Telefone"></permission>
         <permission id="contato-telefone-operadora-consulta" type="zone" title="Consulta de Operadora de Telefone"></permission>
         <permission id="contato-telefone-operadora-inserir" type="func" title="Gravar Operadora de Telefone"></permission>

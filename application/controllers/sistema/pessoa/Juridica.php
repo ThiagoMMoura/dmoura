@@ -41,11 +41,12 @@ class Juridica extends MY_Controller{
                 $v::key('descricao',$v::stringType()->length(NULL,250,TRUE),FALSE)
             )),FALSE);*/
         $autorizado_rules = [
+            ['field' => 'id', 'label' => 'Código', 'rules' => $v::intval(), 'mandatory' => FALSE],
             ['field' => 'nome', 'label' => 'Nome', 'rules' => $v::notEmpty()->alpha()->length(5,100,TRUE)],
             ['field' => 'descricao', 'label' => 'Descrição', 'rules' => $v::stringType()->length(NULL,250,TRUE), 'mandatory' => FALSE]
         ];
         $this->rv->addRulesSet('autorizado','Autorizado',$v::arrayVal(),$autorizado_rules,FALSE);
-        
+        $this->rv->addRulesSet('endereco','Endereço',$v::arrayVal()->length(1,10,TRUE), [], TRUE);
         // Setando mensagem padrão de erro.
         $type = MSG_ERROR;
         $message = 'Falha ao salvar dados!';

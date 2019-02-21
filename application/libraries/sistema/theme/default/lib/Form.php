@@ -114,7 +114,7 @@ class Form extends Element_container {
         ];
     }
 
-    public function getIterator(){
+    public function getIterator(): \Traversable{
         return new ArrayIterator($this->getFormFields());
     }
     

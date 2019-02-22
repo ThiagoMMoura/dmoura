@@ -1,0 +1,16 @@
+:host {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.off-canvas-menu {
+    width: 250px;
+    height: 100%;
+
+    &-content {
+        background-color: grey;
+    }
+}

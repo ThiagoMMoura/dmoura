@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./base.component.scss']
 })
 export class BaseComponent implements OnInit {
-
+  isOffcanvas = false;
   constructor() { }
 
   ngOnInit() {

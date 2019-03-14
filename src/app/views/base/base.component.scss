@@ -1,16 +1,118 @@
+@import '~src/assets/scss/settings';
+@import '~src/assets/scss/variables';
+
+
 :host {
     width: 100vw;
     height: 100vh;
     max-width: 100vw;
     max-height: 100vh;
     overflow: hidden;
+
+    > .grid-container > .grid-x {
+        > .cell, & {
+            height: 100vh;
+        }
+    }
 }
 
-.off-canvas-menu {
-    width: 250px;
-    height: 100%;
+.main {
+    background-color: $white;
 
-    &-content {
-        background-color: grey;
+    & &-menu {
+        width: 16em;
+        background-color: get-color(light-black);
+        color: $dark-gray;
+        transition: 500ms ease;
+        
+
+        &-logo-bar {
+            height: $top-bar-height;
+            background-color: get-color(dark-primary);
+            color: $white;
+            img {
+                padding: 1rem;
+                height: $top-bar-height;
+            }
+
+            .button {
+                padding: .75rem;
+                margin: 0;
+                border: none;
+                height: $top-bar-height;
+
+                &:not(:hover) {
+                    background: none;
+                }
+            }
+        }
+
+        &-user-data {
+            padding: 1.5em 1em;
+
+            & .user-name {
+                font-size: 1.125rem;
+                color: $white;
+                line-height: 1;
+                margin-top: .25rem;
+            }
+
+            & .user-buttons {
+                .button {
+                    margin: .5rem 0 0 .5rem;
+                    padding: 0;
+                    background: none;
+                    color: $dark-gray;
+
+                    .material-icons {
+                        font-size: 1.125rem;
+                    }
+                }
+            }
+        }
+
+        &-img-user {
+            $img-width: 3.5em;
+            margin-right: 1em;
+            border-radius: 50%;
+            overflow: hidden;
+            width: $img-width;
+            height: $img-width;
+
+            img {
+                max-width: $img-width;
+            }
+        }
+
+        app-util-accordion-menu .menu{
+            a, .button {
+                line-height: 1.875em;
+                padding: .5em 1em;
+                max-height: 3em;
+                color: $dark-gray;
+
+                i {
+                    font-size: 1.5em;
+                    margin-right: 0.6666666666666666em;
+                    line-height: 1.3333333333333333em;
+                    width: 1.3333333333333333em;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+
+                span {
+                    font-size: .875em;
+                }
+            }
+        }
+
+        &.closed {
+            transform: translateX(-16rem);
+            width: 0;
+        }
+    }
+
+    & > &-content {
+        color: $black;
     }
 }

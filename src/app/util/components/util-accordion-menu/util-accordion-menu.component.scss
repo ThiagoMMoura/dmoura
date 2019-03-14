@@ -1,0 +1,87 @@
+@import '~src/assets/scss/settings';
+@import '~src/assets/scss/variables';
+
+:host-context(.main-menu) {
+    .menu{
+        a, .button {
+            line-height: 2em;
+            padding: .5em 1em .5em 0.8125em;
+            max-height: 3em;
+            color: $dark-gray;
+            border-left: 0.1875em solid transparent;
+
+            i {
+                line-height: inherit;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            i.item-icon {
+                text-transform: uppercase;
+                font-size: 0.8125em;
+                font-style: normal;
+                margin-right: 1.2307692307692308em;
+                min-width: 2.4615384615384617em;
+                max-width: 2.4615384615384617em;
+                display: inline-block;
+            }
+
+            i.material-icons:first-child {
+                font-size: 1.5em;
+                margin-right: 0.6666666666666666em;
+                width: 1.3333333333333333em;
+            }
+
+            span {
+                font-size: .875em;
+                overflow: hidden;
+                text-overflow: ellipsis; 
+            }
+
+            span + i {
+                font-size: 1.125em;
+                margin-left: 0.4444444444444444em;
+                float: right;
+                transition: 300ms ease;
+            }
+        }
+
+        .expanded > a, .expanded > .button {
+            span + i {
+                transform: rotate(-180deg);
+            }
+        }
+
+        a:hover, .button:hover, .active a, .active .button {
+            color: $white;
+            background-color: rgba($black,.3);
+        }
+
+        .active a, .active .button {
+            border-left-color: get-color(dark-primary);
+            font-weight: $global-weight-bold;
+
+            i {
+                color: get-color(dark-primary);
+            }
+        }
+    }
+
+    .nested.menu {
+        height: 0;
+        margin-left: 0px;
+        overflow: hidden;
+        transition: height 0.4s ease;
+        
+        a, .button {
+            line-height: 1.75em;
+            max-height: 2.5em;
+            padding-top: 0.375em;
+            padding-bottom: 0.375em;
+
+            span {
+                font-size: 0.8125em;
+            }
+        }
+    }
+}

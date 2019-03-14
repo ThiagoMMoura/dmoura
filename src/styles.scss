@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Roboto:300,400,500,700');
+
+@import './assets/scss/settings';
 // Import Foundation for Sites
 // See https://foundation.zurb.com/sites/docs/sass.html for detailed info.
 @import '~foundation-sites/scss/foundation';
@@ -6,3 +9,5 @@
 // ngx-foundation: https://www.ngxfoundation.com/getting-started
 // Import Angular ngx-foundation Framework Added Styles
 @import "~ngx-foundation/assets/scss/main";
+
+@import "./assets/scss/variables";

@@ -1,0 +1,26 @@
+<ul class="menu vertical accordion-menu" data-accordion-menu>
+  <ng-container *ngFor="let item of menus">
+    <li *ngIf="!item.isSubmenu" routerLinkActive="active">
+      <a [routerLink]="[item.url]">
+        <i class="material-icons" *ngIf="item.icon">{{ item.icon }}</i>
+        <span>{{ item.title }}</span>
+      </a>
+    </li>
+    <li *ngIf="item.isSubmenu && item.submenu.length > 0" [class.expanded]="item.expanded">
+      <a (click)="item.expanded = !item.expanded">
+        <i class="material-icons" *ngIf="item.icon">{{ item.icon }}</i>
+        <span>{{ item.title }}</span>
+        <i class="material-icons">expand_more</i>
+      </a>
+      <ul class="nested menu vertical" #submenu [style.height.px]="item.expanded ? submenu.scrollHeight : 0">
+        <li *ngFor="let subitem of item.submenu">
+          <a [routerLink]="[subitem.url]">
+            <i [class.material-icons]="subitemWithIcon" [class.item-icon]="!subitemWithIcon"
+              *ngIf="subitem.icon">{{ subitem.icon }}</i>
+            <span>{{ subitem.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ng-container>
+</ul>

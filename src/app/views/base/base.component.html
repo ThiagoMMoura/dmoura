@@ -1,11 +1,42 @@
-<div class="grid-y grid-frame">
-  <div class="cell">
-    <div class="grid-x">
-      <div class="cell shrink off-canvas-menu">
-        Titulo
+<div class="grid-container full">
+  <div class="grid-x main">
+    <div class="cell shrink main-menu" [class.closed]="!offcanvas.isOpen">
+      <div class="grid-y">
+        <div class="cell shrink main-menu-logo-bar">
+          <img src="/assets/images/Logo_DMOURA_0.25.png">
+          <button type="button" class="button float-right" (click)="offcanvas.isOpen = false">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="cell">
+          <div class="grid-x main-menu-user-data align-middle">
+            <div class="cell shrink main-menu-img-user">
+              <img [src]="user.imgUrl || '/assets/images/account_circle.png'">
+            </div>
+            <div class="cell auto">
+              <div class="user-name">{{ getUserName() }} <strong *ngIf="getUserLastName()">{{ getUserLastName() }}</strong></div>
+              <div class="user-buttons">
+                <button type="button" class="button">
+                  <i class="material-icons">exit_to_app</i>
+                </button>
+                <button type="button" class="button">
+                  <i class="material-icons">settings</i>
+                </button>
+                <button type="button" class="button">
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-util-accordion-menu class="cell" [menus]="mainMenu" ></app-util-accordion-menu>
       </div>
-      <div class="cell auto off-canvas-menu-content">
-        <router-outlet></router-outlet>
+    </div>
+    <div class="cell auto main-content">
+      <div class="grid-y grid-frame">
+        <div class="cell">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 <div class="grid-container full">
   <div class="grid-x main">
-    <div class="cell shrink main-menu" [class.closed]="!offcanvas.isOpen">
+    <div class="cell shrink main-menu" [class.closed]="!mainMenuIsOpen()">
       <div class="grid-y">
         <div class="cell shrink main-menu-logo-bar">
           <img src="/assets/images/Logo_DMOURA_0.25.png">
-          <button type="button" class="button float-right" (click)="offcanvas.isOpen = false">
+          <button type="button" class="button float-right" (click)="mainMenuClose()">
             <i class="material-icons">close</i>
           </button>
         </div>

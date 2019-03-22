@@ -1,0 +1,7 @@
+<app-util-top-bar [title]="title">
+  <app-util-top-bar-toggle-button left-group></app-util-top-bar-toggle-button>
+  <ng-content select="buttons" right-group></ng-content>
+</app-util-top-bar>
+<div class="content">
+  <ng-content select="[content]"></ng-content>
+</div>

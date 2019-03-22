@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { MainMenuControlService } from './../../services/';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UtilAccordionMenuModel } from 'src/app/util/components';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-base',
   templateUrl: './base.component.html',
-  styleUrls: ['./base.component.scss']
+  styleUrls: ['./base.component.scss'],
+  providers: [MainMenuControlService]
 })
-export class BaseComponent implements OnInit {
-  offcanvas = { isOpen: true };
+export class BaseComponent implements OnInit, OnDestroy {
+  private offcanvas = { isOpen: true };
+  private mainMenuCtrlServiceSubscription: Subscription;
 
   user = { name: 'Web Master' , imgUrl: ''};
 
@@ -23,9 +27,28 @@ export class BaseComponent implements OnInit {
     ]},
     { title: 'Segurança', url: '/seguranca', icon: 'security' }
   ];
-  constructor() { }
+
+  constructor(private mainMenuCtrlService: MainMenuControlService) {
+    this.mainMenuCtrlServiceSubscription = mainMenuCtrlService.menuOpened$.subscribe(
+      isOpened => {
+        this.offcanvas.isOpen = isOpened;
+      }
+    );
+  }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.mainMenuCtrlServiceSubscription.unsubscribe();
+  }
+
+  mainMenuClose() {
+    this.mainMenuCtrlService.closeMenu();
+  }
+
+  mainMenuIsOpen(): boolean {
+    return this.offcanvas.isOpen;
   }
 
   getUserName(): string {

@@ -1,0 +1,24 @@
+app-util-top-bar {
+    .button {
+        line-height: 2rem;
+        height: $top-bar-height;
+        max-height: $top-bar-height;
+        padding: .5rem 1rem;
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 0.8125rem;
+
+        i {
+            line-height: inherit;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 0 -.5rem;
+            width: 2rem;
+        }
+
+        i:not(:last-child) {
+            margin-right: 0;
+        }
+    }
+}

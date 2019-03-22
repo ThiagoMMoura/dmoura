@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UtilAccordionMenuComponent } from './';
+import { UtilAccordionMenuComponent, UtilTopBarComponent } from './';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    UtilAccordionMenuComponent
+    UtilAccordionMenuComponent,
+    UtilTopBarComponent
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    UtilAccordionMenuComponent
+    UtilAccordionMenuComponent,
+    UtilTopBarComponent
   ]
 })
 export class UtilComponentsModule { }

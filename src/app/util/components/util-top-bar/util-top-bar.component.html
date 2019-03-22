@@ -1,0 +1,9 @@
+<div class="grid-x align-justify">
+  <div class="cell auto flex-container">
+    <ng-content select="[left-group]"></ng-content>
+    <div *ngIf="title" class="title">{{ title }}</div>
+  </div>
+  <div class="cell shrink flex-container">
+    <ng-content select="[right-group]"></ng-content>
+  </div>
+</div>

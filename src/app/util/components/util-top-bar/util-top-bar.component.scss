@@ -1,0 +1,15 @@
+@import '~src/assets/scss/settings';
+@import '~src/assets/scss/variables';
+
+:host{
+    display: block;
+    width: 100%;
+    height: $top-bar-height;
+    background-color: get-color(primary);
+    color: $white;
+}
+
+.title {
+    line-height: 1rem;
+    padding: 1rem;
+}

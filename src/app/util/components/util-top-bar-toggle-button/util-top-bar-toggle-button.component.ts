@@ -1,5 +1,5 @@
 import { MainMenuControlService } from './../../../services/main-menu-control.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Renderer2 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,16 +11,12 @@ export class UtilTopBarToggleButtonComponent implements OnInit, OnDestroy {
   private menuIsOpened: boolean;
   private subscription: Subscription;
 
-  constructor(private mainMenuCtrlService: MainMenuControlService) {
+  constructor(private el: ElementRef, private render: Renderer2, private mainMenuCtrlService: MainMenuControlService) {
     this.subscription = this.mainMenuCtrlService.menuOpened$.subscribe(
       isOpened => {
-        this.menuIsOpened = isOpened;
+        this.render.setStyle(this.el.nativeElement, 'display', isOpened ? 'none' : '');
       }
     );
-  }
-
-  menuIsOpen(): boolean {
-    return this.menuIsOpened;
   }
 
   openMenu() {

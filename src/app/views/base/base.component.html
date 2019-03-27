@@ -9,31 +9,33 @@
           </button>
         </div>
         <div class="cell auto content">
-          <div class="grid-y">
-            <div class="cell">
-              <div class="grid-x main-menu-user-data align-middle">
-                <div class="cell shrink main-menu-img-user">
-                  <img [src]="user.imgUrl || '/assets/images/account_circle.png'">
-                </div>
-                <div class="cell auto">
-                  <div class="user-name">{{ getUserName() }} <strong
-                      *ngIf="getUserLastName()">{{ getUserLastName() }}</strong></div>
-                  <div class="user-buttons">
-                    <button type="button" class="button">
-                      <i class="material-icons">exit_to_app</i>
-                    </button>
-                    <button type="button" class="button">
-                      <i class="material-icons">settings</i>
-                    </button>
-                    <button type="button" class="button">
-                      <i class="material-icons">search</i>
-                    </button>
+          <ng-scrollbar #scrollable [compact]="true" shown="hover" [disableOnBreakpoints]="false">
+            <div class="grid-y">
+              <div class="cell">
+                <div class="grid-x main-menu-user-data align-middle">
+                  <div class="cell shrink main-menu-img-user">
+                    <img [src]="user.imgUrl || '/assets/images/account_circle.png'">
+                  </div>
+                  <div class="cell auto">
+                    <div class="user-name">{{ getUserName() }} <strong
+                        *ngIf="getUserLastName()">{{ getUserLastName() }}</strong></div>
+                    <div class="user-buttons">
+                      <button type="button" class="button">
+                        <i class="material-icons">exit_to_app</i>
+                      </button>
+                      <button type="button" class="button">
+                        <i class="material-icons">settings</i>
+                      </button>
+                      <button type="button" class="button">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
+              <app-util-accordion-menu class="cell" [menus]="mainMenu"></app-util-accordion-menu>
             </div>
-            <app-util-accordion-menu class="cell" [menus]="mainMenu"></app-util-accordion-menu>
-          </div>
+          </ng-scrollbar>
         </div>
       </div>
     </div>

@@ -34,10 +34,6 @@
             .content {
                 overflow-y: auto;
                 overflow-x: hidden;
-
-                > [class*="grid-"] {
-                    min-width: 16rem;
-                }
             }
         }
 

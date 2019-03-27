@@ -20,16 +20,33 @@
     background-color: $white;
 
     & &-menu {
-        width: 16em;
+        $main-menu-width: 16rem;
+        width: $main-menu-width;
         background-color: get-color(light-black);
         color: $dark-gray;
         transition: 500ms ease;
-        
+
+        > .menu-container {
+            min-width: $main-menu-width;
+            transition: 500ms ease;
+            height: 100vh;
+
+            .content {
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                > [class*="grid-"] {
+                    min-width: 16rem;
+                }
+            }
+        }
 
         &-logo-bar {
             height: $top-bar-height;
             background-color: get-color(dark-primary);
             color: $white;
+            position: sticky;
+
             img {
                 padding: 1rem;
                 height: $top-bar-height;
@@ -90,6 +107,7 @@
                 padding: .5em 1em;
                 max-height: 3em;
                 color: $dark-gray;
+                white-space: nowrap;
 
                 i {
                     font-size: 1.5em;
@@ -102,13 +120,17 @@
 
                 span {
                     font-size: .875em;
+                    white-space: nowrap;
                 }
             }
         }
 
         &.closed {
-            transform: translateX(-16rem);
             width: 0;
+
+            > .menu-container {
+                transform: translateX(-$main-menu-width); 
+            }
         }
     }
 

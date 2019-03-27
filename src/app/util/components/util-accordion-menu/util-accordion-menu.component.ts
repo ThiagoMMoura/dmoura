@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UtilAccordionMenuModel } from './util-accordion-menu.model';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-util-accordion-menu',
@@ -13,9 +15,25 @@ export class UtilAccordionMenuComponent implements OnInit {
   @Input()
   subitemWithIcon = false;
 
-  constructor() { }
+  private activatedRoute: string;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe((ev: RouterEvent) => {
+      if (ev instanceof NavigationEnd) {
+        if (!isNullOrUndefined(ev.url)) {
+          this.activatedRoute = ev.url;
+        }
+      }
+    });
+  }
 
   ngOnInit() {
-    console.log(this.menus);
+    this.expandMenuByRoute(this.activatedRoute);
+  }
+
+  expandMenuByRoute(url: string) {
+    for (const menu of this.menus) {
+      menu.expanded = menu.expanded || menu.hasSubUrl(url);
+    }
   }
 }

@@ -13,7 +13,7 @@
         <i class="material-icons">expand_more</i>
       </a>
       <ul class="nested menu vertical" #submenu [style.height.px]="item.expanded ? submenu.scrollHeight : 0">
-        <li *ngFor="let subitem of item.submenu">
+        <li *ngFor="let subitem of item.submenu" routerLinkActive="active">
           <a [routerLink]="[subitem.url]">
             <i [class.material-icons]="subitemWithIcon" [class.item-icon]="!subitemWithIcon"
               *ngIf="subitem.icon">{{ subitem.icon }}</i>

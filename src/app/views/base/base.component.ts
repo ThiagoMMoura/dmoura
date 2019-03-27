@@ -10,22 +10,22 @@ import { Subscription } from 'rxjs';
   providers: [MainMenuControlService]
 })
 export class BaseComponent implements OnInit, OnDestroy {
-  private offcanvas = { isOpen: true };
+  private offcanvas = { isOpen: false };
   private mainMenuCtrlServiceSubscription: Subscription;
 
   user = { name: 'Web Master' , imgUrl: ''};
 
   mainMenu: UtilAccordionMenuModel[] = [
-    { title: 'Painel de instrumentos', url: '/dashboard', icon: 'dashboard' },
-    { title: 'Configuração contatos', url: null, icon: 'contacts', isSubmenu: true, submenu: [
-      { title: 'Nova Operadora', url: '', icon: 'no' },
-      { title: 'Consulta Operadora', url: 'consulta-operadora', icon: 'co' }
-    ]},
-    { title: 'Clientes', url: null, icon: 'people', isSubmenu: true, submenu: [
-      { title: 'Novo Cliente Juridico', url: 'add-pessoa-juridica', icon: 'nc' },
-      { title: 'Consulta Cliente', url: '', icon: 'cc' }
-    ]},
-    { title: 'Segurança', url: '/seguranca', icon: 'security' }
+    new UtilAccordionMenuModel('Painel de instrumentos', '/dashboard', 'dashboard'),
+    new UtilAccordionMenuModel('Configuração contatos', null, 'contacts', true, [
+      new UtilAccordionMenuModel('Nova Operadora', '/configuracoes-contatos/nova-operadora', 'no'),
+      new UtilAccordionMenuModel('Consulta Operadora', 'consulta-operadora', 'co')
+    ]),
+    new UtilAccordionMenuModel('Clientes', null, 'people', true, [
+      new UtilAccordionMenuModel('Novo Cliente Juridico', 'add-pessoa-juridica', 'nc'),
+      new UtilAccordionMenuModel('Consulta Cliente', '', 'cc')
+    ]),
+    new UtilAccordionMenuModel('Segurança', '/seguranca', 'security')
   ];
 
   constructor(private mainMenuCtrlService: MainMenuControlService) {
@@ -37,6 +37,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.mainMenuCtrlService.openMenu();
   }
 
   ngOnDestroy(): void {

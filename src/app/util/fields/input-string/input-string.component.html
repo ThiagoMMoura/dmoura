@@ -1,3 +1,7 @@
-<p>
-  input-string works!
-</p>
+<label>
+  <span><ng-content></ng-content></span>
+  <input type="text" [(ngModel)]="value">
+  <span class="form-error"></span>
+  <span class="form-info"><ng-content select="form-info"></ng-content></span>
+</label>
+

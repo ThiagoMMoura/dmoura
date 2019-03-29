@@ -1,0 +1,37 @@
+@import '~src/assets/scss/settings';
+@import '~src/assets/scss/variables';
+
+:host {
+    display: block;
+    border-bottom: 1px solid $medium-gray;
+    position: relative;
+
+    label {
+        padding: .5rem 1rem;
+
+        > span:first-child {
+            color: $medium-gray;
+            margin-bottom: .5rem;
+            line-height: 1rem;
+        }
+
+        input {
+            border: none;
+            height: 1.125rem;
+            line-height: 1rem;
+            font-size: 1rem;
+            box-shadow: none;
+            padding: 0px;
+            margin: 0px;
+        }
+    }
+
+    &::after {
+        position: absolute;
+        content: '';
+        height: 100%;
+        border-right: 1px solid $medium-gray;
+        top: 0;
+        right: -1px;
+    }
+}

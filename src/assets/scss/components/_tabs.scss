@@ -1,0 +1,44 @@
+.tabs {
+	overflow-x: auto;
+	overflow-y: hidden;
+    white-space: nowrap;
+    border: none;
+}
+
+.tabs-content::before {
+    position: absolute;
+    content: ' ';
+    height: 6px;
+    width: 100%;
+    @include gradient-shadow();
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tabs-title {
+	float: none;
+    display: inline-block;
+
+    > a {
+        padding: 1rem;
+        line-height: 1rem;
+        text-transform: uppercase;
+    }
+    
+    > a[aria-selected="true"] {
+        background-color: transparent;
+        border-bottom: 2px inset get-color(primary);
+    }
+}
+
+.tabs-content {
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+
+.tabs-panel {
+    padding: 0px;
+}

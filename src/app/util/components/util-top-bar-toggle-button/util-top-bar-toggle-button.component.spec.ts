@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UtilTopBarToggleButtonComponent } from './util-top-bar-toggle-button.component';
 
@@ -6,7 +6,7 @@ describe('UtilTopBarToggleButtonComponent', () => {
   let component: UtilTopBarToggleButtonComponent;
   let fixture: ComponentFixture<UtilTopBarToggleButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UtilTopBarToggleButtonComponent ]
     })

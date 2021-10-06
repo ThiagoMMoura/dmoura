@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UtilTopBarComponent } from './util-top-bar.component';
 
@@ -6,7 +6,7 @@ describe('UtilTopBarComponent', () => {
   let component: UtilTopBarComponent;
   let fixture: ComponentFixture<UtilTopBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UtilTopBarComponent ]
     })
